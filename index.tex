@@ -1,0 +1,82 @@
+\documentclass[ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{:}
+\setbeamercolor{caption name}{fg=normal text.fg}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\usepackage{lmodern}
+\ifxetex
+  \usepackage{fontspec,xltxtra,xunicode}
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\else
+  \ifluatex
+    \usepackage{fontspec}
+    \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+    \newcommand{\euro}{€}
+  \else
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+      \fi
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+
+% Comment these out if you don't want a slide with just the
+% part/section/subsection/subsubsection title:
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \let\insertsectionnumber\relax
+  \let\sectionname\relax
+  \frame{\sectionpage}
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+\title{Funktionen in \textbf{R}}
+\subtitle{Ein Einstieg an der Forstlichen Versuchs- und Forschungsanstalt
+Baden-Württemberg.}
+\author{Dominik Cullmann}
+
+\begin{document}
+\frame{\titlepage}
+
+\section{Funktionen Schreiben in R}\label{funktionen-schreiben-in-r}
+
+\begin{frame}{Funktionen}
+
+\textbf{Was sind Funktionen?}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Funktionen sind Programmkonstrukte, mit denen Du Teile des von Dir
+  geschriebenen Codes wiederverwenden kannst (Siehe
+  \href{https://de.wikipedia.org/wiki/Funktion_(Programmierung)}{Wikipedia}).
+\item
+  R-Funktionen kennst Du wahrscheinlich schon: \texttt{sum()},
+  \texttt{mean()}, \texttt{summary()}
+\end{itemize}
+
+\textbf{Warum Funktionen?}
+
+Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
+
+\end{frame}
+
+\end{document}
