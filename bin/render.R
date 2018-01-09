@@ -1,4 +1,4 @@
-#!/usr/bin/Rscript --vanilla
+#!/usr/bin/env Rscript
 
 #% get file name and options
 arguments <- commandArgs(trailingOnly = TRUE)
