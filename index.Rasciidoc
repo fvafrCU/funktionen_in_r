@@ -52,3 +52,15 @@ for (a_i in a) {
 }
 print(value)
 //end.rcode
+
+== Funktionen dokumentieren
+
+== Funktionen verwalten
+
+=== Lokal
+Mit source
+
+===  global 
+Mit .Rprofile und einer Schleife
+
+== Als Package

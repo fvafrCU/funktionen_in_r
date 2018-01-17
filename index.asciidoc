@@ -59,3 +59,15 @@ print(value)
 ## [1] 19
 ----
 
+
+== Funktionen dokumentieren
+
+== Funktionen verwalten
+
+=== Lokal
+Mit source
+
+===  global 
+Mit .Rprofile und einer Schleife
+
+== Als Package
