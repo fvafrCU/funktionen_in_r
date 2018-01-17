@@ -3,7 +3,7 @@ FILE = $(NAME).tex
 TEMPLATE = $(shell find .fva_templates -type f)
 
 index_shiny.html: index.Rasciidoc
-	Rscript -e 'asciidoc::asciidoc("index.Rasciidoc")'
+	Rscript -e 'asciidoc::render_slides("index.Rasciidoc")'
 
 $(NAME).pdf: ${FILE} ${TEMPLATE} index.tex
 	texi2dvi --pdf ${FILE}
