@@ -44,15 +44,22 @@ Warum wir es trotzdem tun
 Ich habe die Summenberechnung ausf&uuml;hrlich als Beispiel zur Schleifenprogrammierung in 
 https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt.
 
-//begin.rcode 
-a  <- c(2, 3, 4, 10)
-value <- 0
-for (a_i in a) {
-    value <- value + a_i 
-}
-print(value)
+//begin.rcode, eval = FALSE
+include::src/sum.R[]
+//end.rcode
+<1> Neutrales Element zur Addition
+<2> Schleife &uuml;ber den Vektor
+<3> Addition
+//begin.rcode, echo = FALSE
+source("src/sum.R")
 //end.rcode
 
+//begin.rcode, eval = FALSE
+include::src/my_sum.R[]
+//end.rcode
+//begin.rcode, echo = FALSE
+source("src/my_sum.R")
+//end.rcode
 == Funktionen dokumentieren
 
 == Funktionen verwalten
@@ -64,3 +71,79 @@ Mit source
 Mit .Rprofile und einer Schleife
 
 == Als Package
+
+== Spezifika 
+
+=== Argumente
+
+
+=== recursive?
+eher nicht
+
+=== Scoping
+auf jeden fall, auch parent.env
+
+=== Return Value und Side Effects
+was ist was
+
+== Modularisierung
+
+== Typentests
+
+//begin_no_slide
+Neben +asserthat+ gibt es auch das R-Package +checkmate+.
+//end_no_slide
+assertthat und checkmate
+//begin.rcode
+assertthat::assert_that(is.numeric(6))
+//end.rcode
+//begin.rcode
+assertthat::assert_that(is.numeric("This is a string."))
+//end.rcode
+//begin.rcode, eval = FALSE
+include::src/my_sum_assertion.R[]
+//end.rcode
+//begin.rcode, echo = FALSE
+source("src/my_sum_assertion.R")
+//end.rcode
+
+== Testing
+
+//begin_no_slide
+Neben +thestthat+ gibt es auch das R-Package +RUnit+.
+//end_no_slide
+
+=== Testthat
+
+//begin.rcode
+testthat::test_that("Simple test on summation.",
+                    testthat::expect_identical(my_sum(c(2, 7)), 8)
+                    )
+
+
+//end.rcode
+//begin.rcode, eval = FALSE
+include::src/test_my_sum.R[]
+//end.rcode
+//begin.rcode, echo = FALSE
+source("src/test_my_sum.R")
+//end.rcode
+
+=== Test Coverage
+
+//begin.rcode
+cov <- covr::file_coverage("src/my_sum_assertion.R", "src/test_my_sum_assertion.R")
+print(cov)
+//end.rcode
+
+//begin.rcode
+cov <- covr::file_coverage("src/my_sum_coverage.R", "src/test_my_sum_assertion.R")
+print(cov)
+//end.rcode
+
+//begin.rcode
+covr::zero_coverage(cov)
+//end.rcode
+== cleanr
+
+

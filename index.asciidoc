@@ -47,16 +47,22 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
 
 [source,r]
 ----
-a  <- c(2, 3, 4, 10)
-value <- 0
-for (a_i in a) {
-    value <- value + a_i 
-}
-print(value)
+include::src/sum.R[]
 ----
+
+<1> Neutrales Element zur Addition
+<2> Schleife &uuml;ber den Vektor
+<3> Addition
 
 ----
 ## [1] 19
+----
+
+
+
+[source,r]
+----
+include::src/my_sum.R[]
 ----
 
 
@@ -71,3 +77,151 @@ Mit source
 Mit .Rprofile und einer Schleife
 
 == Als Package
+
+== Spezifika 
+
+=== Argumente
+
+
+=== recursive?
+eher nicht
+
+=== Scoping
+auf jeden fall, auch parent.env
+
+=== Return Value und Side Effects
+was ist was
+
+== Modularisierung
+
+== Typentests
+
+//begin_no_slide
+Neben +asserthat+ gibt es auch das R-Package +checkmate+.
+//end_no_slide
+assertthat und checkmate
+
+[source,r]
+----
+assertthat::assert_that(is.numeric(6))
+----
+
+----
+## [1] TRUE
+----
+
+
+[source,r]
+----
+assertthat::assert_that(is.numeric("This is a string."))
+----
+
+[CAUTION]
+====
+.Error
+"This is a string." is not a numeric or integer vector
+
+====
+
+
+[source,r]
+----
+include::src/my_sum_assertion.R[]
+----
+
+
+
+== Testing
+
+//begin_no_slide
+Neben +thestthat+ gibt es auch das R-Package +RUnit+.
+//end_no_slide
+
+=== Testthat
+
+
+[source,r]
+----
+testthat::test_that("Simple test on summation.",
+                    testthat::expect_identical(my_sum(c(2, 7)), 8)
+                    )
+----
+
+[CAUTION]
+====
+.Error
+Test failed: 'Simple test on summation.'
+## * my_sum(c(2, 7)) not identical to 8.
+## 1/1 mismatches
+## [1] 9 - 8 == 1
+
+====
+
+
+[source,r]
+----
+include::src/test_my_sum.R[]
+----
+
+
+
+=== Test Coverage
+
+
+[source,r]
+----
+cov <- covr::file_coverage("src/my_sum_assertion.R", "src/test_my_sum_assertion.R")
+print(cov)
+----
+
+[NOTE]
+====
+.Message
+ Coverage: 100.00%
+
+====
+
+[NOTE]
+====
+.Message
+ src/my_sum_assertion.R: 100.00%
+
+====
+
+
+
+[source,r]
+----
+cov <- covr::file_coverage("src/my_sum_coverage.R", "src/test_my_sum_assertion.R")
+print(cov)
+----
+
+[NOTE]
+====
+.Message
+ Coverage: 83.33%
+
+====
+
+[NOTE]
+====
+.Message
+ src/my_sum_coverage.R: 83.33%
+
+====
+
+
+
+[source,r]
+----
+covr::zero_coverage(cov)
+----
+
+----
+##                filename functions line value
+## 2 src/my_sum_coverage.R    my_sum    3     0
+----
+
+== cleanr
+
+
