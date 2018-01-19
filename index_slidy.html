@@ -2,8 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Funktionen in <strong>R</strong></title>
+<title>Funktionen Schreiben in <strong>R</strong></title>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="copyright" content="Copyright &#169; Dominik Cullmann" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -3833,48 +3834,19 @@ setTimeout(w3c_slidy.hide_slides, 50);
 </head>
 <body class="article">
 <div id="header" class="slide">
-<h1>Funktionen in <strong>R</strong></h1>
+<h1>Funktionen Schreiben in <strong>R</strong></h1>
+<span id="author">Dominik Cullmann</span><br />
 </div>
 <div class="sect1 slide">
 <h1 id="_funktionen_in_r">Funktionen in R</h1>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_was_sind_funktionen">Was sind Funktionen?</h3>
-<ul class="">
-<li>
-<span>
-Funktionen sind Programmkonstrukte, mit denen Du Teile des von Dir
-  geschriebenen Codes wiederverwenden kannst
-  (siehe <a href="https://de.wikipedia.org/wiki/Funktion_(Programmierung)">Wikipedia</a>).
-</span>
-</li>
-<li>
-<span>
-Funktionen sind in den Standardbiliotheken jeder Programmiersprache vorhanden,
-  viele R-Funktionen kennst Du wahrscheinlich schon: <code>sum()</code>, <code>mean()</code>
-  oder <code>summary()</code>.
-</span>
-</li>
-</ul>
 </div>
 <div class="sect2">
 <h3 id="_warum_funktionen">Warum Funktionen?</h3>
-<ul class="">
-<li>
-<span>
-Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
-</span>
-</li>
-<li>
-<span>
-Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer
-  Stelle korrigieren.
-</span>
-</li>
-</ul>
 <div class="sect3">
 <h4 id="_wann">Wann?</h4>
-<div class="paragraph"><p>Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer Stelle einf&uuml;gst und ihn kaum ver&auml;nderst, solltest Du dar&uuml;ber nachdenken, eine Funktion (oder mehrere) daraus zu machen.</p></div>
 </div>
 </div>
 </div>
@@ -3883,14 +3855,12 @@ Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer
 <h1 id="_praxis">Praxis</h1>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_eine_summenfunktion_f_uuml_r_r">Eine Summenfunktion f&uuml;r R</h3>
+<h3 id="_eine_neue_summenfunktion_f_uuml_r_r">Eine neue Summenfunktion f&uuml;r R</h3>
 <div class="sect3">
 <h4 id="_warum_wir_diese_funktion_nicht_schreiben_sollten">Warum wir diese Funktion nicht schreiben sollten</h4>
 </div>
 <div class="sect3">
 <h4 id="_warum_wir_es_trotzdem_tun">Warum wir es trotzdem tun</h4>
-<div class="paragraph"><p>Ich habe die Summenberechnung ausf&uuml;hrlich als Beispiel zur Schleifenprogrammierung in
-<a href="https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen">Programmieren in R</a> benutzt.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3929,6 +3899,118 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
+<h1 id="_spezifika">Spezifika</h1>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_argumente">Argumente</h3>
+<div class="paragraph"><p>Defaults</p></div>
+</div>
+<div class="sect2">
+<h3 id="_scoping">Scoping</h3>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(value)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 19</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(my_sum(1:3))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 6</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(value)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 19</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt></tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(my_sum(1:3))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 6</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(environment() )</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## &lt;environment: 0x55d26552e1e8&gt;</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(ls(env = knitr::knit_global()))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "adjust_hooks"   "file_name"      "knit"           "knit_out_file"
+## [5] "r_code_pattern"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>rm(value)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Warning in rm(value): object 'value' not found</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(my_sum_broken(1:3))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 6</code></pre>
+</div></div>
+<div class="paragraph"><p>auf jeden fall, auch parent.env</p></div>
+</div>
+<div class="sect2">
+<h3 id="_return_value_und_side_effects">Return Value und Side Effects</h3>
+<div class="paragraph"><p>was ist was</p></div>
+</div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_modularisierung">Modularisierung</h1>
+<div class="sectionbody">
+</div>
+</div>
+<div class="sect1 slide">
 <h1 id="_funktionen_dokumentieren">Funktionen dokumentieren</h1>
 <div class="sectionbody">
 </div>
@@ -3948,31 +4030,6 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 <div class="sect1 slide">
 <h1 id="_als_package">Als Package</h1>
-<div class="sectionbody">
-</div>
-</div>
-<div class="sect1 slide">
-<h1 id="_spezifika">Spezifika</h1>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_argumente">Argumente</h3>
-</div>
-<div class="sect2">
-<h3 id="_recursive">recursive?</h3>
-<div class="paragraph"><p>eher nicht</p></div>
-</div>
-<div class="sect2">
-<h3 id="_scoping">Scoping</h3>
-<div class="paragraph"><p>auf jeden fall, auch parent.env</p></div>
-</div>
-<div class="sect2">
-<h3 id="_return_value_und_side_effects">Return Value und Side Effects</h3>
-<div class="paragraph"><p>was ist was</p></div>
-</div>
-</div>
-</div>
-<div class="sect1 slide">
-<h1 id="_modularisierung">Modularisierung</h1>
 <div class="sectionbody">
 </div>
 </div>

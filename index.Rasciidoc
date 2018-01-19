@@ -1,45 +1,13 @@
+= Funktionen Schreiben in **R**
+Dominik Cullmann 
 :toc2:
 :numbered:
-:data-uri:
-= Funktionen in **R**
-
-//begin.rcode, adjust_asciidoc_hooks, include = FALSE, cache = FALSE
-adjust_asciidoc_hooks <- function(warnings = TRUE, messages = TRUE, errors = TRUE) {
-    knitr::opts_knit$set(out.format = "asciidoc")
-    hook.source = function(x, options) {
-        x = paste(c(knitr:::hilight_source(x, "asciidoc", options), ""), 
-                  collapse = "\n")
-        sprintf("\n[source,%s]\n----\n%s----\n", tolower(options$engine), 
-                x)
-    }
-    hook.message = function(x, options) {
-        sprintf("\n[NOTE]\n====\n.Message\n%s\n====\n", 
-                substring(x, knitr:::comment_length(options$comment)))
-    }
-    hook.warning = function(x, options) {
-        sprintf("\n[WARNING]\n====\n.Warning\n%s\n====\n",
-                gsub("^.*Warning: ", "", x))
-    }
-    hook.error = function(x, options) {
-        sprintf("\n[CAUTION]\n====\n.Error\n%s\n====\n", 
-                gsub("^.*Error: ", "", x))
-    }
-    hook.output = function(x, options) sprintf("\n----\n%s----\n", x)
-    if (isTRUE(messages)) hook.message <- hook.source
-    if (isTRUE(warnings)) hook.warning <- hook.source
-    if (isTRUE(errors)) hook.error <- hook.source
-    res <- knitr::knit_hooks$set(source = hook.source, output = hook.output, 
-                                 message = hook.message, warning = hook.warning,
-                                 error = hook.error, 
-                                 plot = knitr:::hook_plot_asciidoc)
-}
-adjust_asciidoc_hooks()
-//end.rcode
 
 == Funktionen in R
 
 === Was sind Funktionen?
 
+//begin_no_slide
 * Funktionen sind Programmkonstrukte, mit denen Du Teile des von Dir 
   geschriebenen Codes wiederverwenden kannst
   (siehe https://de.wikipedia.org/wiki/Funktion_(Programmierung)[Wikipedia]).
@@ -47,22 +15,27 @@ adjust_asciidoc_hooks()
   viele R-Funktionen kennst Du wahrscheinlich schon: `sum()`, `mean()` 
   oder `summary()`.
 
+//end_no_slide
 
 === Warum Funktionen?
 
+//begin_no_slide
 * Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
 * Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer 
   Stelle korrigieren.
+//end_no_slide
 
 ==== Wann?
 
+//begin_no_slide
 Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer Stelle einf&uuml;gst und ihn kaum ver&auml;nderst, solltest Du dar&uuml;ber nachdenken, eine Funktion (oder mehrere) daraus zu machen. 
+//end_no_slide
 
 Praxis 
 ------
 
-Eine Summenfunktion f&uuml;r R
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Eine neue Summenfunktion f&uuml;r R
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Warum wir diese Funktion nicht schreiben sollten
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -74,8 +47,10 @@ Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in **R**
 Warum wir es trotzdem tun
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+//begin_no_slide
 Ich habe die Summenberechnung ausf&uuml;hrlich als Beispiel zur Schleifenprogrammierung in 
 https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt.
+//end_no_slide
 
 //begin.rcode, eval = FALSE
 include::src/sum.R[]
@@ -93,6 +68,48 @@ include::src/my_sum.R[]
 //begin.rcode, echo = FALSE
 source("src/my_sum.R")
 //end.rcode
+
+== Spezifika 
+
+=== Argumente
+Defaults
+
+=== Scoping
+
+//begin.rcode
+print(value)
+//end.rcode
+//begin.rcode
+print(my_sum(1:3))
+//end.rcode
+//begin.rcode
+print(value)
+//end.rcode
+
+//begin.rcode, eval = FALSE
+include::src/my_sum_scope1.R[]
+//end.rcode
+//begin.rcode, echo = FALSE
+source("src/my_sum_scope1.R")
+//end.rcode
+//begin.rcode
+print(my_sum(1:3))
+print(environment() )
+print(ls(env = knitr::knit_global()))
+rm(value)
+//end.rcode
+
+//begin.rcode
+//end.rcode
+//begin.rcode
+print(my_sum_broken(1:3))
+//end.rcode
+auf jeden fall, auch parent.env
+
+=== Return Value und Side Effects
+was ist was
+
+== Modularisierung
 == Funktionen dokumentieren
 
 == Funktionen verwalten
@@ -105,21 +122,6 @@ Mit .Rprofile und einer Schleife
 
 == Als Package
 
-== Spezifika 
-
-=== Argumente
-
-
-=== recursive?
-eher nicht
-
-=== Scoping
-auf jeden fall, auch parent.env
-
-=== Return Value und Side Effects
-was ist was
-
-== Modularisierung
 
 == Typentests
 
