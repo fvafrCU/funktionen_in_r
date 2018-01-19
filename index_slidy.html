@@ -3892,7 +3892,7 @@ Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer
 <div class="paragraph"><p>Ich habe die Summenberechnung ausf&uuml;hrlich als Beispiel zur Schleifenprogrammierung in
 <a href="https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen">Programmieren in R</a> benutzt.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -3919,7 +3919,7 @@ Addition
 <pre><code>## [1] 19</code></pre>
 </div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -3981,33 +3981,30 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sectionbody">
 <div class="paragraph"><p>assertthat und checkmate</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">assertthat:</span></span><span style="color: #990000">:</span>assert_that<span style="color: #990000">(</span>is<span style="color: #990000">.</span>numeric<span style="color: #990000">(</span><span style="color: #993399">6</span><span style="color: #990000">))</span></tt></pre></div></div>
+<pre><tt>assertthat::assert_that(is.numeric(6))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] TRUE</code></pre>
 </div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">assertthat:</span></span><span style="color: #990000">:</span>assert_that<span style="color: #990000">(</span>is<span style="color: #990000">.</span>numeric<span style="color: #990000">(</span><span style="color: #FF0000">"This is a string."</span><span style="color: #990000">))</span></tt></pre></div></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Caution</div>
-</td>
-<td class="content">
-<div class="paragraph"><div class="title">Error</div><p>"This is a string." is not a numeric or integer vector</p></div>
-</td>
-</tr></table>
-</div>
+<pre><tt>assertthat::assert_that(is.numeric(<span style="color: #FF0000">"This is a string."</span>))</tt></pre></div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: "This is a string." is not a numeric or integer vector</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -4020,28 +4017,25 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect2">
 <h3 id="_testthat">Testthat</h3>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">testthat:</span></span><span style="color: #990000">:</span>test_that<span style="color: #990000">(</span><span style="color: #FF0000">"Simple test on summation."</span><span style="color: #990000">,</span>
-<span style="font-weight: bold"><span style="color: #000080">                    testthat:</span></span><span style="color: #990000">:</span>expect_identical<span style="color: #990000">(</span>my_sum<span style="color: #990000">(</span>c<span style="color: #990000">(</span><span style="color: #993399">2</span><span style="color: #990000">,</span> <span style="color: #993399">7</span><span style="color: #990000">)),</span> <span style="color: #993399">8</span><span style="color: #990000">)</span>
-                    <span style="color: #990000">)</span></tt></pre></div></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Caution</div>
-</td>
-<td class="content">
-<div class="paragraph"><div class="title">Error</div><p>Test failed: <em>Simple test on summation.</em>
- * my_sum(c(2, 7)) not identical to 8.
- 1/1 mismatches
-## [1] 9 - 8 == 1</p></div>
-</td>
-</tr></table>
-</div>
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>,
+                    testthat::expect_identical(my_sum(c(2, 7)), 8)
+                    )</tt></pre></div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Simple test on summation.'</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## * my_sum(c(2, 7)) not identical to 8.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## 1/1 mismatches</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## [1] 9 - 8 == 1</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -4050,81 +4044,53 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect2">
 <h3 id="_test_coverage">Test Coverage</h3>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>cov <span style="color: #990000">&lt;-</span> covr<span style="color: #990000">::</span>file_coverage<span style="color: #990000">(</span><span style="color: #FF0000">"src/my_sum_assertion.R"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"src/test_my_sum_assertion.R"</span><span style="color: #990000">)</span>
-print<span style="color: #990000">(</span>cov<span style="color: #990000">)</span></tt></pre></div></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
+<pre><tt>cov &lt;- covr::file_coverage(<span style="color: #FF0000">"src/my_sum_assertion.R"</span>, <span style="color: #FF0000">"src/test_my_sum_assertion.R"</span>)
+print(cov)</tt></pre></div></div>
 <div class="listingblock">
-<div class="title">Message</div>
-<div class="content">
-<pre><code>Coverage: 100.00%</code></pre>
-</div></div>
-</td>
-</tr></table>
-</div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="listingblock">
-<div class="title">Message</div>
-<div class="content">
-<pre><code>src/my_sum_assertion.R: 100.00%</code></pre>
-</div></div>
-</td>
-</tr></table>
-</div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>cov <span style="color: #990000">&lt;-</span> covr<span style="color: #990000">::</span>file_coverage<span style="color: #990000">(</span><span style="color: #FF0000">"src/my_sum_coverage.R"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"src/test_my_sum_assertion.R"</span><span style="color: #990000">)</span>
-print<span style="color: #990000">(</span>cov<span style="color: #990000">)</span></tt></pre></div></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Coverage: 100.00%</span></span>
+</tt></pre></div></div>
 <div class="listingblock">
-<div class="title">Message</div>
-<div class="content">
-<pre><code>Coverage: 83.33%</code></pre>
-</div></div>
-</td>
-</tr></table>
-</div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="listingblock">
-<div class="title">Message</div>
-<div class="content">
-<pre><code>src/my_sum_coverage.R: 83.33%</code></pre>
-</div></div>
-</td>
-</tr></table>
-</div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">covr:</span></span><span style="color: #990000">:</span>zero_coverage<span style="color: #990000">(</span>cov<span style="color: #990000">)</span></tt></pre></div></div>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/my_sum_assertion.R: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>cov &lt;- covr::file_coverage(<span style="color: #FF0000">"src/my_sum_coverage.R"</span>, <span style="color: #FF0000">"src/test_my_sum_assertion.R"</span>)
+print(cov)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Coverage: 83.33%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/my_sum_coverage.R: 83.33%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>covr::zero_coverage(cov)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>##                filename functions line value

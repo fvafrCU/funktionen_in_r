@@ -4,6 +4,7 @@
 = Funktionen in **R**
 
 
+
 == Funktionen in R
 
 === Was sind Funktionen?
@@ -117,12 +118,11 @@ assertthat::assert_that(is.numeric(6))
 assertthat::assert_that(is.numeric("This is a string."))
 ----
 
-[CAUTION]
-====
-.Error
-"This is a string." is not a numeric or integer vector
+[source,r]
+----
+## Error: "This is a string." is not a numeric or integer vector
 
-====
+----
 
 
 [source,r]
@@ -148,15 +148,14 @@ testthat::test_that("Simple test on summation.",
                     )
 ----
 
-[CAUTION]
-====
-.Error
-Test failed: 'Simple test on summation.'
+[source,r]
+----
+## Error: Test failed: 'Simple test on summation.'
 ## * my_sum(c(2, 7)) not identical to 8.
 ## 1/1 mismatches
 ## [1] 9 - 8 == 1
 
-====
+----
 
 
 [source,r]
@@ -175,19 +174,17 @@ cov <- covr::file_coverage("src/my_sum_assertion.R", "src/test_my_sum_assertion.
 print(cov)
 ----
 
-[NOTE]
-====
-.Message
- Coverage: 100.00%
+[source,r]
+----
+## Coverage: 100.00%
 
-====
+----
 
-[NOTE]
-====
-.Message
- src/my_sum_assertion.R: 100.00%
+[source,r]
+----
+## src/my_sum_assertion.R: 100.00%
 
-====
+----
 
 
 
@@ -197,19 +194,17 @@ cov <- covr::file_coverage("src/my_sum_coverage.R", "src/test_my_sum_assertion.R
 print(cov)
 ----
 
-[NOTE]
-====
-.Message
- Coverage: 83.33%
+[source,r]
+----
+## Coverage: 83.33%
 
-====
+----
 
-[NOTE]
-====
-.Message
- src/my_sum_coverage.R: 83.33%
+[source,r]
+----
+## src/my_sum_coverage.R: 83.33%
 
-====
+----
 
 
 
