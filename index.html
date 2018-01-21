@@ -925,8 +925,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>value &lt;- 0
-my_sum_broken &lt;- function(x) {
+<pre><tt>my_sum_broken &lt;- function(x) {
     <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
         value &lt;- value + x_i
     }
@@ -947,21 +946,10 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>print(environment() )</tt></pre></div></div>
+<pre><tt>print(my_sum_broken(1:3))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## &lt;environment: 0x55d26552e1e8&gt;</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>print(ls(env = knitr::knit_global()))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] "adjust_hooks"   "file_name"      "knit"           "knit_out_file"
-## [5] "r_code_pattern"</code></pre>
+<pre><code>## [1] 25</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -974,18 +962,14 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Warning in rm(value): object 'value' not found</span></span>
-</tt></pre></div></div>
+<pre><tt>print(my_sum_broken(1:3))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>print(my_sum_broken(1:3))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] 6</code></pre>
-</div></div>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
+</tt></pre></div></div>
 <div class="paragraph"><p>auf jeden fall, auch parent.env</p></div>
 </div>
 <div class="sect2">
@@ -1169,7 +1153,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-01-19 16:27:29 CET
+ 2018-01-21 17:27:04 CET
 </div>
 </div>
 </body>

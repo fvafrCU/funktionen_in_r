@@ -59,7 +59,7 @@ include::src/sum.R[]
 <2> Schleife &uuml;ber den Vektor
 <3> Addition
 //begin.rcode, echo = FALSE
-source("src/sum.R")
+source("src/sum.R", local = knitr::knit_global())
 //end.rcode
 
 //begin.rcode, eval = FALSE
@@ -90,17 +90,17 @@ print(value)
 include::src/my_sum_scope1.R[]
 //end.rcode
 //begin.rcode, echo = FALSE
-source("src/my_sum_scope1.R")
+source("src/my_sum_scope1.R", local = knitr::knit_global())
 //end.rcode
 //begin.rcode
 print(my_sum(1:3))
-print(environment() )
-print(ls(env = knitr::knit_global()))
-rm(value)
+print(my_sum_broken(1:3))
 //end.rcode
 
 //begin.rcode
+rm(value)
 //end.rcode
+
 //begin.rcode
 print(my_sum_broken(1:3))
 //end.rcode
