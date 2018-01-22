@@ -137,13 +137,27 @@ Und dass, obwohl wir innerhalb der Funktion dem Objekt +value+ in der ersten Zei
 
 == Scoping II //slide_only
 
+//begin_no_slide
+.#TODO: add content
+
+
+//end_no_slide
+
 [source,r]
 ----
-print(my_sum(1:3))
 include::src/my_sum_scope1.R[]
 ----
 
 
+
+[source,r]
+----
+print(my_sum(1:3))
+----
+
+----
+## [1] 6
+----
 
 [source,r]
 ----
@@ -155,6 +169,7 @@ print(my_sum_broken(1:3))
 ----
 
 
+== Scoping III //slide_only
 
 [source,r]
 ----
@@ -174,7 +189,6 @@ print(my_sum_broken(1:3))
 
 ----
 
-auf jeden fall, auch parent.env
 
 == Argumente
 Defaults

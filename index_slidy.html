@@ -3901,7 +3901,13 @@ Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt></tt></pre></div></div>
+<pre><tt>a  &lt;- c(2, 3, 4, 10) <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;1&gt;</b></span></span>
+value &lt;- 0 <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;2&gt;</b></span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (a_i in a) { <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;3&gt;</b></span></span>
+    value &lt;- value + a_i  <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;4&gt;</b></span></span>
+}
+print(value) <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;5&gt;</b></span></span>
+</tt></pre></div></div>
 <div class="colist arabic"><ol>
 <li>
 <p>
@@ -3939,7 +3945,13 @@ Ausgabe des Ergebnisses
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt></tt></pre></div></div>
+<pre><tt>my_sum &lt;- function(x) {
+    value &lt;- 0
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
+        value &lt;- value + x_i
+    }
+    return(value)
+}</tt></pre></div></div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -3992,7 +4004,22 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum_broken &lt;- function(x) {
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
+        value &lt;- value + x_i
+    }
+    return(value)
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
 <pre><tt>print(my_sum(1:3))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 6</code></pre>
+</div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4003,6 +4030,11 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] 25</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_scoping_iii">Scoping III</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4022,7 +4054,6 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>auf jeden fall, auch parent.env</p></div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4090,7 +4121,14 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt></tt></pre></div></div>
+<pre><tt>my_sum &lt;- function(x) {
+    assertthat::assert_that(is.numeric(x))
+    value &lt;- 0
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
+        value &lt;- value + x_i
+    }
+    return(value)
+}</tt></pre></div></div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4121,7 +4159,11 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt></tt></pre></div></div>
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>,
+                    testthat::expect_identical(my_sum(c(2, 7)), 9)
+                    )
+
+</tt></pre></div></div>
 </div>
 <div class="sect2">
 <h3 id="_test_coverage">Test Coverage</h3>
