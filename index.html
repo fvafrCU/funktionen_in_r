@@ -776,7 +776,7 @@ asciidoc.install(2);
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_funktionen_in_r">1. Funktionen in R</h2>
+<h2 id="_worum_geht_es">1. Worum geht es?</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_was_sind_funktionen">1.1. Was sind Funktionen?</h3>
@@ -812,42 +812,52 @@ Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer
 </p>
 </li>
 </ul></div>
-<div class="sect3">
-<h4 id="_wann">1.2.1. Wann?</h4>
+</div>
+<div class="sect2">
+<h3 id="_wann_funktionen">1.3. Wann Funktionen?</h3>
 <div class="paragraph"><p>Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer Stelle einf&uuml;gst und ihn kaum ver&auml;nderst, solltest Du dar&uuml;ber nachdenken, eine Funktion (oder mehrere) daraus zu machen.</p></div>
 </div>
 </div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="_praxis">2. Praxis</h2>
+<h2 id="_eine_neue_summenfunktion_f_uuml_r_r">2. Eine neue Summenfunktion f&uuml;r R</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_eine_neue_summenfunktion_f_uuml_r_r">2.1. Eine neue Summenfunktion f&uuml;r R</h3>
-<div class="sect3">
-<h4 id="_warum_wir_diese_funktion_nicht_schreiben_sollten">2.1.1. Warum wir diese Funktion nicht schreiben sollten</h4>
+<h3 id="_warum_wir_diese_funktion_nicht_schreiben_sollten">2.1. Warum wir diese Funktion nicht schreiben sollten</h3>
 <div class="paragraph"><p>Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in <strong>R</strong> hei&szlig;t sie <code>sum()</code>. Diese Funktion ist besser, stabiler und schneller, als alles, das wir selbst programmieren k&ouml;nnen.</p></div>
 </div>
-<div class="sect3">
-<h4 id="_warum_wir_es_trotzdem_tun">2.1.2. Warum wir es trotzdem tun</h4>
+<div class="sect2">
+<h3 id="_warum_wir_es_trotzdem_tun">2.2. Warum wir es trotzdem tun</h3>
 <div class="paragraph"><p>Ich habe die Summenberechnung ausf&uuml;hrlich als Beispiel zur Schleifenprogrammierung in
-<a href="https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen">Programmieren in R</a> benutzt.</p></div>
+<a href="https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen">Programmieren in R</a> benutzt:</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_vom_code_8230">3. Vom Code &#8230;</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>a  &lt;- c(2, 3, 4, 10)
-value &lt;- 0 <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;1&gt;</b></span></span>
-<span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (a_i in a) { <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;2&gt;</b></span></span>
-    value &lt;- value + a_i  <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;3&gt;</b></span></span>
+<pre><tt>a  &lt;- c(2, 3, 4, 10) <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;1&gt;</b></span></span>
+value &lt;- 0 <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;2&gt;</b></span></span>
+<span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (a_i in a) { <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;3&gt;</b></span></span>
+    value &lt;- value + a_i  <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;4&gt;</b></span></span>
 }
-print(value)
+print(value) <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;5&gt;</b></span></span>
 </tt></pre></div></div>
+<div class="paragraph"><p>Dabei siehst Du:</p></div>
 <div class="colist arabic"><ol>
 <li>
 <p>
-Neutrales Element zur Addition
+Definition des zu summierenden Vektors
+</p>
+</li>
+<li>
+<p>
+Definition des zur Addition neutralen Elementes
 </p>
 </li>
 <li>
@@ -860,11 +870,24 @@ Schleife &uuml;ber den Vektor
 Addition
 </p>
 </li>
+<li>
+<p>
+Ausgabe des Ergebnisses
+</p>
+</li>
 </ol></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] 19</code></pre>
-</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_8230_zur_funktion">4. &#8230; zur Funktion</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>F&uuml;r unsere Summenfunktion soll die Definition des zu summierenden Vektors
+der Anwenderin &uuml;berlassen werden, daher wird der Vektor zu einem Argument
+der Funktion. Ich w&auml;hle als Namen in diesem Fall <code>x</code>, das k&ouml;nnte aber
+auch <code>a</code> bleiben, es ist eine Frage der Konvention, und unter <code>x</code> verstehen wir
+meist eine Unbekannte. Und als Ausgabe verwenden wir keine Druck- sondern eine
+R&uuml;ckgabefunktion (<code>return()</code> statt <code>print()</code>).
+Das Ergebnis sieht dann so aus:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -879,17 +902,15 @@ http://www.gnu.org/software/src-highlite -->
 }</tt></pre></div></div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_scoping">5. Scoping</h2>
+<div class="sectionbody">
 </div>
 </div>
 <div class="sect1">
-<h2 id="_spezifika">3. Spezifika</h2>
+<h2 id="_scoping_i">6. Scoping I</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_argumente">3.1. Argumente</h3>
-<div class="paragraph"><p>Defaults</p></div>
-</div>
-<div class="sect2">
-<h3 id="_scoping">3.2. Scoping</h3>
+<div class="paragraph"><div class="title">Ausgangszustand</div><p>Objekte in <strong>R</strong> haben einen G&uuml;ltigkeitsbereich. Im Augenblick hat das Objekte <code>value</code> den Wert 19:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -900,6 +921,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] 19</code></pre>
 </div></div>
+<div class="paragraph"><div class="title">Funktionsausf&uuml;rung</div><p>Jetzt wenden wir unsere Summenfunktion an und berechnen die Summe eines anderen Vektors:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -910,6 +932,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] 6</code></pre>
 </div></div>
+<div class="paragraph"><p>Das Objekt <code>value</code> beh&auml;lt seinen Wert:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -920,6 +943,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] 19</code></pre>
 </div></div>
+<div class="paragraph"><p>Und dass, obwohl wir innerhalb der Funktion dem Objekt <code>value</code> in der ersten Zeile den Wert 0 zuweisen und diesen dann in der Schleife mit den Werten 1, 3 und 6 &uuml;berschreiben.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -972,42 +996,42 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 <div class="paragraph"><p>auf jeden fall, auch parent.env</p></div>
 </div>
-<div class="sect2">
-<h3 id="_return_value_und_side_effects">3.3. Return Value und Side Effects</h3>
+</div>
+<div class="sect1">
+<h2 id="_argumente">7. Argumente</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Defaults</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_return_value_und_side_effects">8. Return Value und Side Effects</h2>
+<div class="sectionbody">
 <div class="paragraph"><p>was ist was</p></div>
 </div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="_modularisierung">4. Modularisierung</h2>
+<h2 id="_modularisierung">9. Modularisierung</h2>
 <div class="sectionbody">
 </div>
 </div>
 <div class="sect1">
-<h2 id="_funktionen_dokumentieren">5. Funktionen dokumentieren</h2>
-<div class="sectionbody">
-</div>
-</div>
-<div class="sect1">
-<h2 id="_funktionen_verwalten">6. Funktionen verwalten</h2>
+<h2 id="_funktionen_verwalten">10. Funktionen verwalten</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_lokal">6.1. Lokal</h3>
+<h3 id="_lokal">10.1. Lokal</h3>
 <div class="paragraph"><p>Mit source</p></div>
 </div>
 <div class="sect2">
-<h3 id="_global">6.2. global</h3>
+<h3 id="_global">10.2. global</h3>
 <div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
 </div>
+<div class="sect2">
+<h3 id="_als_package">10.3. Als Package</h3>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_als_package">7. Als Package</h2>
-<div class="sectionbody">
 </div>
 </div>
 <div class="sect1">
-<h2 id="_typentests">8. Typentests</h2>
+<h2 id="_typentests">11. Typentests</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Neben <code>asserthat</code> gibt es auch das R-Package <code>checkmate</code>.
 
@@ -1051,11 +1075,11 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1">
-<h2 id="_testing">9. Testing</h2>
+<h2 id="_testing">12. Testing</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Neben <code>thestthat</code> gibt es auch das R-Package <code>RUnit</code>.</p></div>
 <div class="sect2">
-<h3 id="_testthat">9.1. Testthat</h3>
+<h3 id="_testthat">12.1. Testthat</h3>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1086,7 +1110,7 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 </div>
 <div class="sect2">
-<h3 id="_test_coverage">9.2. Test Coverage</h3>
+<h3 id="_test_coverage">12.2. Test Coverage</h3>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1144,7 +1168,12 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1">
-<h2 id="_cleanr">10. cleanr</h2>
+<h2 id="_cleanr">13. cleanr</h2>
+<div class="sectionbody">
+</div>
+</div>
+<div class="sect1">
+<h2 id="_funktionen_dokumentieren">14. Funktionen dokumentieren</h2>
 <div class="sectionbody">
 </div>
 </div>
@@ -1153,7 +1182,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-01-22 08:21:11 CET
+ 2018-01-22 11:12:35 CET
 </div>
 </div>
 </body>

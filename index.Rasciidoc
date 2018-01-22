@@ -2,12 +2,13 @@
 Dominik Cullmann 
 :toc2:
 :numbered:
+:data-uri:
+:duration: 120
 
-== Funktionen in R
+== Worum geht es?
 
 === Was sind Funktionen?
 
-//begin_no_slide
 * Funktionen sind Programmkonstrukte, mit denen Du Teile des von Dir 
   geschriebenen Codes wiederverwenden kannst
   (siehe https://de.wikipedia.org/wiki/Funktion_(Programmierung)[Wikipedia]).
@@ -15,52 +16,64 @@ Dominik Cullmann
   viele R-Funktionen kennst Du wahrscheinlich schon: `sum()`, `mean()` 
   oder `summary()`.
 
-//end_no_slide
-
 === Warum Funktionen?
 
-//begin_no_slide
 * Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
 * Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer 
   Stelle korrigieren.
-//end_no_slide
 
-==== Wann?
+=== Wann Funktionen?
 
-//begin_no_slide
 Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer Stelle einf&uuml;gst und ihn kaum ver&auml;nderst, solltest Du dar&uuml;ber nachdenken, eine Funktion (oder mehrere) daraus zu machen. 
-//end_no_slide
 
-Praxis 
-------
 
-Eine neue Summenfunktion f&uuml;r R
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Eine neue Summenfunktion f&uuml;r R
 
-Warum wir diese Funktion nicht schreiben sollten
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== Warum wir diese Funktion nicht schreiben sollten
 
 //begin_no_slide
 Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in **R** hei&szlig;t sie `sum()`. Diese Funktion ist besser, stabiler und schneller, als alles, das wir selbst programmieren k&ouml;nnen.
 //end_no_slide
 
-Warum wir es trotzdem tun
-^^^^^^^^^^^^^^^^^^^^^^^^^
+=== Warum wir es trotzdem tun
 
 //begin_no_slide
 Ich habe die Summenberechnung ausf&uuml;hrlich als Beispiel zur Schleifenprogrammierung in 
-https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt.
+https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt:
 //end_no_slide
 
+
+== Vom Code ...
 //begin.rcode, eval = FALSE
 include::src/sum.R[]
 //end.rcode
-<1> Neutrales Element zur Addition
-<2> Schleife &uuml;ber den Vektor
-<3> Addition
-//begin.rcode, echo = FALSE
+//begin.rcode, include = FALSE
 source("src/sum.R", local = knitr::knit_global())
 //end.rcode
+
+//begin_no_slide
+Dabei siehst Du:
+//end_no_slide
+
+<1> Definition des zu summierenden Vektors
+<2> Definition des zur Addition neutralen Elementes
+<3> Schleife &uuml;ber den Vektor
+<4> Addition
+<5> Ausgabe des Ergebnisses
+
+== ... zur Funktion
+//begin_no_slide
+F&uuml;r unsere Summenfunktion soll die Definition des zu summierenden Vektors
+der Anwenderin &uuml;berlassen werden, daher wird der Vektor zu einem Argument
+der Funktion. Ich w&auml;hle als Namen in diesem Fall +x+, das k&ouml;nnte aber
+auch +a+ bleiben, es ist eine Frage der Konvention, und unter +x+ verstehen wir
+meist eine Unbekannte. Und als Ausgabe verwenden wir keine Druck- sondern eine
+R&uuml;ckgabefunktion (+return()+ statt +print()+). 
+Das Ergebnis sieht dann so aus:
+
+//end_no_slide
+
+
 
 //begin.rcode, eval = FALSE
 include::src/my_sum.R[]
@@ -69,23 +82,38 @@ include::src/my_sum.R[]
 source("src/my_sum.R")
 //end.rcode
 
-== Spezifika 
 
-=== Argumente
-Defaults
-
-=== Scoping
+== Scoping
+//begin_only_slide
+== Scoping I
+//end_only_slide
+.Ausgangszustand
+//begin_no_slide
+Objekte in **R** haben einen G&uuml;ltigkeitsbereich. Im Augenblick hat das Objekte +value+ den Wert +r value+:
+//end_no_slide
 
 //begin.rcode
 print(value)
 //end.rcode
+
+.Funktionsausf&uuml;rung
+//begin_no_slide
+Jetzt wenden wir unsere Summenfunktion an und berechnen die Summe eines anderen Vektors: 
+//end_no_slide
 //begin.rcode
 print(my_sum(1:3))
 //end.rcode
+
+//begin_no_slide
+Das Objekt `value` beh&auml;lt seinen Wert:
+//end_no_slide
 //begin.rcode
 print(value)
 //end.rcode
+//begin_no_slide
+Und dass, obwohl wir innerhalb der Funktion dem Objekt +value+ in der ersten Zeile den Wert 0 zuweisen und diesen dann in der Schleife mit den Werten 1, 3 und 6 &uuml;berschreiben.
 
+//end_no_slide
 //begin.rcode, eval = FALSE
 include::src/my_sum_scope1.R[]
 //end.rcode
@@ -106,11 +134,13 @@ print(my_sum_broken(1:3))
 //end.rcode
 auf jeden fall, auch parent.env
 
-=== Return Value und Side Effects
+== Argumente
+Defaults
+
+== Return Value und Side Effects
 was ist was
 
 == Modularisierung
-== Funktionen dokumentieren
 
 == Funktionen verwalten
 
@@ -120,7 +150,7 @@ Mit source
 ===  global 
 Mit .Rprofile und einer Schleife
 
-== Als Package
+=== Als Package
 
 
 == Typentests
@@ -179,6 +209,8 @@ print(cov)
 //begin.rcode
 covr::zero_coverage(cov)
 //end.rcode
+
 == cleanr
 
 
+== Funktionen dokumentieren
