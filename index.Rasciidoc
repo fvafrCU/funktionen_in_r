@@ -84,9 +84,7 @@ source("src/my_sum.R")
 
 
 == Scoping
-//begin_only_slide
-== Scoping I
-//end_only_slide
+== Scoping I //slide_only
 .Ausgangszustand
 //begin_no_slide
 Objekte in **R** haben einen G&uuml;ltigkeitsbereich. Im Augenblick hat das Objekte +value+ den Wert +r value+:
@@ -112,8 +110,9 @@ print(value)
 //end.rcode
 //begin_no_slide
 Und dass, obwohl wir innerhalb der Funktion dem Objekt +value+ in der ersten Zeile den Wert 0 zuweisen und diesen dann in der Schleife mit den Werten 1, 3 und 6 &uuml;berschreiben.
-
 //end_no_slide
+
+== Scoping II //slide_only
 //begin.rcode, eval = FALSE
 include::src/my_sum_scope1.R[]
 //end.rcode
