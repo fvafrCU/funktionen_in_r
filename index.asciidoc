@@ -29,21 +29,24 @@ https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_
 
 === Wann Funktionen?
 
-Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer Stelle einf&uuml;gst und ihn kaum ver&auml;nderst, solltest Du dar&uuml;ber nachdenken, eine Funktion (oder mehrere) daraus zu machen. 
+Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer
+Stelle einfügst und ihn kaum veränderst, solltest Du darüber nachdenken, eine Funktion (oder mehrere) daraus zu machen. 
 
 
-== Eine neue Summenfunktion f&uuml;r R
+== Eine neue Summenfunktion für R
 
 === Warum wir diese Funktion nicht schreiben sollten
 
 //begin_no_slide
-Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in **R** hei&szlig;t sie `sum()`. Diese Funktion ist besser, stabiler und schneller, als alles, das wir selbst programmieren k&ouml;nnen.
+Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in **R**
+heißt sie `sum()`. Diese Funktion ist besser, stabiler und schneller, als
+alles, das wir selbst programmieren können.
 //end_no_slide
 
 === Warum wir es trotzdem tun
 
 //begin_no_slide
-Ich habe die Summenberechnung ausf&uuml;hrlich als Beispiel zur Schleifenprogrammierung in 
+Ich habe die Summenberechnung ausführlich als Beispiel zur Schleifenprogrammierung in 
 https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt:
 //end_no_slide
 
@@ -63,18 +66,18 @@ Dabei siehst Du:
 
 <1> Definition des zu summierenden Vektors
 <2> Definition des zur Addition neutralen Elementes
-<3> Schleife &uuml;ber den Vektor
+<3> Schleife über den Vektor
 <4> Addition
 <5> Ausgabe des Ergebnisses
 
 == ... zur Funktion
 //begin_no_slide
-F&uuml;r unsere Summenfunktion soll die Definition des zu summierenden Vektors
-der Anwenderin &uuml;berlassen werden, daher wird der Vektor zu einem Argument
-der Funktion. Ich w&auml;hle als Namen in diesem Fall +x+, das k&ouml;nnte aber
+Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
+der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
+der Funktion. Ich wähle als Namen in diesem Fall +x+, das könnte aber
 auch +a+ bleiben, es ist eine Frage der Konvention, und unter +x+ verstehen wir
 meist eine Unbekannte. Und als Ausgabe verwenden wir keine Druck- sondern eine
-R&uuml;ckgabefunktion (+return()+ statt +print()+). 
+Rückgabefunktion (+return()+ statt +print()+). 
 Das Ergebnis sieht dann so aus:
 
 //end_no_slide
@@ -92,9 +95,10 @@ include::src/my_sum.R[]
 
 == Scoping
 == Scoping I //slide_only
+=== Schreibzugriffe
 .Ausgangszustand
 //begin_no_slide
-Objekte in **R** haben einen G&uuml;ltigkeitsbereich. Im Augenblick hat das Objekte +value+ den Wert 19:
+Objekte in **R** haben einen Gültigkeitsbereich. Im Augenblick hat das Objekte +value+ den Wert 19:
 //end_no_slide
 
 
@@ -108,7 +112,7 @@ print(value)
 ----
 
 
-.Funktionsausf&uuml;rung
+.Funktionsausführung
 //begin_no_slide
 Jetzt wenden wir unsere Summenfunktion an und berechnen die Summe eines anderen Vektors: 
 //end_no_slide
@@ -124,7 +128,7 @@ print(my_sum(1:3))
 
 
 //begin_no_slide
-Das Objekt `value` beh&auml;lt seinen Wert:
+Das Objekt `value` behält seinen Wert:
 //end_no_slide
 
 [source,r]
@@ -137,16 +141,28 @@ print(value)
 ----
 
 //begin_no_slide
-Und dass, obwohl wir innerhalb der Funktion dem Objekt +value+ in der ersten Zeile den Wert 0 zuweisen und diesen dann in der Schleife mit den Werten 1, 3 und 6 &uuml;berschreiben.
-R trennt automatisch die G&uuml;ltigkeitsbereiche verschiedener Objekte gleichen Namens, es gibt ein Objekt namens +value+ innerhalb und ein namensgleiches au&szlig;erhalb unserer Funktion. Du  *kannst* die auch aus einer Funktion in einen anderen G&uuml;ltigkeitsbereich schreiben, wenn Du das wirklich willst. Aber das lassen wir vorerst.
+Und das, obwohl wir innerhalb der Funktion dem Objekt +value+ in der ersten
+Zeile den Wert 0 zuweisen und diesen dann in der Schleife mit den Werten 1, 3
+und 6 überschreiben:
+**R** verwaltet automatisch die Gültigkeitsbereiche aller Objekte. 
+Es gibt daher ein Objekt names  +value+ außerhalb der Funktion, das den Wert 19 enthält und unverändert bleibt.
+Innerhalb der Funktion legt **R** ein neues lokales Objekt, ebenfalls mit dem Namen
++value+, an.
+Du _kannst_ auch aus einer Funktion in einen anderen Gültigkeitsbereich schreiben, wenn Du das wirklich willst. Aber das lassen wir vorerst.
 //end_no_slide
 
 == Scoping II //slide_only
 
+=== Lesezugriffe
+.Lesen ist unsicher
 //begin_no_slide
-.#TODO: add content
+Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
+**R** zunächst nach einem lokalen Objekt des gesuchten Namens, dann in den der
+Funktion übergeordneten Gültigkeitsbereich, also außerhalb der Funktion.
 
-
+Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, du vergißt beim
+Schreiben der Summenfunktion die Definition des zur Addition neutralen
+Elementes:
 //end_no_slide
 
 [source,r]
@@ -155,15 +171,10 @@ include::src/my_sum_scope1.R[]
 ----
 
 
+//begin_no_slide
 
-[source,r]
-----
-print(my_sum(1:3))
-----
-
-----
-## [1] 6
-----
+Du führst die Funktion aus und erhälst:
+//end_no_slide
 
 [source,r]
 ----
@@ -174,18 +185,26 @@ print(my_sum_broken(1:3))
 ## [1] 25
 ----
 
+Was ist passiert?
+//begin_no_slide
+Im ersten Durchlauf der Schleife gibt es beim Lesen von
++value+ noch kein lokales Objekt dieses Namens. Daher sucht **R** außerhalb der
+Funktion und findet ein Objekt mit dem Wert 19. 
+Zu diesem Objekt addieren
+wir +x_i+, das im ersten Schleifendurchlauf den Wert +1+ enthält und erschaffen
+damit in der Funktion ein lokales Objekt names +value+, das dann im zweiten
+Durchlauf der Schleife auch gelesen werden kann.
+//end_no_slide
 
 == Scoping III //slide_only
+//begin_no_slide
+Wenn Du diese Funktion verwendest, ohne vorher das Objekt +value+ zu definieren,
+oder das Objekt +value+ entfernst und dann die Funktion ausführst
+//end_no_slide
 
 [source,r]
 ----
 rm(value)
-----
-
-
-
-[source,r]
-----
 print(my_sum_broken(1:3))
 ----
 
@@ -195,6 +214,50 @@ print(my_sum_broken(1:3))
 
 ----
 
+//begin_no_slide
+erhälst Du einen Fehler, weil **R** auch außerhalb der Funktion kein Objekt
+names +value+ finden kann. Und diesen Fehler erwarten wir ja eigentlich.
+//end_no_slide
+
+== Scoping IV //slide_only
+.Sicherer Lesen
+//begin_no_slide
+Wie wir eine Funktion dazu bringen können, außerhalb ihres Gültigkeitsbereiches
+zu schreiben (nein, das _wie_ habe ich Dir noch nicht gezeigt... ), so können wir 
+eine Funktion auch zwingen, beim Lesen nur nach lokalen Objekten zu
+suchen:
+//end_no_slide
+
+[source,r]
+----
+include::src/my_sum_scope2.R[]
+----
+
+
+
+//begin_no_slide
+Selbst wenn wir ein Objekt namens +value+ anlegen, gibt die Funktion einen
+Fehler aus:
+//end_no_slide
+
+[source,r]
+----
+value <- 42
+my_sum_safer(1:10)
+----
+
+[source,r]
+----
+## Error in get("value", inherits = FALSE): object 'value' not found
+
+----
+
+//begin_no_slide
+Ich finde es aber praktiabler, beim Schreiben einer Funktion darauf zu achten,
+welche Objekte ich lese. + 
+Und wenn ich Funktionen <<_testing,teste>>, finde ich Fehler, die auf Scoping beruhen,
+sehr schnell. 
+//end_no_slide
 
 == Argumente
 Defaults
@@ -213,7 +276,7 @@ Mit source
 Mit .Rprofile und einer Schleife
 
 === Als Package
-
+Das ist am aufwendigsten, aber auch am elegantesten.
 
 == Typentests
 
@@ -254,7 +317,7 @@ include::src/my_sum_assertion.R[]
 == Testing
 
 //begin_no_slide
-Neben +thestthat+ gibt es auch das R-Package +RUnit+.
+Neben +testthat+ gibt es auch das R-Package +RUnit+.
 //end_no_slide
 
 === Testthat

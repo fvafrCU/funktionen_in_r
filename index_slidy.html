@@ -3884,12 +3884,13 @@ Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer
 </div>
 <div class="sect2">
 <h3 id="_wann_funktionen">Wann Funktionen?</h3>
-<div class="paragraph"><p>Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer Stelle einf&uuml;gst und ihn kaum ver&auml;nderst, solltest Du dar&uuml;ber nachdenken, eine Funktion (oder mehrere) daraus zu machen.</p></div>
+<div class="paragraph"><p>Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer
+Stelle einfügst und ihn kaum veränderst, solltest Du darüber nachdenken, eine Funktion (oder mehrere) daraus zu machen.</p></div>
 </div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_eine_neue_summenfunktion_f_uuml_r_r">Eine neue Summenfunktion f&uuml;r R</h1>
+<h1 id="_eine_neue_summenfunktion_für_r">Eine neue Summenfunktion für R</h1>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_warum_wir_diese_funktion_nicht_schreiben_sollten">Warum wir diese Funktion nicht schreiben sollten</h3>
@@ -3927,7 +3928,7 @@ Definition des zur Addition neutralen Elementes
 </li>
 <li>
 <p>
-Schleife &uuml;ber den Vektor
+Schleife über den Vektor
 </p>
 </li>
 <li>
@@ -3968,6 +3969,8 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect1 slide">
 <h1 id="_scoping_i">Scoping I</h1>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_schreibzugriffe">Schreibzugriffe</h3>
 <div class="listingblock">
 <div class="title">Ausgangszustand</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -3980,7 +3983,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>## [1] 19</code></pre>
 </div></div>
 <div class="listingblock">
-<div class="title">Funktionsausf&uuml;rung</div>
+<div class="title">Funktionsausführung</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -4002,10 +4005,14 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 </div>
 </div>
+</div>
 <div class="sect1 slide">
 <h1 id="_scoping_ii">Scoping II</h1>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_lesezugriffe">Lesezugriffe</h3>
 <div class="listingblock">
+<div class="title">Lesen ist unsicher</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -4021,21 +4028,13 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>print<span style="color: #990000">(</span>my_sum<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] 6</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
 <pre><tt>print<span style="color: #990000">(</span>my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] 25</code></pre>
 </div></div>
+<div class="paragraph"><p>Was ist passiert?</p></div>
+</div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4046,19 +4045,46 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>rm<span style="color: #990000">(</span>value<span style="color: #990000">)</span></tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>print<span style="color: #990000">(</span>my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
+<pre><tt>rm<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
+print<span style="color: #990000">(</span>my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>## Error <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">):</span> object <span style="color: #FF0000">'value'</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> found
+</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_scoping_iv">Scoping IV</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Sicherer Lesen</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum_safer <span style="color: #990000">&lt;-</span> function<span style="color: #990000">(</span>x<span style="color: #990000">)</span> {
+    for <span style="color: #990000">(</span>x_i <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> x<span style="color: #990000">)</span> {
+        value <span style="color: #990000">&lt;-</span> get<span style="color: #990000">(</span><span style="color: #FF0000">"value"</span><span style="color: #990000">,</span> inherits <span style="color: #990000">=</span> FALSE<span style="color: #990000">)</span> <span style="color: #990000">+</span> x_i
+    }
+    return<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
+}
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>value <span style="color: #990000">&lt;-</span> <span style="color: #993399">42</span>
+my_sum_safer<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">10</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>## Error <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> get<span style="color: #990000">(</span><span style="color: #FF0000">"value"</span><span style="color: #990000">,</span> inherits <span style="color: #990000">=</span> FALSE<span style="color: #990000">):</span> object <span style="color: #FF0000">'value'</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> found
 </tt></pre></div></div>
 </div>
 </div>
@@ -4092,6 +4118,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 <div class="sect2">
 <h3 id="_als_package">Als Package</h3>
+<div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
 </div>
 </div>
 </div>

@@ -815,20 +815,23 @@ Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer
 </div>
 <div class="sect2">
 <h3 id="_wann_funktionen">1.3. Wann Funktionen?</h3>
-<div class="paragraph"><p>Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer Stelle einf&uuml;gst und ihn kaum ver&auml;nderst, solltest Du dar&uuml;ber nachdenken, eine Funktion (oder mehrere) daraus zu machen.</p></div>
+<div class="paragraph"><p>Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer
+Stelle einfügst und ihn kaum veränderst, solltest Du darüber nachdenken, eine Funktion (oder mehrere) daraus zu machen.</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_eine_neue_summenfunktion_f_uuml_r_r">2. Eine neue Summenfunktion f&uuml;r R</h2>
+<h2 id="_eine_neue_summenfunktion_für_r">2. Eine neue Summenfunktion für R</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_warum_wir_diese_funktion_nicht_schreiben_sollten">2.1. Warum wir diese Funktion nicht schreiben sollten</h3>
-<div class="paragraph"><p>Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in <strong>R</strong> hei&szlig;t sie <code>sum()</code>. Diese Funktion ist besser, stabiler und schneller, als alles, das wir selbst programmieren k&ouml;nnen.</p></div>
+<div class="paragraph"><p>Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in <strong>R</strong>
+heißt sie <code>sum()</code>. Diese Funktion ist besser, stabiler und schneller, als
+alles, das wir selbst programmieren können.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_warum_wir_es_trotzdem_tun">2.2. Warum wir es trotzdem tun</h3>
-<div class="paragraph"><p>Ich habe die Summenberechnung ausf&uuml;hrlich als Beispiel zur Schleifenprogrammierung in
+<div class="paragraph"><p>Ich habe die Summenberechnung ausführlich als Beispiel zur Schleifenprogrammierung in
 <a href="https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen">Programmieren in R</a> benutzt:</p></div>
 </div>
 </div>
@@ -862,7 +865,7 @@ Definition des zur Addition neutralen Elementes
 </li>
 <li>
 <p>
-Schleife &uuml;ber den Vektor
+Schleife über den Vektor
 </p>
 </li>
 <li>
@@ -881,12 +884,12 @@ Ausgabe des Ergebnisses
 <div class="sect1">
 <h2 id="_8230_zur_funktion">4. &#8230; zur Funktion</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>F&uuml;r unsere Summenfunktion soll die Definition des zu summierenden Vektors
-der Anwenderin &uuml;berlassen werden, daher wird der Vektor zu einem Argument
-der Funktion. Ich w&auml;hle als Namen in diesem Fall <code>x</code>, das k&ouml;nnte aber
+<div class="paragraph"><p>Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
+der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
+der Funktion. Ich wähle als Namen in diesem Fall <code>x</code>, das könnte aber
 auch <code>a</code> bleiben, es ist eine Frage der Konvention, und unter <code>x</code> verstehen wir
 meist eine Unbekannte. Und als Ausgabe verwenden wir keine Druck- sondern eine
-R&uuml;ckgabefunktion (<code>return()</code> statt <code>print()</code>).
+Rückgabefunktion (<code>return()</code> statt <code>print()</code>).
 Das Ergebnis sieht dann so aus:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -905,7 +908,9 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect1">
 <h2 id="_scoping">5. Scoping</h2>
 <div class="sectionbody">
-<div class="paragraph"><div class="title">Ausgangszustand</div><p>Objekte in <strong>R</strong> haben einen G&uuml;ltigkeitsbereich. Im Augenblick hat das Objekte <code>value</code> den Wert 19:</p></div>
+<div class="sect2">
+<h3 id="_schreibzugriffe">5.1. Schreibzugriffe</h3>
+<div class="paragraph"><div class="title">Ausgangszustand</div><p>Objekte in <strong>R</strong> haben einen Gültigkeitsbereich. Im Augenblick hat das Objekte <code>value</code> den Wert 19:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -916,7 +921,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] 19</code></pre>
 </div></div>
-<div class="paragraph"><div class="title">Funktionsausf&uuml;rung</div><p>Jetzt wenden wir unsere Summenfunktion an und berechnen die Summe eines anderen Vektors:</p></div>
+<div class="paragraph"><div class="title">Funktionsausführung</div><p>Jetzt wenden wir unsere Summenfunktion an und berechnen die Summe eines anderen Vektors:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -927,7 +932,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] 6</code></pre>
 </div></div>
-<div class="paragraph"><p>Das Objekt <code>value</code> beh&auml;lt seinen Wert:</p></div>
+<div class="paragraph"><p>Das Objekt <code>value</code> behält seinen Wert:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -938,10 +943,24 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] 19</code></pre>
 </div></div>
-<div class="paragraph"><p>Und dass, obwohl wir innerhalb der Funktion dem Objekt <code>value</code> in der ersten Zeile den Wert 0 zuweisen und diesen dann in der Schleife mit den Werten 1, 3 und 6 &uuml;berschreiben.
-R trennt automatisch die G&uuml;ltigkeitsbereiche verschiedener Objekte gleichen Namens, es gibt ein Objekt namens <code>value</code> innerhalb und ein namensgleiches au&szlig;erhalb unserer Funktion. Du  <strong>kannst</strong> die auch aus einer Funktion in einen anderen G&uuml;ltigkeitsbereich schreiben, wenn Du das wirklich willst. Aber das lassen wir vorerst.</p></div>
+<div class="paragraph"><p>Und das, obwohl wir innerhalb der Funktion dem Objekt <code>value</code> in der ersten
+Zeile den Wert 0 zuweisen und diesen dann in der Schleife mit den Werten 1, 3
+und 6 überschreiben:
+<strong>R</strong> verwaltet automatisch die Gültigkeitsbereiche aller Objekte.
+Es gibt daher ein Objekt names  <code>value</code> außerhalb der Funktion, das den Wert 19 enthält und unverändert bleibt.
+Innerhalb der Funktion legt <strong>R</strong> ein neues lokales Objekt, ebenfalls mit dem Namen
+<code>value</code>, an.
+Du <em>kannst</em> auch aus einer Funktion in einen anderen Gültigkeitsbereich schreiben, wenn Du das wirklich willst. Aber das lassen wir vorerst.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_lesezugriffe">5.2. Lesezugriffe</h3>
+<div class="paragraph"><div class="title">Lesen ist unsicher</div><p>Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
+<strong>R</strong> zunächst nach einem lokalen Objekt des gesuchten Namens, dann in den der
+Funktion übergeordneten Gültigkeitsbereich, also außerhalb der Funktion.</p></div>
+<div class="paragraph"><p>Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, du vergißt beim
+Schreiben der Summenfunktion die Definition des zur Addition neutralen
+Elementes:</p></div>
 <div class="listingblock">
-<div class="title">#TODO: add content</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -952,16 +971,7 @@ http://www.gnu.org/software/src-highlite -->
     }
     return<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
 }</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>print<span style="color: #990000">(</span>my_sum<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] 6</code></pre>
-</div></div>
+<div class="paragraph"><p>Du führst die Funktion aus und erhälst:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -972,18 +982,24 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] 25</code></pre>
 </div></div>
+<div class="paragraph"><p>Was ist passiert?
+
+Im ersten Durchlauf der Schleife gibt es beim Lesen von
+<code>value</code> noch kein lokales Objekt dieses Namens. Daher sucht <strong>R</strong> außerhalb der
+Funktion und findet ein Objekt mit dem Wert 19.
+Zu diesem Objekt addieren
+wir <code>x_i</code>, das im ersten Schleifendurchlauf den Wert <code>1</code> enthält und erschaffen
+damit in der Funktion ein lokales Objekt names <code>value</code>, das dann im zweiten
+Durchlauf der Schleife auch gelesen werden kann.</p></div>
+<div class="paragraph"><p>Wenn Du diese Funktion verwendest, ohne vorher das Objekt <code>value</code> zu definieren,
+oder das Objekt <code>value</code> entfernst und dann die Funktion ausführst</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>rm<span style="color: #990000">(</span>value<span style="color: #990000">)</span></tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>print<span style="color: #990000">(</span>my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
+<pre><tt>rm<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
+print<span style="color: #990000">(</span>my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -991,6 +1007,45 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>## Error <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">):</span> object <span style="color: #FF0000">'value'</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> found
 </tt></pre></div></div>
+<div class="paragraph"><p>erhälst Du einen Fehler, weil <strong>R</strong> auch außerhalb der Funktion kein Objekt
+names <code>value</code> finden kann. Und diesen Fehler erwarten wir ja eigentlich.</p></div>
+<div class="paragraph"><div class="title">Sicherer Lesen</div><p>Wie wir eine Funktion dazu bringen können, außerhalb ihres Gültigkeitsbereiches
+zu schreiben (nein, das <em>wie</em> habe ich Dir noch nicht gezeigt&#8230; ), so können wir
+eine Funktion auch zwingen, beim Lesen nur nach lokalen Objekten zu
+suchen:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum_safer <span style="color: #990000">&lt;-</span> function<span style="color: #990000">(</span>x<span style="color: #990000">)</span> {
+    for <span style="color: #990000">(</span>x_i <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> x<span style="color: #990000">)</span> {
+        value <span style="color: #990000">&lt;-</span> get<span style="color: #990000">(</span><span style="color: #FF0000">"value"</span><span style="color: #990000">,</span> inherits <span style="color: #990000">=</span> FALSE<span style="color: #990000">)</span> <span style="color: #990000">+</span> x_i
+    }
+    return<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
+}
+</tt></pre></div></div>
+<div class="paragraph"><p>Selbst wenn wir ein Objekt namens <code>value</code> anlegen, gibt die Funktion einen
+Fehler aus:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>value <span style="color: #990000">&lt;-</span> <span style="color: #993399">42</span>
+my_sum_safer<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">10</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>## Error <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> get<span style="color: #990000">(</span><span style="color: #FF0000">"value"</span><span style="color: #990000">,</span> inherits <span style="color: #990000">=</span> FALSE<span style="color: #990000">):</span> object <span style="color: #FF0000">'value'</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> found
+</tt></pre></div></div>
+<div class="paragraph"><p>Ich finde es aber praktiabler, beim Schreiben einer Funktion darauf zu achten,
+welche Objekte ich lese.<br />
+Und wenn ich Funktionen <a href="#_testing">teste</a>, finde ich Fehler, die auf Scoping beruhen,
+sehr schnell.</p></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1023,6 +1078,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 <div class="sect2">
 <h3 id="_als_package">9.3. Als Package</h3>
+<div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
 </div>
 </div>
 </div>
@@ -1073,7 +1129,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect1">
 <h2 id="_testing">11. Testing</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Neben <code>thestthat</code> gibt es auch das R-Package <code>RUnit</code>.</p></div>
+<div class="paragraph"><p>Neben <code>testthat</code> gibt es auch das R-Package <code>RUnit</code>.</p></div>
 <div class="sect2">
 <h3 id="_testthat">11.1. Testthat</h3>
 <div class="listingblock">
@@ -1178,7 +1234,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-01-22 22:10:31 CET
+ 2018-01-23 11:20:20 CET
 </div>
 </div>
 </body>
