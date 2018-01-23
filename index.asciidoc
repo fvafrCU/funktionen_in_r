@@ -12,6 +12,10 @@ https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_
 
 == Worum geht es?
 
+//begin_no_slide
+Naja, ums Schreiben von Funktionen in der Programmiersprache **R**.
+//end_no_slide
+
 === Was sind Funktionen?
 
 * Funktionen sind Programmkonstrukte, mit denen Du Teile des von Dir 
@@ -47,7 +51,7 @@ alles, das wir selbst programmieren können.
 
 //begin_no_slide
 Ich habe die Summenberechnung ausführlich als Beispiel zur Schleifenprogrammierung in 
-https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt:
+https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt.
 //end_no_slide
 
 
@@ -98,7 +102,7 @@ include::src/my_sum.R[]
 === Schreibzugriffe
 .Ausgangszustand
 //begin_no_slide
-Objekte in **R** haben einen Gültigkeitsbereich. Im Augenblick hat das Objekte +value+ den Wert 19:
+Im Augenblick hat das Objekte +value+ den Wert 19:
 //end_no_slide
 
 

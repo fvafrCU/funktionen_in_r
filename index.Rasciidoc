@@ -100,7 +100,7 @@ source("src/my_sum.R")
 === Schreibzugriffe
 .Ausgangszustand
 //begin_no_slide
-Objekte in **R** haben einen Gültigkeitsbereich. Im Augenblick hat das Objekte +value+ den Wert +r value+:
+Im Augenblick hat das Objekte +value+ den Wert +r value+:
 //end_no_slide
 
 //begin.rcode
