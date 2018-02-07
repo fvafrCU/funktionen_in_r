@@ -139,11 +139,11 @@ Du _kannst_ auch aus einer Funktion in einen anderen Gültigkeitsbereich schreib
 //begin_no_slide
 Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
 **R** zunächst nach einem lokalen Objekt des gesuchten Namens, dann in den der
-Funktion übergeordneten Gültigkeitsbereich, also außerhalb der Funktion.
+Funktion übergeordneten Gültigkeitsbereichen, also außerhalb der Funktion.
 
-Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, du vergißt beim
-Schreiben der Summenfunktion die Definition des zur Addition neutralen
-Elementes:
+Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, Du kommentierst 
+beim Schreiben der Summenfunktion die Definition des zur Addition neutralen
+Elementes aus Versehen aus:
 //end_no_slide
 //begin.rcode, eval = FALSE
 include::src/my_sum_scope1.R[]
@@ -199,7 +199,7 @@ source("src/my_sum_scope2.R", local = knitr::knit_global())
 //end.rcode
 
 //begin_no_slide
-Selbst wenn wir ein Objekt namens +value+ anlegen, gibt die Funktion einen
+Selbst wenn wir ein Objekt namens +value+ anlegen, gibt die Funktion nun einen
 Fehler aus:
 //end_no_slide
 //begin.rcode

@@ -162,11 +162,11 @@ Du _kannst_ auch aus einer Funktion in einen anderen Gültigkeitsbereich schreib
 //begin_no_slide
 Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
 **R** zunächst nach einem lokalen Objekt des gesuchten Namens, dann in den der
-Funktion übergeordneten Gültigkeitsbereich, also außerhalb der Funktion.
+Funktion übergeordneten Gültigkeitsbereichen, also außerhalb der Funktion.
 
-Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, du vergißt beim
-Schreiben der Summenfunktion die Definition des zur Addition neutralen
-Elementes:
+Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, Du kommentierst 
+beim Schreiben der Summenfunktion die Definition des zur Addition neutralen
+Elementes aus Versehen aus:
 //end_no_slide
 
 [source,r]
@@ -214,7 +214,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error in my_sum_broken(1:3): object 'value' not found
+## Error: object 'value' not found
 
 ----
 
