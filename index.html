@@ -808,7 +808,7 @@ Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
 </li>
 <li>
 <p>
-Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer
+Dann musst Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer
   Stelle korrigieren.
 </p>
 </li>
@@ -817,7 +817,8 @@ Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer
 <div class="sect2">
 <h3 id="_wann_funktionen">1.3. Wann Funktionen?</h3>
 <div class="paragraph"><p>Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer
-Stelle einfügst und ihn kaum veränderst, solltest Du darüber nachdenken, eine Funktion (oder mehrere) daraus zu machen.</p></div>
+Stelle einfügst ohne ihn stark zu verändern, solltest Du darüber nachdenken,
+eine Funktion (oder mehrere) aus ihm  zu schreiben.</p></div>
 </div>
 </div>
 </div>
@@ -832,8 +833,10 @@ alles, das wir selbst programmieren können.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_warum_wir_es_trotzdem_tun">2.2. Warum wir es trotzdem tun</h3>
-<div class="paragraph"><p>Ich habe die Summenberechnung ausführlich als Beispiel zur Schleifenprogrammierung in
-<a href="https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen">Programmieren in R</a> benutzt.</p></div>
+<div class="paragraph"><p>Nunja, irgendwelchen Code müssen wir ja nehmen.
+Ich habe die Summenberechnung ausführlich als Beispiel zur Schleifenprogrammierung in
+<a href="https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen">Programmieren in R</a> benutzt,
+    und eine Wiederholung schadet sicher nicht.</p></div>
 </div>
 </div>
 </div>
@@ -866,12 +869,12 @@ Definition des zur Addition neutralen Elementes
 </li>
 <li>
 <p>
-Schleife über den Vektor
+Schleife über die Elemente des Vektors
 </p>
 </li>
 <li>
 <p>
-Addition
+Addition des aktuellen Vektorelementes zum Ergebnis
 </p>
 </li>
 <li>
@@ -887,7 +890,7 @@ Ausgabe des Ergebnisses
 <div class="sectionbody">
 <div class="paragraph"><p>Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
 der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
-der Funktion. Ich wähle als Namen in diesem Fall <code>x</code>, das könnte aber
+der Funktion. Ich wähle als Namen für das Argument jetzt <code>x</code>, das könnte aber
 auch <code>a</code> bleiben, es ist eine Frage der Konvention, und unter <code>x</code> verstehen wir
 meist eine Unbekannte. Und als Ausgabe verwenden wir keine Druck- sondern eine
 Rückgabefunktion (<code>return()</code> statt <code>print()</code>).
@@ -909,6 +912,8 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect1">
 <h2 id="_scoping">5. Scoping</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche
+(englisch "scope"), wir sehen uns das am Beispiel an:</p></div>
 <div class="sect2">
 <h3 id="_schreibzugriffe">5.1. Schreibzugriffe</h3>
 <div class="paragraph"><div class="title">Ausgangszustand</div><p>Im Augenblick hat das Objekte <code>value</code> den Wert 19:</p></div>
@@ -968,7 +973,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>my_sum_broken &lt;- function(x) {
     <span style="font-style: italic"><span style="color: #9A1900"># FIXME: this is accidentally commented out:</span></span>
-    <span style="font-style: italic"><span style="color: #9A1900"># avalue &lt;- 0</span></span>
+    <span style="font-style: italic"><span style="color: #9A1900"># value &lt;- 0</span></span>
     <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
         value &lt;- value + x_i
     }
@@ -1011,7 +1016,8 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>erhälst Du einen Fehler, weil <strong>R</strong> auch außerhalb der Funktion kein Objekt
-names <code>value</code> finden kann. Und diesen Fehler erwarten wir ja eigentlich.</p></div>
+names <code>value</code> finden kann. Und diesen Fehler erwarten wir ja eigentlich, wenn
+wir nur die Funktion betrachten: sie ist fehlerhaft.</p></div>
 <div class="paragraph"><div class="title">Sicherer Lesen</div><p>Wie wir eine Funktion dazu bringen können, außerhalb ihres Gültigkeitsbereiches
 zu schreiben (nein, das <em>wie</em> habe ich Dir noch nicht gezeigt&#8230; ), so können wir
 eine Funktion auch zwingen, beim Lesen nur nach lokalen Objekten zu
@@ -1028,7 +1034,7 @@ http://www.gnu.org/software/src-highlite -->
     return(value)
 }
 </tt></pre></div></div>
-<div class="paragraph"><p>Selbst wenn wir ein Objekt namens <code>value</code> anlegen, gibt die Funktion einen
+<div class="paragraph"><p>Selbst wenn wir ein Objekt namens <code>value</code> anlegen, gibt die Funktion nun einen
 Fehler aus:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1046,7 +1052,7 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 <div class="paragraph"><p>Ich finde es aber praktiabler, beim Schreiben einer Funktion darauf zu achten,
 welche Objekte ich lese.<br />
-Und wenn ich Funktionen <a href="#_testing">teste</a>, finde ich Fehler, die auf Scoping beruhen,
+Und wenn Du Funktionen <a href="#_testing">testest</a>, findest Du Fehler, die auf Scoping beruhen,
 sehr schnell.</p></div>
 </div>
 </div>
@@ -1237,7 +1243,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-02-07 12:41:23 CET
+ 2018-02-08 12:17:25 CET
 </div>
 </div>
 </body>

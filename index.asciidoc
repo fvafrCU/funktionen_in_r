@@ -28,13 +28,14 @@ Naja, ums Schreiben von Funktionen in der Programmiersprache **R**.
 === Warum Funktionen?
 
 * Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
-* Dann musst Du, wenn Du Fehler im Code entdeckst, diesen auch nur an einer 
+* Dann musst Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer 
   Stelle korrigieren.
 
 === Wann Funktionen?
 
 Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer
-Stelle einfügst und ihn kaum veränderst, solltest Du darüber nachdenken, eine Funktion (oder mehrere) daraus zu machen. 
+Stelle einfügst ohne ihn stark zu verändern, solltest Du darüber nachdenken, 
+eine Funktion (oder mehrere) aus ihm  zu schreiben. 
 
 
 == Eine neue Summenfunktion für R
@@ -50,8 +51,10 @@ alles, das wir selbst programmieren können.
 === Warum wir es trotzdem tun
 
 //begin_no_slide
+Nunja, irgendwelchen Code müssen wir ja nehmen.  
 Ich habe die Summenberechnung ausführlich als Beispiel zur Schleifenprogrammierung in 
-https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt.
+https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt, 
+    und eine Wiederholung schadet sicher nicht.
 //end_no_slide
 
 
@@ -70,15 +73,16 @@ Dabei siehst Du:
 
 <1> Definition des zu summierenden Vektors
 <2> Definition des zur Addition neutralen Elementes
-<3> Schleife über den Vektor
-<4> Addition
+<3> Schleife über die Elemente des Vektors
+<4> Addition des aktuellen Vektorelementes zum Ergebnis
 <5> Ausgabe des Ergebnisses
 
 == ... zur Funktion
+
 //begin_no_slide
 Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
 der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
-der Funktion. Ich wähle als Namen in diesem Fall +x+, das könnte aber
+der Funktion. Ich wähle als Namen für das Argument jetzt +x+, das könnte aber
 auch +a+ bleiben, es ist eine Frage der Konvention, und unter +x+ verstehen wir
 meist eine Unbekannte. Und als Ausgabe verwenden wir keine Druck- sondern eine
 Rückgabefunktion (+return()+ statt +print()+). 
@@ -98,6 +102,9 @@ include::src/my_sum.R[]
 
 
 == Scoping
+Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche 
+(englisch "scope"), wir sehen uns das am Beispiel an:
+
 == Scoping I //slide_only
 === Schreibzugriffe
 .Ausgangszustand
@@ -220,7 +227,8 @@ print(my_sum_broken(1:3))
 
 //begin_no_slide
 erhälst Du einen Fehler, weil **R** auch außerhalb der Funktion kein Objekt
-names +value+ finden kann. Und diesen Fehler erwarten wir ja eigentlich.
+names +value+ finden kann. Und diesen Fehler erwarten wir ja eigentlich, wenn 
+wir nur die Funktion betrachten: sie ist fehlerhaft.
 //end_no_slide
 
 == Scoping IV //slide_only
@@ -240,7 +248,7 @@ include::src/my_sum_scope2.R[]
 
 
 //begin_no_slide
-Selbst wenn wir ein Objekt namens +value+ anlegen, gibt die Funktion einen
+Selbst wenn wir ein Objekt namens +value+ anlegen, gibt die Funktion nun einen
 Fehler aus:
 //end_no_slide
 
@@ -259,7 +267,7 @@ my_sum_safer(1:10)
 //begin_no_slide
 Ich finde es aber praktiabler, beim Schreiben einer Funktion darauf zu achten,
 welche Objekte ich lese. + 
-Und wenn ich Funktionen <<_testing,teste>>, finde ich Fehler, die auf Scoping beruhen,
+Und wenn Du Funktionen <<_testing,testest>>, findest Du Fehler, die auf Scoping beruhen,
 sehr schnell. 
 //end_no_slide
 
