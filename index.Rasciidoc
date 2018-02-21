@@ -221,6 +221,20 @@ Und wenn Du Funktionen <<_testing,testest>>, findest Du Fehler, die auf Scoping 
 sehr schnell. 
 //end_no_slide
 
+
+== Scoping V //slide_only
+=== Arbeiten mit Gültigkeitsbereichen
+
+Der Befehl, mit dem Du alle Objekte Deines aktuellen Arbeitsbereiches löschen
+kannst (entsprechend dem RStudio-Knopf mit dem Besensymbol) lautet:
+//begin.rcode, eval = FALSE
+rm(list = ls(all.names = TRUE))
+//end.rcode
+FIXME: Nun  bin ich
+vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
+Funktion (aber keinen Knopf) hätte.
+Nun ist der aktuelle Arbeitsbereich ein Gültigkeitsbereich, und
+
 == Argumente
 Defaults
 
