@@ -136,7 +136,7 @@ und 6 überschreiben:
 Es gibt daher ein Objekt names  +value+ außerhalb der Funktion, das den Wert +r value+ enthält und unverändert bleibt.
 Innerhalb der Funktion legt **R** ein neues lokales Objekt, ebenfalls mit dem Namen
 +value+, an.
-Du _kannst_ auch aus einer Funktion in einen anderen Gültigkeitsbereich schreiben, wenn Du das wirklich willst. Aber das lassen wir vorerst.
+Du _kannst_ auch aus einer Funktion in einen <<_arbeiten_mit_gültigkeitsbereichen, anderen Gültigkeitsbereich>> schreiben, wenn Du das wirklich willst.
 //end_no_slide
 
 == Scoping II //slide_only
@@ -222,24 +222,90 @@ sehr schnell.
 //end_no_slide
 
 
-== Scoping V //slide_only
-=== Arbeiten mit Gültigkeitsbereichen
+== Arbeiten mit Gültigkeitsbereiche (environments) //slide_only
+=== Arbeiten mit Gültigkeitsbereichen 
 
-Der Befehl, mit dem Du alle Objekte Deines aktuellen Arbeitsbereiches löschen
-kannst (entsprechend dem RStudio-Knopf mit dem Besensymbol) lautet:
+//begin_no_slide
+Ein Befehl, mit dem Du alle Objekte Deines aktuellen Arbeitsbereiches löschen
+kannst (entsprechend dem RStudio-Knopf mit dem Besensymbol footnote:[Im https://github.com/rstudio/rstudio/releases/tag/v1.1.426[Code von RStudio v1.1.426] findet sich die Funktion hinter dem Knopf  in der Datei src/cpp/session/modules/SessionEnvironment.R, sie besteht im wesentlichen aus der Zeile +
+rm(list=ls(envir=env, all.names=includeHidden), envir=env) +
+Sie wird in src/cpp/session/modules/environment/SessionEnvironment.cpp in der C++-Funktion  removeAllObjects aufgerufen.
+]) lautet:
+//end_no_slide
+
 //begin.rcode, eval = FALSE
 rm(list = ls(all.names = TRUE))
 //end.rcode
-FIXME: Nun  bin ich
+//begin_no_slide
+Nun  bin ich
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
-Nun ist der aktuelle Arbeitsbereich ein Gültigkeitsbereich, und
+Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich 
+(in **R** heissen die Gültigkeitsbereiche "environments", in **S** hiessen sie "frames") ist, und die 
+Funktionen  `ls` und `rm` nur in _einem_ Gültigkeitsbereich arbeiten, funktioniert das naheliegende
+//end_no_slide
+//begin.rcode, eval = FALSE
+wipe_clean <- function() {
+    rm(list = ls(all.names = TRUE))
+}
+//end.rcode 
+//begin_no_slide
+*nicht*.
+
+Wenn ich den Gültigkeitsbereich explizit 
+//end_no_slide
+//begin.rcode, eval = FALSE
+wipe_clean <- function() {
+    rm(list = ls(name = parent.frame(), all.names = TRUE), envir = parent.frame())
+}
+//end.rcode 
+//begin.rcode, include = FALSE
+wipe_clean <- function() {
+    rm(list = ls(name = knitr::knit_global(), all.names = TRUE), envir = knitr::knit_global())
+}
+//end.rcode 
+//begin_no_slide
+angebe, tut die Funktion, was ich wollte:
+//end_no_slide
+//begin.rcode
+ls()
+wipe_clean()
+ls()
+//end.rcode 
+
+
+
 
 == Argumente
-Defaults
+
+Ohne order, mit option
+
+//begin.rcode, eval = FALSE
+include::src/memhogs.R[]
+//end.rcode
+//begin.rcode, include = FALSE
+source("src/memhogs_a.R", local = knitr::knit_global())
+//end.rcode
+
+//begin.rcode
+a <- rep(mtcars, 1)
+b <- rep(mtcars, 100)
+c <- rep(mtcars, 1000)
+d <- rep(mtcars, 10)
+memory_hogs()
+//end.rcode
+
 
 == Return Value und Side Effects
 was ist was
+
+//begin.rcode, eval = FALSE
+include::src/wipe_clean.R[]
+//end.rcode
+//begin.rcode, include = FALSE
+source("src/wipe_clean.R", local = knitr::knit_global())
+//end.rcode
+
 
 == Modularisierung
 

@@ -159,7 +159,7 @@ und 6 überschreiben:
 Es gibt daher ein Objekt names  +value+ außerhalb der Funktion, das den Wert 19 enthält und unverändert bleibt.
 Innerhalb der Funktion legt **R** ein neues lokales Objekt, ebenfalls mit dem Namen
 +value+, an.
-Du _kannst_ auch aus einer Funktion in einen anderen Gültigkeitsbereich schreiben, wenn Du das wirklich willst. Aber das lassen wir vorerst.
+Du _kannst_ auch aus einer Funktion in einen <<_arbeiten_mit_gültigkeitsbereichen, anderen Gültigkeitsbereich>> schreiben, wenn Du das wirklich willst.
 //end_no_slide
 
 == Scoping II //slide_only
@@ -221,7 +221,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error: object 'value' not found
+## Error in my_sum_broken(1:3): object 'value' not found
 
 ----
 
@@ -271,11 +271,121 @@ Und wenn Du Funktionen <<_testing,testest>>, findest Du Fehler, die auf Scoping 
 sehr schnell. 
 //end_no_slide
 
+
+== Arbeiten mit Gültigkeitsbereiche (environments) //slide_only
+=== Arbeiten mit Gültigkeitsbereichen 
+
+//begin_no_slide
+Ein Befehl, mit dem Du alle Objekte Deines aktuellen Arbeitsbereiches löschen
+kannst (entsprechend dem RStudio-Knopf mit dem Besensymbol footnote:[Im https://github.com/rstudio/rstudio/releases/tag/v1.1.426[Code von RStudio v1.1.426] findet sich die Funktion hinter dem Knopf  in der Datei src/cpp/session/modules/SessionEnvironment.R, sie besteht im wesentlichen aus der Zeile +
+rm(list=ls(envir=env, all.names=includeHidden), envir=env) +
+Sie wird in src/cpp/session/modules/environment/SessionEnvironment.cpp in der C++-Funktion  removeAllObjects aufgerufen.
+]) lautet:
+//end_no_slide
+
+
+[source,r]
+----
+rm(list = ls(all.names = TRUE))
+----
+
+//begin_no_slide
+Nun  bin ich
+vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
+Funktion (aber keinen Knopf) hätte.
+Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich 
+(in **R** heissen die Gültigkeitsbereiche "environments", in **S** hiessen sie "frames") ist, und die 
+Funktionen  `ls` und `rm` nur in _einem_ Gültigkeitsbereich arbeiten, funktioniert das naheliegende
+//end_no_slide
+
+[source,r]
+----
+wipe_clean <- function() {
+    rm(list = ls(all.names = TRUE))
+}
+----
+
+//begin_no_slide
+*nicht*.
+
+Wenn ich den Gültigkeitsbereich explizit 
+//end_no_slide
+
+[source,r]
+----
+wipe_clean <- function() {
+    rm(list = ls(name = parent.frame(), all.names = TRUE), envir = parent.frame())
+}
+----
+
+
+//begin_no_slide
+angebe, tut die Funktion, was ich wollte:
+//end_no_slide
+
+[source,r]
+----
+ls()
+----
+
+----
+##  [1] "a"              "adjust_hooks"   "a_i"            "file_name"     
+##  [5] "knit"           "knit_out_file"  "my_sum_broken"  "my_sum_safer"  
+##  [9] "r_code_pattern" "value"          "wipe_clean"
+----
+
+[source,r]
+----
+wipe_clean()
+ls()
+----
+
+----
+## character(0)
+----
+
+
+
+
+
 == Argumente
-Defaults
+
+
+[source,r]
+----
+include::src/memhogs.R[]
+----
+
+
+
+
+[source,r]
+----
+a <- rep(mtcars, 1)
+b <- rep(mtcars, 100)
+c <- rep(mtcars, 1000)
+d <- rep(mtcars, 10)
+memory_hogs()
+----
+
+----
+## memory_hogs           a           d           b           c 
+##        3808        4424       36024      352824     3520824
+----
+
+
 
 == Return Value und Side Effects
 was ist was
+
+
+[source,r]
+----
+include::src/wipe_clean.R[]
+----
+
+
+
 
 == Modularisierung
 
