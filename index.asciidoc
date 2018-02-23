@@ -221,7 +221,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error in my_sum_broken(1:3): object 'value' not found
+## Error: object 'value' not found
 
 ----
 
@@ -318,7 +318,6 @@ wipe_clean <- function() {
 }
 ----
 
-
 //begin_no_slide
 angebe, tut die Funktion, was ich wollte:
 //end_no_slide
@@ -329,9 +328,8 @@ ls()
 ----
 
 ----
-##  [1] "a"              "adjust_hooks"   "a_i"            "file_name"     
-##  [5] "knit"           "knit_out_file"  "my_sum_broken"  "my_sum_safer"  
-##  [9] "r_code_pattern" "value"          "wipe_clean"
+## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
 ----
 
 [source,r]
@@ -350,6 +348,8 @@ ls()
 
 == Argumente
 
+Ohne order, mit option
+
 
 [source,r]
 ----
@@ -361,29 +361,94 @@ include::src/memhogs.R[]
 
 [source,r]
 ----
-a <- rep(mtcars, 1)
-b <- rep(mtcars, 100)
-c <- rep(mtcars, 1000)
-d <- rep(mtcars, 10)
+va <- rep(mtcars, 1)
+vb <- rep(mtcars, 1000)
+vc <- rep(mtcars, 2000)
+vd <- rep(mtcars, 100)
 memory_hogs()
 ----
 
 ----
-## memory_hogs           a           d           b           c 
-##        3808        4424       36024      352824     3520824
+## memory_hogs          va          vb          vc          vd 
+##        2408        4232     3432720     6864720      343920
 ----
 
-
-
-== Return Value und Side Effects
-was ist was
 
 
 [source,r]
 ----
-include::src/wipe_clean.R[]
+include::src/memhogs_arg.R[]
 ----
 
+
+
+
+[source,r]
+----
+memory_hogs()
+----
+
+----
+## memory_hogs          va          vd          vb          vc 
+##        3688        4232      343920     3432720     6864720
+----
+
+
+
+
+[source,r]
+----
+include::src/memhogs_ellipsis.R[]
+----
+
+
+
+
+[source,r]
+----
+memory_hogs()
+----
+
+----
+## memory_hogs          va          vb          vc          vd 
+##        4312        4232     3432720     6864720      343920
+----
+
+[source,r]
+----
+memory_hogs(decreasing = TRUE)
+----
+
+----
+##          vc          vb          vd memory_hogs          va 
+##     6864720     3432720      343920        4312        4232
+----
+
+
+== Return Value und Side Effects
+
+
+
+[source,r]
+----
+memory_hogs()
+----
+
+----
+##          vc          vb          vd memory_hogs          va 
+##     6864720     3432720      343920        4632        4232
+----
+
+[source,r]
+----
+rm(list = memory_hogs(verbose = FALSE)[1:2])
+memory_hogs()
+----
+
+----
+##          vd memory_hogs          va 
+##      343920        4632        4232
+----
 
 
 
@@ -527,3 +592,10 @@ covr::zero_coverage(cov)
 
 
 == Funktionen dokumentieren
+
+[source,r]
+----
+include::src/wipe_clean.R[]
+----
+
+

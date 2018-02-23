@@ -63,7 +63,7 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
 include::src/sum.R[]
 //end.rcode
 //begin.rcode, include = FALSE
-source("src/sum.R", local = knitr::knit_global())
+source("src/sum.R")
 //end.rcode
 
 //begin_no_slide
@@ -156,7 +156,7 @@ Elementes aus Versehen aus:
 include::src/my_sum_scope1.R[]
 //end.rcode
 //begin.rcode, echo = FALSE
-source("src/my_sum_scope1.R", local = knitr::knit_global())
+source("src/my_sum_scope1.R")
 //end.rcode
 //begin_no_slide
 
@@ -203,7 +203,7 @@ suchen:
 include::src/my_sum_scope2.R[]
 //end.rcode
 //begin.rcode, echo = FALSE
-source("src/my_sum_scope2.R", local = knitr::knit_global())
+source("src/my_sum_scope2.R")
 //end.rcode
 
 //begin_no_slide
@@ -254,14 +254,9 @@ wipe_clean <- function() {
 
 Wenn ich den Gültigkeitsbereich explizit 
 //end_no_slide
-//begin.rcode, eval = FALSE
+//begin.rcode
 wipe_clean <- function() {
     rm(list = ls(name = parent.frame(), all.names = TRUE), envir = parent.frame())
-}
-//end.rcode 
-//begin.rcode, include = FALSE
-wipe_clean <- function() {
-    rm(list = ls(name = knitr::knit_global(), all.names = TRUE), envir = knitr::knit_global())
 }
 //end.rcode 
 //begin_no_slide
@@ -284,26 +279,50 @@ Ohne order, mit option
 include::src/memhogs.R[]
 //end.rcode
 //begin.rcode, include = FALSE
-source("src/memhogs_a.R", local = knitr::knit_global())
+source("src/memhogs.R")
 //end.rcode
 
 //begin.rcode
-a <- rep(mtcars, 1)
-b <- rep(mtcars, 100)
-c <- rep(mtcars, 1000)
-d <- rep(mtcars, 10)
+va <- rep(mtcars, 1)
+vb <- rep(mtcars, 1000)
+vc <- rep(mtcars, 2000)
+vd <- rep(mtcars, 100)
+memory_hogs()
+//end.rcode
+
+//begin.rcode, eval = FALSE
+include::src/memhogs_arg.R[]
+//end.rcode
+//begin.rcode, include = FALSE
+source("src/memhogs_arg.R")
+//end.rcode
+
+//begin.rcode
 memory_hogs()
 //end.rcode
 
 
-== Return Value und Side Effects
-was ist was
-
 //begin.rcode, eval = FALSE
-include::src/wipe_clean.R[]
+include::src/memhogs_ellipsis.R[]
 //end.rcode
 //begin.rcode, include = FALSE
-source("src/wipe_clean.R", local = knitr::knit_global())
+source("src/memhogs_ellipsis.R")
+//end.rcode
+
+//begin.rcode
+memory_hogs()
+memory_hogs(decreasing = TRUE)
+//end.rcode
+
+== Return Value und Side Effects
+//begin.rcode, include = FALSE
+source("src/memhogs_sideeffect.R")
+//end.rcode
+
+//begin.rcode
+memory_hogs()
+rm(list = memory_hogs(verbose = FALSE)[1:2])
+memory_hogs()
 //end.rcode
 
 
@@ -381,3 +400,9 @@ covr::zero_coverage(cov)
 
 
 == Funktionen dokumentieren
+//begin.rcode, eval = FALSE
+include::src/wipe_clean.R[]
+//end.rcode
+//begin.rcode, include = FALSE
+source("src/wipe_clean.R")
+//end.rcode
