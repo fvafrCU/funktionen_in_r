@@ -339,7 +339,9 @@ Mit .Rprofile und einer Schleife
 === Als Package
 Das ist am aufwendigsten, aber auch am elegantesten.
 
-== Typentests
+== Argumententests
+
+=== Typentests
 
 //begin_no_slide
 Neben +asserthat+ gibt es auch das R-Package +checkmate+.
@@ -357,6 +359,9 @@ include::src/my_sum_assertion.R[]
 //begin.rcode, echo = FALSE
 source("src/my_sum_assertion.R")
 //end.rcode
+
+=== Auswahllisten
+match.arg
 
 == Testing
 
