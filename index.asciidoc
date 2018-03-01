@@ -62,9 +62,17 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
 
 [source,r]
 ----
-include::src/sum.R[]
+a  <- c(2, 3, 4, 10) # <1>
+value <- 0 # <2>
+for (a_i in a) { # <3>
+    value <- value + a_i  # <4>
+}
+print(value) # <5>
 ----
 
+----
+## [1] 19
+----
 
 
 //begin_no_slide
@@ -95,9 +103,14 @@ Das Ergebnis sieht dann so aus:
 
 [source,r]
 ----
-include::src/my_sum.R[]
+my_sum <- function(x) {
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
 ----
-
 
 
 
@@ -178,9 +191,15 @@ Elementes aus Versehen aus:
 
 [source,r]
 ----
-include::src/my_sum_scope1.R[]
+my_sum_broken <- function(x) {
+    # FIXME: this is accidentally commented out:
+    # value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
 ----
-
 
 //begin_no_slide
 
@@ -221,7 +240,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error: object 'value' not found
+## Error in my_sum_broken(1:3): object 'value' not found
 
 ----
 
@@ -242,9 +261,13 @@ suchen:
 
 [source,r]
 ----
-include::src/my_sum_scope2.R[]
+my_sum_safer <- function(x) {
+    for (x_i in x) {
+        value <- get("value", inherits = FALSE) + x_i 
+    }
+    return(value)
+}
 ----
-
 
 
 //begin_no_slide
@@ -329,7 +352,7 @@ ls()
 
 ----
 ## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
+## [5] "my_sum_safer"  "value"         "wipe_clean"
 ----
 
 [source,r]
@@ -353,9 +376,12 @@ Ohne order, mit option
 
 [source,r]
 ----
-include::src/memhogs.R[]
+memory_hogs <- function() {
+    z <- sapply(ls(envir = parent.frame()), 
+                function(x) object.size(get(x, envir = parent.frame())))
+    return(z)
+}
 ----
-
 
 
 
@@ -370,16 +396,20 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##        2408        4232     3432720     6864720      343920
+##        7576        4232     3432720     6864720      343920
 ----
 
 
 
 [source,r]
 ----
-include::src/memhogs_arg.R[]
+memory_hogs <- function(order = TRUE) {
+    z <- sapply(ls(envir = parent.frame()), 
+                function(x) object.size(get(x, envir = parent.frame())))
+    if (order) z <- z[order(z)]
+    return(z)
+}
 ----
-
 
 
 
@@ -389,8 +419,8 @@ memory_hogs()
 ----
 
 ----
-## memory_hogs          va          vd          vb          vc 
-##        3688        4232      343920     3432720     6864720
+##          va memory_hogs          vd          vb          vc 
+##        4232        9576      343920     3432720     6864720
 ----
 
 
@@ -398,9 +428,15 @@ memory_hogs()
 
 [source,r]
 ----
-include::src/memhogs_ellipsis.R[]
+memory_hogs <- function(...) {
+    z <- sapply(ls(envir = parent.frame()), 
+                function(x) object.size(get(x, envir = parent.frame())))
+    if (! missing(...)) {
+      z <- z[order(z, ...)]
+    }
+    return(z)
+}
 ----
-
 
 
 
@@ -411,7 +447,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##        4312        4232     3432720     6864720      343920
+##       13080        4232     3432720     6864720      343920
 ----
 
 [source,r]
@@ -421,11 +457,22 @@ memory_hogs(decreasing = TRUE)
 
 ----
 ##          vc          vb          vd memory_hogs          va 
-##     6864720     3432720      343920        4312        4232
+##     6864720     3432720      343920       48048        4232
 ----
 
 
 == Return Value und Side Effects
+
+[source,r]
+----
+memory_hogs <- function(verbose = TRUE) {
+    z <- sapply(ls(envir = parent.frame()), 
+                function(x) object.size(get(x, envir = parent.frame())))
+    z <- z[order(z, decreasing = TRUE)]
+    if (isTRUE(verbose)) print(z)
+    return(invisible(names(z)))
+}
+----
 
 
 
@@ -436,7 +483,7 @@ memory_hogs()
 
 ----
 ##          vc          vb          vd memory_hogs          va 
-##     6864720     3432720      343920        4632        4232
+##     6864720     3432720      343920       11256        4232
 ----
 
 [source,r]
@@ -447,7 +494,7 @@ memory_hogs()
 
 ----
 ##          vd memory_hogs          va 
-##      343920        4632        4232
+##      343920       47600        4232
 ----
 
 
@@ -465,7 +512,9 @@ Mit .Rprofile und einer Schleife
 === Als Package
 Das ist am aufwendigsten, aber auch am elegantesten.
 
-== Typentests
+== Argumententests
+
+=== Typentests
 
 //begin_no_slide
 Neben +asserthat+ gibt es auch das R-Package +checkmate+.
@@ -496,10 +545,19 @@ assertthat::assert_that(is.numeric("This is a string."))
 
 [source,r]
 ----
-include::src/my_sum_assertion.R[]
+my_sum <- function(x) {
+    assertthat::assert_that(is.numeric(x))
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
 ----
 
 
+=== Auswahllisten
+match.arg
 
 == Testing
 
@@ -529,9 +587,10 @@ testthat::test_that("Simple test on summation.",
 
 [source,r]
 ----
-include::src/test_my_sum.R[]
+testthat::test_that("Simple test on summation.",
+                    testthat::expect_identical(my_sum(c(2, 7)), 9)
+                    )
 ----
-
 
 
 === Test Coverage
@@ -595,7 +654,15 @@ covr::zero_coverage(cov)
 
 [source,r]
 ----
-include::src/wipe_clean.R[]
+#' Remove All Objects From an Environment
+#'
+#' @param environment The environment to be wiped.
+#' @return A character vector containing the names of objects removed.
+#' @export
+wipe_clean <- function(environment = parent.frame()) {
+    objects <- ls(name = environment, all.names = TRUE)
+    rm(list = objects, envir = environment)
+    return(invisible(objects))
+}
 ----
-
 

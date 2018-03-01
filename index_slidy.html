@@ -3914,8 +3914,11 @@ value &lt;- 0 <span style="font-style: italic"><span style="color: #9A1900"># <b
 <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (a_i in a) { <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;3&gt;</b></span></span>
     value &lt;- value + a_i  <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;4&gt;</b></span></span>
 }
-print(value) <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;5&gt;</b></span></span>
-</tt></pre></div></div>
+print(value) <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;5&gt;</b></span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 19</code></pre>
+</div></div>
 <div class="colist arabic"><ol>
 <li>
 <p>
@@ -4057,7 +4060,7 @@ print(my_sum_broken(1:3))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in my_sum_broken(1:3): object 'value' not found</span></span>
 </tt></pre></div></div>
 </div>
 </div>
@@ -4075,8 +4078,7 @@ http://www.gnu.org/software/src-highlite -->
         value &lt;- get(<span style="color: #FF0000">"value"</span>, inherits = FALSE) + x_i
     }
     return(value)
-}
-</tt></pre></div></div>
+}</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4129,7 +4131,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"</code></pre>
+## [5] "my_sum_safer"  "value"         "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4172,7 +4174,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## memory_hogs          va          vb          vc          vd
-##        2408        4232     3432720     6864720      343920</code></pre>
+##        7576        4232     3432720     6864720      343920</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4184,8 +4186,7 @@ http://www.gnu.org/software/src-highlite -->
                 function(x) object.size(get(x, envir = parent.frame())))
     <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (order) z &lt;- z[order(z)]
     return(z)
-}
-</tt></pre></div></div>
+}</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4194,8 +4195,8 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## memory_hogs          va          vd          vb          vc
-##        3688        4232      343920     3432720     6864720</code></pre>
+<pre><code>##          va memory_hogs          vd          vb          vc
+##        4232        9576      343920     3432720     6864720</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4209,8 +4210,7 @@ http://www.gnu.org/software/src-highlite -->
       z &lt;- z[order(z, ...)]
     }
     return(z)
-}
-</tt></pre></div></div>
+}</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4220,7 +4220,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>## memory_hogs          va          vb          vc          vd
-##        4312        4232     3432720     6864720      343920</code></pre>
+##       13080        4232     3432720     6864720      343920</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4231,7 +4231,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920        4312        4232</code></pre>
+##     6864720     3432720      343920       48048        4232</code></pre>
 </div></div>
 </div>
 </div>
@@ -4243,11 +4243,23 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
+<pre><tt>memory_hogs &lt;- function(verbose = TRUE) {
+    z &lt;- sapply(ls(envir = parent.frame()),
+                function(x) object.size(get(x, envir = parent.frame())))
+    z &lt;- z[order(z, decreasing = TRUE)]
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (isTRUE(verbose)) print(z)
+    return(invisible(names(z)))
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
 <pre><tt>memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920        4632        4232</code></pre>
+##     6864720     3432720      343920       11256        4232</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4259,7 +4271,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vd memory_hogs          va
-##      343920        4632        4232</code></pre>
+##      343920       47600        4232</code></pre>
 </div></div>
 </div>
 </div>
@@ -4286,8 +4298,10 @@ memory_hogs()</tt></pre></div></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_typentests">Typentests</h1>
+<h1 id="_argumententests">Argumententests</h1>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_typentests">Typentests</h3>
 <div class="paragraph"><p>assertthat und checkmate</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4326,6 +4340,11 @@ http://www.gnu.org/software/src-highlite -->
     return(value)
 }</tt></pre></div></div>
 </div>
+<div class="sect2">
+<h3 id="_auswahllisten">Auswahllisten</h3>
+<div class="paragraph"><p>match.arg</p></div>
+</div>
+</div>
 </div>
 <div class="sect1 slide">
 <h1 id="_testing">Testing</h1>
@@ -4357,9 +4376,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>,
                     testthat::expect_identical(my_sum(c(2, 7)), 9)
-                    )
-
-</tt></pre></div></div>
+                    )</tt></pre></div></div>
 </div>
 <div class="sect2">
 <h3 id="_test_coverage">Test Coverage</h3>
@@ -4441,8 +4458,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
     objects &lt;- ls(name = environment, all.names = TRUE)
     rm(list = objects, envir = environment)
     return(invisible(objects))
-}
-</tt></pre></div></div>
+}</tt></pre></div></div>
 </div>
 </div>
 </body>

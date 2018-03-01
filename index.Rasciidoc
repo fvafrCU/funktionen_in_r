@@ -59,11 +59,7 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
 
 
 == Vom Code ...
-//begin.rcode, eval = FALSE
-include::src/sum.R[]
-//end.rcode
-//begin.rcode, include = FALSE
-source("src/sum.R")
+//begin.rcode, code = readLines("src/sum.R")
 //end.rcode
 
 //begin_no_slide
@@ -91,11 +87,7 @@ Das Ergebnis sieht dann so aus:
 
 
 
-//begin.rcode, eval = FALSE
-include::src/my_sum.R[]
-//end.rcode
-//begin.rcode, echo = FALSE
-source("src/my_sum.R")
+//begin.rcode, code = readLines("src/my_sum.R")
 //end.rcode
 
 
@@ -152,11 +144,7 @@ Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, Du kommentierst
 beim Schreiben der Summenfunktion die Definition des zur Addition neutralen
 Elementes aus Versehen aus:
 //end_no_slide
-//begin.rcode, eval = FALSE
-include::src/my_sum_scope1.R[]
-//end.rcode
-//begin.rcode, echo = FALSE
-source("src/my_sum_scope1.R")
+//begin.rcode, code = readLines("src/my_sum_scope1.R")
 //end.rcode
 //begin_no_slide
 
@@ -199,11 +187,7 @@ zu schreiben (nein, das _wie_ habe ich Dir noch nicht gezeigt... ), so können w
 eine Funktion auch zwingen, beim Lesen nur nach lokalen Objekten zu
 suchen:
 //end_no_slide
-//begin.rcode, eval = FALSE
-include::src/my_sum_scope2.R[]
-//end.rcode
-//begin.rcode, echo = FALSE
-source("src/my_sum_scope2.R")
+//begin.rcode, code = readLines("src/my_sum_scope2.R")
 //end.rcode
 
 //begin_no_slide
@@ -275,11 +259,7 @@ ls()
 
 Ohne order, mit option
 
-//begin.rcode, eval = FALSE
-include::src/memhogs.R[]
-//end.rcode
-//begin.rcode, include = FALSE
-source("src/memhogs.R")
+//begin.rcode, code = readLines("src/memhogs.R")
 //end.rcode
 
 //begin.rcode
@@ -290,11 +270,7 @@ vd <- rep(mtcars, 100)
 memory_hogs()
 //end.rcode
 
-//begin.rcode, eval = FALSE
-include::src/memhogs_arg.R[]
-//end.rcode
-//begin.rcode, include = FALSE
-source("src/memhogs_arg.R")
+//begin.rcode, code = readLines("src/memhogs_arg.R")
 //end.rcode
 
 //begin.rcode
@@ -302,11 +278,7 @@ memory_hogs()
 //end.rcode
 
 
-//begin.rcode, eval = FALSE
-include::src/memhogs_ellipsis.R[]
-//end.rcode
-//begin.rcode, include = FALSE
-source("src/memhogs_ellipsis.R")
+//begin.rcode, code = readLines("src/memhogs_ellipsis.R")
 //end.rcode
 
 //begin.rcode
@@ -315,8 +287,7 @@ memory_hogs(decreasing = TRUE)
 //end.rcode
 
 == Return Value und Side Effects
-//begin.rcode, include = FALSE
-source("src/memhogs_sideeffect.R")
+//begin.rcode, code = readLines("src/memhogs_sideeffect.R")
 //end.rcode
 
 //begin.rcode
@@ -353,11 +324,7 @@ assertthat::assert_that(is.numeric(6))
 //begin.rcode
 assertthat::assert_that(is.numeric("This is a string."))
 //end.rcode
-//begin.rcode, eval = FALSE
-include::src/my_sum_assertion.R[]
-//end.rcode
-//begin.rcode, echo = FALSE
-source("src/my_sum_assertion.R")
+//begin.rcode, code = readLines("src/my_sum_assertion.R")
 //end.rcode
 
 === Auswahllisten
@@ -378,11 +345,7 @@ testthat::test_that("Simple test on summation.",
 
 
 //end.rcode
-//begin.rcode, eval = FALSE
-include::src/test_my_sum.R[]
-//end.rcode
-//begin.rcode, echo = FALSE
-source("src/test_my_sum.R")
+//begin.rcode, code = readLines("src/test_my_sum.R")
 //end.rcode
 
 === Test Coverage
@@ -405,9 +368,5 @@ covr::zero_coverage(cov)
 
 
 == Funktionen dokumentieren
-//begin.rcode, eval = FALSE
-include::src/wipe_clean.R[]
-//end.rcode
-//begin.rcode, include = FALSE
-source("src/wipe_clean.R")
+//begin.rcode, code = readLines("src/wipe_clean.R")
 //end.rcode
