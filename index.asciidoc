@@ -461,41 +461,50 @@ memory_hogs(decreasing = TRUE)
 ----
 
 
-== Return Value und Side Effects
+Anwendung:
 
 [source,r]
 ----
-memory_hogs <- function(verbose = TRUE) {
-    z <- sapply(ls(envir = parent.frame()), 
-                function(x) object.size(get(x, envir = parent.frame())))
-    z <- z[order(z, decreasing = TRUE)]
-    if (isTRUE(verbose)) print(z)
-    return(invisible(names(z)))
-}
-----
-
-
-
-[source,r]
-----
-memory_hogs()
-----
-
-----
-##          vc          vb          vd memory_hogs          va 
-##     6864720     3432720      343920       11256        4232
-----
-
-[source,r]
-----
-rm(list = memory_hogs(verbose = FALSE)[1:2])
-memory_hogs()
+rm(list = names(memory_hogs(decreasing = TRUE)[1:2]))
+memory_hogs(decreasing = TRUE)
 ----
 
 ----
 ##          vd memory_hogs          va 
-##      343920       47600        4232
+##      343920       48048        4232
 ----
+
+
+== Return Value und Side Effects
+
+[source,r]
+----
+wipe_clean <- function(environment = parent.frame()) {
+    objects <- ls(name = environment, all.names = TRUE)
+    rm(list = objects, envir = environment)
+    return(invisible(objects))
+}
+----
+
+
+[source,r]
+----
+print(wipe_clean())
+----
+
+----
+## [1] "memory_hogs" "va"          "vd"          "wipe_clean"
+----
+
+[source,r]
+----
+ls()
+----
+
+----
+## character(0)
+----
+
 
 
 

@@ -286,15 +286,20 @@ memory_hogs()
 memory_hogs(decreasing = TRUE)
 //end.rcode
 
-== Return Value und Side Effects
-//begin.rcode, code = readLines("src/memhogs_sideeffect.R")
+Anwendung:
+//begin.rcode
+rm(list = names(memory_hogs(decreasing = TRUE)[1:2]))
+memory_hogs(decreasing = TRUE)
 //end.rcode
 
-//begin.rcode
-memory_hogs()
-rm(list = memory_hogs(verbose = FALSE)[1:2])
-memory_hogs()
+== Return Value und Side Effects
+//begin.rcode, code = grep("#'", readLines("src/wipe_clean.R"), value = TRUE, invert = TRUE)
 //end.rcode
+//begin.rcode
+print(wipe_clean())
+ls()
+//end.rcode
+
 
 
 == Modularisierung

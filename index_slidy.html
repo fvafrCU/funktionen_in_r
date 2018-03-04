@@ -4233,6 +4233,19 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>##          vc          vb          vd memory_hogs          va
 ##     6864720     3432720      343920       48048        4232</code></pre>
 </div></div>
+<div class="paragraph"><p>Anwendung:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>rm(list = names(memory_hogs(decreasing = TRUE)[1:2]))
+memory_hogs(decreasing = TRUE)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##          vd memory_hogs          va
+##      343920       48048        4232</code></pre>
+</div></div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4243,35 +4256,30 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>memory_hogs &lt;- function(verbose = TRUE) {
-    z &lt;- sapply(ls(envir = parent.frame()),
-                function(x) object.size(get(x, envir = parent.frame())))
-    z &lt;- z[order(z, decreasing = TRUE)]
-    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (isTRUE(verbose)) print(z)
-    return(invisible(names(z)))
+<pre><tt>wipe_clean &lt;- function(environment = parent.frame()) {
+    objects &lt;- ls(name = environment, all.names = TRUE)
+    rm(list = objects, envir = environment)
+    return(invisible(objects))
 }</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>memory_hogs()</tt></pre></div></div>
+<pre><tt>print(wipe_clean())</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       11256        4232</code></pre>
+<pre><code>## [1] "memory_hogs" "va"          "vd"          "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>rm(list = memory_hogs(verbose = FALSE)[1:2])
-memory_hogs()</tt></pre></div></div>
+<pre><tt>ls()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>##          vd memory_hogs          va
-##      343920       47600        4232</code></pre>
+<pre><code>## character(0)</code></pre>
 </div></div>
 </div>
 </div>
