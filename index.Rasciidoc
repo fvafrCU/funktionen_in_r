@@ -257,10 +257,18 @@ ls()
 
 == Argumente
 
-Ohne order, mit option
+//begin_no_slide
+Funktionen kennen Argmumente, am besten nicht zu viele (siehe zum Beispiel <<cc>>). 
+Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie summieren soll. Der ist also ein obligatorisches Element, er hat keine Voreinstellung.
+
+Eine Funktion, die, wie `wipe_clean`, kein Argument kennt, ist Folgende:
+//end_no_slide
+
 
 //begin.rcode, code = readLines("src/memhogs.R")
 //end.rcode
+
+Diese Funktion gibt mir für jedes Objekt des Gültigkeitsbereiches, in dem ich sie aufrufe, den Speicherverbrauch aus.
 
 //begin.rcode
 va <- rep(mtcars, 1)
@@ -270,6 +278,10 @@ vd <- rep(mtcars, 100)
 memory_hogs()
 //end.rcode
 
+Bei so wenigen Objekten erkenne ich gleich, dass `vc` der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich `vc` nicht mehr unbedingt brauche, `vc` löschen sollte.
+
+Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:
+
 //begin.rcode, code = readLines("src/memhogs_arg.R")
 //end.rcode
 
@@ -277,6 +289,7 @@ memory_hogs()
 memory_hogs()
 //end.rcode
 
+Das ist ein klassisches Steuerargument, dass das Verhalten einer Funktion steuert.
 
 //begin.rcode, code = readLines("src/memhogs_ellipsis.R")
 //end.rcode
@@ -375,3 +388,8 @@ covr::zero_coverage(cov)
 == Funktionen dokumentieren
 //begin.rcode, code = readLines("src/wipe_clean.R")
 //end.rcode
+== Bibliographie
+[bibliography]
+- [[[cc]]] R.C. Martin. 2008. 'Clean Code: A Handbook of Agile Software Craftsmanship'. 
+    Pearson Education.
+

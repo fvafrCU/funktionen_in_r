@@ -4150,7 +4150,6 @@ ls()</tt></pre></div></div>
 <div class="sect1 slide">
 <h1 id="_argumente">Argumente</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>Ohne order, mit option</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4161,6 +4160,7 @@ http://www.gnu.org/software/src-highlite -->
                 function(x) object.size(get(x, envir = parent.frame())))
     return(z)
 }</tt></pre></div></div>
+<div class="paragraph"><p>Diese Funktion gibt mir für jedes Objekt des Gültigkeitsbereiches, in dem ich sie aufrufe, den Speicherverbrauch aus.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4176,6 +4176,8 @@ memory_hogs()</tt></pre></div></div>
 <pre><code>## memory_hogs          va          vb          vc          vd
 ##        7576        4232     3432720     6864720      343920</code></pre>
 </div></div>
+<div class="paragraph"><p>Bei so wenigen Objekten erkenne ich gleich, dass <code>vc</code> der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich <code>vc</code> nicht mehr unbedingt brauche, <code>vc</code> löschen sollte.</p></div>
+<div class="paragraph"><p>Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4198,6 +4200,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>##          va memory_hogs          vd          vb          vc
 ##        4232        9576      343920     3432720     6864720</code></pre>
 </div></div>
+<div class="paragraph"><p>Das ist ein klassisches Steuerargument, dass das Verhalten einer Funktion steuert.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4467,6 +4470,19 @@ wipe_clean &lt;- function(environment = parent.frame()) {
     rm(list = objects, envir = environment)
     return(invisible(objects))
 }</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_bibliographie">Bibliographie</h1>
+<div class="sectionbody">
+<div class="ulist bibliography"><ul>
+<li>
+<p>
+<a id="cc"></a>[cc] R.C. Martin. 2008. <em>Clean Code: A Handbook of Agile Software Craftsmanship</em>.
+    Pearson Education.
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 </body>
