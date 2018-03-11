@@ -261,6 +261,8 @@ ls()
 Funktionen kennen Argmumente, am besten nicht zu viele (siehe zum Beispiel <<cc>>). 
 Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie summieren soll. Der ist also ein obligatorisches Element, er hat keine Voreinstellung.
 
+FIXME: obligat: was, optional: wie, erstere sollten keinen default haben, letzteres schon.
+
 Eine Funktion, die, wie `wipe_clean`, kein Argument kennt, ist Folgende:
 //end_no_slide
 
@@ -306,6 +308,8 @@ memory_hogs(decreasing = TRUE)
 //end.rcode
 
 == Return Value und Side Effects
+FIXME: Rückgabewert der Summenfuntion, wipe_clean hat gar keinen expliziten Rückgabewert, ihre eigentliche Funktionalität sind Nebenwirkungen.
+
 //begin.rcode, code = grep("#'", readLines("src/wipe_clean.R"), value = TRUE, invert = TRUE)
 //end.rcode
 //begin.rcode
