@@ -28,14 +28,14 @@ Naja, ums Schreiben von Funktionen in der Programmiersprache **R**.
 === Warum Funktionen?
 
 * Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
-* Dann musst Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer 
-  Stelle korrigieren.
+* Damit Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer 
+  Stelle korrigieren musst.
 
 === Wann Funktionen?
 
 Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer
 Stelle einfügst ohne ihn stark zu verändern, solltest Du darüber nachdenken, 
-eine Funktion (oder mehrere) aus ihm  zu schreiben. 
+eine (oder mehrere) Funktion(en)  aus ihm  zu machen. 
 
 
 == Eine neue Summenfunktion für R
@@ -225,7 +225,7 @@ Nun  bin ich
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich 
-(in **R** heissen die Gültigkeitsbereiche "environments", in **S** hiessen sie "frames") ist, und die 
+(in **R** heissen die Gültigkeitsbereiche "environments", in **S** hie&szlig;en sie "frames") ist, und die 
 Funktionen  `ls` und `rm` nur in _einem_ Gültigkeitsbereich arbeiten, funktioniert das naheliegende
 //end_no_slide
 //begin.rcode, eval = FALSE
@@ -259,9 +259,8 @@ ls()
 
 //begin_no_slide
 Funktionen kennen Argmumente, am besten nicht zu viele (siehe zum Beispiel <<cc>>). 
-Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie summieren soll. Der ist also ein obligatorisches Element, er hat keine Voreinstellung.
+Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie summieren soll. Der ist also ein obligatorisches Element, er sollte keine Voreinstellung haben (und hat auch keine).
 
-FIXME: obligat: was, optional: wie, erstere sollten keinen default haben, letzteres schon.
 
 Eine Funktion, die, wie `wipe_clean`, kein Argument kennt, ist Folgende:
 //end_no_slide
@@ -270,7 +269,9 @@ Eine Funktion, die, wie `wipe_clean`, kein Argument kennt, ist Folgende:
 //begin.rcode, code = readLines("src/memhogs.R")
 //end.rcode
 
+//begin_no_slide
 Diese Funktion gibt mir für jedes Objekt des Gültigkeitsbereiches, in dem ich sie aufrufe, den Speicherverbrauch aus.
+//end_no_slide
 
 //begin.rcode
 va <- rep(mtcars, 1)
@@ -280,9 +281,11 @@ vd <- rep(mtcars, 100)
 memory_hogs()
 //end.rcode
 
+//begin_no_slide
 Bei so wenigen Objekten erkenne ich gleich, dass `vc` der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich `vc` nicht mehr unbedingt brauche, `vc` löschen sollte.
 
 Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:
+//end_no_slide
 
 //begin.rcode, code = readLines("src/memhogs_arg.R")
 //end.rcode
@@ -291,7 +294,13 @@ Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktions
 memory_hogs()
 //end.rcode
 
-Das ist ein klassisches Steuerargument, dass das Verhalten einer Funktion steuert.
+//begin_no_slide
+Das ist ein klassisches (optionales) Steuerargument, das das Verhalten einer Funktion steuert.
+Steuerargumente sollten eine sinnvolle Voreinstellung haben.
+
+Da die `memory_hogs` intern nun die Funktion `order` aufruft, k&ouml;nnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen. 
+Das k&ouml;nnen wir entweder explizit tun, oder wir benutzen ein spezielles, _Ellipsis_ genanntes Argument, das durch drei Punkte (`...`) aufgerufen wird:
+//end_no_slide
 
 //begin.rcode, code = readLines("src/memhogs_ellipsis.R")
 //end.rcode
@@ -301,14 +310,56 @@ memory_hogs()
 memory_hogs(decreasing = TRUE)
 //end.rcode
 
-Anwendung:
+//begin_no_slide
+Jetzt k&ouml;nnen wir die R&uuml;ckgabe unserer Funktion nutzen, um die beiden gr&ouml;&szlig;ten Speicherfresser zu l&ouml;schen:
+//end_no_slide
+
 //begin.rcode
 rm(list = names(memory_hogs(decreasing = TRUE)[1:2]))
-memory_hogs(decreasing = TRUE)
+memory_hogs()
 //end.rcode
 
+Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:
+
+- Obligatorische. Sie sollten keine Voreinstellungen kennen und &uuml;bergeben &uuml;blicherweise Objekte, die von der Funktion verarbeitet werden sollen.
+- Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion
+- Die _Ellipsis_, um Argumente an andere Funktionen weiterzureichen.
+
 == Return Value und Side Effects
-FIXME: Rückgabewert der Summenfuntion, wipe_clean hat gar keinen expliziten Rückgabewert, ihre eigentliche Funktionalität sind Nebenwirkungen.
+//begin_no_slide
+Jede Funktion in **R** gibt einen Wert zur&uuml;ck, falls sie nicht mit einem Fehler abbricht.
+Wenn wir keinen R&uuml;ckgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zur&uuml;ckgegeben wurde.
+Es ist daher sicher nicht schlecht, wenn Du versucht, den R&uuml;ckgabewert explizit anzugeben.
+Unsere Summenfunktion k&ouml;nnte auch so aussehen:
+//end_no_slide
+
+//begin.rcode
+my_sum <- function(x) {
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+}
+//end.rcode
+
+//begin_no_slide
+Das ist zwar (um eine Zeile) k&uuml;rzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
+Und damit mehr schlechter als eine Zeile k&uuml;rzer mehr besser ist, capisce?
+
+Komplexere Funktionen haben oft Nebenwirkungen (side effects)
+Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist R&uuml;ckgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zur&uuml;ck (und das selbst dann, wenn es gar nichts zu l&ouml;schen gibt), das erkennen wir, wenn wir ihren R&ouml;ckgabewert explizit drucken:
+//end_no_slide
+//begin.rcode
+a <- "This is a string"
+print(rm(a))
+print(rm())
+//end.rcode
+//begin_no_slide
+
+Das hei&szlig;t also, dass unsere Funktion `wipe_clean`, als Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`), `invisible(NULL)`, zur&uuml;ckgibt.
+
+Das k&ouml;nnen wir &auml;ndern, indem wir einen expliziten R&uuml;ckgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den G&uuml;tigkeitsbereich, indem die Funktion l&auml;scht, in ein Steuerargument mit Voreinstellung um):
+//end_no_slide
 
 //begin.rcode, code = grep("#'", readLines("src/wipe_clean.R"), value = TRUE, invert = TRUE)
 //end.rcode
@@ -316,10 +367,10 @@ FIXME: Rückgabewert der Summenfuntion, wipe_clean hat gar keinen expliziten Rü
 print(wipe_clean())
 ls()
 //end.rcode
+Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber nun gut.
 
 
 
-== Modularisierung
 
 == Funktionen verwalten
 

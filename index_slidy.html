@@ -3876,8 +3876,8 @@ Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
 </li>
 <li>
 <span>
-Dann musst Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer
-  Stelle korrigieren.
+Damit Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer
+  Stelle korrigieren musst.
 </span>
 </li>
 </ul>
@@ -3886,7 +3886,7 @@ Dann musst Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer
 <h3 id="_wann_funktionen">Wann Funktionen?</h3>
 <div class="paragraph"><p>Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer
 Stelle einfügst ohne ihn stark zu verändern, solltest Du darüber nachdenken,
-eine Funktion (oder mehrere) aus ihm  zu schreiben.</p></div>
+eine (oder mehrere) Funktion(en)  aus ihm  zu machen.</p></div>
 </div>
 </div>
 </div>
@@ -4060,7 +4060,7 @@ print(my_sum_broken(1:3))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in my_sum_broken(1:3): object 'value' not found</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
 </tt></pre></div></div>
 </div>
 </div>
@@ -4131,7 +4131,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "value"         "wipe_clean"</code></pre>
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4160,7 +4160,6 @@ http://www.gnu.org/software/src-highlite -->
                 function(x) object.size(get(x, envir = parent.frame())))
     return(z)
 }</tt></pre></div></div>
-<div class="paragraph"><p>Diese Funktion gibt mir für jedes Objekt des Gültigkeitsbereiches, in dem ich sie aufrufe, den Speicherverbrauch aus.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4176,8 +4175,6 @@ memory_hogs()</tt></pre></div></div>
 <pre><code>## memory_hogs          va          vb          vc          vd
 ##        7576        4232     3432720     6864720      343920</code></pre>
 </div></div>
-<div class="paragraph"><p>Bei so wenigen Objekten erkenne ich gleich, dass <code>vc</code> der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich <code>vc</code> nicht mehr unbedingt brauche, <code>vc</code> löschen sollte.</p></div>
-<div class="paragraph"><p>Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4200,7 +4197,6 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>##          va memory_hogs          vd          vb          vc
 ##        4232        9576      343920     3432720     6864720</code></pre>
 </div></div>
-<div class="paragraph"><p>Das ist ein klassisches Steuerargument, dass das Verhalten einer Funktion steuert.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4234,27 +4230,75 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       48048        4232</code></pre>
+##     6864720     3432720      343920       13080        4232</code></pre>
 </div></div>
-<div class="paragraph"><p>Anwendung:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>rm(list = names(memory_hogs(decreasing = TRUE)[1:2]))
-memory_hogs(decreasing = TRUE)</tt></pre></div></div>
+memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>##          vd memory_hogs          va
-##      343920       48048        4232</code></pre>
+<pre><code>## memory_hogs          va          vd
+##       13080        4232      343920</code></pre>
 </div></div>
+<div class="paragraph"><p>Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
+<ul class="">
+<li>
+<span>
+Obligatorische. Sie sollten keine Voreinstellungen kennen und &uuml;bergeben &uuml;blicherweise Objekte, die von der Funktion verarbeitet werden sollen.
+</span>
+</li>
+<li>
+<span>
+Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion
+</span>
+</li>
+<li>
+<span>
+Die <em>Ellipsis</em>, um Argumente an andere Funktionen weiterzureichen.
+</span>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect1 slide">
 <h1 id="_return_value_und_side_effects">Return Value und Side Effects</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>FIXME: Rückgabewert der Summenfuntion, wipe_clean hat gar keinen expliziten Rückgabewert, ihre eigentliche Funktionalität sind Nebenwirkungen.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum &lt;- function(x) {
+    value &lt;- 0
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
+        value &lt;- value + x_i
+    }
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>a &lt;- <span style="color: #FF0000">"This is a string"</span>
+print(rm(a))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## NULL</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(rm())</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## NULL</code></pre>
+</div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4273,7 +4317,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>print(wipe_clean())</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "memory_hogs" "va"          "vd"          "wipe_clean"</code></pre>
+<pre><code>## [1] "memory_hogs" "my_sum"      "va"          "vd"          "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4285,11 +4329,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## character(0)</code></pre>
 </div></div>
-</div>
-</div>
-<div class="sect1 slide">
-<h1 id="_modularisierung">Modularisierung</h1>
-<div class="sectionbody">
+<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber nun gut.</p></div>
 </div>
 </div>
 <div class="sect1 slide">

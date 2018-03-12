@@ -808,8 +808,8 @@ Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
 </li>
 <li>
 <p>
-Dann musst Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer
-  Stelle korrigieren.
+Damit Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer
+  Stelle korrigieren musst.
 </p>
 </li>
 </ul></div>
@@ -818,7 +818,7 @@ Dann musst Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer
 <h3 id="_wann_funktionen">1.3. Wann Funktionen?</h3>
 <div class="paragraph"><p>Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer
 Stelle einfügst ohne ihn stark zu verändern, solltest Du darüber nachdenken,
-eine Funktion (oder mehrere) aus ihm  zu schreiben.</p></div>
+eine (oder mehrere) Funktion(en)  aus ihm  zu machen.</p></div>
 </div>
 </div>
 </div>
@@ -1016,7 +1016,7 @@ print(my_sum_broken(1:3))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in my_sum_broken(1:3): object 'value' not found</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>erhälst Du einen Fehler, weil <strong>R</strong> auch außerhalb der Funktion kein Objekt
 names <code>value</code> finden kann. Und diesen Fehler erwarten wir ja eigentlich, wenn
@@ -1074,7 +1074,7 @@ http://www.gnu.org/software/src-highlite -->
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich
-(in <strong>R</strong> heissen die Gültigkeitsbereiche "environments", in <strong>S</strong> hiessen sie "frames") ist, und die
+(in <strong>R</strong> heissen die Gültigkeitsbereiche "environments", in <strong>S</strong> hie&szlig;en sie "frames") ist, und die
 Funktionen  <code>ls</code> und <code>rm</code> nur in <em>einem</em> Gültigkeitsbereich arbeiten, funktioniert das naheliegende</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1104,7 +1104,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "value"         "wipe_clean"</code></pre>
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1124,8 +1124,7 @@ ls()</tt></pre></div></div>
 <h2 id="_argumente">6. Argumente</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Funktionen kennen Argmumente, am besten nicht zu viele (siehe zum Beispiel <a href="#cc">[cc]</a>).
-Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie summieren soll. Der ist also ein obligatorisches Element, er hat keine Voreinstellung.</p></div>
-<div class="paragraph"><p>FIXME: obligat: was, optional: wie, erstere sollten keinen default haben, letzteres schon.</p></div>
+Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie summieren soll. Der ist also ein obligatorisches Element, er sollte keine Voreinstellung haben (und hat auch keine).</p></div>
 <div class="paragraph"><p>Eine Funktion, die, wie <code>wipe_clean</code>, kein Argument kennt, ist Folgende:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1177,7 +1176,10 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>##          va memory_hogs          vd          vb          vc
 ##        4232        9576      343920     3432720     6864720</code></pre>
 </div></div>
-<div class="paragraph"><p>Das ist ein klassisches Steuerargument, dass das Verhalten einer Funktion steuert.</p></div>
+<div class="paragraph"><p>Das ist ein klassisches (optionales) Steuerargument, das das Verhalten einer Funktion steuert.
+Steuerargumente sollten eine sinnvolle Voreinstellung haben.</p></div>
+<div class="paragraph"><p>Da die <code>memory_hogs</code> intern nun die Funktion <code>order</code> aufruft, k&ouml;nnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen.
+Das k&ouml;nnen wir entweder explizit tun, oder wir benutzen ein spezielles, <em>Ellipsis</em> genanntes Argument, das durch drei Punkte (<code>...</code>) aufgerufen wird:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1211,27 +1213,86 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       48048        4232</code></pre>
+##     6864720     3432720      343920       13080        4232</code></pre>
 </div></div>
-<div class="paragraph"><p>Anwendung:</p></div>
+<div class="paragraph"><p>Jetzt k&ouml;nnen wir die R&uuml;ckgabe unserer Funktion nutzen, um die beiden gr&ouml;&szlig;ten Speicherfresser zu l&ouml;schen:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>rm(list = names(memory_hogs(decreasing = TRUE)[1:2]))
-memory_hogs(decreasing = TRUE)</tt></pre></div></div>
+memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>##          vd memory_hogs          va
-##      343920       48048        4232</code></pre>
+<pre><code>## memory_hogs          va          vd
+##       13080        4232      343920</code></pre>
 </div></div>
+<div class="paragraph"><p>Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Obligatorische. Sie sollten keine Voreinstellungen kennen und &uuml;bergeben &uuml;blicherweise Objekte, die von der Funktion verarbeitet werden sollen.
+</p>
+</li>
+<li>
+<p>
+Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion
+</p>
+</li>
+<li>
+<p>
+Die <em>Ellipsis</em>, um Argumente an andere Funktionen weiterzureichen.
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_return_value_und_side_effects">7. Return Value und Side Effects</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>FIXME: Rückgabewert der Summenfuntion, wipe_clean hat gar keinen expliziten Rückgabewert, ihre eigentliche Funktionalität sind Nebenwirkungen.</p></div>
+<div class="paragraph"><p>Jede Funktion in <strong>R</strong> gibt einen Wert zur&uuml;ck, falls sie nicht mit einem Fehler abbricht.
+Wenn wir keinen R&uuml;ckgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zur&uuml;ckgegeben wurde.
+Es ist daher sicher nicht schlecht, wenn Du versucht, den R&uuml;ckgabewert explizit anzugeben.
+Unsere Summenfunktion k&ouml;nnte auch so aussehen:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum &lt;- function(x) {
+    value &lt;- 0
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
+        value &lt;- value + x_i
+    }
+}</tt></pre></div></div>
+<div class="paragraph"><p>Das ist zwar (um eine Zeile) k&uuml;rzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
+Und damit mehr schlechter als eine Zeile k&uuml;rzer mehr besser ist, capisce?</p></div>
+<div class="paragraph"><p>Komplexere Funktionen haben oft Nebenwirkungen (side effects)
+Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist R&uuml;ckgabewert sogar belanglos. Die Funktion <code>rm</code> gibt beispielsweise unsichtbar <code>NULL</code> zur&uuml;ck (und das selbst dann, wenn es gar nichts zu l&ouml;schen gibt), das erkennen wir, wenn wir ihren R&ouml;ckgabewert explizit drucken:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>a &lt;- <span style="color: #FF0000">"This is a string"</span>
+print(rm(a))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## NULL</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(rm())</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## NULL</code></pre>
+</div></div>
+<div class="paragraph"><p>Das hei&szlig;t also, dass unsere Funktion <code>wipe_clean</code>, als Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion <code>rm</code>), <code>invisible(NULL)</code>, zur&uuml;ckgibt.</p></div>
+<div class="paragraph"><p>Das k&ouml;nnen wir &auml;ndern, indem wir einen expliziten R&uuml;ckgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den G&uuml;tigkeitsbereich, indem die Funktion l&auml;scht, in ein Steuerargument mit Voreinstellung um):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1250,7 +1311,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>print(wipe_clean())</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "memory_hogs" "va"          "vd"          "wipe_clean"</code></pre>
+<pre><code>## [1] "memory_hogs" "my_sum"      "va"          "vd"          "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1262,35 +1323,31 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## character(0)</code></pre>
 </div></div>
+<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber nun gut.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modularisierung">8. Modularisierung</h2>
-<div class="sectionbody">
-</div>
-</div>
-<div class="sect1">
-<h2 id="_funktionen_verwalten">9. Funktionen verwalten</h2>
+<h2 id="_funktionen_verwalten">8. Funktionen verwalten</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_lokal">9.1. Lokal</h3>
+<h3 id="_lokal">8.1. Lokal</h3>
 <div class="paragraph"><p>Mit source</p></div>
 </div>
 <div class="sect2">
-<h3 id="_global">9.2. global</h3>
+<h3 id="_global">8.2. global</h3>
 <div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
 </div>
 <div class="sect2">
-<h3 id="_als_package">9.3. Als Package</h3>
+<h3 id="_als_package">8.3. Als Package</h3>
 <div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_argumententests">10. Argumententests</h2>
+<h2 id="_argumententests">9. Argumententests</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_typentests">10.1. Typentests</h3>
+<h3 id="_typentests">9.1. Typentests</h3>
 <div class="paragraph"><p>Neben <code>asserthat</code> gibt es auch das R-Package <code>checkmate</code>.
 
 assertthat und checkmate</p></div>
@@ -1332,17 +1389,17 @@ http://www.gnu.org/software/src-highlite -->
 }</tt></pre></div></div>
 </div>
 <div class="sect2">
-<h3 id="_auswahllisten">10.2. Auswahllisten</h3>
+<h3 id="_auswahllisten">9.2. Auswahllisten</h3>
 <div class="paragraph"><p>match.arg</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_testing">11. Testing</h2>
+<h2 id="_testing">10. Testing</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Neben <code>testthat</code> gibt es auch das R-Package <code>RUnit</code>.</p></div>
 <div class="sect2">
-<h3 id="_testthat">11.1. Testthat</h3>
+<h3 id="_testthat">10.1. Testthat</h3>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1371,7 +1428,7 @@ http://www.gnu.org/software/src-highlite -->
                     )</tt></pre></div></div>
 </div>
 <div class="sect2">
-<h3 id="_test_coverage">11.2. Test Coverage</h3>
+<h3 id="_test_coverage">10.2. Test Coverage</h3>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1429,12 +1486,12 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1">
-<h2 id="_cleanr">12. cleanr</h2>
+<h2 id="_cleanr">11. cleanr</h2>
 <div class="sectionbody">
 </div>
 </div>
 <div class="sect1">
-<h2 id="_funktionen_dokumentieren">13. Funktionen dokumentieren</h2>
+<h2 id="_funktionen_dokumentieren">12. Funktionen dokumentieren</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1454,7 +1511,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bibliographie">14. Bibliographie</h2>
+<h2 id="_bibliographie">13. Bibliographie</h2>
 <div class="sectionbody">
 <div class="ulist bibliography"><ul>
 <li>
@@ -1471,7 +1528,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-11 21:14:13 CET
+ 2018-03-12 16:34:46 CET
 </div>
 </div>
 </body>
