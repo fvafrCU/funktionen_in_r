@@ -437,7 +437,7 @@ print(cov)
 covr::zero_coverage(cov)
 //end.rcode
 
-== cleanr
+== cleanr, lintr, cyclocomp
 
 
 == Funktionen dokumentieren
