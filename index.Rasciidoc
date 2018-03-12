@@ -377,7 +377,7 @@ Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;c
 === Lokal
 Mit source
 
-===  global 
+===  Global 
 Mit .Rprofile und einer Schleife
 
 === Als Package
@@ -437,8 +437,44 @@ print(cov)
 covr::zero_coverage(cov)
 //end.rcode
 
-== cleanr, lintr, cyclocomp
+== Sch&ouml;ner Programmieren
+//begin_no_slide
+Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
+die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. 
 
+Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende, unsch&ouml;ne Funktion programmiert:
+//end_no_slide
+
+//begin.rcode, code = readLines("src/code.R"), eval = FALSE
+//end.rcode
+
+
+//begin_no_slide
+=== Entflusen mit lintr
+//end_no_slide
+== Entflusen mit lintr //slide_only
+
+//begin.rcode
+lintr::lint("src/code.R")
+//end.rcode
+
+//begin_no_slide
+=== Code s&auml;ubern mit cleanr
+//end_no_slide
+== Code s&auml;ubern mit cleanr //slide_only
+
+//begin.rcode
+print(suppressWarnings(cleanr::check_file("src/code.R")))
+//end.rcode
+
+//begin_no_slide
+=== Cyclomatic Complexity pr&uuml;fen mit cyclocomp
+//end_no_slide
+== Cyclomatic Complexity pr&uuml;fen mit cyclocomp //slide_only
+
+//begin.rcode
+cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
+//end.rcode
 
 == Funktionen dokumentieren
 //begin.rcode, code = readLines("src/wipe_clean.R")

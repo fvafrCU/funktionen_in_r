@@ -240,7 +240,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error: object 'value' not found
+## Error in my_sum_broken(1:3): object 'value' not found
 
 ----
 
@@ -352,7 +352,7 @@ ls()
 
 ----
 ## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
+## [5] "my_sum_safer"  "value"         "wipe_clean"
 ----
 
 [source,r]
@@ -481,7 +481,7 @@ memory_hogs(decreasing = TRUE)
 
 ----
 ##          vc          vb          vd memory_hogs          va 
-##     6864720     3432720      343920       13080        4232
+##     6864720     3432720      343920       48048        4232
 ----
 
 
@@ -498,7 +498,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vd 
-##       13080        4232      343920
+##       48048        4232      343920
 ----
 
 
@@ -601,7 +601,7 @@ Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;c
 === Lokal
 Mit source
 
-===  global 
+===  Global 
 Mit .Rprofile und einer Schleife
 
 === Als Package
@@ -742,7 +742,96 @@ covr::zero_coverage(cov)
 ----
 
 
-== cleanr
+== Sch&ouml;ner Programmieren
+//begin_no_slide
+Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
+die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. 
+
+Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende, unsch&ouml;ne Funktion programmiert:
+//end_no_slide
+
+
+[source,r]
+----
+foo <- function(this, func, has, way, too, many, args) {
+    if (TRUE) {
+        if (TRUE) {
+            if (TRUE) {
+                if (TRUE) {
+                    if (TRUE) {
+                        print(foo)
+                    } else {
+                        print(bar)
+                    }
+                } else {
+                    print(bar)
+                }
+            } else {
+                print(bar)
+            }
+        } else {
+            print(bar)
+        }
+    } else {
+        print(bar)
+    }
+    return(invisible(NULL))
+}
+----
+
+
+
+//begin_no_slide
+=== Entflusen mit lintr
+//end_no_slide
+== Entflusen mit lintr //slide_only
+
+
+[source,r]
+----
+lintr::lint("src/code.R")
+----
+
+----
+## src/code.R:25:1: style: Trailing blank lines are superfluous.
+## 
+## ^
+----
+
+
+//begin_no_slide
+=== Code s&auml;ubern mit cleanr
+//end_no_slide
+== Code s&auml;ubern mit cleanr //slide_only
+
+
+[source,r]
+----
+print(suppressWarnings(cleanr::check_file("src/code.R")))
+----
+
+[source,r]
+----
+## Error in cleanr::check_file("src/code.R"):  src/code.R  foo  found 7 arguments, max_num_arguments was 5
+## foo  found nesting depth 4, max_nesting_depth was 3
+
+----
+
+
+//begin_no_slide
+=== Cyclomatic Complexity pr&uuml;fen mit cyclocomp
+//end_no_slide
+== Cyclomatic Complexity pr&uuml;fen mit cyclocomp //slide_only
+
+
+[source,r]
+----
+cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
+----
+
+----
+## [1] 6
+----
 
 
 == Funktionen dokumentieren

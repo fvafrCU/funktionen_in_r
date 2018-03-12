@@ -4060,7 +4060,7 @@ print(my_sum_broken(1:3))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in my_sum_broken(1:3): object 'value' not found</span></span>
 </tt></pre></div></div>
 </div>
 </div>
@@ -4131,7 +4131,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"</code></pre>
+## [5] "my_sum_safer"  "value"         "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4230,7 +4230,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       13080        4232</code></pre>
+##     6864720     3432720      343920       48048        4232</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4242,7 +4242,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## memory_hogs          va          vd
-##       13080        4232      343920</code></pre>
+##       48048        4232      343920</code></pre>
 </div></div>
 <div class="paragraph"><p>Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
 <ul class="">
@@ -4340,7 +4340,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Mit source</p></div>
 </div>
 <div class="sect2">
-<h3 id="_global">global</h3>
+<h3 id="_global">Global</h3>
 <div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
 </div>
 <div class="sect2">
@@ -4489,8 +4489,88 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_cleanr">cleanr</h1>
+<h1 id="_sch_ouml_ner_programmieren">Sch&ouml;ner Programmieren</h1>
 <div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>foo &lt;- function(this, func, has, way, too, many, args) {
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+        <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+            <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+                <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+                    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+                        print(foo)
+                    } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+                        print(bar)
+                    }
+                } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+                    print(bar)
+                }
+            } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+                print(bar)
+            }
+        } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+            print(bar)
+        }
+    } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+        print(bar)
+    }
+    return(invisible(NULL))
+}</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_entflusen_mit_lintr">Entflusen mit lintr</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>lintr::lint(<span style="color: #FF0000">"src/code.R"</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## src/code.R:25:1: style: Trailing blank lines are superfluous.
+##
+## ^</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_code_s_auml_ubern_mit_cleanr">Code s&auml;ubern mit cleanr</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(suppressWarnings(cleanr::check_file(<span style="color: #FF0000">"src/code.R"</span>)))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file("src/code.R"):  src/code.R  foo  found 7 arguments, max_num_arguments was 5</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## foo  found nesting depth 4, max_nesting_depth was 3</span></span>
+</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_cyclomatic_complexity_pr_uuml_fen_mit_cyclocomp">Cyclomatic Complexity pr&uuml;fen mit cyclocomp</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>cyclocomp::cyclocomp(parse(text = readLines(<span style="color: #FF0000">"src/code.R"</span>)))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 6</code></pre>
+</div></div>
 </div>
 </div>
 <div class="sect1 slide">

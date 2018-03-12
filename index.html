@@ -1016,7 +1016,7 @@ print(my_sum_broken(1:3))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in my_sum_broken(1:3): object 'value' not found</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>erhälst Du einen Fehler, weil <strong>R</strong> auch außerhalb der Funktion kein Objekt
 names <code>value</code> finden kann. Und diesen Fehler erwarten wir ja eigentlich, wenn
@@ -1104,7 +1104,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"</code></pre>
+## [5] "my_sum_safer"  "value"         "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1213,7 +1213,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       13080        4232</code></pre>
+##     6864720     3432720      343920       48048        4232</code></pre>
 </div></div>
 <div class="paragraph"><p>Jetzt k&ouml;nnen wir die R&uuml;ckgabe unserer Funktion nutzen, um die beiden gr&ouml;&szlig;ten Speicherfresser zu l&ouml;schen:</p></div>
 <div class="listingblock">
@@ -1226,7 +1226,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## memory_hogs          va          vd
-##       13080        4232      343920</code></pre>
+##       48048        4232      343920</code></pre>
 </div></div>
 <div class="paragraph"><p>Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
 <div class="ulist"><ul>
@@ -1334,7 +1334,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Mit source</p></div>
 </div>
 <div class="sect2">
-<h3 id="_global">8.2. global</h3>
+<h3 id="_global">8.2. Global</h3>
 <div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
 </div>
 <div class="sect2">
@@ -1486,8 +1486,85 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1">
-<h2 id="_cleanr">11. cleanr</h2>
+<h2 id="_sch_ouml_ner_programmieren">11. Sch&ouml;ner Programmieren</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen,
+die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben.</p></div>
+<div class="paragraph"><p>Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende, unsch&ouml;ne Funktion programmiert:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>foo &lt;- function(this, func, has, way, too, many, args) {
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+        <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+            <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+                <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+                    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+                        print(foo)
+                    } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+                        print(bar)
+                    }
+                } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+                    print(bar)
+                }
+            } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+                print(bar)
+            }
+        } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+            print(bar)
+        }
+    } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+        print(bar)
+    }
+    return(invisible(NULL))
+}</tt></pre></div></div>
+<div class="sect2">
+<h3 id="_entflusen_mit_lintr">11.1. Entflusen mit lintr</h3>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>lintr::lint(<span style="color: #FF0000">"src/code.R"</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## src/code.R:25:1: style: Trailing blank lines are superfluous.
+##
+## ^</code></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_code_s_auml_ubern_mit_cleanr">11.2. Code s&auml;ubern mit cleanr</h3>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(suppressWarnings(cleanr::check_file(<span style="color: #FF0000">"src/code.R"</span>)))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file("src/code.R"):  src/code.R  foo  found 7 arguments, max_num_arguments was 5</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## foo  found nesting depth 4, max_nesting_depth was 3</span></span>
+</tt></pre></div></div>
+</div>
+<div class="sect2">
+<h3 id="_cyclomatic_complexity_pr_uuml_fen_mit_cyclocomp">11.3. Cyclomatic Complexity pr&uuml;fen mit cyclocomp</h3>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>cyclocomp::cyclocomp(parse(text = readLines(<span style="color: #FF0000">"src/code.R"</span>)))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 6</code></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1528,7 +1605,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-12 16:34:46 CET
+ 2018-03-12 23:29:32 CET
 </div>
 </div>
 </body>
