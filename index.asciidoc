@@ -742,12 +742,33 @@ covr::zero_coverage(cov)
 ----
 
 
+=== Nebenwirkungen testen
+
+[source,r]
+----
+cov <- covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean_broken.R")
+print(cov)
+----
+
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/wipe_clean_broken.R: 100.00%
+
+----
+
+
 == Sch&ouml;ner Programmieren
 //begin_no_slide
 Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
 die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. 
 
-Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende, unsch&ouml;ne Funktion programmiert:
+Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende, unsch&ouml;ne Funktion geschrieben:
 //end_no_slide
 
 
@@ -759,21 +780,25 @@ foo <- function(this, func, has, way, too, many, args) {
             if (TRUE) {
                 if (TRUE) {
                     if (TRUE) {
-                        print(foo)
+                        print("Foo.")
                     } else {
-                        print(bar)
+                        stop("Foobar!")
                     }
                 } else {
-                    print(bar)
+                    stop("Foobar!")
                 }
             } else {
-                print(bar)
+                if (TRUE) {
+                    print("Foo.")
+                } else {
+                    stop("Foobar!")
+                }
             }
         } else {
-            print(bar)
+            stop("Foobar!")
         }
     } else {
-        print(bar)
+        stop("Foobar!")
     }
     return(invisible(NULL))
 }
@@ -793,7 +818,7 @@ lintr::lint("src/code.R")
 ----
 
 ----
-## src/code.R:25:1: style: Trailing blank lines are superfluous.
+## src/code.R:29:1: style: Trailing blank lines are superfluous.
 ## 
 ## ^
 ----
@@ -820,6 +845,16 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 
 //begin_no_slide
 === Cyclomatic Complexity pr&uuml;fen mit cyclocomp
+
+McCabes "cyclomatische Komplexit&auml;t" (<<cyc>>) mi&szlig;t die 
+Komplexit&auml;t von Programmcode.
+Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.
+
+Insbesondere gibt uns die "cyclomatische Komplexit&auml;t" eine Idee davon, wie viele Testfälle wir 
+für eine Funktion schreiben sollten 
+(genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige [branch coverage]https://en.wikipedia.org/wiki/Code_coverage benötigten Testfälle).
+Für Deine häßliche Funktion bräuchtest Du also 
+7 Testfälle:
 //end_no_slide
 == Cyclomatic Complexity pr&uuml;fen mit cyclocomp //slide_only
 
@@ -830,9 +865,20 @@ cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
 ----
 
 ----
-## [1] 6
+## [1] 7
 ----
 
+
+
+
+[source,r]
+----
+cyclocomp::cyclocomp(devtools::release)
+----
+
+----
+## [1] 44
+----
 
 == Funktionen dokumentieren
 
@@ -854,4 +900,7 @@ wipe_clean <- function(environment = parent.frame()) {
 [bibliography]
 - [[[cc]]] R.C. Martin. 2008. 'Clean Code: A Handbook of Agile Software Craftsmanship'. 
     Pearson Education.
+- [[[cyc]]]  T. J. McCabe, 1976. 'A Complexity Measure'
+   IEEE Transactions on Software Engineering archive.
+   Volume 2, Issue 4, Pages 308-320 
 

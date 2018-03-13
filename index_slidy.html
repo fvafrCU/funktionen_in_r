@@ -4486,6 +4486,30 @@ http://www.gnu.org/software/src-highlite -->
 ## 2 src/my_sum_coverage.R    my_sum    3     0</code></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_nebenwirkungen_testen">Nebenwirkungen testen</h3>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>cov &lt;- covr::file_coverage(<span style="color: #FF0000">"src/wipe_clean_broken.R"</span>, <span style="color: #FF0000">"src/test_wipe_clean_broken.R"</span>)
+print(cov)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Coverage: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/wipe_clean_broken.R: 100.00%</span></span>
+</tt></pre></div></div>
+</div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4502,21 +4526,25 @@ http://www.gnu.org/software/src-highlite -->
             <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
                 <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
                     <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
-                        print(foo)
+                        print(<span style="color: #FF0000">"Foo."</span>)
                     } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-                        print(bar)
+                        stop(<span style="color: #FF0000">"Foobar!"</span>)
                     }
                 } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-                    print(bar)
+                    stop(<span style="color: #FF0000">"Foobar!"</span>)
                 }
             } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-                print(bar)
+                <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+                    print(<span style="color: #FF0000">"Foo."</span>)
+                } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+                    stop(<span style="color: #FF0000">"Foobar!"</span>)
+                }
             }
         } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-            print(bar)
+            stop(<span style="color: #FF0000">"Foobar!"</span>)
         }
     } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-        print(bar)
+        stop(<span style="color: #FF0000">"Foobar!"</span>)
     }
     return(invisible(NULL))
 }</tt></pre></div></div>
@@ -4533,7 +4561,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>lintr::lint(<span style="color: #FF0000">"src/code.R"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## src/code.R:25:1: style: Trailing blank lines are superfluous.
+<pre><code>## src/code.R:29:1: style: Trailing blank lines are superfluous.
 ##
 ## ^</code></pre>
 </div></div>
@@ -4569,7 +4597,17 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>cyclocomp::cyclocomp(parse(text = readLines(<span style="color: #FF0000">"src/code.R"</span>)))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 6</code></pre>
+<pre><code>## [1] 7</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>cyclocomp::cyclocomp(devtools::release)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 44</code></pre>
 </div></div>
 </div>
 </div>
@@ -4601,6 +4639,13 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <p>
 <a id="cc"></a>[cc] R.C. Martin. 2008. <em>Clean Code: A Handbook of Agile Software Craftsmanship</em>.
     Pearson Education.
+</p>
+</li>
+<li>
+<p>
+<a id="cyc"></a>[cyc]  T. J. McCabe, 1976. <em>A Complexity Measure</em>
+   IEEE Transactions on Software Engineering archive.
+   Volume 2, Issue 4, Pages 308-320
 </p>
 </li>
 </ul></div>

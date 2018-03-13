@@ -437,12 +437,18 @@ print(cov)
 covr::zero_coverage(cov)
 //end.rcode
 
+=== Nebenwirkungen testen
+//begin.rcode
+cov <- covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean_broken.R")
+print(cov)
+//end.rcode
+
 == Sch&ouml;ner Programmieren
 //begin_no_slide
 Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
 die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. 
 
-Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende, unsch&ouml;ne Funktion programmiert:
+Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende, unsch&ouml;ne Funktion geschrieben:
 //end_no_slide
 
 //begin.rcode, code = readLines("src/code.R"), eval = FALSE
@@ -469,11 +475,45 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 
 //begin_no_slide
 === Cyclomatic Complexity pr&uuml;fen mit cyclocomp
+
+McCabes "cyclomatic complexity" (<<cyc>>) mi&szlig;t die 
+Komplexit&auml;t von Programmcode.
+Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.
+
+Insbesondere gibt uns die "cyclomatic complexity" eine Idee davon, wie viele Testfälle wir 
+für eine Funktion schreiben sollten 
+(genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige [branch coverage]https://en.wikipedia.org/wiki/Code_coverage benötigten Testfälle).
+Für Deine häßliche Funktion bräuchtest Du also 
++r cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))+ Testfälle:
 //end_no_slide
 == Cyclomatic Complexity pr&uuml;fen mit cyclocomp //slide_only
 
 //begin.rcode
 cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
+//end.rcode
+
+//begin_no_slide
+Allgemein gilt: je höher die "cyclomatic complexity", desto unverständlicher der Code.
+McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war Mitarbeiter des Departement of Defense an der National Security Agency und professioneller Programmierer. Bei einer "cyclomatic complexity"  von 15 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum Mensch mehr versteht. 
+
+Natürlich gibt es immer Ausnahmen von der Regel. Die Funktion `devtools::release` beispielsweise 
+hat eine ganze Reihe von interaktiven Abfragen des Typs
+//begin.rcode, eval = FALSE
+  if (yesno("Were devtool's checks successful?"))
+    return(invisible())
+//end.rcode
+Diese treiben die "cyclomatic complexity" in die Höhe:
+//end_no_slide
+
+//begin.rcode
+source("src/release.R")
+cyclocomp::cyclocomp(release)
+//end.rcode
+//begin_no_slide
+Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln
+//end_no_slide
+//begin.rcode
+cleanr::check_file("src/release.R")
 //end.rcode
 
 == Funktionen dokumentieren
@@ -483,4 +523,7 @@ cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
 [bibliography]
 - [[[cc]]] R.C. Martin. 2008. 'Clean Code: A Handbook of Agile Software Craftsmanship'. 
     Pearson Education.
+- [[[cyc]]]  T. J. McCabe, 1976. 'A Complexity Measure'
+   IEEE Transactions on Software Engineering archive.
+   Volume 2, Issue 4, Pages 308-320 
 
