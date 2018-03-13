@@ -4604,10 +4604,72 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>cyclocomp::cyclocomp(devtools::release)</tt></pre></div></div>
+<pre><tt>source(<span style="color: #FF0000">"src/release.R"</span>)
+cyclocomp::cyclocomp(release)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] 44</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>suppressWarnings(cleanr::check_file(<span style="color: #FF0000">"src/release.R"</span>))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file("src/release.R"):  src/release.R: line 70 counts 92 characters.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R: line 166 counts 85 characters.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R: 325 lines in file.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">##  src/release.R  as.object_size  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  build_cran  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  cran_comments  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  email  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  email_browser  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  maintainer  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  release  line 24: found width 92 max_line_width was 80</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## release  found 98 lines, max_lines was 65</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## release  found 97 lines of code, max_lines_of_code was 50</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## release  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  release_email  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  submit_cran  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  upload_cran  found no return() statement at all.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## src/release.R  yesno  line 1: found width 85 max_line_width was 80</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## yesno  found no return() statement at all.</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>linters &lt;- lintr::default_linters[names(lintr::default_linters )!= <span style="color: #FF0000">"object_usage_linter"</span>]
+(lintr::lint(<span style="color: #FF0000">"src/release.R"</span>, linters = linters))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## src/release.R:70:1: style: lines should not be more than 80 characters.
+##     if (yesno("Is documentation free of spelling errors? (you can ignore false positives)"))
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:87:40: warning: Do not use absolute paths.
+##     cran_url &lt;- paste0(cran_mirror(), "/web/checks/check_results_",
+##                                        ^~~~
+## src/release.R:100:49: style: Commas should never have a space before.
+##     msg &lt;- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                ~^
+## src/release.R:100:50: style: Commas should always have a space after.
+##     msg &lt;- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                  ^
+## src/release.R:166:1: style: lines should not be more than 80 characters.
+##   yeses &lt;- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:187:53: style: Closing curly-braces should always be on their own line, unless it's followed by an else.
+##     utils::browseURL(url, browser = email_browser())},
+##                                                     ^
+## src/release.R:301:17: style: Variable and function names should be all lowercase.
+##   new_url$query$strErr
+##                 ^~~~~~</code></pre>
 </div></div>
 </div>
 </div>

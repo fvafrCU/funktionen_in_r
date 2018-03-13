@@ -482,7 +482,7 @@ Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.
 
 Insbesondere gibt uns die "cyclomatic complexity" eine Idee davon, wie viele Testfälle wir 
 für eine Funktion schreiben sollten 
-(genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige [branch coverage]https://en.wikipedia.org/wiki/Code_coverage benötigten Testfälle).
+(genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige https://en.wikipedia.org/wiki/Code_coverage[branch coverage] benötigten Testfälle).
 Für Deine häßliche Funktion bräuchtest Du also 
 +r cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))+ Testfälle:
 //end_no_slide
@@ -494,7 +494,7 @@ cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
 
 //begin_no_slide
 Allgemein gilt: je höher die "cyclomatic complexity", desto unverständlicher der Code.
-McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war Mitarbeiter des Departement of Defense an der National Security Agency und professioneller Programmierer. Bei einer "cyclomatic complexity"  von 15 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum Mensch mehr versteht. 
+McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war Mitarbeiter des Departement of Defense an der National Security Agency und professioneller Programmierer. Bei einer "cyclomatic complexity"  von 15 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum ein Mensch mehr versteht. 
 
 Natürlich gibt es immer Ausnahmen von der Regel. Die Funktion `devtools::release` beispielsweise 
 hat eine ganze Reihe von interaktiven Abfragen des Typs
@@ -510,10 +510,13 @@ source("src/release.R")
 cyclocomp::cyclocomp(release)
 //end.rcode
 //begin_no_slide
-Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln
+Dabei ist die Funktion nur schwer verdaulich und nicht völlig unlesbar.
+Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln:
 //end_no_slide
 //begin.rcode
-cleanr::check_file("src/release.R")
+suppressWarnings(cleanr::check_file("src/release.R"))
+linters <- lintr::default_linters[names(lintr::default_linters )!= "object_usage_linter"]
+lintr::lint("src/release.R", linters = linters)
 //end.rcode
 
 == Funktionen dokumentieren

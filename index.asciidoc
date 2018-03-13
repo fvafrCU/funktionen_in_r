@@ -846,13 +846,13 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 //begin_no_slide
 === Cyclomatic Complexity pr&uuml;fen mit cyclocomp
 
-McCabes "cyclomatische Komplexit&auml;t" (<<cyc>>) mi&szlig;t die 
+McCabes "cyclomatic complexity" (<<cyc>>) mi&szlig;t die 
 Komplexit&auml;t von Programmcode.
 Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.
 
-Insbesondere gibt uns die "cyclomatische Komplexit&auml;t" eine Idee davon, wie viele Testfälle wir 
+Insbesondere gibt uns die "cyclomatic complexity" eine Idee davon, wie viele Testfälle wir 
 für eine Funktion schreiben sollten 
-(genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige [branch coverage]https://en.wikipedia.org/wiki/Code_coverage benötigten Testfälle).
+(genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige https://en.wikipedia.org/wiki/Code_coverage[branch coverage] benötigten Testfälle).
 Für Deine häßliche Funktion bräuchtest Du also 
 7 Testfälle:
 //end_no_slide
@@ -869,16 +869,96 @@ cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
 ----
 
 
+//begin_no_slide
+Allgemein gilt: je höher die "cyclomatic complexity", desto unverständlicher der Code.
+McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war Mitarbeiter des Departement of Defense an der National Security Agency und professioneller Programmierer. Bei einer "cyclomatic complexity"  von 15 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum Mensch mehr versteht. 
+
+Natürlich gibt es immer Ausnahmen von der Regel. Die Funktion `devtools::release` beispielsweise 
+hat eine ganze Reihe von interaktiven Abfragen des Typs
+
+[source,r]
+----
+if (yesno("Were devtool's checks successful?"))
+  return(invisible())
+----
+
+Diese treiben die "cyclomatic complexity" in die Höhe:
+//end_no_slide
 
 
 [source,r]
 ----
-cyclocomp::cyclocomp(devtools::release)
+source("src/release.R")
+cyclocomp::cyclocomp(release)
 ----
 
 ----
 ## [1] 44
 ----
+
+//begin_no_slide
+Dabei ist die Funktion nur schwer verdaulich und nicht völlig unlesbar.
+Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln:
+//end_no_slide
+
+[source,r]
+----
+suppressWarnings(cleanr::check_file("src/release.R"))
+----
+
+[source,r]
+----
+## Error in cleanr::check_file("src/release.R"):  src/release.R: line 70 counts 92 characters.
+## src/release.R: line 166 counts 85 characters.
+## src/release.R: 325 lines in file.
+##  src/release.R  as.object_size  found no return() statement at all.
+## src/release.R  build_cran  found no return() statement at all.
+## src/release.R  cran_comments  found no return() statement at all.
+## src/release.R  email  found no return() statement at all.
+## src/release.R  email_browser  found no return() statement at all.
+## src/release.R  maintainer  found no return() statement at all.
+## src/release.R  release  line 24: found width 92 max_line_width was 80
+## release  found 98 lines, max_lines was 65
+## release  found 97 lines of code, max_lines_of_code was 50
+## release  found no return() statement at all.
+## src/release.R  release_email  found no return() statement at all.
+## src/release.R  submit_cran  found no return() statement at all.
+## src/release.R  upload_cran  found no return() statement at all.
+## src/release.R  yesno  line 1: found width 85 max_line_width was 80
+## yesno  found no return() statement at all.
+
+----
+
+[source,r]
+----
+linters <- lintr::default_linters[names(lintr::default_linters )!= "object_usage_linter"]
+(lintr::lint("src/release.R", linters = linters))
+----
+
+----
+## src/release.R:70:1: style: lines should not be more than 80 characters.
+##     if (yesno("Is documentation free of spelling errors? (you can ignore false positives)"))
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:87:40: warning: Do not use absolute paths.
+##     cran_url <- paste0(cran_mirror(), "/web/checks/check_results_",
+##                                        ^~~~
+## src/release.R:100:49: style: Commas should never have a space before.
+##     msg <- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                ~^
+## src/release.R:100:50: style: Commas should always have a space after.
+##     msg <- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                  ^
+## src/release.R:166:1: style: lines should not be more than 80 characters.
+##   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:187:53: style: Closing curly-braces should always be on their own line, unless it's followed by an else.
+##     utils::browseURL(url, browser = email_browser())},
+##                                                     ^
+## src/release.R:301:17: style: Variable and function names should be all lowercase.
+##   new_url$query$strErr
+##                 ^~~~~~
+----
+
 
 == Funktionen dokumentieren
 
