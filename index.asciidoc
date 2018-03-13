@@ -1,6 +1,7 @@
 = Funktionen Schreiben in **R**
 Dominik Cullmann 
-:toc2:
+:toc: left
+:toclevels: 5
 :numbered:
 :data-uri:
 :duration: 120
@@ -15,6 +16,8 @@ https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_
 //begin_no_slide
 Naja, ums Schreiben von Funktionen in der Programmiersprache **R**.
 //end_no_slide
+
+
 
 === Was sind Funktionen?
 
@@ -38,9 +41,11 @@ Stelle einfügst ohne ihn stark zu verändern, solltest Du darüber nachdenken,
 eine (oder mehrere) Funktion(en)  aus ihm  zu machen. 
 
 
-== Eine neue Summenfunktion für R
+== Grundlagen
+== Eine neue Summenfunktion //slide_only
+=== Eine neue Summenfunktion //no_slide
 
-=== Warum wir diese Funktion nicht schreiben sollten
+.Warum wir diese Funktion nicht schreiben sollten
 
 //begin_no_slide
 Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in **R**
@@ -48,7 +53,7 @@ heißt sie `sum()`. Diese Funktion ist besser, stabiler und schneller, als
 alles, das wir selbst programmieren können.
 //end_no_slide
 
-=== Warum wir es trotzdem tun
+.Warum wir es trotzdem tun
 
 //begin_no_slide
 Nunja, irgendwelchen Code müssen wir ja nehmen.  
@@ -58,7 +63,8 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
 //end_no_slide
 
 
-== Vom Code ...
+== Vom Code ... //slide_only
+=== Vom Code ... //no_slide
 
 [source,r]
 ----
@@ -85,7 +91,8 @@ Dabei siehst Du:
 <4> Addition des aktuellen Vektorelementes zum Ergebnis
 <5> Ausgabe des Ergebnisses
 
-== ... zur Funktion
+== ... zur Funktion //slide_only
+=== ... zur Funktion //no_slide
 
 //begin_no_slide
 Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
@@ -114,12 +121,13 @@ my_sum <- function(x) {
 
 
 
-== Scoping
+=== Scoping //no_slide
+== Scoping I //slide_only
+//begin_no_slide
 Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche 
 (englisch "scope"), wir sehen uns das am Beispiel an:
-
-== Scoping I //slide_only
-=== Schreibzugriffe
+//end_no_slide
+==== Schreibzugriffe
 .Ausgangszustand
 //begin_no_slide
 Im Augenblick hat das Objekte +value+ den Wert 19:
@@ -177,7 +185,7 @@ Du _kannst_ auch aus einer Funktion in einen <<_arbeiten_mit_gültigkeitsbereich
 
 == Scoping II //slide_only
 
-=== Lesezugriffe
+==== Lesezugriffe
 .Lesen ist unsicher
 //begin_no_slide
 Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
@@ -296,7 +304,7 @@ sehr schnell.
 
 
 == Arbeiten mit Gültigkeitsbereiche (environments) //slide_only
-=== Arbeiten mit Gültigkeitsbereichen 
+==== Arbeiten mit Gültigkeitsbereichen //no_slide
 
 //begin_no_slide
 Ein Befehl, mit dem Du alle Objekte Deines aktuellen Arbeitsbereiches löschen
@@ -369,7 +377,8 @@ ls()
 
 
 
-== Argumente
+== Argumente //slide_only
+=== Argumente//no_slide
 
 //begin_no_slide
 Funktionen kennen Argmumente, am besten nicht zu viele (siehe zum Beispiel <<cc>>). 
@@ -508,7 +517,8 @@ Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:
 - Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion.
 - Die _Ellipsis_, um Argumente an andere Funktionen weiterzureichen.
 
-== Return Value und Side Effects
+== Return Value und Side Effects //slide_only
+=== Return Value und Side Effects//no_slide
 //begin_no_slide
 Jede Funktion in **R** gibt einen Wert zur&uuml;ck, falls sie nicht mit einem Fehler abbricht.
 Wenn wir keinen R&uuml;ckgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zur&uuml;ckgegeben wurde.
@@ -594,13 +604,27 @@ ls()
 Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.
 
 
+== Funktionen verwalten //slide_only
+=== Funktionen verwalten//no_slide
 
-== Argumententests
+==== Lokal
+Mit source
+
+====  Global 
+Mit .Rprofile und einer Schleife
+
+==== Als Package
+Das ist am aufwendigsten, aber auch am elegantesten.
+
+
+== Argumententests //slide_only
+=== Argumententests//no_slide
 Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.
 
+== Weniger schlecht programmieren
 
 == Typentests //slide_only
-=== Typentests
+=== Typentests//no_slide
 
 //begin_no_slide
 Ich kenne zwei Packages, die Typentest implementieren: +asserthat+ und +checkmate+.
@@ -645,17 +669,19 @@ my_sum <- function(x) {
 
 
 == Auswahllisten //slide_only
-=== Auswahllisten
+==== Auswahllisten//no_slide
 match.arg
 
 
-== Unit Testing
+== Unit Testing //slide_only
+=== Unit Testing//no_slide
 
 //begin_no_slide
 Neben +testthat+ gibt es auch das R-Package +RUnit+.
 //end_no_slide
 
-=== Testthat
+== Testthat //slide_only
+==== Testthat//no_slide
 
 
 [source,r]
@@ -683,7 +709,8 @@ testthat::test_that("Simple test on summation.",
 ----
 
 
-=== Test Coverage
+== Test Coverage //slide_only
+==== Test Coverage//no_slide
 
 
 [source,r]
@@ -737,7 +764,8 @@ covr::zero_coverage(cov)
 ----
 
 
-=== Nebenwirkungen testen
+== Nebenwirkungen testen //slide_only
+==== Nebenwirkungen testen//no_slide
 
 [source,r]
 ----
@@ -758,7 +786,8 @@ print(cov)
 ----
 
 
-== Sch&ouml;ner Programmieren
+== Sch&ouml;ner Programmieren //slide_only
+=== Sch&ouml;ner Programmieren//no_slide
 //begin_no_slide
 Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
 die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. 
@@ -797,11 +826,7 @@ foo <- function(this, func, has, way, too, many,args) {
 ----
 
 
-//begin_no_slide
-=== Code prüfen mit Codetools
-
-
-//end_no_slide
+==== Code prüfen mit Codetools //no_slide
 == Code prüfen mit Codetools //slide_only
 In Deiner Funktion findet +codetools+ die nicht benutzten Funktionsargumente und das nicht definierte Objekt +this_is_not_defined+:
 
@@ -824,9 +849,7 @@ codetools::checkUsage(foo, all = TRUE)
 ----
 
 
-//begin_no_slide
-=== Entflusen mit lintr
-//end_no_slide
+==== Entflusen mit lintr //no_slide
 == Entflusen mit lintr //slide_only
 
 Das Package `lintr` prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
@@ -862,9 +885,7 @@ lintr::lint("src/code.R")
 
 Das Package kennt viele Optionen, lies Dir die Hilfe durch!
 
-//begin_no_slide
-=== Code s&auml;ubern mit cleanr
-//end_no_slide
+==== Code s&auml;ubern mit cleanr //no_slide
 == Code s&auml;ubern mit cleanr //slide_only
 Das Package `cleanr` prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
@@ -886,8 +907,9 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 
 Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!
 
+==== Cyclomatic Complexity pr&uuml;fen mit cyclocomp //no_slide
+== Cyclomatic Complexity pr&uuml;fen mit cyclocomp //slide_only
 //begin_no_slide
-=== Cyclomatic Complexity pr&uuml;fen mit cyclocomp
 
 McCabes "cyclomatic complexity" (<<cyc>>) mi&szlig;t die 
 Komplexit&auml;t von Programmcode.
@@ -899,7 +921,6 @@ für eine Funktion schreiben sollten
 Für Deine häßliche Funktion bräuchtest Du also 
 6 Testfälle:
 //end_no_slide
-== Cyclomatic Complexity pr&uuml;fen mit cyclocomp //slide_only
 
 
 [source,r]
@@ -1005,7 +1026,8 @@ suppressWarnings(cleanr::check_file("src/release.R"))
 ----
 
 
-== Funktionen dokumentieren
+== Funktionen dokumentieren //slide_only
+=== Funktionen dokumentieren //no_slide
 
 [source,r]
 ----
@@ -1021,17 +1043,6 @@ wipe_clean <- function(environment = parent.frame()) {
 }
 ----
 
-
-== Funktionen verwalten
-
-=== Lokal
-Mit source
-
-===  Global 
-Mit .Rprofile und einer Schleife
-
-=== Als Package
-Das ist am aufwendigsten, aber auch am elegantesten.
 
 == Bibliographie
 [bibliography]

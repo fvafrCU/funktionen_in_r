@@ -535,40 +535,6 @@ body.manpage div.sectionbody {
 }
 
 
-@media screen {
-  body {
-    max-width: 50em; /* approximately 80 characters wide */
-    margin-left: 16em;
-  }
-
-  #toc {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 13em;
-    padding: 0.5em;
-    padding-bottom: 1.5em;
-    margin: 0;
-    overflow: auto;
-    border-right: 3px solid #f8f8f8;
-    background-color: white;
-  }
-
-  #toc .toclevel1 {
-    margin-top: 0.5em;
-  }
-
-  #toc .toclevel2 {
-    margin-top: 0.25em;
-    display: list-item;
-    color: #aaaaaa;
-  }
-
-  #toctitle {
-    margin-top: 0.5em;
-  }
-}
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -761,7 +727,7 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install(2);
+asciidoc.install(5);
 /*]]>*/
 </script>
 </head>
@@ -823,26 +789,20 @@ eine (oder mehrere) Funktion(en)  aus ihm  zu machen.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_eine_neue_summenfunktion_für_r">2. Eine neue Summenfunktion für R</h2>
+<h2 id="_grundlagen">2. Grundlagen</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_warum_wir_diese_funktion_nicht_schreiben_sollten">2.1. Warum wir diese Funktion nicht schreiben sollten</h3>
-<div class="paragraph"><p>Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in <strong>R</strong>
+<h3 id="_eine_neue_summenfunktion">2.1. Eine neue Summenfunktion</h3>
+<div class="paragraph"><div class="title">Warum wir diese Funktion nicht schreiben sollten</div><p>Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in <strong>R</strong>
 heißt sie <code>sum()</code>. Diese Funktion ist besser, stabiler und schneller, als
 alles, das wir selbst programmieren können.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_warum_wir_es_trotzdem_tun">2.2. Warum wir es trotzdem tun</h3>
-<div class="paragraph"><p>Nunja, irgendwelchen Code müssen wir ja nehmen.
+<div class="paragraph"><div class="title">Warum wir es trotzdem tun</div><p>Nunja, irgendwelchen Code müssen wir ja nehmen.
 Ich habe die Summenberechnung ausführlich als Beispiel zur Schleifenprogrammierung in
 <a href="https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen">Programmieren in R</a> benutzt,
     und eine Wiederholung schadet sicher nicht.</p></div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_vom_code_8230">3. Vom Code &#8230;</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_vom_code_8230">2.2. Vom Code &#8230;</h3>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -887,10 +847,8 @@ Ausgabe des Ergebnisses
 </li>
 </ol></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_8230_zur_funktion">4. &#8230; zur Funktion</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_8230_zur_funktion">2.3. &#8230; zur Funktion</h3>
 <div class="paragraph"><p>Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
 der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
 der Funktion. Ich wähle als Namen für das Argument jetzt <code>x</code>, das könnte aber
@@ -911,15 +869,15 @@ http://www.gnu.org/software/src-highlite -->
     return(value)
 }</tt></pre></div></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_scoping">5. Scoping</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche
-(englisch "scope"), wir sehen uns das am Beispiel an:</p></div>
 <div class="sect2">
-<h3 id="_schreibzugriffe">5.1. Schreibzugriffe</h3>
-<div class="paragraph"><div class="title">Ausgangszustand</div><p>Im Augenblick hat das Objekte <code>value</code> den Wert 19:</p></div>
+<h3 id="_scoping">2.4. Scoping</h3>
+<div class="paragraph"><p>Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche
+(englisch "scope"), wir sehen uns das am Beispiel an:
+
+==== Schreibzugriffe
+.Ausgangszustand
+
+Im Augenblick hat das Objekte <code>value</code> den Wert 19:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -960,9 +918,8 @@ Es gibt daher ein Objekt names  <code>value</code> außerhalb der Funktion, das 
 Innerhalb der Funktion legt <strong>R</strong> ein neues lokales Objekt, ebenfalls mit dem Namen
 <code>value</code>, an.
 Du <em>kannst</em> auch aus einer Funktion in einen <a href="#_arbeiten_mit_gültigkeitsbereichen">anderen Gültigkeitsbereich</a> schreiben, wenn Du das wirklich willst.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_lesezugriffe">5.2. Lesezugriffe</h3>
+<div class="sect3">
+<h4 id="_lesezugriffe">2.4.1. Lesezugriffe</h4>
 <div class="paragraph"><div class="title">Lesen ist unsicher</div><p>Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
 <strong>R</strong> zunächst nach einem lokalen Objekt des gesuchten Namens, dann in den der
 Funktion übergeordneten Gültigkeitsbereichen, also außerhalb der Funktion.</p></div>
@@ -1057,8 +1014,8 @@ welche Objekte ich lese.<br />
 Und wenn Du Funktionen <a href="#_testing">testest</a>, findest Du Fehler, die auf Scoping beruhen,
 sehr schnell.</p></div>
 </div>
-<div class="sect2">
-<h3 id="_arbeiten_mit_gültigkeitsbereichen">5.3. Arbeiten mit Gültigkeitsbereichen</h3>
+<div class="sect3">
+<h4 id="_arbeiten_mit_gültigkeitsbereichen">2.4.2. Arbeiten mit Gültigkeitsbereichen</h4>
 <div class="paragraph"><p>Ein Befehl, mit dem Du alle Objekte Deines aktuellen Arbeitsbereiches löschen
 kannst (entsprechend dem RStudio-Knopf mit dem Besensymbol <span class="footnote"><br />[Im <a href="https://github.com/rstudio/rstudio/releases/tag/v1.1.426">Code von RStudio v1.1.426</a> findet sich die Funktion hinter dem Knopf  in der Datei src/cpp/session/modules/SessionEnvironment.R, sie besteht im wesentlichen aus der Zeile<br />
 rm(list=ls(envir=env, all.names=includeHidden), envir=env)<br />
@@ -1119,10 +1076,8 @@ ls()</tt></pre></div></div>
 </div></div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_argumente">6. Argumente</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_argumente">2.5. Argumente</h3>
 <div class="paragraph"><p>Funktionen kennen Argmumente, am besten nicht zu viele (siehe zum Beispiel <a href="#cc">[cc]</a>).
 Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie summieren soll. Der ist also ein obligatorisches Element, er sollte keine Voreinstellung haben (und hat auch keine).</p></div>
 <div class="paragraph"><p>Eine Funktion, die, wie <code>wipe_clean</code>, kein Argument kennt, ist Folgende:</p></div>
@@ -1247,10 +1202,8 @@ Die <em>Ellipsis</em>, um Argumente an andere Funktionen weiterzureichen.
 </li>
 </ul></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_return_value_und_side_effects">7. Return Value und Side Effects</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_return_value_und_side_effects">2.6. Return Value und Side Effects</h3>
 <div class="paragraph"><p>Jede Funktion in <strong>R</strong> gibt einen Wert zur&uuml;ck, falls sie nicht mit einem Fehler abbricht.
 Wenn wir keinen R&uuml;ckgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zur&uuml;ckgegeben wurde.
 Es ist daher sicher nicht schlecht, wenn Du versucht, den R&uuml;ckgabewert explizit anzugeben.
@@ -1325,13 +1278,32 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 <div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
 </div>
+<div class="sect2">
+<h3 id="_funktionen_verwalten">2.7. Funktionen verwalten</h3>
+<div class="sect3">
+<h4 id="_lokal">2.7.1. Lokal</h4>
+<div class="paragraph"><p>Mit source</p></div>
+</div>
+<div class="sect3">
+<h4 id="_global">2.7.2. Global</h4>
+<div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
+</div>
+<div class="sect3">
+<h4 id="_als_package">2.7.3. Als Package</h4>
+<div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_argumententests">2.8. Argumententests</h3>
+<div class="paragraph"><p>Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.</p></div>
+</div>
+</div>
 </div>
 <div class="sect1">
-<h2 id="_argumententests">8. Argumententests</h2>
+<h2 id="_weniger_schlecht_programmieren">3. Weniger schlecht programmieren</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.</p></div>
 <div class="sect2">
-<h3 id="_typentests">8.1. Typentests</h3>
+<h3 id="_typentests">3.1. Typentests</h3>
 <div class="paragraph"><p>Ich kenne zwei Packages, die Typentest implementieren: <code>asserthat</code> und <code>checkmate</code>.
 <code>checkmate</code> ist in hauptsächlich in C geschrieben und sehr schnell, hat aber viele Abhängigkeiten, <code>checkmate</code> ist reines R ohne irgendwelche Abhängigkeiten.
 Da ich bislang <code>checkmate</code> verwendet habe, probiere ich jetzt einmal <code>asserthat</code> aus:
@@ -1373,19 +1345,16 @@ http://www.gnu.org/software/src-highlite -->
     }
     return(value)
 }</tt></pre></div></div>
-</div>
-<div class="sect2">
-<h3 id="_auswahllisten">8.2. Auswahllisten</h3>
+<div class="sect3">
+<h4 id="_auswahllisten">3.1.1. Auswahllisten</h4>
 <div class="paragraph"><p>match.arg</p></div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_unit_testing">9. Unit Testing</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Neben <code>testthat</code> gibt es auch das R-Package <code>RUnit</code>.</p></div>
 <div class="sect2">
-<h3 id="_testthat">9.1. Testthat</h3>
+<h3 id="_unit_testing">3.2. Unit Testing</h3>
+<div class="paragraph"><p>Neben <code>testthat</code> gibt es auch das R-Package <code>RUnit</code>.</p></div>
+<div class="sect3">
+<h4 id="_testthat">3.2.1. Testthat</h4>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1413,8 +1382,8 @@ http://www.gnu.org/software/src-highlite -->
                     testthat::expect_identical(my_sum(c(2, 7)), 9)
                     )</tt></pre></div></div>
 </div>
-<div class="sect2">
-<h3 id="_test_coverage">9.2. Test Coverage</h3>
+<div class="sect3">
+<h4 id="_test_coverage">3.2.2. Test Coverage</h4>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1469,8 +1438,8 @@ http://www.gnu.org/software/src-highlite -->
 ## 2 src/my_sum_coverage.R    my_sum    3     0</code></pre>
 </div></div>
 </div>
-<div class="sect2">
-<h3 id="_nebenwirkungen_testen">9.3. Nebenwirkungen testen</h3>
+<div class="sect3">
+<h4 id="_nebenwirkungen_testen">3.2.3. Nebenwirkungen testen</h4>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1494,10 +1463,8 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_sch_ouml_ner_programmieren">10. Sch&ouml;ner Programmieren</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_sch_ouml_ner_programmieren">3.3. Sch&ouml;ner Programmieren</h3>
 <div class="paragraph"><p>Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen,
 die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben.
 Aber vorweg stelle ich Dir noch <code>codetools</code> vor, es gehört zur Gruppe der <em>recommended</em> Packages von <strong>R</strong> und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil <code>codetools</code> schon da war.</p></div>
@@ -1531,8 +1498,8 @@ http://www.gnu.org/software/src-highlite -->
     }
     return(invisible(NULL))
 }</tt></pre></div></div>
-<div class="sect2">
-<h3 id="_code_prüfen_mit_codetools">10.1. Code prüfen mit Codetools</h3>
+<div class="sect3">
+<h4 id="_code_prüfen_mit_codetools">3.3.1. Code prüfen mit Codetools</h4>
 <div class="paragraph"><p>In Deiner Funktion findet <code>codetools</code> die nicht benutzten Funktionsargumente und das nicht definierte Objekt <code>this_is_not_defined</code>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1553,8 +1520,8 @@ codetools::checkUsage(foo, all = TRUE)</tt></pre></div></div>
 ## &lt;anonymous&gt;: parameter 'way' may not be used</code></pre>
 </div></div>
 </div>
-<div class="sect2">
-<h3 id="_entflusen_mit_lintr">10.2. Entflusen mit lintr</h3>
+<div class="sect3">
+<h4 id="_entflusen_mit_lintr">3.3.2. Entflusen mit lintr</h4>
 <div class="paragraph"><p>Das Package <code>lintr</code> prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien
 zur übersichtlichen Formatierung.
 Die Richtlinien (gegen die <code>lintr</code> prüft, und die sind gut, halte Dich an sie;
@@ -1586,8 +1553,8 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 <div class="paragraph"><p>Das Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
-<div class="sect2">
-<h3 id="_code_s_auml_ubern_mit_cleanr">10.3. Code s&auml;ubern mit cleanr</h3>
+<div class="sect3">
+<h4 id="_code_s_auml_ubern_mit_cleanr">3.3.3. Code s&auml;ubern mit cleanr</h4>
 <div class="paragraph"><p>Das Package <code>cleanr</code> prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.</p></div>
@@ -1607,8 +1574,8 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 <div class="paragraph"><p>Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
-<div class="sect2">
-<h3 id="_cyclomatic_complexity_pr_uuml_fen_mit_cyclocomp">10.4. Cyclomatic Complexity pr&uuml;fen mit cyclocomp</h3>
+<div class="sect3">
+<h4 id="_cyclomatic_complexity_pr_uuml_fen_mit_cyclocomp">3.3.4. Cyclomatic Complexity pr&uuml;fen mit cyclocomp</h4>
 <div class="paragraph"><p>McCabes "cyclomatic complexity" (<a href="#cyc">[cyc]</a>) mi&szlig;t die
 Komplexit&auml;t von Programmcode.
 Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.</p></div>
@@ -1716,10 +1683,8 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_funktionen_dokumentieren">11. Funktionen dokumentieren</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_funktionen_dokumentieren">3.4. Funktionen dokumentieren</h3>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1737,25 +1702,9 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 }</tt></pre></div></div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_funktionen_verwalten">12. Funktionen verwalten</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_lokal">12.1. Lokal</h3>
-<div class="paragraph"><p>Mit source</p></div>
-</div>
-<div class="sect2">
-<h3 id="_global">12.2. Global</h3>
-<div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
-</div>
-<div class="sect2">
-<h3 id="_als_package">12.3. Als Package</h3>
-<div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
-</div>
-</div>
 </div>
 <div class="sect1">
-<h2 id="_bibliographie">13. Bibliographie</h2>
+<h2 id="_bibliographie">4. Bibliographie</h2>
 <div class="sectionbody">
 <div class="ulist bibliography"><ul>
 <li>
@@ -1779,7 +1728,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-13 17:03:03 CET
+ 2018-03-13 18:15:09 CET
 </div>
 </div>
 </body>
