@@ -412,7 +412,7 @@ memory_hogs()
 
 
 //begin_no_slide
-Bei so wenigen Objekten erkenne ich gleich, dass `vc` der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich `vc` nicht mehr unbedingt brauche, `vc` löschen sollte.
+Bei so wenigen Objekten erkenne ich leicht, dass `vc` der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich `vc` nicht mehr unbedingt brauche, `vc` löschen sollte.
 
 Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:
 //end_no_slide
@@ -505,7 +505,7 @@ memory_hogs()
 Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:
 
 - Obligatorische. Sie sollten keine Voreinstellungen kennen und &uuml;bergeben &uuml;blicherweise Objekte, die von der Funktion verarbeitet werden sollen.
-- Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion
+- Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion.
 - Die _Ellipsis_, um Argumente an andere Funktionen weiterzureichen.
 
 == Return Value und Side Effects
@@ -557,7 +557,7 @@ print(rm())
 
 //begin_no_slide
 
-Das hei&szlig;t also, dass unsere Funktion `wipe_clean`, als Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`), `invisible(NULL)`, zur&uuml;ckgibt.
+Das hei&szlig;t also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, zur&uuml;ckgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`).
 
 Das k&ouml;nnen wir &auml;ndern, indem wir einen expliziten R&uuml;ckgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den G&uuml;tigkeitsbereich, indem die Funktion l&auml;scht, in ein Steuerargument mit Voreinstellung um):
 //end_no_slide
@@ -591,28 +591,21 @@ ls()
 ## character(0)
 ----
 
-Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber nun gut.
+Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.
 
 
-
-
-== Funktionen verwalten
-
-=== Lokal
-Mit source
-
-===  Global 
-Mit .Rprofile und einer Schleife
-
-=== Als Package
-Das ist am aufwendigsten, aber auch am elegantesten.
 
 == Argumententests
+Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.
 
+
+== Typentests //slide_only
 === Typentests
 
 //begin_no_slide
-Neben +asserthat+ gibt es auch das R-Package +checkmate+.
+Ich kenne zwei Packages, die Typentest implementieren: +asserthat+ und +checkmate+.
++checkmate+ ist in hauptsächlich in C geschrieben und sehr schnell, hat aber viele Abhängigkeiten, +checkmate+ ist reines R ohne irgendwelche Abhängigkeiten.
+Da ich bislang +checkmate+ verwendet habe, probiere ich jetzt einmal +asserthat+ aus:
 //end_no_slide
 assertthat und checkmate
 
@@ -651,10 +644,12 @@ my_sum <- function(x) {
 ----
 
 
+== Auswahllisten //slide_only
 === Auswahllisten
 match.arg
 
-== Testing
+
+== Unit Testing
 
 //begin_no_slide
 Neben +testthat+ gibt es auch das R-Package +RUnit+.
@@ -767,20 +762,21 @@ print(cov)
 //begin_no_slide
 Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
 die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. 
+Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der _recommended_ Packages von **R** und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil +codetools+ schon da war.
 
-Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende, unsch&ouml;ne Funktion geschrieben:
+Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende unsch&ouml;ne 
+und kaputte Funktion geschrieben:
 //end_no_slide
 
 
 [source,r]
 ----
-foo <- function(this, func, has, way, too, many, args) {
-    if (TRUE) {
-        if (TRUE) {
+foo <- function(this, func, has, way, too, many,args) {
+    if (TRUE) { if (TRUE) {
             if (TRUE) {
                 if (TRUE) {
                     if (TRUE) {
-                        print("Foo.")
+                        print(this_is_not_defined)
                     } else {
                         stop("Foobar!")
                     }
@@ -788,11 +784,7 @@ foo <- function(this, func, has, way, too, many, args) {
                     stop("Foobar!")
                 }
             } else {
-                if (TRUE) {
-                    print("Foo.")
-                } else {
-                    stop("Foobar!")
-                }
+                stop("Foobar!")
             }
         } else {
             stop("Foobar!")
@@ -805,11 +797,46 @@ foo <- function(this, func, has, way, too, many, args) {
 ----
 
 
+//begin_no_slide
+=== Code prüfen mit Codetools
+
+
+//end_no_slide
+== Code prüfen mit Codetools //slide_only
+In Deiner Funktion findet +codetools+ die nicht benutzten Funktionsargumente und das nicht definierte Objekt +this_is_not_defined+:
+
+
+[source,r]
+----
+source("src/code.R")
+codetools::checkUsage(foo, all = TRUE)
+----
+
+----
+## <anonymous>: no visible binding for global variable 'this_is_not_defined'
+## <anonymous>: parameter 'args' may not be used
+## <anonymous>: parameter 'func' may not be used
+## <anonymous>: parameter 'has' may not be used
+## <anonymous>: parameter 'many' may not be used
+## <anonymous>: parameter 'this' may not be used
+## <anonymous>: parameter 'too' may not be used
+## <anonymous>: parameter 'way' may not be used
+----
+
 
 //begin_no_slide
 === Entflusen mit lintr
 //end_no_slide
 == Entflusen mit lintr //slide_only
+
+Das Package `lintr` prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
+zur übersichtlichen Formatierung. 
+Die Richtlinien (gegen die `lintr` prüft, und die sind gut, halte Dich an sie;
+                 zu mehr über Progammierrichtlinien findest Du im https://fvafrcu.github.io/programmierleitfaden.ps[Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg]) 
+sehen unter anderem vor, 
+dass auf Kommas immer ein Leerzeichen folgen sollte, 
+dass auf öffnende geschweifte Klammern immer ein Zeilenumbruch folgen sollte und 
+dass eine Datei keine Leerzeilen am Ende enthalten sollte:
 
 
 [source,r]
@@ -818,17 +845,30 @@ lintr::lint("src/code.R")
 ----
 
 ----
-## src/code.R:29:1: style: Trailing blank lines are superfluous.
+## src/code.R:1:49: style: Commas should always have a space after.
+## foo <- function(this, func, has, way, too, many,args) {
+##                                                 ^
+## src/code.R:2:15: style: Opening curly braces should never go on their own line and should always be followed by a new line.
+##     if (TRUE) { if (TRUE) {
+##               ^
+## src/code.R:6:31: warning: no visible binding for global variable 'this_is_not_defined'
+##                         print(this_is_not_defined)
+##                               ^~~~~~~~~~~~~~~~~~~
+## src/code.R:24:1: style: Trailing blank lines are superfluous.
 ## 
 ## ^
 ----
 
 
+Das Package kennt viele Optionen, lies Dir die Hilfe durch!
+
 //begin_no_slide
 === Code s&auml;ubern mit cleanr
 //end_no_slide
 == Code s&auml;ubern mit cleanr //slide_only
-
+Das Package `cleanr` prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
+die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
+Rückgabewert haben.
 
 [source,r]
 ----
@@ -843,6 +883,9 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 ----
 
 
+
+Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!
+
 //begin_no_slide
 === Cyclomatic Complexity pr&uuml;fen mit cyclocomp
 
@@ -854,7 +897,7 @@ Insbesondere gibt uns die "cyclomatic complexity" eine Idee davon, wie viele Tes
 für eine Funktion schreiben sollten 
 (genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige https://en.wikipedia.org/wiki/Code_coverage[branch coverage] benötigten Testfälle).
 Für Deine häßliche Funktion bräuchtest Du also 
-7 Testfälle:
+6 Testfälle:
 //end_no_slide
 == Cyclomatic Complexity pr&uuml;fen mit cyclocomp //slide_only
 
@@ -865,13 +908,13 @@ cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
 ----
 
 ----
-## [1] 7
+## [1] 6
 ----
 
 
 //begin_no_slide
 Allgemein gilt: je höher die "cyclomatic complexity", desto unverständlicher der Code.
-McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war Mitarbeiter des Departement of Defense an der National Security Agency und professioneller Programmierer. Bei einer "cyclomatic complexity"  von 15 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum Mensch mehr versteht. 
+McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war professioneller Programmierer des Departement of Defense der National Security Agency. Bei einer "cyclomatic complexity"  von 20 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum ein Mensch mehr versteht. 
 
 Natürlich gibt es immer Ausnahmen von der Regel. Die Funktion `devtools::release` beispielsweise 
 hat eine ganze Reihe von interaktiven Abfragen des Typs
@@ -882,7 +925,8 @@ if (yesno("Were devtool's checks successful?"))
   return(invisible())
 ----
 
-Diese treiben die "cyclomatic complexity" in die Höhe:
+Diese treiben die "cyclomatic complexity" in die Höhe (weil die `return`-Anweisungen 
+                                                        viele verschiedene mögliche Endpunkte der Funktion definieren. Eine gut strukturierte Funktion hat _genau einen_ "exit node"):
 //end_no_slide
 
 
@@ -899,6 +943,37 @@ cyclocomp::cyclocomp(release)
 //begin_no_slide
 Dabei ist die Funktion nur schwer verdaulich und nicht völlig unlesbar.
 Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln:
+
+[source,r]
+----
+linters <- lintr::default_linters[names(lintr::default_linters )!= "object_usage_linter"]
+lintr::lint("src/release.R", linters = linters)
+----
+
+----
+## src/release.R:70:1: style: lines should not be more than 80 characters.
+##     if (yesno("Is documentation free of spelling errors? (you can ignore false positives)"))
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:87:40: warning: Do not use absolute paths.
+##     cran_url <- paste0(cran_mirror(), "/web/checks/check_results_",
+##                                        ^~~~
+## src/release.R:100:49: style: Commas should never have a space before.
+##     msg <- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                ~^
+## src/release.R:100:50: style: Commas should always have a space after.
+##     msg <- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                  ^
+## src/release.R:166:1: style: lines should not be more than 80 characters.
+##   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:187:53: style: Closing curly-braces should always be on their own line, unless it's followed by an else.
+##     utils::browseURL(url, browser = email_browser())},
+##                                                     ^
+## src/release.R:301:17: style: Variable and function names should be all lowercase.
+##   new_url$query$strErr
+##                 ^~~~~~
+----
+
 //end_no_slide
 
 [source,r]
@@ -929,36 +1004,6 @@ suppressWarnings(cleanr::check_file("src/release.R"))
 
 ----
 
-[source,r]
-----
-linters <- lintr::default_linters[names(lintr::default_linters )!= "object_usage_linter"]
-(lintr::lint("src/release.R", linters = linters))
-----
-
-----
-## src/release.R:70:1: style: lines should not be more than 80 characters.
-##     if (yesno("Is documentation free of spelling errors? (you can ignore false positives)"))
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## src/release.R:87:40: warning: Do not use absolute paths.
-##     cran_url <- paste0(cran_mirror(), "/web/checks/check_results_",
-##                                        ^~~~
-## src/release.R:100:49: style: Commas should never have a space before.
-##     msg <- paste0("Have you checked the ", deps ," packages that depend on ",
-##                                                ~^
-## src/release.R:100:50: style: Commas should always have a space after.
-##     msg <- paste0("Have you checked the ", deps ," packages that depend on ",
-##                                                  ^
-## src/release.R:166:1: style: lines should not be more than 80 characters.
-##   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## src/release.R:187:53: style: Closing curly-braces should always be on their own line, unless it's followed by an else.
-##     utils::browseURL(url, browser = email_browser())},
-##                                                     ^
-## src/release.R:301:17: style: Variable and function names should be all lowercase.
-##   new_url$query$strErr
-##                 ^~~~~~
-----
-
 
 == Funktionen dokumentieren
 
@@ -975,6 +1020,18 @@ wipe_clean <- function(environment = parent.frame()) {
     return(invisible(objects))
 }
 ----
+
+
+== Funktionen verwalten
+
+=== Lokal
+Mit source
+
+===  Global 
+Mit .Rprofile und einer Schleife
+
+=== Als Package
+Das ist am aufwendigsten, aber auch am elegantesten.
 
 == Bibliographie
 [bibliography]

@@ -4253,7 +4253,7 @@ Obligatorische. Sie sollten keine Voreinstellungen kennen und &uuml;bergeben &uu
 </li>
 <li>
 <span>
-Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion
+Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion.
 </span>
 </li>
 <li>
@@ -4329,31 +4329,20 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## character(0)</code></pre>
 </div></div>
-<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber nun gut.</p></div>
-</div>
-</div>
-<div class="sect1 slide">
-<h1 id="_funktionen_verwalten">Funktionen verwalten</h1>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_lokal">Lokal</h3>
-<div class="paragraph"><p>Mit source</p></div>
-</div>
-<div class="sect2">
-<h3 id="_global">Global</h3>
-<div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
-</div>
-<div class="sect2">
-<h3 id="_als_package">Als Package</h3>
-<div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
-</div>
+<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
 </div>
 </div>
 <div class="sect1 slide">
 <h1 id="_argumententests">Argumententests</h1>
 <div class="sectionbody">
+<div class="paragraph"><p>Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.</p></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_typentests">Typentests</h1>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_typentests">Typentests</h3>
+<h3 id="_typentests_2">Typentests</h3>
 <div class="paragraph"><p>assertthat und checkmate</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4392,14 +4381,19 @@ http://www.gnu.org/software/src-highlite -->
     return(value)
 }</tt></pre></div></div>
 </div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_auswahllisten">Auswahllisten</h1>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_auswahllisten">Auswahllisten</h3>
+<h3 id="_auswahllisten_2">Auswahllisten</h3>
 <div class="paragraph"><p>match.arg</p></div>
 </div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_testing">Testing</h1>
+<h1 id="_unit_testing">Unit Testing</h1>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_testthat">Testthat</h3>
@@ -4520,13 +4514,12 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>foo &lt;- function(this, func, has, way, too, many, args) {
-    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
-        <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+<pre><tt>foo &lt;- function(this, func, has, way, too, many,args) {
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) { <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
             <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
                 <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
                     <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
-                        print(<span style="color: #FF0000">"Foo."</span>)
+                        print(this_is_not_defined)
                     } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
                         stop(<span style="color: #FF0000">"Foobar!"</span>)
                     }
@@ -4534,11 +4527,7 @@ http://www.gnu.org/software/src-highlite -->
                     stop(<span style="color: #FF0000">"Foobar!"</span>)
                 }
             } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-                <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
-                    print(<span style="color: #FF0000">"Foo."</span>)
-                } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-                    stop(<span style="color: #FF0000">"Foobar!"</span>)
-                }
+                stop(<span style="color: #FF0000">"Foobar!"</span>)
             }
         } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
             stop(<span style="color: #FF0000">"Foobar!"</span>)
@@ -4551,8 +4540,40 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
+<h1 id="_code_prüfen_mit_codetools">Code prüfen mit Codetools</h1>
+<div class="sectionbody">
+<div class="paragraph"><p>In Deiner Funktion findet <code>codetools</code> die nicht benutzten Funktionsargumente und das nicht definierte Objekt <code>this_is_not_defined</code>:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>source(<span style="color: #FF0000">"src/code.R"</span>)
+codetools::checkUsage(foo, all = TRUE)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## &lt;anonymous&gt;: no visible binding for global variable 'this_is_not_defined'
+## &lt;anonymous&gt;: parameter 'args' may not be used
+## &lt;anonymous&gt;: parameter 'func' may not be used
+## &lt;anonymous&gt;: parameter 'has' may not be used
+## &lt;anonymous&gt;: parameter 'many' may not be used
+## &lt;anonymous&gt;: parameter 'this' may not be used
+## &lt;anonymous&gt;: parameter 'too' may not be used
+## &lt;anonymous&gt;: parameter 'way' may not be used</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
 <h1 id="_entflusen_mit_lintr">Entflusen mit lintr</h1>
 <div class="sectionbody">
+<div class="paragraph"><p>Das Package <code>lintr</code> prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien
+zur übersichtlichen Formatierung.
+Die Richtlinien (gegen die <code>lintr</code> prüft, und die sind gut, halte Dich an sie;
+                 zu mehr über Progammierrichtlinien findest Du im <a href="https://fvafrcu.github.io/programmierleitfaden.ps">Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg</a>)
+sehen unter anderem vor,
+dass auf Kommas immer ein Leerzeichen folgen sollte,
+dass auf öffnende geschweifte Klammern immer ein Zeilenumbruch folgen sollte und
+dass eine Datei keine Leerzeilen am Ende enthalten sollte:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4561,15 +4582,28 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>lintr::lint(<span style="color: #FF0000">"src/code.R"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## src/code.R:29:1: style: Trailing blank lines are superfluous.
+<pre><code>## src/code.R:1:49: style: Commas should always have a space after.
+## foo &lt;- function(this, func, has, way, too, many,args) {
+##                                                 ^
+## src/code.R:2:15: style: Opening curly braces should never go on their own line and should always be followed by a new line.
+##     if (TRUE) { if (TRUE) {
+##               ^
+## src/code.R:6:31: warning: no visible binding for global variable 'this_is_not_defined'
+##                         print(this_is_not_defined)
+##                               ^~~~~~~~~~~~~~~~~~~
+## src/code.R:24:1: style: Trailing blank lines are superfluous.
 ##
 ## ^</code></pre>
 </div></div>
+<div class="paragraph"><p>Das Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 </div>
 <div class="sect1 slide">
 <h1 id="_code_s_auml_ubern_mit_cleanr">Code s&auml;ubern mit cleanr</h1>
 <div class="sectionbody">
+<div class="paragraph"><p>Das Package <code>cleanr</code> prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
+die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
+Rückgabewert haben.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4584,6 +4618,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file("src/code.R"):  src/code.R  foo  found 7 arguments, max_num_arguments was 5</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## foo  found nesting depth 4, max_nesting_depth was 3</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><p>Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4597,7 +4632,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>cyclocomp::cyclocomp(parse(text = readLines(<span style="color: #FF0000">"src/code.R"</span>)))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 7</code></pre>
+<pre><code>## [1] 6</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4640,37 +4675,6 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-style: italic"><span style="color: #9A1900">## src/release.R  yesno  line 1: found width 85 max_line_width was 80</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## yesno  found no return() statement at all.</span></span>
 </tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>linters &lt;- lintr::default_linters[names(lintr::default_linters )!= <span style="color: #FF0000">"object_usage_linter"</span>]
-(lintr::lint(<span style="color: #FF0000">"src/release.R"</span>, linters = linters))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## src/release.R:70:1: style: lines should not be more than 80 characters.
-##     if (yesno("Is documentation free of spelling errors? (you can ignore false positives)"))
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## src/release.R:87:40: warning: Do not use absolute paths.
-##     cran_url &lt;- paste0(cran_mirror(), "/web/checks/check_results_",
-##                                        ^~~~
-## src/release.R:100:49: style: Commas should never have a space before.
-##     msg &lt;- paste0("Have you checked the ", deps ," packages that depend on ",
-##                                                ~^
-## src/release.R:100:50: style: Commas should always have a space after.
-##     msg &lt;- paste0("Have you checked the ", deps ," packages that depend on ",
-##                                                  ^
-## src/release.R:166:1: style: lines should not be more than 80 characters.
-##   yeses &lt;- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## src/release.R:187:53: style: Closing curly-braces should always be on their own line, unless it's followed by an else.
-##     utils::browseURL(url, browser = email_browser())},
-##                                                     ^
-## src/release.R:301:17: style: Variable and function names should be all lowercase.
-##   new_url$query$strErr
-##                 ^~~~~~</code></pre>
-</div></div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4691,6 +4695,23 @@ wipe_clean &lt;- function(environment = parent.frame()) {
     rm(list = objects, envir = environment)
     return(invisible(objects))
 }</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_funktionen_verwalten">Funktionen verwalten</h1>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_lokal">Lokal</h3>
+<div class="paragraph"><p>Mit source</p></div>
+</div>
+<div class="sect2">
+<h3 id="_global">Global</h3>
+<div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
+</div>
+<div class="sect2">
+<h3 id="_als_package">Als Package</h3>
+<div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
+</div>
 </div>
 </div>
 <div class="sect1 slide">

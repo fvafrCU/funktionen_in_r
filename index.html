@@ -1152,7 +1152,7 @@ memory_hogs()</tt></pre></div></div>
 <pre><code>## memory_hogs          va          vb          vc          vd
 ##        7576        4232     3432720     6864720      343920</code></pre>
 </div></div>
-<div class="paragraph"><p>Bei so wenigen Objekten erkenne ich gleich, dass <code>vc</code> der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich <code>vc</code> nicht mehr unbedingt brauche, <code>vc</code> löschen sollte.</p></div>
+<div class="paragraph"><p>Bei so wenigen Objekten erkenne ich leicht, dass <code>vc</code> der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich <code>vc</code> nicht mehr unbedingt brauche, <code>vc</code> löschen sollte.</p></div>
 <div class="paragraph"><p>Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1237,7 +1237,7 @@ Obligatorische. Sie sollten keine Voreinstellungen kennen und &uuml;bergeben &uu
 </li>
 <li>
 <p>
-Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion
+Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion.
 </p>
 </li>
 <li>
@@ -1291,7 +1291,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## NULL</code></pre>
 </div></div>
-<div class="paragraph"><p>Das hei&szlig;t also, dass unsere Funktion <code>wipe_clean</code>, als Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion <code>rm</code>), <code>invisible(NULL)</code>, zur&uuml;ckgibt.</p></div>
+<div class="paragraph"><p>Das hei&szlig;t also, dass unsere Funktion <code>wipe_clean</code> den Wert <code>invisible(NULL)</code>, zur&uuml;ckgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion <code>rm</code>).</p></div>
 <div class="paragraph"><p>Das k&ouml;nnen wir &auml;ndern, indem wir einen expliziten R&uuml;ckgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den G&uuml;tigkeitsbereich, indem die Funktion l&auml;scht, in ein Steuerargument mit Voreinstellung um):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1323,32 +1323,18 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## character(0)</code></pre>
 </div></div>
-<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber nun gut.</p></div>
+<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_funktionen_verwalten">8. Funktionen verwalten</h2>
+<h2 id="_argumententests">8. Argumententests</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.</p></div>
 <div class="sect2">
-<h3 id="_lokal">8.1. Lokal</h3>
-<div class="paragraph"><p>Mit source</p></div>
-</div>
-<div class="sect2">
-<h3 id="_global">8.2. Global</h3>
-<div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
-</div>
-<div class="sect2">
-<h3 id="_als_package">8.3. Als Package</h3>
-<div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_argumententests">9. Argumententests</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_typentests">9.1. Typentests</h3>
-<div class="paragraph"><p>Neben <code>asserthat</code> gibt es auch das R-Package <code>checkmate</code>.
+<h3 id="_typentests">8.1. Typentests</h3>
+<div class="paragraph"><p>Ich kenne zwei Packages, die Typentest implementieren: <code>asserthat</code> und <code>checkmate</code>.
+<code>checkmate</code> ist in hauptsächlich in C geschrieben und sehr schnell, hat aber viele Abhängigkeiten, <code>checkmate</code> ist reines R ohne irgendwelche Abhängigkeiten.
+Da ich bislang <code>checkmate</code> verwendet habe, probiere ich jetzt einmal <code>asserthat</code> aus:
 
 assertthat und checkmate</p></div>
 <div class="listingblock">
@@ -1389,17 +1375,17 @@ http://www.gnu.org/software/src-highlite -->
 }</tt></pre></div></div>
 </div>
 <div class="sect2">
-<h3 id="_auswahllisten">9.2. Auswahllisten</h3>
+<h3 id="_auswahllisten">8.2. Auswahllisten</h3>
 <div class="paragraph"><p>match.arg</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_testing">10. Testing</h2>
+<h2 id="_unit_testing">9. Unit Testing</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Neben <code>testthat</code> gibt es auch das R-Package <code>RUnit</code>.</p></div>
 <div class="sect2">
-<h3 id="_testthat">10.1. Testthat</h3>
+<h3 id="_testthat">9.1. Testthat</h3>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1428,7 +1414,7 @@ http://www.gnu.org/software/src-highlite -->
                     )</tt></pre></div></div>
 </div>
 <div class="sect2">
-<h3 id="_test_coverage">10.2. Test Coverage</h3>
+<h3 id="_test_coverage">9.2. Test Coverage</h3>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1484,7 +1470,7 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_nebenwirkungen_testen">10.3. Nebenwirkungen testen</h3>
+<h3 id="_nebenwirkungen_testen">9.3. Nebenwirkungen testen</h3>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1510,23 +1496,24 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sch_ouml_ner_programmieren">11. Sch&ouml;ner Programmieren</h2>
+<h2 id="_sch_ouml_ner_programmieren">10. Sch&ouml;ner Programmieren</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen,
-die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben.</p></div>
-<div class="paragraph"><p>Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende, unsch&ouml;ne Funktion geschrieben:</p></div>
+die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben.
+Aber vorweg stelle ich Dir noch <code>codetools</code> vor, es gehört zur Gruppe der <em>recommended</em> Packages von <strong>R</strong> und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil <code>codetools</code> schon da war.</p></div>
+<div class="paragraph"><p>Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende unsch&ouml;ne
+und kaputte Funktion geschrieben:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>foo &lt;- function(this, func, has, way, too, many, args) {
-    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
-        <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
+<pre><tt>foo &lt;- function(this, func, has, way, too, many,args) {
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) { <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
             <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
                 <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
                     <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
-                        print(<span style="color: #FF0000">"Foo."</span>)
+                        print(this_is_not_defined)
                     } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
                         stop(<span style="color: #FF0000">"Foobar!"</span>)
                     }
@@ -1534,11 +1521,7 @@ http://www.gnu.org/software/src-highlite -->
                     stop(<span style="color: #FF0000">"Foobar!"</span>)
                 }
             } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-                <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (TRUE) {
-                    print(<span style="color: #FF0000">"Foo."</span>)
-                } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-                    stop(<span style="color: #FF0000">"Foobar!"</span>)
-                }
+                stop(<span style="color: #FF0000">"Foobar!"</span>)
             }
         } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
             stop(<span style="color: #FF0000">"Foobar!"</span>)
@@ -1549,7 +1532,37 @@ http://www.gnu.org/software/src-highlite -->
     return(invisible(NULL))
 }</tt></pre></div></div>
 <div class="sect2">
-<h3 id="_entflusen_mit_lintr">11.1. Entflusen mit lintr</h3>
+<h3 id="_code_prüfen_mit_codetools">10.1. Code prüfen mit Codetools</h3>
+<div class="paragraph"><p>In Deiner Funktion findet <code>codetools</code> die nicht benutzten Funktionsargumente und das nicht definierte Objekt <code>this_is_not_defined</code>:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>source(<span style="color: #FF0000">"src/code.R"</span>)
+codetools::checkUsage(foo, all = TRUE)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## &lt;anonymous&gt;: no visible binding for global variable 'this_is_not_defined'
+## &lt;anonymous&gt;: parameter 'args' may not be used
+## &lt;anonymous&gt;: parameter 'func' may not be used
+## &lt;anonymous&gt;: parameter 'has' may not be used
+## &lt;anonymous&gt;: parameter 'many' may not be used
+## &lt;anonymous&gt;: parameter 'this' may not be used
+## &lt;anonymous&gt;: parameter 'too' may not be used
+## &lt;anonymous&gt;: parameter 'way' may not be used</code></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_entflusen_mit_lintr">10.2. Entflusen mit lintr</h3>
+<div class="paragraph"><p>Das Package <code>lintr</code> prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien
+zur übersichtlichen Formatierung.
+Die Richtlinien (gegen die <code>lintr</code> prüft, und die sind gut, halte Dich an sie;
+                 zu mehr über Progammierrichtlinien findest Du im <a href="https://fvafrcu.github.io/programmierleitfaden.ps">Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg</a>)
+sehen unter anderem vor,
+dass auf Kommas immer ein Leerzeichen folgen sollte,
+dass auf öffnende geschweifte Klammern immer ein Zeilenumbruch folgen sollte und
+dass eine Datei keine Leerzeilen am Ende enthalten sollte:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1558,13 +1571,26 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>lintr::lint(<span style="color: #FF0000">"src/code.R"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## src/code.R:29:1: style: Trailing blank lines are superfluous.
+<pre><code>## src/code.R:1:49: style: Commas should always have a space after.
+## foo &lt;- function(this, func, has, way, too, many,args) {
+##                                                 ^
+## src/code.R:2:15: style: Opening curly braces should never go on their own line and should always be followed by a new line.
+##     if (TRUE) { if (TRUE) {
+##               ^
+## src/code.R:6:31: warning: no visible binding for global variable 'this_is_not_defined'
+##                         print(this_is_not_defined)
+##                               ^~~~~~~~~~~~~~~~~~~
+## src/code.R:24:1: style: Trailing blank lines are superfluous.
 ##
 ## ^</code></pre>
 </div></div>
+<div class="paragraph"><p>Das Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 <div class="sect2">
-<h3 id="_code_s_auml_ubern_mit_cleanr">11.2. Code s&auml;ubern mit cleanr</h3>
+<h3 id="_code_s_auml_ubern_mit_cleanr">10.3. Code s&auml;ubern mit cleanr</h3>
+<div class="paragraph"><p>Das Package <code>cleanr</code> prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
+die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
+Rückgabewert haben.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1579,9 +1605,10 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file("src/code.R"):  src/code.R  foo  found 7 arguments, max_num_arguments was 5</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## foo  found nesting depth 4, max_nesting_depth was 3</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><p>Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 <div class="sect2">
-<h3 id="_cyclomatic_complexity_pr_uuml_fen_mit_cyclocomp">11.3. Cyclomatic Complexity pr&uuml;fen mit cyclocomp</h3>
+<h3 id="_cyclomatic_complexity_pr_uuml_fen_mit_cyclocomp">10.4. Cyclomatic Complexity pr&uuml;fen mit cyclocomp</h3>
 <div class="paragraph"><p>McCabes "cyclomatic complexity" (<a href="#cyc">[cyc]</a>) mi&szlig;t die
 Komplexit&auml;t von Programmcode.
 Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.</p></div>
@@ -1589,7 +1616,7 @@ Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.</p></div>
 für eine Funktion schreiben sollten
 (genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige <a href="https://en.wikipedia.org/wiki/Code_coverage">branch coverage</a> benötigten Testfälle).
 Für Deine häßliche Funktion bräuchtest Du also
-7 Testfälle:</p></div>
+6 Testfälle:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1598,10 +1625,10 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>cyclocomp::cyclocomp(parse(text = readLines(<span style="color: #FF0000">"src/code.R"</span>)))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 7</code></pre>
+<pre><code>## [1] 6</code></pre>
 </div></div>
 <div class="paragraph"><p>Allgemein gilt: je höher die "cyclomatic complexity", desto unverständlicher der Code.
-McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war Mitarbeiter des Departement of Defense an der National Security Agency und professioneller Programmierer. Bei einer "cyclomatic complexity"  von 15 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum Mensch mehr versteht.</p></div>
+McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war professioneller Programmierer des Departement of Defense der National Security Agency. Bei einer "cyclomatic complexity"  von 20 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum ein Mensch mehr versteht.</p></div>
 <div class="paragraph"><p>Natürlich gibt es immer Ausnahmen von der Regel. Die Funktion <code>devtools::release</code> beispielsweise
 hat eine ganze Reihe von interaktiven Abfragen des Typs</p></div>
 <div class="listingblock">
@@ -1611,7 +1638,8 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (yesno(<span style="color: #FF0000">"Were devtool's checks successful?"</span>))
   return(invisible())</tt></pre></div></div>
-<div class="paragraph"><p>Diese treiben die "cyclomatic complexity" in die Höhe:</p></div>
+<div class="paragraph"><p>Diese treiben die "cyclomatic complexity" in die Höhe (weil die <code>return</code>-Anweisungen
+                                                        viele verschiedene mögliche Endpunkte der Funktion definieren. Eine gut strukturierte Funktion hat <em>genau einen</em> "exit node"):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1625,6 +1653,37 @@ cyclocomp::cyclocomp(release)</tt></pre></div></div>
 </div></div>
 <div class="paragraph"><p>Dabei ist die Funktion nur schwer verdaulich und nicht völlig unlesbar.
 Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>linters &lt;- lintr::default_linters[names(lintr::default_linters )!= <span style="color: #FF0000">"object_usage_linter"</span>]
+lintr::lint(<span style="color: #FF0000">"src/release.R"</span>, linters = linters)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## src/release.R:70:1: style: lines should not be more than 80 characters.
+##     if (yesno("Is documentation free of spelling errors? (you can ignore false positives)"))
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:87:40: warning: Do not use absolute paths.
+##     cran_url &lt;- paste0(cran_mirror(), "/web/checks/check_results_",
+##                                        ^~~~
+## src/release.R:100:49: style: Commas should never have a space before.
+##     msg &lt;- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                ~^
+## src/release.R:100:50: style: Commas should always have a space after.
+##     msg &lt;- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                  ^
+## src/release.R:166:1: style: lines should not be more than 80 characters.
+##   yeses &lt;- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:187:53: style: Closing curly-braces should always be on their own line, unless it's followed by an else.
+##     utils::browseURL(url, browser = email_browser())},
+##                                                     ^
+## src/release.R:301:17: style: Variable and function names should be all lowercase.
+##   new_url$query$strErr
+##                 ^~~~~~</code></pre>
+</div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1655,42 +1714,11 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-style: italic"><span style="color: #9A1900">## src/release.R  yesno  line 1: found width 85 max_line_width was 80</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## yesno  found no return() statement at all.</span></span>
 </tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>linters &lt;- lintr::default_linters[names(lintr::default_linters )!= <span style="color: #FF0000">"object_usage_linter"</span>]
-(lintr::lint(<span style="color: #FF0000">"src/release.R"</span>, linters = linters))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## src/release.R:70:1: style: lines should not be more than 80 characters.
-##     if (yesno("Is documentation free of spelling errors? (you can ignore false positives)"))
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## src/release.R:87:40: warning: Do not use absolute paths.
-##     cran_url &lt;- paste0(cran_mirror(), "/web/checks/check_results_",
-##                                        ^~~~
-## src/release.R:100:49: style: Commas should never have a space before.
-##     msg &lt;- paste0("Have you checked the ", deps ," packages that depend on ",
-##                                                ~^
-## src/release.R:100:50: style: Commas should always have a space after.
-##     msg &lt;- paste0("Have you checked the ", deps ," packages that depend on ",
-##                                                  ^
-## src/release.R:166:1: style: lines should not be more than 80 characters.
-##   yeses &lt;- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## src/release.R:187:53: style: Closing curly-braces should always be on their own line, unless it's followed by an else.
-##     utils::browseURL(url, browser = email_browser())},
-##                                                     ^
-## src/release.R:301:17: style: Variable and function names should be all lowercase.
-##   new_url$query$strErr
-##                 ^~~~~~</code></pre>
-</div></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_funktionen_dokumentieren">12. Funktionen dokumentieren</h2>
+<h2 id="_funktionen_dokumentieren">11. Funktionen dokumentieren</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1707,6 +1735,23 @@ wipe_clean &lt;- function(environment = parent.frame()) {
     rm(list = objects, envir = environment)
     return(invisible(objects))
 }</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_funktionen_verwalten">12. Funktionen verwalten</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_lokal">12.1. Lokal</h3>
+<div class="paragraph"><p>Mit source</p></div>
+</div>
+<div class="sect2">
+<h3 id="_global">12.2. Global</h3>
+<div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
+</div>
+<div class="sect2">
+<h3 id="_als_package">12.3. Als Package</h3>
+<div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1734,7 +1779,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-13 11:32:35 CET
+ 2018-03-13 17:03:03 CET
 </div>
 </div>
 </body>

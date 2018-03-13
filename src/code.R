@@ -1,10 +1,9 @@
-foo <- function(this, func, has, way, too, many, args) {
-    if (TRUE) {
-        if (TRUE) {
+foo <- function(this, func, has, way, too, many,args) {
+    if (TRUE) { if (TRUE) {
             if (TRUE) {
                 if (TRUE) {
                     if (TRUE) {
-                        print("Foo.")
+                        print(this_is_not_defined)
                     } else {
                         stop("Foobar!")
                     }
@@ -12,11 +11,7 @@ foo <- function(this, func, has, way, too, many, args) {
                     stop("Foobar!")
                 }
             } else {
-                if (TRUE) {
-                    print("Foo.")
-                } else {
-                    stop("Foobar!")
-                }
+                stop("Foobar!")
             }
         } else {
             stop("Foobar!")
