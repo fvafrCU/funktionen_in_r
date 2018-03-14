@@ -535,6 +535,40 @@ body.manpage div.sectionbody {
 }
 
 
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+    background-color: white;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -789,7 +823,7 @@ eine (oder mehrere) Funktion(en)  aus ihm  zu machen.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_grundlagen">2. Grundlagen</h2>
+<h2 id="_eine_funktion_schreiben">2. Eine Funktion schreiben</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_eine_neue_summenfunktion">2.1. Eine neue Summenfunktion</h3>
@@ -973,7 +1007,7 @@ print(my_sum_broken(1:3))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in my_sum_broken(1:3): object 'value' not found</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>erhälst Du einen Fehler, weil <strong>R</strong> auch außerhalb der Funktion kein Objekt
 names <code>value</code> finden kann. Und diesen Fehler erwarten wir ja eigentlich, wenn
@@ -1061,7 +1095,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "value"         "wipe_clean"</code></pre>
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1168,7 +1202,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       48048        4232</code></pre>
+##     6864720     3432720      343920       13080        4232</code></pre>
 </div></div>
 <div class="paragraph"><p>Jetzt k&ouml;nnen wir die R&uuml;ckgabe unserer Funktion nutzen, um die beiden gr&ouml;&szlig;ten Speicherfresser zu l&ouml;schen:</p></div>
 <div class="listingblock">
@@ -1181,7 +1215,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## memory_hogs          va          vd
-##       48048        4232      343920</code></pre>
+##       13080        4232      343920</code></pre>
 </div></div>
 <div class="paragraph"><p>Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
 <div class="ulist"><ul>
@@ -1293,28 +1327,44 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_argumententests">2.8. Argumententests</h3>
-<div class="paragraph"><p>Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.</p></div>
-</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_weniger_schlecht_programmieren">3. Weniger schlecht programmieren</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_typentests">3.1. Typentests</h3>
-<div class="paragraph"><p>Ich kenne zwei Packages, die Typentest implementieren: <code>asserthat</code> und <code>checkmate</code>.
-<code>checkmate</code> ist in hauptsächlich in C geschrieben und sehr schnell, hat aber viele Abhängigkeiten, <code>checkmate</code> ist reines R ohne irgendwelche Abhängigkeiten.
-Da ich bislang <code>checkmate</code> verwendet habe, probiere ich jetzt einmal <code>asserthat</code> aus:
-
-assertthat und checkmate</p></div>
+<h3 id="_argumententests">3.1. Argumententests</h3>
+<div class="paragraph"><p>Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.</p></div>
+<div class="sect3">
+<h4 id="_typentests">3.1.1. Typentests</h4>
+<div class="paragraph"><p>Wir k&ouml;nnen Objekte darauf testen, ob sie einem bestimmten Typ (einer Klasse) angeh&ouml;ren;
+bei Objekten, die einer Funktion als Argument &uuml;bergeben werden ist dies besonders ratsam.
+Das geht mir reinen <code>base R</code>, ist aber eher umst&auml;ndlich,
+die <a href="https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro">Vignette zu <code>checkmate</code></a>
+bietet ein anschauliches Bespiel.</p></div>
+<div class="paragraph"><p>Ich kenne zwei Packages, die Typentest vereinfachen: <code>assertthat</code> und <code>checkmate</code>.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>checkmate</code> ist hauptsächlich in C geschrieben, sehr schnell,
+sehr flexibel mit unterschiedlichen Testarten ("checks", "asserts" und "tests"),
+hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist &uuml;ber 100 Seiten lang.
+</p>
+</li>
+<li>
+<p>
+<code>assertthat</code> ist reines R ohne irgendwelche Abhängigkeiten und recht &uuml;bersichtlich.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p><code>assertthat</code> ist sehr einfach:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>assertthat::assert_that(is.numeric(6))</tt></pre></div></div>
+<pre><tt>x &lt;- 6
+assertthat::assert_that(is.numeric(x))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] TRUE</code></pre>
@@ -1324,14 +1374,43 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>assertthat::assert_that(is.numeric(<span style="color: #FF0000">"This is a string."</span>))</tt></pre></div></div>
+<pre><tt>x &lt;- <span style="color: #FF0000">"This is a string."</span>
+assertthat::assert_that(is.numeric(x))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: "This is a string." is not a numeric or integer vector</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: x is not a numeric or integer vector</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><div class="title">Was haben wir davon?</div><p>Wenn wir unserer Summenfunktion</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum &lt;- function(x) {
+    value &lt;- 0
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
+        value &lt;- value + x_i
+    }
+    return(value)
+}</tt></pre></div></div>
+<div class="paragraph"><p>ein nicht-numerisches Argument &uuml;bergeben, erhalten wir eine recht kryptische Fehlermeldung:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum(c(<span style="color: #FF0000">"a"</span>, <span style="color: #FF0000">"b"</span>))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in value + x_i: non-numeric argument to binary operator</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p>Durch den Einbau eines Typentests</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1345,13 +1424,174 @@ http://www.gnu.org/software/src-highlite -->
     }
     return(value)
 }</tt></pre></div></div>
+<div class="paragraph"><p>wird die Meldung deutlich verst&auml;ndlicher:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum(c(<span style="color: #FF0000">"a"</span>, <span style="color: #FF0000">"b"</span>))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: x is not a numeric or integer vector</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p>Mit <code>checkmate</code> k&ouml;nnen wir sogar erzwingen, dass x nicht nur numerisch sein muss,
+sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum &lt;- function(x) {
+    checkmate::qassert(x, <span style="color: #FF0000">"n&gt;=2"</span>)
+    value &lt;- 0
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
+        value &lt;- value + x_i
+    }
+    return(value)
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum(42)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc"): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p><em>Ich nutze Typentests oft in Funktionen. Da <code>checkmate</code> deutlich mehr Funktionalit&auml;t bietet, nutzte ich <code>assert_that</code> eher selten.</em></p></div>
+</div>
 <div class="sect3">
-<h4 id="_auswahllisten">3.1.1. Auswahllisten</h4>
-<div class="paragraph"><p>match.arg</p></div>
+<h4 id="_auswahllisten">3.1.2. Auswahllisten</h4>
+<div class="paragraph"><p>Mit Auswahllisten k&ouml;nnen wir Objekte darauf testen, ob sie eine von mehreren M&ouml;glichkeiten
+enthalten. Das ist vor allem f&uuml;r Steuerargumente hilfreich.
+<code>base R</code> kennt <code>match.arg</code>, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zur&uuml;gibt, wenn
+es in der Auswahlliste enthalten ist:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>noten &lt;-  c(<span style="color: #FF0000">"sehr gut"</span>, <span style="color: #FF0000">"gut"</span>, <span style="color: #FF0000">"nicht soo gut"</span>, <span style="color: #FF0000">"das kann auf jeden Fall noch besser werden"</span>)
+note  &lt;- <span style="color: #FF0000">"gut"</span>
+match.arg(arg = note, choices = noten)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "gut"</code></pre>
+</div></div>
+<div class="paragraph"><p>Dabei bedient es sich dem "partial matching", das hei&szlig;t, dass ein eindeutig einer Auswahlm&ouml;glichkeit zuzuordnender Anfang einer Zeichenkette ausreicht:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>note  &lt;- <span style="color: #FF0000">"das"</span>
+match.arg(arg = note, choices = noten)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "das kann auf jeden Fall noch besser werden"</code></pre>
+</div></div>
+<div class="paragraph"><p>Wird kein Treffer in der Auswahlliste gefunden, erhalten wir einen Fehler:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>note  &lt;- <span style="color: #FF0000">"ausreichend"</span>
+match.arg(arg = note, choices = noten)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in match.arg(arg = note, choices = noten): 'arg' should be one of "sehr gut", "gut", "nicht soo gut", "das kann auf jeden Fall noch besser werden"</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p><code>match.arg</code> ist genau, was hinter Steuerargumenten vieler Funktionen (z.b.  <code>mgcv::gam(optimizer = &#8230;)</code>) steckt, hier ein Beispiel aus der Hilfe zu <code>match.arg</code>:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>center &lt;- function(x, type = c(<span style="color: #FF0000">"mean"</span>, <span style="color: #FF0000">"median"</span>, <span style="color: #FF0000">"trimmed"</span>)) {
+    type &lt;- match.arg(type)
+    switch(type,
+           mean = mean(x),
+           median = median(x),
+           trimmed = mean(x, trim = .1))
+}
+center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 0.02185232</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>center(rnorm(100), <span style="color: #FF0000">"m"</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in match.arg(type): 'arg' should be one of "mean", "median", "trimmed"</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p><code>checkmate</code> kennt auch Auswahllisten, macht aber kein <code>partial matching</code> (was ich ganz gut finde):</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>note  &lt;- <span style="color: #FF0000">"das"</span>
+checkmate::assertChoice(x = note, choices = noten)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc"): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p>Au&szlig;erdem gibt <code>checkmate</code> die gefundene R&uuml;ckgabe unsichtbar zur&uuml;ck, weshalb ich hier ein explizites <code>print</code> ben&ouml;tige:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>note  &lt;- <span style="color: #FF0000">"gut"</span>
+checkmate::assertChoice(x = note, choices = noten)
+print(checkmate::assertChoice(x = note, choices = noten))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "gut"</code></pre>
+</div></div>
+<div class="paragraph"><p><code>checkmate</code> kann nicht nur mit alphanumerischen Vektoren umgehen:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>x &lt;- 3
+choices &lt;- 1:7
+print(checkmate::assertChoice(x = x, choices = choices))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 3</code></pre>
+</div></div>
+<div class="paragraph"><p><em>Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlm&ouml;glichenkeiten in meinen Funktionen habe.</em></p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_unit_testing">3.2. Unit Testing</h3>
+<div class="paragraph"><p>Beim Unit Testing wollen wir nicht die einer Funktion &uuml;bergebenen Argumente, sondern die Funktion selbst testen.
+Also im Zweifel ihren R&uuml;ckgabewert.</p></div>
 <div class="paragraph"><p>Neben <code>testthat</code> gibt es auch das R-Package <code>RUnit</code>.</p></div>
 <div class="sect3">
 <h4 id="_testthat">3.2.1. Testthat</h4>
@@ -1461,12 +1701,13 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/wipe_clean_broken.R: 100.00%</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><p><em>Ich teste fast alle meine Funktion sp&auml;testens, wenn ich sie in ein Package verpacke.</em></p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_sch_ouml_ner_programmieren">3.3. Sch&ouml;ner Programmieren</h3>
 <div class="paragraph"><p>Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen,
-die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben.
+die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. <em>Ich nutze alle drei standardm&auml;&szlig;ig bei der Entwicklung von Packages.</em>
 Aber vorweg stelle ich Dir noch <code>codetools</code> vor, es gehört zur Gruppe der <em>recommended</em> Packages von <strong>R</strong> und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil <code>codetools</code> schon da war.</p></div>
 <div class="paragraph"><p>Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende unsch&ouml;ne
 und kaputte Funktion geschrieben:</p></div>
@@ -1728,7 +1969,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-13 18:15:09 CET
+ 2018-03-14 17:07:33 CET
 </div>
 </div>
 </body>

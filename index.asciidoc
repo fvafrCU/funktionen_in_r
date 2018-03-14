@@ -1,6 +1,6 @@
 = Funktionen Schreiben in **R**
 Dominik Cullmann 
-:toc: left
+:toc2:
 :toclevels: 5
 :numbered:
 :data-uri:
@@ -41,7 +41,7 @@ Stelle einfügst ohne ihn stark zu verändern, solltest Du darüber nachdenken,
 eine (oder mehrere) Funktion(en)  aus ihm  zu machen. 
 
 
-== Grundlagen
+== Eine Funktion schreiben
 == Eine neue Summenfunktion //slide_only
 === Eine neue Summenfunktion //no_slide
 
@@ -248,7 +248,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error in my_sum_broken(1:3): object 'value' not found
+## Error: object 'value' not found
 
 ----
 
@@ -360,7 +360,7 @@ ls()
 
 ----
 ## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "value"         "wipe_clean"
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
 ----
 
 [source,r]
@@ -490,7 +490,7 @@ memory_hogs(decreasing = TRUE)
 
 ----
 ##          vc          vb          vd memory_hogs          va 
-##     6864720     3432720      343920       48048        4232
+##     6864720     3432720      343920       13080        4232
 ----
 
 
@@ -507,7 +507,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vd 
-##       48048        4232      343920
+##       13080        4232      343920
 ----
 
 
@@ -617,25 +617,37 @@ Mit .Rprofile und einer Schleife
 Das ist am aufwendigsten, aber auch am elegantesten.
 
 
+== Weniger schlecht programmieren
+
 == Argumententests //slide_only
 === Argumententests//no_slide
 Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.
 
-== Weniger schlecht programmieren
 
 == Typentests //slide_only
-=== Typentests//no_slide
+==== Typentests//no_slide
 
 //begin_no_slide
-Ich kenne zwei Packages, die Typentest implementieren: +asserthat+ und +checkmate+.
-+checkmate+ ist in hauptsächlich in C geschrieben und sehr schnell, hat aber viele Abhängigkeiten, +checkmate+ ist reines R ohne irgendwelche Abhängigkeiten.
-Da ich bislang +checkmate+ verwendet habe, probiere ich jetzt einmal +asserthat+ aus:
+Wir k&ouml;nnen Objekte darauf testen, ob sie einem bestimmten Typ (einer Klasse) angeh&ouml;ren; 
+bei Objekten, die einer Funktion als Argument &uuml;bergeben werden ist dies besonders ratsam.
+Das geht mir reinen +base R+, ist aber eher umst&auml;ndlich,
+die https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro[Vignette zu +checkmate+] 
+bietet ein anschauliches Bespiel.
+
+Ich kenne zwei Packages, die Typentest vereinfachen: +assertthat+ und +checkmate+.
+
+- +checkmate+ ist hauptsächlich in C geschrieben, sehr schnell, 
+sehr flexibel mit unterschiedlichen Testarten ("checks", "asserts" und "tests"), 
+hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist &uuml;ber 100 Seiten lang. 
+- +assertthat+ ist reines R ohne irgendwelche Abhängigkeiten und recht &uuml;bersichtlich.
+
++assertthat+ ist sehr einfach:
 //end_no_slide
-assertthat und checkmate
 
 [source,r]
 ----
-assertthat::assert_that(is.numeric(6))
+x <- 6
+assertthat::assert_that(is.numeric(x))
 ----
 
 ----
@@ -645,14 +657,50 @@ assertthat::assert_that(is.numeric(6))
 
 [source,r]
 ----
-assertthat::assert_that(is.numeric("This is a string."))
+x <- "This is a string."
+assertthat::assert_that(is.numeric(x))
 ----
 
 [source,r]
 ----
-## Error: "This is a string." is not a numeric or integer vector
+## Error: x is not a numeric or integer vector
 
 ----
+
+
+.Was haben wir davon?
+Wenn wir unserer Summenfunktion 
+
+
+[source,r]
+----
+my_sum <- function(x) {
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
+
+ein nicht-numerisches Argument &uuml;bergeben, erhalten wir eine recht kryptische Fehlermeldung:
+
+
+[source,r]
+----
+my_sum(c("a", "b"))
+----
+
+[source,r]
+----
+## Error in value + x_i: non-numeric argument to binary operator
+
+----
+
+
+
+Durch den Einbau eines Typentests 
 
 
 [source,r]
@@ -667,14 +715,178 @@ my_sum <- function(x) {
 }
 ----
 
+wird die Meldung deutlich verst&auml;ndlicher:
+
+[source,r]
+----
+my_sum(c("a", "b"))
+----
+
+[source,r]
+----
+## Error: x is not a numeric or integer vector
+
+----
+
+
+Mit +checkmate+ k&ouml;nnen wir sogar erzwingen, dass x nicht nur numerisch sein muss,
+sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:
+
+[source,r]
+----
+my_sum <- function(x) {
+    checkmate::qassert(x, "n>=2")
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
+
+
+[source,r]
+----
+my_sum(42)
+----
+
+[source,r]
+----
+## Error in rasciidoc::render_slides("index.Rasciidoc"): Assertion on 'x' failed. Must be of length >= 2, but has length 1.
+
+----
+
+
+_Ich nutze Typentests oft in Funktionen. Da +checkmate+ deutlich mehr Funktionalit&auml;t bietet, nutzte ich +assert_that+ eher selten._
 
 == Auswahllisten //slide_only
 ==== Auswahllisten//no_slide
-match.arg
+Mit Auswahllisten k&ouml;nnen wir Objekte darauf testen, ob sie eine von mehreren M&ouml;glichkeiten
+enthalten. Das ist vor allem f&uuml;r Steuerargumente hilfreich.
++base R+ kennt +match.arg+, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zur&uuml;gibt, wenn
+es in der Auswahlliste enthalten ist:
 
+[source,r]
+----
+noten <-  c("sehr gut", "gut", "nicht soo gut", "das kann auf jeden Fall noch besser werden")
+note  <- "gut"
+match.arg(arg = note, choices = noten)
+----
+
+----
+## [1] "gut"
+----
+
+Dabei bedient es sich dem "partial matching", das hei&szlig;t, dass ein eindeutig einer Auswahlm&ouml;glichkeit zuzuordnender Anfang einer Zeichenkette ausreicht:
+
+[source,r]
+----
+note  <- "das"
+match.arg(arg = note, choices = noten)
+----
+
+----
+## [1] "das kann auf jeden Fall noch besser werden"
+----
+
+
+Wird kein Treffer in der Auswahlliste gefunden, erhalten wir einen Fehler:
+
+[source,r]
+----
+note  <- "ausreichend"
+match.arg(arg = note, choices = noten)
+----
+
+[source,r]
+----
+## Error in match.arg(arg = note, choices = noten): 'arg' should be one of "sehr gut", "gut", "nicht soo gut", "das kann auf jeden Fall noch besser werden"
+
+----
+
+
++match.arg+ ist genau, was hinter Steuerargumenten vieler Funktionen (z.b.  +mgcv::gam(optimizer = ...)+) steckt, hier ein Beispiel aus der Hilfe zu +match.arg+:
+
+[source,r]
+----
+center <- function(x, type = c("mean", "median", "trimmed")) {
+    type <- match.arg(type)
+    switch(type,
+           mean = mean(x),
+           median = median(x),
+           trimmed = mean(x, trim = .1))
+}
+center(rnorm(100), "med")
+----
+
+----
+## [1] 0.02185232
+----
+
+[source,r]
+----
+center(rnorm(100), "m")
+----
+
+[source,r]
+----
+## Error in match.arg(type): 'arg' should be one of "mean", "median", "trimmed"
+
+----
+
+
+
++checkmate+ kennt auch Auswahllisten, macht aber kein +partial matching+ (was ich ganz gut finde):
+
+[source,r]
+----
+note  <- "das"
+checkmate::assertChoice(x = note, choices = noten)
+----
+
+[source,r]
+----
+## Error in rasciidoc::render_slides("index.Rasciidoc"): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.
+
+----
+
+
+Au&szlig;erdem gibt +checkmate+ die gefundene R&uuml;ckgabe unsichtbar zur&uuml;ck, weshalb ich hier ein explizites +print+ ben&ouml;tige:
+
+[source,r]
+----
+note  <- "gut"
+checkmate::assertChoice(x = note, choices = noten)
+print(checkmate::assertChoice(x = note, choices = noten))
+----
+
+----
+## [1] "gut"
+----
+
+
++checkmate+ kann nicht nur mit alphanumerischen Vektoren umgehen:
+
+[source,r]
+----
+x <- 3
+choices <- 1:7
+print(checkmate::assertChoice(x = x, choices = choices))
+----
+
+----
+## [1] 3
+----
+
+
+
+_Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlm&ouml;glichenkeiten in meinen Funktionen habe._
 
 == Unit Testing //slide_only
 === Unit Testing//no_slide
+Beim Unit Testing wollen wir nicht die einer Funktion &uuml;bergebenen Argumente, sondern die Funktion selbst testen.
+Also im Zweifel ihren R&uuml;ckgabewert.
 
 //begin_no_slide
 Neben +testthat+ gibt es auch das R-Package +RUnit+.
@@ -786,11 +998,13 @@ print(cov)
 ----
 
 
+_Ich teste fast alle meine Funktion sp&auml;testens, wenn ich sie in ein Package verpacke._
+
 == Sch&ouml;ner Programmieren //slide_only
 === Sch&ouml;ner Programmieren//no_slide
 //begin_no_slide
 Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
-die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. 
+die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardm&auml;&szlig;ig bei der Entwicklung von Packages._
 Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der _recommended_ Packages von **R** und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil +codetools+ schon da war.
 
 Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende unsch&ouml;ne 
