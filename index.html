@@ -1065,7 +1065,7 @@ http://www.gnu.org/software/src-highlite -->
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich
-(in <strong>R</strong> heissen die Gültigkeitsbereiche "environments", in <strong>S</strong> hie&szlig;en sie "frames") ist, und die
+(in <strong>R</strong> heissen die Gültigkeitsbereiche "environments", in <strong>S</strong> hießen sie "frames") ist, und die
 Funktionen  <code>ls</code> und <code>rm</code> nur in <em>einem</em> Gültigkeitsbereich arbeiten, funktioniert das naheliegende</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1167,8 +1167,8 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 <div class="paragraph"><p>Das ist ein klassisches (optionales) Steuerargument, das das Verhalten einer Funktion steuert.
 Steuerargumente sollten eine sinnvolle Voreinstellung haben.</p></div>
-<div class="paragraph"><p>Da die <code>memory_hogs</code> intern nun die Funktion <code>order</code> aufruft, k&ouml;nnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen.
-Das k&ouml;nnen wir entweder explizit tun, oder wir benutzen ein spezielles, <em>Ellipsis</em> genanntes Argument, das durch drei Punkte (<code>...</code>) aufgerufen wird:</p></div>
+<div class="paragraph"><p>Da die <code>memory_hogs</code> intern nun die Funktion <code>order</code> aufruft, könnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen.
+Das können wir entweder explizit tun, oder wir benutzen ein spezielles, <em>Ellipsis</em> genanntes Argument, das durch drei Punkte (<code>...</code>) aufgerufen wird:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1204,7 +1204,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>##          vc          vb          vd memory_hogs          va
 ##     6864720     3432720      343920       13080        4232</code></pre>
 </div></div>
-<div class="paragraph"><p>Jetzt k&ouml;nnen wir die R&uuml;ckgabe unserer Funktion nutzen, um die beiden gr&ouml;&szlig;ten Speicherfresser zu l&ouml;schen:</p></div>
+<div class="paragraph"><p>Jetzt können wir die Rückgabe unserer Funktion nutzen, um die beiden größten Speicherfresser zu löschen:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1217,16 +1217,16 @@ memory_hogs()</tt></pre></div></div>
 <pre><code>## memory_hogs          va          vd
 ##       13080        4232      343920</code></pre>
 </div></div>
-<div class="paragraph"><p>Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
+<div class="paragraph"><p>Wir können also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Obligatorische. Sie sollten keine Voreinstellungen kennen und &uuml;bergeben &uuml;blicherweise Objekte, die von der Funktion verarbeitet werden sollen.
+Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen.
 </p>
 </li>
 <li>
 <p>
-Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion.
+Optionale. Sie sollten Voreinstellungen kennen und dienen üblicherweise der Steuerung der Funktion.
 </p>
 </li>
 <li>
@@ -1238,10 +1238,10 @@ Die <em>Ellipsis</em>, um Argumente an andere Funktionen weiterzureichen.
 </div>
 <div class="sect2">
 <h3 id="_return_value_und_side_effects">2.6. Return Value und Side Effects</h3>
-<div class="paragraph"><p>Jede Funktion in <strong>R</strong> gibt einen Wert zur&uuml;ck, falls sie nicht mit einem Fehler abbricht.
-Wenn wir keinen R&uuml;ckgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zur&uuml;ckgegeben wurde.
-Es ist daher sicher nicht schlecht, wenn Du versucht, den R&uuml;ckgabewert explizit anzugeben.
-Unsere Summenfunktion k&ouml;nnte auch so aussehen:</p></div>
+<div class="paragraph"><p>Jede Funktion in <strong>R</strong> gibt einen Wert zurück, falls sie nicht mit einem Fehler abbricht.
+Wenn wir keinen Rückgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zurückgegeben wurde.
+Es ist daher sicher nicht schlecht, wenn Du versucht, den Rückgabewert explizit anzugeben.
+Unsere Summenfunktion könnte auch so aussehen:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1253,10 +1253,10 @@ http://www.gnu.org/software/src-highlite -->
         value &lt;- value + x_i
     }
 }</tt></pre></div></div>
-<div class="paragraph"><p>Das ist zwar (um eine Zeile) k&uuml;rzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
-Und damit mehr schlechter als eine Zeile k&uuml;rzer mehr besser ist, capisce?</p></div>
+<div class="paragraph"><p>Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
+Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?</p></div>
 <div class="paragraph"><p>Komplexere Funktionen haben oft Nebenwirkungen (side effects)
-Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist R&uuml;ckgabewert sogar belanglos. Die Funktion <code>rm</code> gibt beispielsweise unsichtbar <code>NULL</code> zur&uuml;ck (und das selbst dann, wenn es gar nichts zu l&ouml;schen gibt), das erkennen wir, wenn wir ihren R&ouml;ckgabewert explizit drucken:</p></div>
+Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion <code>rm</code> gibt beispielsweise unsichtbar <code>NULL</code> zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Röckgabewert explizit drucken:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1278,8 +1278,8 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## NULL</code></pre>
 </div></div>
-<div class="paragraph"><p>Das hei&szlig;t also, dass unsere Funktion <code>wipe_clean</code> den Wert <code>invisible(NULL)</code>, zur&uuml;ckgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion <code>rm</code>).</p></div>
-<div class="paragraph"><p>Das k&ouml;nnen wir &auml;ndern, indem wir einen expliziten R&uuml;ckgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den G&uuml;tigkeitsbereich, indem die Funktion l&auml;scht, in ein Steuerargument mit Voreinstellung um):</p></div>
+<div class="paragraph"><p>Das heißt also, dass unsere Funktion <code>wipe_clean</code> den Wert <code>invisible(NULL)</code>, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion <code>rm</code>).</p></div>
+<div class="paragraph"><p>Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion läscht, in ein Steuerargument mit Voreinstellung um):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1310,7 +1310,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## character(0)</code></pre>
 </div></div>
-<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
+<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_funktionen_verwalten">2.7. Funktionen verwalten</h3>
@@ -1337,9 +1337,9 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.</p></div>
 <div class="sect3">
 <h4 id="_typentests">3.1.1. Typentests</h4>
-<div class="paragraph"><p>Wir k&ouml;nnen Objekte darauf testen, ob sie einem bestimmten Typ (einer Klasse) angeh&ouml;ren;
-bei Objekten, die einer Funktion als Argument &uuml;bergeben werden ist dies besonders ratsam.
-Das geht mir reinen <code>base R</code>, ist aber eher umst&auml;ndlich,
+<div class="paragraph"><p>Wir können Objekte darauf testen, ob sie einem bestimmten Typ (einer Klasse) angehören;
+bei Objekten, die einer Funktion als Argument übergeben werden ist dies besonders ratsam.
+Das geht mir reinen <code>base R</code>, ist aber eher umständlich,
 die <a href="https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro">Vignette zu <code>checkmate</code></a>
 bietet ein anschauliches Bespiel.</p></div>
 <div class="paragraph"><p>Ich kenne zwei Packages, die Typentest vereinfachen: <code>assertthat</code> und <code>checkmate</code>.</p></div>
@@ -1348,12 +1348,12 @@ bietet ein anschauliches Bespiel.</p></div>
 <p>
 <code>checkmate</code> ist hauptsächlich in C geschrieben, sehr schnell,
 sehr flexibel mit unterschiedlichen Testarten ("checks", "asserts" und "tests"),
-hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist &uuml;ber 100 Seiten lang.
+hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist über 100 Seiten lang.
 </p>
 </li>
 <li>
 <p>
-<code>assertthat</code> ist reines R ohne irgendwelche Abhängigkeiten und recht &uuml;bersichtlich.
+<code>assertthat</code> ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
 </p>
 </li>
 </ul></div>
@@ -1396,7 +1396,7 @@ http://www.gnu.org/software/src-highlite -->
     }
     return(value)
 }</tt></pre></div></div>
-<div class="paragraph"><p>ein nicht-numerisches Argument &uuml;bergeben, erhalten wir eine recht kryptische Fehlermeldung:</p></div>
+<div class="paragraph"><p>ein nicht-numerisches Argument übergeben, erhalten wir eine recht kryptische Fehlermeldung:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1424,7 +1424,7 @@ http://www.gnu.org/software/src-highlite -->
     }
     return(value)
 }</tt></pre></div></div>
-<div class="paragraph"><p>wird die Meldung deutlich verst&auml;ndlicher:</p></div>
+<div class="paragraph"><p>wird die Meldung deutlich verständlicher:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1438,7 +1438,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: x is not a numeric or integer vector</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Mit <code>checkmate</code> k&ouml;nnen wir sogar erzwingen, dass x nicht nur numerisch sein muss,
+<div class="paragraph"><p>Mit <code>checkmate</code> können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
 sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1464,15 +1464,15 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc"): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc", clean = TRUE): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><em>Ich nutze Typentests oft in Funktionen. Da <code>checkmate</code> deutlich mehr Funktionalit&auml;t bietet, nutzte ich <code>assert_that</code> eher selten.</em></p></div>
+<div class="paragraph"><p><em>Ich nutze Typentests oft in Funktionen. Da <code>checkmate</code> deutlich mehr Funktionalität bietet, nutzte ich <code>assert_that</code> eher selten.</em></p></div>
 </div>
 <div class="sect3">
 <h4 id="_auswahllisten">3.1.2. Auswahllisten</h4>
-<div class="paragraph"><p>Mit Auswahllisten k&ouml;nnen wir Objekte darauf testen, ob sie eine von mehreren M&ouml;glichkeiten
-enthalten. Das ist vor allem f&uuml;r Steuerargumente hilfreich.
-<code>base R</code> kennt <code>match.arg</code>, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zur&uuml;gibt, wenn
+<div class="paragraph"><p>Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
+enthalten. Das ist vor allem für Steuerargumente hilfreich.
+<code>base R</code> kennt <code>match.arg</code>, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zurügibt, wenn
 es in der Auswahlliste enthalten ist:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1486,7 +1486,7 @@ match.arg(arg = note, choices = noten)</tt></pre></div></div>
 <div class="content">
 <pre><code>## [1] "gut"</code></pre>
 </div></div>
-<div class="paragraph"><p>Dabei bedient es sich dem "partial matching", das hei&szlig;t, dass ein eindeutig einer Auswahlm&ouml;glichkeit zuzuordnender Anfang einer Zeichenkette ausreicht:</p></div>
+<div class="paragraph"><p>Dabei bedient es sich dem "partial matching", das heißt, dass ein eindeutig einer Auswahlmöglichkeit zuzuordnender Anfang einer Zeichenkette ausreicht:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1529,7 +1529,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.02185232</code></pre>
+<pre><code>## [1] -0.08680939</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1557,9 +1557,9 @@ checkmate::assertChoice(x = note, choices = noten)</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc"): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc", clean = TRUE): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Au&szlig;erdem gibt <code>checkmate</code> die gefundene R&uuml;ckgabe unsichtbar zur&uuml;ck, weshalb ich hier ein explizites <code>print</code> ben&ouml;tige:</p></div>
+<div class="paragraph"><p>Außerdem gibt <code>checkmate</code> die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites <code>print</code> benötige:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1585,13 +1585,13 @@ print(checkmate::assertChoice(x = x, choices = choices))</tt></pre></div></div>
 <div class="content">
 <pre><code>## [1] 3</code></pre>
 </div></div>
-<div class="paragraph"><p><em>Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlm&ouml;glichenkeiten in meinen Funktionen habe.</em></p></div>
+<div class="paragraph"><p><em>Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlmöglichenkeiten in meinen Funktionen habe.</em></p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_unit_testing">3.2. Unit Testing</h3>
-<div class="paragraph"><p>Beim Unit Testing wollen wir nicht die einer Funktion &uuml;bergebenen Argumente, sondern die Funktion selbst testen.
-Also im Zweifel ihren R&uuml;ckgabewert.</p></div>
+<div class="paragraph"><p>Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
+Also im Zweifel ihren Rückgabewert.</p></div>
 <div class="paragraph"><p>Neben <code>testthat</code> gibt es auch das R-Package <code>RUnit</code>.</p></div>
 <div class="sect3">
 <h4 id="_testthat">3.2.1. Testthat</h4>
@@ -1701,15 +1701,15 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/wipe_clean_broken.R: 100.00%</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><em>Ich teste fast alle meine Funktion sp&auml;testens, wenn ich sie in ein Package verpacke.</em></p></div>
+<div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke.</em></p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sch_ouml_ner_programmieren">3.3. Sch&ouml;ner Programmieren</h3>
-<div class="paragraph"><p>Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen,
-die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. <em>Ich nutze alle drei standardm&auml;&szlig;ig bei der Entwicklung von Packages.</em>
+<h3 id="_schöner_programmieren">3.3. Schöner Programmieren</h3>
+<div class="paragraph"><p>Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen,
+die Dir helfen können, gut lesbare Funktionen zu schreiben. <em>Ich nutze alle drei standardmäßig bei der Entwicklung von Packages.</em>
 Aber vorweg stelle ich Dir noch <code>codetools</code> vor, es gehört zur Gruppe der <em>recommended</em> Packages von <strong>R</strong> und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil <code>codetools</code> schon da war.</p></div>
-<div class="paragraph"><p>Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende unsch&ouml;ne
+<div class="paragraph"><p>Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne
 und kaputte Funktion geschrieben:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1795,7 +1795,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Das Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 <div class="sect3">
-<h4 id="_code_s_auml_ubern_mit_cleanr">3.3.3. Code s&auml;ubern mit cleanr</h4>
+<h4 id="_code_säubern_mit_cleanr">3.3.3. Code säubern mit cleanr</h4>
 <div class="paragraph"><p>Das Package <code>cleanr</code> prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.</p></div>
@@ -1816,9 +1816,9 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 <div class="sect3">
-<h4 id="_cyclomatic_complexity_pr_uuml_fen_mit_cyclocomp">3.3.4. Cyclomatic Complexity pr&uuml;fen mit cyclocomp</h4>
-<div class="paragraph"><p>McCabes "cyclomatic complexity" (<a href="#cyc">[cyc]</a>) mi&szlig;t die
-Komplexit&auml;t von Programmcode.
+<h4 id="_cyclomatic_complexity_prüfen_mit_cyclocomp">3.3.4. Cyclomatic Complexity prüfen mit cyclocomp</h4>
+<div class="paragraph"><p>McCabes "cyclomatic complexity" (<a href="#cyc">[cyc]</a>) mißt die
+Komplexität von Programmcode.
 Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.</p></div>
 <div class="paragraph"><p>Insbesondere gibt uns die "cyclomatic complexity" eine Idee davon, wie viele Testfälle wir
 für eine Funktion schreiben sollten
@@ -1969,7 +1969,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-14 17:07:33 CET
+ 2018-03-14 17:13:38 CET
 </div>
 </div>
 </body>

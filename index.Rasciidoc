@@ -233,7 +233,7 @@ Nun  bin ich
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich 
-(in **R** heissen die Gültigkeitsbereiche "environments", in **S** hie&szlig;en sie "frames") ist, und die 
+(in **R** heissen die Gültigkeitsbereiche "environments", in **S** hießen sie "frames") ist, und die 
 Funktionen  `ls` und `rm` nur in _einem_ Gültigkeitsbereich arbeiten, funktioniert das naheliegende
 //end_no_slide
 //begin.rcode, eval = FALSE
@@ -307,8 +307,8 @@ memory_hogs()
 Das ist ein klassisches (optionales) Steuerargument, das das Verhalten einer Funktion steuert.
 Steuerargumente sollten eine sinnvolle Voreinstellung haben.
 
-Da die `memory_hogs` intern nun die Funktion `order` aufruft, k&ouml;nnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen. 
-Das k&ouml;nnen wir entweder explizit tun, oder wir benutzen ein spezielles, _Ellipsis_ genanntes Argument, das durch drei Punkte (`...`) aufgerufen wird:
+Da die `memory_hogs` intern nun die Funktion `order` aufruft, könnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen. 
+Das können wir entweder explizit tun, oder wir benutzen ein spezielles, _Ellipsis_ genanntes Argument, das durch drei Punkte (`...`) aufgerufen wird:
 //end_no_slide
 
 //begin.rcode, code = readLines("src/memhogs_ellipsis.R")
@@ -320,7 +320,7 @@ memory_hogs(decreasing = TRUE)
 //end.rcode
 
 //begin_no_slide
-Jetzt k&ouml;nnen wir die R&uuml;ckgabe unserer Funktion nutzen, um die beiden gr&ouml;&szlig;ten Speicherfresser zu l&ouml;schen:
+Jetzt können wir die Rückgabe unserer Funktion nutzen, um die beiden größten Speicherfresser zu löschen:
 //end_no_slide
 
 //begin.rcode
@@ -328,19 +328,19 @@ rm(list = names(memory_hogs(decreasing = TRUE)[1:2]))
 memory_hogs()
 //end.rcode
 
-Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:
+Wir können also, wenn wir wollen, drei Arten von Argumenten unterscheiden:
 
-- Obligatorische. Sie sollten keine Voreinstellungen kennen und &uuml;bergeben &uuml;blicherweise Objekte, die von der Funktion verarbeitet werden sollen.
-- Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion.
+- Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen.
+- Optionale. Sie sollten Voreinstellungen kennen und dienen üblicherweise der Steuerung der Funktion.
 - Die _Ellipsis_, um Argumente an andere Funktionen weiterzureichen.
 
 == Return Value und Side Effects //slide_only
 === Return Value und Side Effects//no_slide
 //begin_no_slide
-Jede Funktion in **R** gibt einen Wert zur&uuml;ck, falls sie nicht mit einem Fehler abbricht.
-Wenn wir keinen R&uuml;ckgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zur&uuml;ckgegeben wurde.
-Es ist daher sicher nicht schlecht, wenn Du versucht, den R&uuml;ckgabewert explizit anzugeben.
-Unsere Summenfunktion k&ouml;nnte auch so aussehen:
+Jede Funktion in **R** gibt einen Wert zurück, falls sie nicht mit einem Fehler abbricht.
+Wenn wir keinen Rückgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zurückgegeben wurde.
+Es ist daher sicher nicht schlecht, wenn Du versucht, den Rückgabewert explizit anzugeben.
+Unsere Summenfunktion könnte auch so aussehen:
 //end_no_slide
 
 //begin.rcode
@@ -353,11 +353,11 @@ my_sum <- function(x) {
 //end.rcode
 
 //begin_no_slide
-Das ist zwar (um eine Zeile) k&uuml;rzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
-Und damit mehr schlechter als eine Zeile k&uuml;rzer mehr besser ist, capisce?
+Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
+Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?
 
 Komplexere Funktionen haben oft Nebenwirkungen (side effects)
-Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist R&uuml;ckgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zur&uuml;ck (und das selbst dann, wenn es gar nichts zu l&ouml;schen gibt), das erkennen wir, wenn wir ihren R&ouml;ckgabewert explizit drucken:
+Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Röckgabewert explizit drucken:
 //end_no_slide
 //begin.rcode
 a <- "This is a string"
@@ -366,9 +366,9 @@ print(rm())
 //end.rcode
 //begin_no_slide
 
-Das hei&szlig;t also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, zur&uuml;ckgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`).
+Das heißt also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`).
 
-Das k&ouml;nnen wir &auml;ndern, indem wir einen expliziten R&uuml;ckgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den G&uuml;tigkeitsbereich, indem die Funktion l&auml;scht, in ein Steuerargument mit Voreinstellung um):
+Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion läscht, in ein Steuerargument mit Voreinstellung um):
 //end_no_slide
 
 //begin.rcode, code = grep("#'", readLines("src/wipe_clean.R"), value = TRUE, invert = TRUE)
@@ -377,7 +377,7 @@ Das k&ouml;nnen wir &auml;ndern, indem wir einen expliziten R&uuml;ckgabewert ei
 print(wipe_clean())
 ls()
 //end.rcode
-Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.
+Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.
 
 
 == Funktionen verwalten //slide_only
@@ -404,9 +404,9 @@ Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer
 ==== Typentests//no_slide
 
 //begin_no_slide
-Wir k&ouml;nnen Objekte darauf testen, ob sie einem bestimmten Typ (einer Klasse) angeh&ouml;ren; 
-bei Objekten, die einer Funktion als Argument &uuml;bergeben werden ist dies besonders ratsam.
-Das geht mir reinen +base R+, ist aber eher umst&auml;ndlich,
+Wir können Objekte darauf testen, ob sie einem bestimmten Typ (einer Klasse) angehören; 
+bei Objekten, die einer Funktion als Argument übergeben werden ist dies besonders ratsam.
+Das geht mir reinen +base R+, ist aber eher umständlich,
 die https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro[Vignette zu +checkmate+] 
 bietet ein anschauliches Bespiel.
 
@@ -414,8 +414,8 @@ Ich kenne zwei Packages, die Typentest vereinfachen: +assertthat+ und +checkmate
 
 - +checkmate+ ist hauptsächlich in C geschrieben, sehr schnell, 
 sehr flexibel mit unterschiedlichen Testarten ("checks", "asserts" und "tests"), 
-hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist &uuml;ber 100 Seiten lang. 
-- +assertthat+ ist reines R ohne irgendwelche Abhängigkeiten und recht &uuml;bersichtlich.
+hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist über 100 Seiten lang. 
+- +assertthat+ ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
 
 +assertthat+ ist sehr einfach:
 //end_no_slide
@@ -434,7 +434,7 @@ Wenn wir unserer Summenfunktion
 //begin.rcode, code = readLines("src/my_sum.R")
 //end.rcode
 
-ein nicht-numerisches Argument &uuml;bergeben, erhalten wir eine recht kryptische Fehlermeldung:
+ein nicht-numerisches Argument übergeben, erhalten wir eine recht kryptische Fehlermeldung:
 
 //begin.rcode
 my_sum(c("a", "b"))
@@ -445,12 +445,12 @@ Durch den Einbau eines Typentests
 
 //begin.rcode, code = readLines("src/my_sum_assertion.R")
 //end.rcode
-wird die Meldung deutlich verst&auml;ndlicher:
+wird die Meldung deutlich verständlicher:
 //begin.rcode
 my_sum(c("a", "b"))
 //end.rcode
 
-Mit +checkmate+ k&ouml;nnen wir sogar erzwingen, dass x nicht nur numerisch sein muss,
+Mit +checkmate+ können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
 sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:
 //begin.rcode, code = readLines("src/my_sum_checkmate.R")
 //end.rcode
@@ -459,20 +459,20 @@ sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja e
 my_sum(42)
 //end.rcode
 
-_Ich nutze Typentests oft in Funktionen. Da +checkmate+ deutlich mehr Funktionalit&auml;t bietet, nutzte ich +assert_that+ eher selten._
+_Ich nutze Typentests oft in Funktionen. Da +checkmate+ deutlich mehr Funktionalität bietet, nutzte ich +assert_that+ eher selten._
 
 == Auswahllisten //slide_only
 ==== Auswahllisten//no_slide
-Mit Auswahllisten k&ouml;nnen wir Objekte darauf testen, ob sie eine von mehreren M&ouml;glichkeiten
-enthalten. Das ist vor allem f&uuml;r Steuerargumente hilfreich.
-+base R+ kennt +match.arg+, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zur&uuml;gibt, wenn
+Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
+enthalten. Das ist vor allem für Steuerargumente hilfreich.
++base R+ kennt +match.arg+, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zurügibt, wenn
 es in der Auswahlliste enthalten ist:
 //begin.rcode
 noten <-  c("sehr gut", "gut", "nicht soo gut", "das kann auf jeden Fall noch besser werden")
 note  <- "gut"
 match.arg(arg = note, choices = noten)
 //end.rcode
-Dabei bedient es sich dem "partial matching", das hei&szlig;t, dass ein eindeutig einer Auswahlm&ouml;glichkeit zuzuordnender Anfang einer Zeichenkette ausreicht:
+Dabei bedient es sich dem "partial matching", das heißt, dass ein eindeutig einer Auswahlmöglichkeit zuzuordnender Anfang einer Zeichenkette ausreicht:
 //begin.rcode
 note  <- "das"
 match.arg(arg = note, choices = noten)
@@ -504,7 +504,7 @@ note  <- "das"
 checkmate::assertChoice(x = note, choices = noten)
 //end.rcode
 
-Au&szlig;erdem gibt +checkmate+ die gefundene R&uuml;ckgabe unsichtbar zur&uuml;ck, weshalb ich hier ein explizites +print+ ben&ouml;tige:
+Außerdem gibt +checkmate+ die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites +print+ benötige:
 //begin.rcode
 note  <- "gut"
 checkmate::assertChoice(x = note, choices = noten)
@@ -519,12 +519,12 @@ print(checkmate::assertChoice(x = x, choices = choices))
 //end.rcode
 
 
-_Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlm&ouml;glichenkeiten in meinen Funktionen habe._
+_Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlmöglichenkeiten in meinen Funktionen habe._
 
 == Unit Testing //slide_only
 === Unit Testing//no_slide
-Beim Unit Testing wollen wir nicht die einer Funktion &uuml;bergebenen Argumente, sondern die Funktion selbst testen.
-Also im Zweifel ihren R&uuml;ckgabewert.
+Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
+Also im Zweifel ihren Rückgabewert.
 
 //begin_no_slide
 Neben +testthat+ gibt es auch das R-Package +RUnit+.
@@ -567,16 +567,16 @@ cov <- covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean_broke
 print(cov)
 //end.rcode
 
-_Ich teste fast alle meine Funktion sp&auml;testens, wenn ich sie in ein Package verpacke._
+_Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke._
 
-== Sch&ouml;ner Programmieren //slide_only
-=== Sch&ouml;ner Programmieren//no_slide
+== Schöner Programmieren //slide_only
+=== Schöner Programmieren//no_slide
 //begin_no_slide
-Ich m&ouml;chte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
-die Dir helfen k&ouml;nnen, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardm&auml;&szlig;ig bei der Entwicklung von Packages._
+Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
+die Dir helfen können, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardmäßig bei der Entwicklung von Packages._
 Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der _recommended_ Packages von **R** und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil +codetools+ schon da war.
 
-Stell Dir vor, Du h&auml;ttest in der Datei "src/code.R" folgende unsch&ouml;ne 
+Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne 
 und kaputte Funktion geschrieben:
 //end_no_slide
 
@@ -610,8 +610,8 @@ lintr::lint("src/code.R")
 
 Das Package kennt viele Optionen, lies Dir die Hilfe durch!
 
-==== Code s&auml;ubern mit cleanr //no_slide
-== Code s&auml;ubern mit cleanr //slide_only
+==== Code säubern mit cleanr //no_slide
+== Code säubern mit cleanr //slide_only
 Das Package `cleanr` prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.
@@ -622,12 +622,12 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 
 Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!
 
-==== Cyclomatic Complexity pr&uuml;fen mit cyclocomp //no_slide
-== Cyclomatic Complexity pr&uuml;fen mit cyclocomp //slide_only
+==== Cyclomatic Complexity prüfen mit cyclocomp //no_slide
+== Cyclomatic Complexity prüfen mit cyclocomp //slide_only
 //begin_no_slide
 
-McCabes "cyclomatic complexity" (<<cyc>>) mi&szlig;t die 
-Komplexit&auml;t von Programmcode.
+McCabes "cyclomatic complexity" (<<cyc>>) mißt die 
+Komplexität von Programmcode.
 Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.
 
 Insbesondere gibt uns die "cyclomatic complexity" eine Idee davon, wie viele Testfälle wir 

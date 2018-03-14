@@ -4234,16 +4234,16 @@ memory_hogs()</tt></pre></div></div>
 <pre><code>## memory_hogs          va          vd
 ##       13080        4232      343920</code></pre>
 </div></div>
-<div class="paragraph"><p>Wir k&ouml;nnen also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
+<div class="paragraph"><p>Wir können also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
 <ul class="">
 <li>
 <span>
-Obligatorische. Sie sollten keine Voreinstellungen kennen und &uuml;bergeben &uuml;blicherweise Objekte, die von der Funktion verarbeitet werden sollen.
+Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen.
 </span>
 </li>
 <li>
 <span>
-Optionale. Sie sollten Voreinstellungen kennen und dienen &uuml;blicherweise der Steuerung der Funktion.
+Optionale. Sie sollten Voreinstellungen kennen und dienen üblicherweise der Steuerung der Funktion.
 </span>
 </li>
 <li>
@@ -4319,7 +4319,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## character(0)</code></pre>
 </div></div>
-<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gel&ouml;schten Objekte zur&uuml;ck. Wir wissen also, wie hie&szlig;, was wir gel&ouml;scht haben. Damit k&ouml;nnen wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
+<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4391,7 +4391,7 @@ http://www.gnu.org/software/src-highlite -->
     }
     return(value)
 }</tt></pre></div></div>
-<div class="paragraph"><p>ein nicht-numerisches Argument &uuml;bergeben, erhalten wir eine recht kryptische Fehlermeldung:</p></div>
+<div class="paragraph"><p>ein nicht-numerisches Argument übergeben, erhalten wir eine recht kryptische Fehlermeldung:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4419,7 +4419,7 @@ http://www.gnu.org/software/src-highlite -->
     }
     return(value)
 }</tt></pre></div></div>
-<div class="paragraph"><p>wird die Meldung deutlich verst&auml;ndlicher:</p></div>
+<div class="paragraph"><p>wird die Meldung deutlich verständlicher:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4433,7 +4433,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: x is not a numeric or integer vector</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Mit <code>checkmate</code> k&ouml;nnen wir sogar erzwingen, dass x nicht nur numerisch sein muss,
+<div class="paragraph"><p>Mit <code>checkmate</code> können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
 sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4459,17 +4459,17 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc"): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc", clean = TRUE): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><em>Ich nutze Typentests oft in Funktionen. Da <code>checkmate</code> deutlich mehr Funktionalit&auml;t bietet, nutzte ich <code>assert_that</code> eher selten.</em></p></div>
+<div class="paragraph"><p><em>Ich nutze Typentests oft in Funktionen. Da <code>checkmate</code> deutlich mehr Funktionalität bietet, nutzte ich <code>assert_that</code> eher selten.</em></p></div>
 </div>
 </div>
 <div class="sect1 slide">
 <h1 id="_auswahllisten">Auswahllisten</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>Mit Auswahllisten k&ouml;nnen wir Objekte darauf testen, ob sie eine von mehreren M&ouml;glichkeiten
-enthalten. Das ist vor allem f&uuml;r Steuerargumente hilfreich.
-<code>base R</code> kennt <code>match.arg</code>, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zur&uuml;gibt, wenn
+<div class="paragraph"><p>Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
+enthalten. Das ist vor allem für Steuerargumente hilfreich.
+<code>base R</code> kennt <code>match.arg</code>, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zurügibt, wenn
 es in der Auswahlliste enthalten ist:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4483,7 +4483,7 @@ match.arg(arg = note, choices = noten)</tt></pre></div></div>
 <div class="content">
 <pre><code>## [1] "gut"</code></pre>
 </div></div>
-<div class="paragraph"><p>Dabei bedient es sich dem "partial matching", das hei&szlig;t, dass ein eindeutig einer Auswahlm&ouml;glichkeit zuzuordnender Anfang einer Zeichenkette ausreicht:</p></div>
+<div class="paragraph"><p>Dabei bedient es sich dem "partial matching", das heißt, dass ein eindeutig einer Auswahlmöglichkeit zuzuordnender Anfang einer Zeichenkette ausreicht:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4526,7 +4526,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.02185232</code></pre>
+<pre><code>## [1] -0.08680939</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4554,9 +4554,9 @@ checkmate::assertChoice(x = note, choices = noten)</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc"): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc", clean = TRUE): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Au&szlig;erdem gibt <code>checkmate</code> die gefundene R&uuml;ckgabe unsichtbar zur&uuml;ck, weshalb ich hier ein explizites <code>print</code> ben&ouml;tige:</p></div>
+<div class="paragraph"><p>Außerdem gibt <code>checkmate</code> die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites <code>print</code> benötige:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4582,14 +4582,14 @@ print(checkmate::assertChoice(x = x, choices = choices))</tt></pre></div></div>
 <div class="content">
 <pre><code>## [1] 3</code></pre>
 </div></div>
-<div class="paragraph"><p><em>Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlm&ouml;glichenkeiten in meinen Funktionen habe.</em></p></div>
+<div class="paragraph"><p><em>Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlmöglichenkeiten in meinen Funktionen habe.</em></p></div>
 </div>
 </div>
 <div class="sect1 slide">
 <h1 id="_unit_testing">Unit Testing</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>Beim Unit Testing wollen wir nicht die einer Funktion &uuml;bergebenen Argumente, sondern die Funktion selbst testen.
-Also im Zweifel ihren R&uuml;ckgabewert.</p></div>
+<div class="paragraph"><p>Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
+Also im Zweifel ihren Rückgabewert.</p></div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4705,11 +4705,11 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/wipe_clean_broken.R: 100.00%</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><em>Ich teste fast alle meine Funktion sp&auml;testens, wenn ich sie in ein Package verpacke.</em></p></div>
+<div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke.</em></p></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_sch_ouml_ner_programmieren">Sch&ouml;ner Programmieren</h1>
+<h1 id="_schöner_programmieren">Schöner Programmieren</h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4801,7 +4801,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_code_s_auml_ubern_mit_cleanr">Code s&auml;ubern mit cleanr</h1>
+<h1 id="_code_säubern_mit_cleanr">Code säubern mit cleanr</h1>
 <div class="sectionbody">
 <div class="paragraph"><p>Das Package <code>cleanr</code> prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
@@ -4824,7 +4824,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_cyclomatic_complexity_pr_uuml_fen_mit_cyclocomp">Cyclomatic Complexity pr&uuml;fen mit cyclocomp</h1>
+<h1 id="_cyclomatic_complexity_prüfen_mit_cyclocomp">Cyclomatic Complexity prüfen mit cyclocomp</h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
