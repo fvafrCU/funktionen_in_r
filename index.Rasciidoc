@@ -526,31 +526,73 @@ _Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren
 Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
 Also im Zweifel ihren Rückgabewert.
 
-//begin_no_slide
-Neben +testthat+ gibt es auch das R-Package +RUnit+.
-//end_no_slide
+Ich kenne zwei Packages, die Unit Testing in R formalisieren (im Prinzip geht es
+auch ohne spezielle Packages, aber seit ich die beiden Packages kenne, habe ich
+nie mehr wie früher "von Hand" getestet):
 
-== Testthat //slide_only
-==== Testthat//no_slide
+- +RUnit+ gibt es schon seit 2004, es ist sehr formal
+ und hat wenige Abhängigkeiten (daher bevorzuge ich es).
+- +testthat+ finde ich bei der Entwicklung von Packages einfacher anzuwenden.
 
+== Erwartungen //slide_only
+==== Erwartungen //no_slide
+Die kleinste Testeinheit beider Packages ist die Erwartung, bei der ein Ergebnis mit einer Erwartung abgeglichen wird.
+
+.+RUnit+
 //begin.rcode
-testthat::test_that("Simple test on summation.",
-                    testthat::expect_identical(my_sum(c(2, 7)), 8)
-                    )
-
-
+RUnit::checkIdentical(my_sum(c(2, 7)), 9)
+RUnit::checkIdentical(my_sum(c(2, 7)), 8)
 //end.rcode
-//begin.rcode, code = readLines("src/test_my_sum.R")
+
+.+testthat+
+//begin.rcode, eval  = FALSE
+testthat::expect_identical(my_sum(c(2, 7)), 8)
+testthat::expect_identical(my_sum(c(2, 7)), 9)
+//end.rcode
+//begin.rcode, echo  = FALSE
+# testthat stop()s R, need to tryCatch
+tryCatch(testthat::expect_identical(my_sum(c(2, 7)), 8), expectation_failure= function(cond) cat(unlist(cond)))
+testthat::expect_identical(my_sum(c(2, 7)), 9)
+//end.rcode
+
+== Tests //slide_only
+==== Tests //no_slide
+Um Tests bei der Paketentwicklung oder in Bezug auf ihre <<test-coverage, Coverage>> auszuwerten,
+    werden in beiden Packages Erwartungen zu Tests zusammenfasst.
+
+.+RUnit+
+//begin.rcode
+testthat::test_that("Simple test on summation.", {
+                        testthat::expect_identical(my_sum(c(2, 7)), 8)
+                        testthat::expect_identical(my_sum(c(2, 7)), 9)}
+)
+//end.rcode
+
+.+testthat+
+//begin.rcode
+test_sum <- function() {
+    RUnit::checkIdentical(my_sum(c(2, 7)), 9)
+    RUnit::checkIdentical(my_sum(c(2, 7)), 8)
+}
+test_sum()
 //end.rcode
 
 == Test Coverage //slide_only
 ==== Test Coverage//no_slide
+//begin.rcode, code = readLines("src/my_sum_assertion.R")
+//end.rcode
+//begin.rcode, code = readLines("src/test_my_sum_assertion.R")
+//end.rcode
+
+
 
 //begin.rcode
 cov <- covr::file_coverage("src/my_sum_assertion.R", "src/test_my_sum_assertion.R")
 print(cov)
 //end.rcode
 
+//begin.rcode, code = readLines("src/my_sum_coverage.R")
+//end.rcode
 //begin.rcode
 cov <- covr::file_coverage("src/my_sum_coverage.R", "src/test_my_sum_assertion.R")
 print(cov)
