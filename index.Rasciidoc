@@ -13,9 +13,7 @@ https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_
 
 == Worum geht es?
 
-//begin_no_slide
 Naja, ums Schreiben von Funktionen in der Programmiersprache **R**.
-//end_no_slide
 
 
 
@@ -42,35 +40,27 @@ eine (oder mehrere) Funktion(en)  aus ihm  zu machen.
 
 
 == Eine Funktion schreiben
-== Eine neue Summenfunktion //slide_only
-=== Eine neue Summenfunktion //no_slide
+=== Eine neue Summenfunktion
 
 .Warum wir diese Funktion nicht schreiben sollten
 
-//begin_no_slide
 Eine Summenfunktion gibt es wahrscheinlich in jeder Programmiersprache, in **R**
 heißt sie `sum()`. Diese Funktion ist besser, stabiler und schneller, als
 alles, das wir selbst programmieren können.
-//end_no_slide
 
 .Warum wir es trotzdem tun
 
-//begin_no_slide
 Nunja, irgendwelchen Code müssen wir ja nehmen.  
 Ich habe die Summenberechnung ausführlich als Beispiel zur Schleifenprogrammierung in 
 https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt, 
     und eine Wiederholung schadet sicher nicht.
-//end_no_slide
 
 
-== Vom Code ... //slide_only
-=== Vom Code ... //no_slide
+=== Vom Code ... 
 //begin.rcode, code = readLines("src/sum.R")
 //end.rcode
 
-//begin_no_slide
 Dabei siehst Du:
-//end_no_slide
 
 <1> Definition des zu summierenden Vektors
 <2> Definition des zur Addition neutralen Elementes
@@ -78,10 +68,8 @@ Dabei siehst Du:
 <4> Addition des aktuellen Vektorelementes zum Ergebnis
 <5> Ausgabe des Ergebnisses
 
-== ... zur Funktion //slide_only
-=== ... zur Funktion //no_slide
+=== ... zur Funktion 
 
-//begin_no_slide
 Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
 der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
 der Funktion. Ich wähle als Namen für das Argument jetzt +x+, das könnte aber
@@ -90,7 +78,6 @@ meist eine Unbekannte. Und als Ausgabe verwenden wir keine Druck- sondern eine
 Rückgabefunktion (+return()+ statt +print()+). 
 Das Ergebnis sieht dann so aus:
 
-//end_no_slide
 
 
 
@@ -98,37 +85,27 @@ Das Ergebnis sieht dann so aus:
 //end.rcode
 
 
-=== Scoping //no_slide
-== Scoping I //slide_only
-//begin_no_slide
+=== Scoping 
 Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche 
 (englisch "scope"), wir sehen uns das am Beispiel an:
-//end_no_slide
 ==== Schreibzugriffe
 .Ausgangszustand
-//begin_no_slide
 Im Augenblick hat das Objekte +value+ den Wert +r value+:
-//end_no_slide
 
 //begin.rcode
 print(value)
 //end.rcode
 
 .Funktionsausführung
-//begin_no_slide
 Jetzt wenden wir unsere Summenfunktion an und berechnen die Summe eines anderen Vektors: 
-//end_no_slide
 //begin.rcode
 print(my_sum(1:3))
 //end.rcode
 
-//begin_no_slide
 Das Objekt `value` behält seinen Wert:
-//end_no_slide
 //begin.rcode
 print(value)
 //end.rcode
-//begin_no_slide
 Und das, obwohl wir innerhalb der Funktion dem Objekt +value+ in der ersten
 Zeile den Wert 0 zuweisen und diesen dann in der Schleife mit den Werten 1, 3
 und 6 überschreiben:
@@ -137,13 +114,10 @@ Es gibt daher ein Objekt names  +value+ außerhalb der Funktion, das den Wert +r
 Innerhalb der Funktion legt **R** ein neues lokales Objekt, ebenfalls mit dem Namen
 +value+, an.
 Du _kannst_ auch aus einer Funktion in einen <<_arbeiten_mit_gültigkeitsbereichen, anderen Gültigkeitsbereich>> schreiben, wenn Du das wirklich willst.
-//end_no_slide
 
-== Scoping II //slide_only
 
 ==== Lesezugriffe
 .Lesen ist unsicher
-//begin_no_slide
 Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
 **R** zunächst nach einem lokalen Objekt des gesuchten Namens, dann in den der
 Funktion übergeordneten Gültigkeitsbereichen, also außerhalb der Funktion.
@@ -151,18 +125,14 @@ Funktion übergeordneten Gültigkeitsbereichen, also außerhalb der Funktion.
 Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, Du kommentierst 
 beim Schreiben der Summenfunktion die Definition des zur Addition neutralen
 Elementes aus Versehen aus:
-//end_no_slide
 //begin.rcode, code = readLines("src/my_sum_scope_broken.R")
 //end.rcode
-//begin_no_slide
 
 Du führst die Funktion aus und erhälst:
-//end_no_slide
 //begin.rcode
 print(my_sum_broken(1:3))
 //end.rcode
 Was ist passiert?
-//begin_no_slide
 Im ersten Durchlauf der Schleife gibt es beim Lesen von
 +value+ noch kein lokales Objekt dieses Namens. Daher sucht **R** außerhalb der
 Funktion und findet ein Objekt mit dem Wert +r value+. 
@@ -170,90 +140,68 @@ Zu diesem Objekt addieren
 wir +x_i+, das im ersten Schleifendurchlauf den Wert +1+ enthält und erschaffen
 damit in der Funktion ein lokales Objekt names +value+, das dann im zweiten
 Durchlauf der Schleife auch gelesen werden kann.
-//end_no_slide
 
-== Scoping III //slide_only
-//begin_no_slide
 Wenn Du diese Funktion verwendest, ohne vorher das Objekt +value+ zu definieren,
 oder das Objekt +value+ entfernst und dann die Funktion ausführst
-//end_no_slide
 //begin.rcode
 rm(value)
 print(my_sum_broken(1:3))
 //end.rcode
-//begin_no_slide
 erhälst Du einen Fehler, weil **R** auch außerhalb der Funktion kein Objekt
 names +value+ finden kann. Und diesen Fehler erwarten wir ja eigentlich, wenn 
 wir nur die Funktion betrachten: sie ist fehlerhaft.
-//end_no_slide
 
-== Scoping IV //slide_only
 .Sicherer Lesen
-//begin_no_slide
 Wie wir eine Funktion dazu bringen können, außerhalb ihres Gültigkeitsbereiches
 zu schreiben (nein, das _wie_ habe ich Dir noch nicht gezeigt... ), so können wir 
 eine Funktion auch zwingen, beim Lesen nur nach lokalen Objekten zu
 suchen:
-//end_no_slide
 //begin.rcode, code = readLines("src/my_sum_get_safe.R")
 //end.rcode
 
-//begin_no_slide
 Selbst wenn wir ein Objekt namens +value+ anlegen, gibt die Funktion nun einen
 Fehler aus:
-//end_no_slide
 //begin.rcode
 value <- 42
 my_sum_safer(1:10)
 //end.rcode
-//begin_no_slide
 Ich finde es aber praktiabler, beim Schreiben einer Funktion darauf zu achten,
 welche Objekte ich lese. + 
 Und wenn Du Funktionen <<_testing,testest>>, findest Du Fehler, die auf Scoping beruhen,
 sehr schnell. 
-//end_no_slide
 
 
-== Arbeiten mit Gültigkeitsbereiche (environments) //slide_only
-==== Arbeiten mit Gültigkeitsbereichen //no_slide
+==== Arbeiten mit Gültigkeitsbereichen 
 
-//begin_no_slide
 Ein Befehl, mit dem Du alle Objekte Deines aktuellen Arbeitsbereiches löschen
 kannst (entsprechend dem RStudio-Knopf mit dem Besensymbol footnote:[Im https://github.com/rstudio/rstudio/releases/tag/v1.1.426[Code von RStudio v1.1.426] findet sich die Funktion hinter dem Knopf  in der Datei src/cpp/session/modules/SessionEnvironment.R, sie besteht im wesentlichen aus der Zeile +
 rm(list=ls(envir=env, all.names=includeHidden), envir=env) +
 Sie wird in src/cpp/session/modules/environment/SessionEnvironment.cpp in der C++-Funktion  removeAllObjects aufgerufen.
 ]) lautet:
-//end_no_slide
 
 //begin.rcode, eval = FALSE
 rm(list = ls(all.names = TRUE))
 //end.rcode
-//begin_no_slide
 Nun  bin ich
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich 
 (in **R** heissen die Gültigkeitsbereiche "environments", in **S** hießen sie "frames") ist, und die 
 Funktionen  `ls` und `rm` nur in _einem_ Gültigkeitsbereich arbeiten, funktioniert das naheliegende
-//end_no_slide
 //begin.rcode, eval = FALSE
 wipe_clean <- function() {
     rm(list = ls(all.names = TRUE))
 }
 //end.rcode 
-//begin_no_slide
 *nicht*.
 
 Wenn ich den Gültigkeitsbereich explizit 
-//end_no_slide
 //begin.rcode
 wipe_clean <- function() {
     rm(list = ls(name = parent.frame(), all.names = TRUE), envir = parent.frame())
 }
 //end.rcode 
-//begin_no_slide
 angebe, tut die Funktion, was ich wollte:
-//end_no_slide
 //begin.rcode
 ls()
 wipe_clean()
@@ -263,24 +211,19 @@ ls()
 
 
 
-== Argumente //slide_only
-=== Argumente//no_slide
+=== Argumente
 
-//begin_no_slide
 Funktionen kennen Argmumente, am besten nicht zu viele (siehe zum Beispiel <<cc>>). 
 Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie summieren soll. Der ist also ein obligatorisches Element, er sollte keine Voreinstellung haben (und hat auch keine).
 
 
 Eine Funktion, die, wie `wipe_clean`, kein Argument kennt, ist Folgende:
-//end_no_slide
 
 
 //begin.rcode, code = readLines("src/memhogs.R")
 //end.rcode
 
-//begin_no_slide
 Diese Funktion gibt mir für jedes Objekt des Gültigkeitsbereiches, in dem ich sie aufrufe, den Speicherverbrauch aus.
-//end_no_slide
 
 //begin.rcode
 va <- rep(mtcars, 1)
@@ -290,11 +233,9 @@ vd <- rep(mtcars, 100)
 memory_hogs()
 //end.rcode
 
-//begin_no_slide
 Bei so wenigen Objekten erkenne ich leicht, dass `vc` der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich `vc` nicht mehr unbedingt brauche, `vc` löschen sollte.
 
 Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:
-//end_no_slide
 
 //begin.rcode, code = readLines("src/memhogs_arg.R")
 //end.rcode
@@ -303,13 +244,11 @@ Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktions
 memory_hogs()
 //end.rcode
 
-//begin_no_slide
 Das ist ein klassisches (optionales) Steuerargument, das das Verhalten einer Funktion steuert.
 Steuerargumente sollten eine sinnvolle Voreinstellung haben.
 
 Da die `memory_hogs` intern nun die Funktion `order` aufruft, könnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen. 
 Das können wir entweder explizit tun, oder wir benutzen ein spezielles, _Ellipsis_ genanntes Argument, das durch drei Punkte (`...`) aufgerufen wird:
-//end_no_slide
 
 //begin.rcode, code = readLines("src/memhogs_ellipsis.R")
 //end.rcode
@@ -319,9 +258,7 @@ memory_hogs()
 memory_hogs(decreasing = TRUE)
 //end.rcode
 
-//begin_no_slide
 Jetzt können wir die Rückgabe unserer Funktion nutzen, um die beiden größten Speicherfresser zu löschen:
-//end_no_slide
 
 //begin.rcode
 rm(list = names(memory_hogs(decreasing = TRUE)[1:2]))
@@ -334,14 +271,11 @@ Wir können also, wenn wir wollen, drei Arten von Argumenten unterscheiden:
 - Optionale. Sie sollten Voreinstellungen kennen und dienen üblicherweise der Steuerung der Funktion.
 - Die _Ellipsis_, um Argumente an andere Funktionen weiterzureichen.
 
-== Return Value und Side Effects //slide_only
-=== Return Value und Side Effects//no_slide
-//begin_no_slide
+=== Return Value und Side Effects
 Jede Funktion in **R** gibt einen Wert zurück, falls sie nicht mit einem Fehler abbricht.
 Wenn wir keinen Rückgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zurückgegeben wurde.
 Es ist daher sicher nicht schlecht, wenn Du versucht, den Rückgabewert explizit anzugeben.
 Unsere Summenfunktion könnte auch so aussehen:
-//end_no_slide
 
 //begin.rcode
 my_sum <- function(x) {
@@ -352,24 +286,20 @@ my_sum <- function(x) {
 }
 //end.rcode
 
-//begin_no_slide
 Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?
 
 Komplexere Funktionen haben oft Nebenwirkungen (side effects)
 Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Röckgabewert explizit drucken:
-//end_no_slide
 //begin.rcode
 a <- "This is a string"
 print(rm(a))
 print(rm())
 //end.rcode
-//begin_no_slide
 
 Das heißt also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`).
 
 Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion läscht, in ein Steuerargument mit Voreinstellung um):
-//end_no_slide
 
 //begin.rcode, code = grep("#'", readLines("src/wipe_clean.R"), value = TRUE, invert = TRUE)
 //end.rcode
@@ -380,8 +310,7 @@ ls()
 Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.
 
 
-== Funktionen verwalten //slide_only
-=== Funktionen verwalten//no_slide
+=== Funktionen verwalten
 
 ==== Lokal
 Mit source
@@ -395,15 +324,12 @@ Das ist am aufwendigsten, aber auch am elegantesten.
 
 == Weniger schlecht programmieren
 
-== Argumententests //slide_only
-=== Argumententests//no_slide
+=== Argumententests
 Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.
 
 
-== Typentests //slide_only
-==== Typentests//no_slide
+==== Typentests
 
-//begin_no_slide
 Wir können Objekte darauf testen, ob sie einem bestimmten Typ (einer Klasse) angehören; 
 bei Objekten, die einer Funktion als Argument übergeben werden ist dies besonders ratsam.
 Das geht mir reinen +base R+, ist aber eher umständlich,
@@ -418,7 +344,6 @@ hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist über 100 
 - +assertthat+ ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
 
 +assertthat+ ist sehr einfach:
-//end_no_slide
 //begin.rcode
 x <- 6
 assertthat::assert_that(is.numeric(x))
@@ -461,8 +386,7 @@ my_sum(42)
 
 _Ich nutze Typentests oft in Funktionen. Da +checkmate+ deutlich mehr Funktionalität bietet, nutzte ich +assert_that+ eher selten._
 
-== Auswahllisten //slide_only
-==== Auswahllisten//no_slide
+==== Auswahllisten
 Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
 enthalten. Das ist vor allem für Steuerargumente hilfreich.
 +base R+ kennt +match.arg+, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zurügibt, wenn
@@ -521,8 +445,7 @@ print(checkmate::assertChoice(x = x, choices = choices))
 
 _Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlmöglichenkeiten in meinen Funktionen habe._
 
-== Unit Testing //slide_only
-=== Unit Testing//no_slide
+=== Unit Testing
 Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
 Also im Zweifel ihren Rückgabewert.
 
@@ -534,8 +457,7 @@ nie mehr wie früher "von Hand" getestet):
  und hat wenige Abhängigkeiten (daher bevorzuge ich es).
 - +testthat+ finde ich bei der Entwicklung von Packages einfacher anzuwenden.
 
-== Erwartungen //slide_only
-==== Erwartungen //no_slide
+==== Erwartungen 
 Die kleinste Testeinheit beider Packages ist die Erwartung, bei der ein Ergebnis mit einer Erwartung abgeglichen wird.
 
 .+RUnit+
@@ -555,8 +477,7 @@ tryCatch(testthat::expect_identical(my_sum(c(2, 7)), 8), expectation_failure= fu
 testthat::expect_identical(my_sum(c(2, 7)), 9)
 //end.rcode
 
-== Tests //slide_only
-==== Tests //no_slide
+==== Tests 
 Um Tests bei der Paketentwicklung oder in Bezug auf ihre <<test-coverage, Coverage>> auszuwerten,
     werden in beiden Packages Erwartungen zu Tests zusammenfasst.
 
@@ -577,8 +498,7 @@ test_sum <- function() {
 test_sum()
 //end.rcode
 
-== Test Coverage //slide_only
-==== Test Coverage//no_slide
+==== Test Coverage
 //begin.rcode, code = readLines("src/my_sum_assertion.R")
 //end.rcode
 //begin.rcode, code = readLines("src/test_my_sum_assertion.R")
@@ -602,8 +522,7 @@ print(cov)
 covr::zero_coverage(cov)
 //end.rcode
 
-== Nebenwirkungen testen //slide_only
-==== Nebenwirkungen testen//no_slide
+==== Nebenwirkungen testen
 //begin.rcode
 cov <- covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean_broken.R")
 print(cov)
@@ -611,22 +530,18 @@ print(cov)
 
 _Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke._
 
-== Schöner Programmieren //slide_only
-=== Schöner Programmieren//no_slide
-//begin_no_slide
+=== Schöner Programmieren
 Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
 die Dir helfen können, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardmäßig bei der Entwicklung von Packages._
 Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der _recommended_ Packages von **R** und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil +codetools+ schon da war.
 
 Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne 
 und kaputte Funktion geschrieben:
-//end_no_slide
 
 //begin.rcode, code = readLines("src/code.R"), eval = FALSE
 //end.rcode
 
-==== Code prüfen mit Codetools //no_slide
-== Code prüfen mit Codetools //slide_only
+==== Code prüfen mit Codetools 
 In Deiner Funktion findet +codetools+ die nicht benutzten Funktionsargumente und das nicht definierte Objekt +this_is_not_defined+:
 
 //begin.rcode
@@ -634,8 +549,7 @@ source("src/code.R")
 codetools::checkUsage(foo, all = TRUE)
 //end.rcode
 
-==== Entflusen mit lintr //no_slide
-== Entflusen mit lintr //slide_only
+==== Entflusen mit lintr 
 
 Das Package `lintr` prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
 zur übersichtlichen Formatierung. 
@@ -652,8 +566,7 @@ lintr::lint("src/code.R")
 
 Das Package kennt viele Optionen, lies Dir die Hilfe durch!
 
-==== Code säubern mit cleanr //no_slide
-== Code säubern mit cleanr //slide_only
+==== Code säubern mit cleanr 
 Das Package `cleanr` prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.
@@ -664,9 +577,7 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 
 Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!
 
-==== Cyclomatic Complexity prüfen mit cyclocomp //no_slide
-== Cyclomatic Complexity prüfen mit cyclocomp //slide_only
-//begin_no_slide
+==== Cyclomatic Complexity prüfen mit cyclocomp 
 
 McCabes "cyclomatic complexity" (<<cyc>>) mißt die 
 Komplexität von Programmcode.
@@ -677,13 +588,11 @@ für eine Funktion schreiben sollten
 (genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige https://en.wikipedia.org/wiki/Code_coverage[branch coverage] benötigten Testfälle).
 Für Deine häßliche Funktion bräuchtest Du also 
 +r cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))+ Testfälle:
-//end_no_slide
 
 //begin.rcode
 cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
 //end.rcode
 
-//begin_no_slide
 Allgemein gilt: je höher die "cyclomatic complexity", desto unverständlicher der Code.
 McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war professioneller Programmierer des Departement of Defense der National Security Agency. Bei einer "cyclomatic complexity"  von 20 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum ein Mensch mehr versteht. 
 
@@ -695,26 +604,22 @@ hat eine ganze Reihe von interaktiven Abfragen des Typs
 //end.rcode
 Diese treiben die "cyclomatic complexity" in die Höhe (weil die `return`-Anweisungen 
                                                         viele verschiedene mögliche Endpunkte der Funktion definieren. Eine gut strukturierte Funktion hat _genau einen_ "exit node"):
-//end_no_slide
 
 //begin.rcode
 source("src/release.R")
 cyclocomp::cyclocomp(release)
 //end.rcode
-//begin_no_slide
 Dabei ist die Funktion nur schwer verdaulich und nicht völlig unlesbar.
 Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln:
 //begin.rcode
 linters <- lintr::default_linters[names(lintr::default_linters )!= "object_usage_linter"]
 lintr::lint("src/release.R", linters = linters)
 //end.rcode
-//end_no_slide
 //begin.rcode
 suppressWarnings(cleanr::check_file("src/release.R"))
 //end.rcode
 
-== Funktionen dokumentieren //slide_only
-=== Funktionen dokumentieren //no_slide
+=== Funktionen dokumentieren 
 //begin.rcode, code = readLines("src/wipe_clean.R")
 //end.rcode
 
