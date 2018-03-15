@@ -1526,7 +1526,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.04986237</code></pre>
+<pre><code>## [1] -0.1310966</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1762,7 +1762,7 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ... Timing stopped at: 0 0 0
+## Executing test function test_sum  ... Timing stopped at: 0 0 0.001
 ##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
@@ -1773,7 +1773,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Thu Mar 15 16:57:17 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Thu Mar 15 17:13:53 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -1996,7 +1996,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>golden_ratio  &lt;- function(value, quantity = c(<span style="color: #FF0000">"a"</span>, <span style="color: #FF0000">"b"</span>)) {
+<pre><tt>golden_ratio  &lt;- function(value, quantity = c(<span style="color: #FF0000">"a + b"</span>, <span style="color: #FF0000">"a"</span>, <span style="color: #FF0000">"b"</span>)) {
     quantity &lt;- match.arg(quantity)
     phi &lt;- (1 + sqrt(5)) / 2
     switch(quantity,
@@ -2007,7 +2007,12 @@ http://www.gnu.org/software/src-highlite -->
            <span style="color: #FF0000">"b"</span> = {
                b &lt;- value
                a &lt;- b * phi
-           }           )
+           },
+           {
+               a &lt;- value / phi
+               b &lt;- a * phi - a
+           }
+           )
     return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b, <span style="color: #FF0000">"a + b"</span> = a + b))
 }</tt></pre></div></div>
 <div class="paragraph"><p>geschrieben, die mir den <a href="https://de.wikipedia.org/wiki/Goldener_Schnitt">Goldenen Schnitt</a> anwendet:</p></div>
@@ -2035,13 +2040,15 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 <div class="paragraph"><p>Und ich habe auch einen Test geschrieben:</p></div>
 <div class="listingblock">
-<div class="title">src/test_golden_ratio2.R</div>
+<div class="title">src/test_golden_ratio.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>, {
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test golden ratio"</span>, {
                     expectation &lt;- c(a = 6, b = 3.70820393249937, <span style="color: #FF0000">"a + b"</span> = 9.70820393249937)
+                    result &lt;- golden_ratio(6)
+                    testthat::expect_equal(result, expectation)
                     result &lt;- golden_ratio(6, <span style="color: #FF0000">"a"</span>)
                     testthat::expect_equal(result, expectation)
                     result &lt;- golden_ratio(3.70820393249937, <span style="color: #FF0000">"b"</span>)
@@ -2067,6 +2074,58 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_ratio.R: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="title">src/golden_ratio.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>golden_ratio  &lt;- function(value, quantity = c(<span style="color: #FF0000">"a + b"</span>, <span style="color: #FF0000">"a"</span>, <span style="color: #FF0000">"b"</span>)) {
+    quantity &lt;- match.arg(quantity)
+    phi &lt;- (1 + sqrt(5)) / 2
+    switch(quantity,
+           <span style="color: #FF0000">"a"</span> = {
+               a  &lt;- value
+               b &lt;- a / phi
+           },
+           <span style="color: #FF0000">"b"</span> = {
+               b &lt;- value
+               a &lt;- b * phi
+           },
+           {
+               a &lt;- value / phi
+               b &lt;- a * phi - a
+           }
+           )
+    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b, <span style="color: #FF0000">"a + b"</span> = a + b))
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"golden_ratio.R"</span>),
+                    file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_golden_ratio.R"</span>))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Warning in mapply(FUN = f, ..., SIMPLIFY = FALSE): longer argument not a</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## multiple of length of shorter</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Simple test golden ratio'</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## * `result` not equal to `expectation`.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## 3/3 mismatches (average diff: 2.47)</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## [1] 3.71 - 6.00 == -2.29</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## [2] 2.29 - 3.71 == -1.42</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## [3] 6.00 - 9.71 == -3.71</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke.</em></p></div>
 </div>
@@ -2336,7 +2395,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-15 16:57:19 CET
+ 2018-03-15 17:13:55 CET
 </div>
 </div>
 </body>

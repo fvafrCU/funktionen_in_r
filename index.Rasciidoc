@@ -642,14 +642,43 @@ Und ich habe auch einen Test geschrieben:
 src <- "test_golden_ratio2.R"
 withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
 //end.rcode
-.src/test_golden_ratio2.R
+.src/test_golden_ratio.R
 [source,r]
-include::src/test_golden_ratio2.R[]
+include::src/test_golden_ratio.R[]
 
 //begin.rcode
 covr::file_coverage(file.path("src", "golden_ratio.R"), 
                     file.path("src", "test_golden_ratio.R"))
 //end.rcode
+
+// #FIXME: Gesamtlaenge eher die angabe
+//begin.rcode, echo = FALSE, results = "hide"
+src <- "golden_ratio3.R"
+withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
+//end.rcode
+.src/golden_ratio.R
+[source,r]
+include::src/golden_ratio.R[]
+//begin.rcode
+covr::file_coverage(file.path("src", "golden_ratio.R"), 
+                    file.path("src", "test_golden_ratio.R"))
+//end.rcode
+
+// #FIXME: Default geaendert, zerschiesst alte aufrufe
+//begin.rcode, echo = FALSE, results = "hide"
+
+src <- "test_golden_ratio2.R"
+withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
+//end.rcode
+.src/test_golden_ratio.R
+[source,r]
+include::src/test_golden_ratio.R[]
+
+//begin.rcode
+covr::file_coverage(file.path("src", "golden_ratio.R"), 
+                    file.path("src", "test_golden_ratio.R"))
+//end.rcode
+
 
 // //begin.rcode, echo = FALSE, results = "hide"
 // withr::with_dir("src", file.copy("test_memhogs_ordered.R", "test_memory_hogs.R", overwrite = TRUE))
