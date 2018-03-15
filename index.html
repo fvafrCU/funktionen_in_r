@@ -1042,7 +1042,7 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 <div class="paragraph"><p>Ich finde es aber praktiabler, beim Schreiben einer Funktion darauf zu achten,
 welche Objekte ich lese.<br />
-Und wenn Du Funktionen <a href="#_testing">testest</a>, findest Du Fehler, die auf Scoping beruhen,
+Und wenn Du Funktionen <a href="#_funktionen_testen">testest</a>, findest Du Fehler, die auf Scoping beruhen,
 sehr schnell.</p></div>
 </div>
 <div class="sect3">
@@ -1469,7 +1469,7 @@ http://www.gnu.org/software/src-highlite -->
 <h4 id="_auswahllisten">3.1.2. Auswahllisten</h4>
 <div class="paragraph"><p>Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
 enthalten. Das ist vor allem für Steuerargumente hilfreich.
-<code>base R</code> kennt <code>match.arg</code>, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zurügibt, wenn
+<code>base R</code> kennt <code>match.arg</code>, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zurückgibt, wenn
 es in der Auswahlliste enthalten ist:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1526,7 +1526,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.2048751</code></pre>
+<pre><code>## [1] -0.02563853</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1695,8 +1695,9 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 <div class="sect4">
 <h5 id="_tests">Tests</h5>
-<div class="paragraph"><p>Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <a href="#test-coverage">Coverage</a> auszuwerten,
-    werden in beiden Packages Erwartungen zu Tests zusammenfasst:</p></div>
+<div class="paragraph"><p>Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <a href="#_code_coverage">Coverage</a> auszuwerten,
+    werden in beiden Packages Erwartungen zu Tests zusammenfasst
+(eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):</p></div>
 <div class="listingblock">
 <div class="title"><code>RUnit</code></div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1739,8 +1740,14 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect3">
-<h4 id="_test_coverage">3.2.2. Test Coverage</h4>
+<h4 id="_code_coverage">3.2.2. Code Coverage</h4>
+<div class="paragraph"><p>Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (<a href="https://en.wikipedia.org/wiki/Code_coverage">&Uuml;berdeckung</a>) berechnen.
+<code>covr</code> ist eines der Packages, die Code Coverage implentieren und das einzige, das ich nutze. Ich wei&szlig; es nicht, glaube aber, dass <code>covr</code> die <a href="https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria"><em>branch coverage</em></a>
+berechnet.
+Prinzipiell ist eine hohe &Uuml;berdeckung gut.</p></div>
+<div class="paragraph"><p>Wenn Du eine Datei mit einer Funktionsdefinition</p></div>
 <div class="listingblock">
+<div class="title">src/my_sum_assertion.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -1753,18 +1760,17 @@ http://www.gnu.org/software/src-highlite -->
     }
     return(value)
 }</tt></pre></div></div>
+<div class="paragraph"><p>und eine mit dem Test</p></div>
 <div class="listingblock">
+<div class="title">src/test_my_sum_assertion.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>,
                     testthat::expect_identical(my_sum(c(2, 7)), 9)
-                    )
-
-testthat::test_that(<span style="color: #FF0000">"Create error on non-numerical x."</span>,
-                    testthat::expect_error(my_sum(<span style="color: #FF0000">"This is a string"</span>))
                     )</tt></pre></div></div>
+<div class="paragraph"><p>hast, kannst Du die &Uuml;berdeckung berechnen.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1786,7 +1792,10 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/my_sum_assertion.R: 100.00%</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><p>Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test nicht
+erreicht, weist Dich <code>covr</code> darauf hin:</p></div>
 <div class="listingblock">
+<div class="title">src/my_sum_assertion.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -1821,6 +1830,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/my_sum_coverage.R: 83.33%</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><p><code>covr</code> sagt Dir sogar, dass es die dritte Zeile ist:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1834,6 +1844,35 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 <div class="sect4">
 <h5 id="_nebenwirkungen_testen">Nebenwirkungen testen</h5>
+<div class="paragraph"><p>Funktionen sind relativ einfach zu testen, wenn ihr R&uuml;ckgabewert ihr Zweck ist.
+Wenn sie aber Nebenwirkungen bezwecken, finde ich Tests schwieriger zu schreiben.</p></div>
+<div class="paragraph"><p>Stell Dir vor, Du h&auml;ttest die fehlerhafte L&ouml;schfunktion aus
+<a href="#_arbeiten_mit_gültigkeitsbereichen">Arbeiten mit Gültigkeitsbereichen</a>
+in eine Datei geschrieben:</p></div>
+<div class="listingblock">
+<div class="title">src/wipe_clean_broken.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>wipe_clean &lt;- function(environment = parent.frame()) {
+    objects &lt;- ls(name = environment, all.names = TRUE)
+    rm(list = objects)
+    return(invisible(objects))
+}</tt></pre></div></div>
+<div class="paragraph"><p>Nun schreibst Du eine Testdatei:</p></div>
+<div class="listingblock">
+<div class="title">src/test_wipe_clean_broken.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Test return value."</span>, {
+                    a &lt;- 3
+                    testthat::expect_identical(wipe_clean(),
+                                               c(<span style="color: #FF0000">"a"</span>))}
+                    )</tt></pre></div></div>
+<div class="paragraph"><p>Und erh&auml;lst vollst&auml;ndige &Uuml;berdeckung:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1854,6 +1893,39 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/wipe_clean_broken.R: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p>Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt m&uuml;sst
+auf die Nebenwirkung testen:</p></div>
+<div class="listingblock">
+<div class="title">src/wipe_clean_broken.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">#' Remove All Objects From an Environment</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' @param environment The environment to be wiped.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' @return A character vector containing the names of objects removed.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' @export</span></span>
+wipe_clean &lt;- function(environment = parent.frame()) {
+    objects &lt;- ls(name = environment, all.names = TRUE)
+    rm(list = objects, envir = environment)
+    return(invisible(objects))
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>covr::file_coverage(<span style="color: #FF0000">"src/wipe_clean_broken.R"</span>, <span style="color: #FF0000">"src/test_wipe_clean.R"</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Test return value and side effects.'</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## * ls() not identical to character(0).</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## Lengths differ: 1 vs 0</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke.</em></p></div>
 </div>
@@ -1974,9 +2046,9 @@ http://www.gnu.org/software/src-highlite -->
 <h4 id="_cyclomatic_complexity_prüfen_mit_cyclocomp">3.3.4. Cyclomatic Complexity prüfen mit cyclocomp</h4>
 <div class="paragraph"><p>McCabes "cyclomatic complexity" (<a href="#cyc">[cyc]</a>) mißt die
 Komplexität von Programmcode.
-Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.</p></div>
-<div class="paragraph"><p>Insbesondere gibt uns die "cyclomatic complexity" eine Idee davon, wie viele Testfälle wir
-für eine Funktion schreiben sollten
+Mit ihr kannst Du prüfen, ob Deine Funktionen einfach genug sind.</p></div>
+<div class="paragraph"><p>Insbesondere gibt Dir die "cyclomatic complexity" eine Idee davon, wie viele Testfälle Du
+für eine Funktion schreiben solltest
 (genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige <a href="https://en.wikipedia.org/wiki/Code_coverage">branch coverage</a> benötigten Testfälle).
 Für Deine häßliche Funktion bräuchtest Du also
 6 Testfälle:</p></div>
@@ -2124,7 +2196,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-15 13:36:06 CET
+ 2018-03-15 14:39:49 CET
 </div>
 </div>
 </body>

@@ -256,7 +256,7 @@ my_sum_safer(1:10)
 
 Ich finde es aber praktiabler, beim Schreiben einer Funktion darauf zu achten,
 welche Objekte ich lese. + 
-Und wenn Du Funktionen <<_testing,testest>>, findest Du Fehler, die auf Scoping beruhen,
+Und wenn Du Funktionen <<_funktionen_testen,testest>>, findest Du Fehler, die auf Scoping beruhen,
 sehr schnell. 
 
 
@@ -688,7 +688,7 @@ _Ich nutze Typentests oft in Funktionen. Da +checkmate+ deutlich mehr Funktional
 ==== Auswahllisten
 Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
 enthalten. Das ist vor allem für Steuerargumente hilfreich.
-+base R+ kennt +match.arg+, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zurügibt, wenn
++base R+ kennt +match.arg+, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zurückgibt, wenn
 es in der Auswahlliste enthalten ist:
 
 [source,r]
@@ -745,7 +745,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] 0.2048751
+## [1] -0.02563853
 ----
 
 [source,r]
@@ -908,8 +908,9 @@ testthat::expect_identical(not_my_sum(c(2, 7)), 9)
 
 
 ===== Tests 
-Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<test-coverage, Coverage>> auszuwerten,
-    werden in beiden Packages Erwartungen zu Tests zusammenfasst:
+Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<_code_coverage, Coverage>> auszuwerten,
+    werden in beiden Packages Erwartungen zu Tests zusammenfasst 
+(eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):
 
 .+RUnit+
 
@@ -950,34 +951,25 @@ test_sum()
 ----
 
 
-==== Test Coverage
+==== Code Coverage
+Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (https://en.wikipedia.org/wiki/Code_coverage[&Uuml;berdeckung]) berechnen.
++covr+ ist eines der Packages, die Code Coverage implentieren und das einzige, das ich nutze. Ich wei&szlig; es nicht, glaube aber, dass +covr+ die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
+berechnet. 
+Prinzipiell ist eine hohe &Uuml;berdeckung gut.
 
+Wenn Du eine Datei mit einer Funktionsdefinition
+
+.src/my_sum_assertion.R
 [source,r]
-----
-my_sum <- function(x) {
-    assertthat::assert_that(is.numeric(x))
-    value <- 0
-    for (x_i in x) {
-        value <- value + x_i 
-    }
-    return(value)
-}
-----
+include::src/my_sum_assertion.R[]
 
+und eine mit dem Test
 
+.src/test_my_sum_assertion.R
 [source,r]
-----
-testthat::test_that("Simple test on summation.",
-                    testthat::expect_identical(my_sum(c(2, 7)), 9)
-                    )
+include::src/test_my_sum_assertion.R[]
 
-testthat::test_that("Create error on non-numerical x.",
-                    testthat::expect_error(my_sum("This is a string"))
-                    )
-----
-
-
-
+hast, kannst Du die &Uuml;berdeckung berechnen.
 
 
 [source,r]
@@ -999,19 +991,12 @@ print(cov)
 ----
 
 
+Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test nicht
+erreicht, weist Dich +covr+ darauf hin:
 
+.src/my_sum_assertion.R
 [source,r]
-----
-my_sum <- function(x) {
-    assertthat::assert_that(is.numeric(x))
-    if (! is.numeric(x)) message("You'll never get here!")
-    value <- 0
-    for (x_i in x) {
-        value <- value + x_i 
-    }
-    return(value)
-}
-----
+include::src/my_sum_coverage.R[]
 
 
 [source,r]
@@ -1033,6 +1018,7 @@ print(cov)
 ----
 
 
++covr+ sagt Dir sogar, dass es die dritte Zeile ist:
 
 [source,r]
 ----
@@ -1046,6 +1032,26 @@ covr::zero_coverage(cov)
 
 
 ===== Nebenwirkungen testen
+
+Funktionen sind relativ einfach zu testen, wenn ihr R&uuml;ckgabewert ihr Zweck ist.
+Wenn sie aber Nebenwirkungen bezwecken, finde ich Tests schwieriger zu schreiben.
+
+Stell Dir vor, Du h&auml;ttest die fehlerhafte L&ouml;schfunktion aus 
+<<_arbeiten_mit_gültigkeitsbereichen, Arbeiten mit Gültigkeitsbereichen>> 
+in eine Datei geschrieben:
+
+.src/wipe_clean_broken.R
+[source,r]
+include::src/wipe_clean_broken.R[]
+
+Nun schreibst Du eine Testdatei:
+
+.src/test_wipe_clean_broken.R
+[source,r]
+include::src/test_wipe_clean_broken.R[]
+
+Und erh&auml;lst vollst&auml;ndige &Uuml;berdeckung:
+
 
 [source,r]
 ----
@@ -1064,6 +1070,29 @@ print(cov)
 ## src/wipe_clean_broken.R: 100.00%
 
 ----
+
+
+Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt m&uuml;sst 
+auf die Nebenwirkung testen:
+
+.src/wipe_clean_broken.R
+[source,r]
+include::src/wipe_clean.R[]
+
+
+[source,r]
+----
+covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean.R")
+----
+
+[source,r]
+----
+## Error: Test failed: 'Test return value and side effects.'
+## * ls() not identical to character(0).
+## Lengths differ: 1 vs 0
+
+----
+
 
 
 _Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke._
@@ -1187,10 +1216,10 @@ Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!
 
 McCabes "cyclomatic complexity" (<<cyc>>) mißt die 
 Komplexität von Programmcode.
-Mit ihr können wir prüfen, ob unsere Funktionen einfach genug sind.
+Mit ihr kannst Du prüfen, ob Deine Funktionen einfach genug sind.
 
-Insbesondere gibt uns die "cyclomatic complexity" eine Idee davon, wie viele Testfälle wir 
-für eine Funktion schreiben sollten 
+Insbesondere gibt Dir die "cyclomatic complexity" eine Idee davon, wie viele Testfälle Du 
+für eine Funktion schreiben solltest
 (genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige https://en.wikipedia.org/wiki/Code_coverage[branch coverage] benötigten Testfälle).
 Für Deine häßliche Funktion bräuchtest Du also 
 6 Testfälle:
