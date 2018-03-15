@@ -1526,7 +1526,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.1459834</code></pre>
+<pre><code>## [1] 0.2048751</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1586,12 +1586,15 @@ print(checkmate::assertChoice(x = x, choices = choices))</tt></pre></div></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_unit_testing">3.2. Unit Testing</h3>
+<h3 id="_funktionen_testen">3.2. Funktionen testen</h3>
+<div class="sect3">
+<h4 id="_unit_testing">3.2.1. Unit Testing</h4>
 <div class="paragraph"><p>Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
 Also im Zweifel ihren Rückgabewert.</p></div>
-<div class="paragraph"><p>Ich kenne zwei Packages, die Unit Testing in R formalisieren (im Prinzip geht es
-auch ohne spezielle Packages, aber seit ich die beiden Packages kenne, habe ich
-nie mehr wie früher "von Hand" getestet):</p></div>
+<div class="paragraph"><p>Ich kenne zwei Packages, die Unit Testing in R formalisieren
+(im Prinzip geht es auch ohne spezielle Packages,
+ aber seit ich die beiden Packages kenne,
+ habe ich nie mehr wie früher "von Hand" getestet):</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1605,16 +1608,45 @@ nie mehr wie früher "von Hand" getestet):</p></div>
 </p>
 </li>
 </ul></div>
-<div class="sect3">
-<h4 id="_erwartungen">3.2.1. Erwartungen</h4>
-<div class="paragraph"><p>Die kleinste Testeinheit beider Packages ist die Erwartung, bei der ein Ergebnis mit einer Erwartung abgeglichen wird.</p></div>
+<div class="sect4">
+<h5 id="_erwartungen">Erwartungen</h5>
+<div class="paragraph"><p>Die kleinste Testeinheit ist immer ein Vergleich.</p></div>
+<div class="paragraph"><p>Wenn wir die Funktionen</p></div>
 <div class="listingblock">
-<div class="title"><code>RUnit</code></div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>RUnit::checkIdentical(my_sum(c(2, 7)), 9)</tt></pre></div></div>
+<pre><tt>my_sum &lt;- function(x) {
+    value &lt;- 0
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
+        value &lt;- value + x_i
+    }
+    return(value)
+}</tt></pre></div></div>
+<div class="literalblock">
+<div class="content">
+<pre><code>und</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>not_my_sum &lt;- function(x) {
+    value &lt;- 0
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
+        value &lt;- value - x_i
+    }
+    return(value)
+}</tt></pre></div></div>
+<div class="paragraph"><p>haben, k&ouml;nnen wir zum Beispiel mit <code>base R</code> prüfen, ob sie tun, was wir erwarten:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>my_sum(c(2, 7)) == 9</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] TRUE</code></pre>
@@ -1624,13 +1656,27 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>RUnit::checkIdentical(my_sum(c(2, 7)), 8)</tt></pre></div></div>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># better use identical(), see ?Comparison</span></span>
+identical(not_my_sum(c(2, 7)), 9)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] FALSE</code></pre>
+</div></div>
+<div class="paragraph"><p>Beide Packages formalisieren dies zu Erwartungsfunktionen die haupts&auml;chliche dazu dienen,
+Fehler zu beschreiben:</p></div>
+<div class="listingblock">
+<div class="title"><code>RUnit</code></div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in RUnit::checkIdentical(my_sum(c(2, 7)), 8): FALSE</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">##</span></span>
 </tt></pre></div></div>
 <div class="listingblock">
@@ -1639,19 +1685,18 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>testthat::expect_identical(my_sum(c(2, 7)), 8)
-testthat::expect_identical(my_sum(c(2, 7)), 9)</tt></pre></div></div>
+<pre><tt>testthat::expect_identical(not_my_sum(c(2, 7)), 9)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## my_sum(c(2, 7)) not identical to 8.
+<pre><code>## not_my_sum(c(2, 7)) not identical to 9.
 ## 1/1 mismatches
-## [1] 9 - 8 == 1</code></pre>
+## [1] -9 - 9 == -18</code></pre>
 </div></div>
 </div>
-<div class="sect3">
-<h4 id="_tests">3.2.2. Tests</h4>
-<div class="paragraph"><p>Um Tests bei der Paketentwicklung oder in Bezug auf ihre <a href="#test-coverage">Coverage</a> auszuwerten,
-    werden in beiden Packages Erwartungen zu Tests zusammenfasst.</p></div>
+<div class="sect4">
+<h5 id="_tests">Tests</h5>
+<div class="paragraph"><p>Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <a href="#test-coverage">Coverage</a> auszuwerten,
+    werden in beiden Packages Erwartungen zu Tests zusammenfasst:</p></div>
 <div class="listingblock">
 <div class="title"><code>RUnit</code></div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1659,7 +1704,7 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>, {
-                        testthat::expect_identical(my_sum(c(2, 7)), 8)
+                        testthat::expect_identical(not_my_sum(c(2, 7)), 9)
                         testthat::expect_identical(my_sum(c(2, 7)), 9)}
 )</tt></pre></div></div>
 <div class="listingblock">
@@ -1668,9 +1713,9 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Simple test on summation.'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * my_sum(c(2, 7)) not identical to 8.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## * not_my_sum(c(2, 7)) not identical to 9.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## 1/1 mismatches</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## [1] 9 - 8 == 1</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## [1] -9 - 9 == -18</span></span>
 </tt></pre></div></div>
 <div class="listingblock">
 <div class="title"><code>testthat</code></div>
@@ -1679,8 +1724,8 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>test_sum &lt;- function() {
+    RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
     RUnit::checkIdentical(my_sum(c(2, 7)), 9)
-    RUnit::checkIdentical(my_sum(c(2, 7)), 8)
 }
 test_sum()</tt></pre></div></div>
 <div class="listingblock">
@@ -1688,12 +1733,13 @@ test_sum()</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in RUnit::checkIdentical(my_sum(c(2, 7)), 8): FALSE</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">##</span></span>
 </tt></pre></div></div>
 </div>
+</div>
 <div class="sect3">
-<h4 id="_test_coverage">3.2.3. Test Coverage</h4>
+<h4 id="_test_coverage">3.2.2. Test Coverage</h4>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1786,9 +1832,8 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>##                filename functions line value
 ## 2 src/my_sum_coverage.R    my_sum    3     0</code></pre>
 </div></div>
-</div>
-<div class="sect3">
-<h4 id="_nebenwirkungen_testen">3.2.4. Nebenwirkungen testen</h4>
+<div class="sect4">
+<h5 id="_nebenwirkungen_testen">Nebenwirkungen testen</h5>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1811,6 +1856,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/wipe_clean_broken.R: 100.00%</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke.</em></p></div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -2078,7 +2124,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-15 12:06:35 CET
+ 2018-03-15 13:36:06 CET
 </div>
 </div>
 </body>

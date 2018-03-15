@@ -57,8 +57,21 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
 
 
 === Vom Code ... 
-//begin.rcode, code = readLines("src/sum.R")
-//end.rcode
+
+[source,r]
+----
+a  <- c(2, 3, 4, 10) # <1>
+value <- 0 # <2>
+for (a_i in a) { # <3>
+    value <- value + a_i  # <4>
+}
+print(value) # <5>
+----
+
+----
+## [1] 19
+----
+
 
 Dabei siehst Du:
 
@@ -81,8 +94,18 @@ Das Ergebnis sieht dann so aus:
 
 
 
-//begin.rcode, code = readLines("src/my_sum.R")
-//end.rcode
+
+[source,r]
+----
+my_sum <- function(x) {
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
 
 
 === Scoping 
@@ -90,27 +113,48 @@ Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche
 (englisch "scope"), wir sehen uns das am Beispiel an:
 ==== Schreibzugriffe
 .Ausgangszustand
-Im Augenblick hat das Objekte +value+ den Wert +r value+:
+Im Augenblick hat das Objekte +value+ den Wert 19:
 
-//begin.rcode
+
+[source,r]
+----
 print(value)
-//end.rcode
+----
+
+----
+## [1] 19
+----
+
 
 .Funktionsausführung
 Jetzt wenden wir unsere Summenfunktion an und berechnen die Summe eines anderen Vektors: 
-//begin.rcode
+
+[source,r]
+----
 print(my_sum(1:3))
-//end.rcode
+----
+
+----
+## [1] 6
+----
+
 
 Das Objekt `value` behält seinen Wert:
-//begin.rcode
+
+[source,r]
+----
 print(value)
-//end.rcode
+----
+
+----
+## [1] 19
+----
+
 Und das, obwohl wir innerhalb der Funktion dem Objekt +value+ in der ersten
 Zeile den Wert 0 zuweisen und diesen dann in der Schleife mit den Werten 1, 3
 und 6 überschreiben:
 **R** verwaltet automatisch die Gültigkeitsbereiche aller Objekte. 
-Es gibt daher ein Objekt names  +value+ außerhalb der Funktion, das den Wert +r value+ enthält und unverändert bleibt.
+Es gibt daher ein Objekt names  +value+ außerhalb der Funktion, das den Wert 19 enthält und unverändert bleibt.
 Innerhalb der Funktion legt **R** ein neues lokales Objekt, ebenfalls mit dem Namen
 +value+, an.
 Du _kannst_ auch aus einer Funktion in einen <<_arbeiten_mit_gültigkeitsbereichen, anderen Gültigkeitsbereich>> schreiben, wenn Du das wirklich willst.
@@ -125,17 +169,35 @@ Funktion übergeordneten Gültigkeitsbereichen, also außerhalb der Funktion.
 Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, Du kommentierst 
 beim Schreiben der Summenfunktion die Definition des zur Addition neutralen
 Elementes aus Versehen aus:
-//begin.rcode, code = readLines("src/my_sum_scope_broken.R")
-//end.rcode
+
+[source,r]
+----
+my_sum_broken <- function(x) {
+    # FIXME: this is accidentally commented out:
+    # value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
 
 Du führst die Funktion aus und erhälst:
-//begin.rcode
+
+[source,r]
+----
 print(my_sum_broken(1:3))
-//end.rcode
+----
+
+----
+## [1] 25
+----
+
 Was ist passiert?
 Im ersten Durchlauf der Schleife gibt es beim Lesen von
 +value+ noch kein lokales Objekt dieses Namens. Daher sucht **R** außerhalb der
-Funktion und findet ein Objekt mit dem Wert +r value+. 
+Funktion und findet ein Objekt mit dem Wert 19. 
 Zu diesem Objekt addieren
 wir +x_i+, das im ersten Schleifendurchlauf den Wert +1+ enthält und erschaffen
 damit in der Funktion ein lokales Objekt names +value+, das dann im zweiten
@@ -143,10 +205,19 @@ Durchlauf der Schleife auch gelesen werden kann.
 
 Wenn Du diese Funktion verwendest, ohne vorher das Objekt +value+ zu definieren,
 oder das Objekt +value+ entfernst und dann die Funktion ausführst
-//begin.rcode
+
+[source,r]
+----
 rm(value)
 print(my_sum_broken(1:3))
-//end.rcode
+----
+
+[source,r]
+----
+## Error: object 'value' not found
+
+----
+
 erhälst Du einen Fehler, weil **R** auch außerhalb der Funktion kein Objekt
 names +value+ finden kann. Und diesen Fehler erwarten wir ja eigentlich, wenn 
 wir nur die Funktion betrachten: sie ist fehlerhaft.
@@ -156,15 +227,33 @@ Wie wir eine Funktion dazu bringen können, außerhalb ihres Gültigkeitsbereich
 zu schreiben (nein, das _wie_ habe ich Dir noch nicht gezeigt... ), so können wir 
 eine Funktion auch zwingen, beim Lesen nur nach lokalen Objekten zu
 suchen:
-//begin.rcode, code = readLines("src/my_sum_get_safe.R")
-//end.rcode
+
+[source,r]
+----
+my_sum_safer <- function(x) {
+    for (x_i in x) {
+        value <- get("value", inherits = FALSE) + x_i 
+    }
+    return(value)
+}
+----
+
 
 Selbst wenn wir ein Objekt namens +value+ anlegen, gibt die Funktion nun einen
 Fehler aus:
-//begin.rcode
+
+[source,r]
+----
 value <- 42
 my_sum_safer(1:10)
-//end.rcode
+----
+
+[source,r]
+----
+## Error in get("value", inherits = FALSE): object 'value' not found
+
+----
+
 Ich finde es aber praktiabler, beim Schreiben einer Funktion darauf zu achten,
 welche Objekte ich lese. + 
 Und wenn Du Funktionen <<_testing,testest>>, findest Du Fehler, die auf Scoping beruhen,
@@ -179,34 +268,59 @@ rm(list=ls(envir=env, all.names=includeHidden), envir=env) +
 Sie wird in src/cpp/session/modules/environment/SessionEnvironment.cpp in der C++-Funktion  removeAllObjects aufgerufen.
 ]) lautet:
 
-//begin.rcode, eval = FALSE
+
+[source,r]
+----
 rm(list = ls(all.names = TRUE))
-//end.rcode
+----
+
 Nun  bin ich
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich 
 (in **R** heissen die Gültigkeitsbereiche "environments", in **S** hießen sie "frames") ist, und die 
 Funktionen  `ls` und `rm` nur in _einem_ Gültigkeitsbereich arbeiten, funktioniert das naheliegende
-//begin.rcode, eval = FALSE
+
+[source,r]
+----
 wipe_clean <- function() {
     rm(list = ls(all.names = TRUE))
 }
-//end.rcode 
+----
+
 *nicht*.
 
 Wenn ich den Gültigkeitsbereich explizit 
-//begin.rcode
+
+[source,r]
+----
 wipe_clean <- function() {
     rm(list = ls(name = parent.frame(), all.names = TRUE), envir = parent.frame())
 }
-//end.rcode 
+----
+
 angebe, tut die Funktion, was ich wollte:
-//begin.rcode
+
+[source,r]
+----
 ls()
+----
+
+----
+## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
+----
+
+[source,r]
+----
 wipe_clean()
 ls()
-//end.rcode 
+----
+
+----
+## character(0)
+----
+
 
 
 
@@ -220,29 +334,62 @@ Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie s
 Eine Funktion, die, wie `wipe_clean`, kein Argument kennt, ist Folgende:
 
 
-//begin.rcode, code = readLines("src/memhogs.R")
-//end.rcode
+
+[source,r]
+----
+memory_hogs <- function() {
+    z <- sapply(ls(envir = parent.frame()), 
+                function(x) object.size(get(x, envir = parent.frame())))
+    return(z)
+}
+----
+
 
 Diese Funktion gibt mir für jedes Objekt des Gültigkeitsbereiches, in dem ich sie aufrufe, den Speicherverbrauch aus.
 
-//begin.rcode
+
+[source,r]
+----
 va <- rep(mtcars, 1)
 vb <- rep(mtcars, 1000)
 vc <- rep(mtcars, 2000)
 vd <- rep(mtcars, 100)
 memory_hogs()
-//end.rcode
+----
+
+----
+## memory_hogs          va          vb          vc          vd 
+##        7576        4232     3432720     6864720      343920
+----
+
 
 Bei so wenigen Objekten erkenne ich leicht, dass `vc` der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich `vc` nicht mehr unbedingt brauche, `vc` löschen sollte.
 
 Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:
 
-//begin.rcode, code = readLines("src/memhogs_arg.R")
-//end.rcode
 
-//begin.rcode
+[source,r]
+----
+memory_hogs <- function(order = TRUE) {
+    z <- sapply(ls(envir = parent.frame()), 
+                function(x) object.size(get(x, envir = parent.frame())))
+    if (order) z <- z[order(z)]
+    return(z)
+}
+----
+
+
+
+[source,r]
+----
 memory_hogs()
-//end.rcode
+----
+
+----
+##          va memory_hogs          vd          vb          vc 
+##        4232        9576      343920     3432720     6864720
+----
+
 
 Das ist ein klassisches (optionales) Steuerargument, das das Verhalten einer Funktion steuert.
 Steuerargumente sollten eine sinnvolle Voreinstellung haben.
@@ -250,20 +397,56 @@ Steuerargumente sollten eine sinnvolle Voreinstellung haben.
 Da die `memory_hogs` intern nun die Funktion `order` aufruft, könnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen. 
 Das können wir entweder explizit tun, oder wir benutzen ein spezielles, _Ellipsis_ genanntes Argument, das durch drei Punkte (`...`) aufgerufen wird:
 
-//begin.rcode, code = readLines("src/memhogs_ellipsis.R")
-//end.rcode
 
-//begin.rcode
+[source,r]
+----
+memory_hogs <- function(...) {
+    z <- sapply(ls(envir = parent.frame()), 
+                function(x) object.size(get(x, envir = parent.frame())))
+    if (! missing(...)) {
+      z <- z[order(z, ...)]
+    }
+    return(z)
+}
+----
+
+
+
+[source,r]
+----
 memory_hogs()
+----
+
+----
+## memory_hogs          va          vb          vc          vd 
+##       13080        4232     3432720     6864720      343920
+----
+
+[source,r]
+----
 memory_hogs(decreasing = TRUE)
-//end.rcode
+----
+
+----
+##          vc          vb          vd memory_hogs          va 
+##     6864720     3432720      343920       13080        4232
+----
+
 
 Jetzt können wir die Rückgabe unserer Funktion nutzen, um die beiden größten Speicherfresser zu löschen:
 
-//begin.rcode
+
+[source,r]
+----
 rm(list = names(memory_hogs(decreasing = TRUE)[1:2]))
 memory_hogs()
-//end.rcode
+----
+
+----
+## memory_hogs          va          vd 
+##       13080        4232      343920
+----
+
 
 Wir können also, wenn wir wollen, drei Arten von Argumenten unterscheiden:
 
@@ -277,36 +460,77 @@ Wenn wir keinen Rückgabewert (return value) explizit angeben, ist er automatisc
 Es ist daher sicher nicht schlecht, wenn Du versucht, den Rückgabewert explizit anzugeben.
 Unsere Summenfunktion könnte auch so aussehen:
 
-//begin.rcode
+
+[source,r]
+----
 my_sum <- function(x) {
     value <- 0
     for (x_i in x) {
         value <- value + x_i 
     }
 }
-//end.rcode
+----
+
 
 Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?
 
 Komplexere Funktionen haben oft Nebenwirkungen (side effects)
 Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Röckgabewert explizit drucken:
-//begin.rcode
+
+[source,r]
+----
 a <- "This is a string"
 print(rm(a))
+----
+
+----
+## NULL
+----
+
+[source,r]
+----
 print(rm())
-//end.rcode
+----
+
+----
+## NULL
+----
+
 
 Das heißt also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`).
 
 Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion läscht, in ein Steuerargument mit Voreinstellung um):
 
-//begin.rcode, code = grep("#'", readLines("src/wipe_clean.R"), value = TRUE, invert = TRUE)
-//end.rcode
-//begin.rcode
+
+[source,r]
+----
+wipe_clean <- function(environment = parent.frame()) {
+    objects <- ls(name = environment, all.names = TRUE)
+    rm(list = objects, envir = environment)
+    return(invisible(objects))
+}
+----
+
+
+[source,r]
+----
 print(wipe_clean())
+----
+
+----
+## [1] "memory_hogs" "my_sum"      "va"          "vd"          "wipe_clean"
+----
+
+[source,r]
+----
 ls()
-//end.rcode
+----
+
+----
+## character(0)
+----
+
 Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.
 
 
@@ -344,45 +568,120 @@ hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist über 100 
 - +assertthat+ ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
 
 +assertthat+ ist sehr einfach:
-//begin.rcode
+
+[source,r]
+----
 x <- 6
 assertthat::assert_that(is.numeric(x))
-//end.rcode
-//begin.rcode
+----
+
+----
+## [1] TRUE
+----
+
+
+[source,r]
+----
 x <- "This is a string."
 assertthat::assert_that(is.numeric(x))
-//end.rcode
+----
+
+[source,r]
+----
+## Error: x is not a numeric or integer vector
+
+----
+
 
 .Was haben wir davon?
 Wenn wir unserer Summenfunktion 
 
-//begin.rcode, code = readLines("src/my_sum.R")
-//end.rcode
+
+[source,r]
+----
+my_sum <- function(x) {
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
 
 ein nicht-numerisches Argument übergeben, erhalten wir eine recht kryptische Fehlermeldung:
 
-//begin.rcode
+
+[source,r]
+----
 my_sum(c("a", "b"))
-//end.rcode
+----
+
+[source,r]
+----
+## Error in value + x_i: non-numeric argument to binary operator
+
+----
+
 
 
 Durch den Einbau eines Typentests 
 
-//begin.rcode, code = readLines("src/my_sum_assertion.R")
-//end.rcode
+
+[source,r]
+----
+my_sum <- function(x) {
+    assertthat::assert_that(is.numeric(x))
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
 wird die Meldung deutlich verständlicher:
-//begin.rcode
+
+[source,r]
+----
 my_sum(c("a", "b"))
-//end.rcode
+----
+
+[source,r]
+----
+## Error: x is not a numeric or integer vector
+
+----
+
 
 Mit +checkmate+ können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
 sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:
-//begin.rcode, code = readLines("src/my_sum_checkmate.R")
-//end.rcode
 
-//begin.rcode
+[source,r]
+----
+my_sum <- function(x) {
+    checkmate::qassert(x, "n>=2")
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
+
+
+[source,r]
+----
 my_sum(42)
-//end.rcode
+----
+
+[source,r]
+----
+## Error in rasciidoc::render("index.Rasciidoc"): Assertion on 'x' failed. Must be of length >= 2, but has length 1.
+
+----
+
 
 _Ich nutze Typentests oft in Funktionen. Da +checkmate+ deutlich mehr Funktionalität bietet, nutzte ich +assert_that+ eher selten._
 
@@ -391,25 +690,50 @@ Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren M�
 enthalten. Das ist vor allem für Steuerargumente hilfreich.
 +base R+ kennt +match.arg+, das mit alphanumerischen Vektoren arbeitet und einfach das Objekt zurügibt, wenn
 es in der Auswahlliste enthalten ist:
-//begin.rcode
+
+[source,r]
+----
 noten <-  c("sehr gut", "gut", "nicht soo gut", "das kann auf jeden Fall noch besser werden")
 note  <- "gut"
 match.arg(arg = note, choices = noten)
-//end.rcode
+----
+
+----
+## [1] "gut"
+----
+
 Dabei bedient es sich dem "partial matching", das heißt, dass ein eindeutig einer Auswahlmöglichkeit zuzuordnender Anfang einer Zeichenkette ausreicht:
-//begin.rcode
+
+[source,r]
+----
 note  <- "das"
 match.arg(arg = note, choices = noten)
-//end.rcode
+----
+
+----
+## [1] "das kann auf jeden Fall noch besser werden"
+----
+
 
 Wird kein Treffer in der Auswahlliste gefunden, erhalten wir einen Fehler:
-//begin.rcode
+
+[source,r]
+----
 note  <- "ausreichend"
 match.arg(arg = note, choices = noten)
-//end.rcode
+----
+
+[source,r]
+----
+## Error in match.arg(arg = note, choices = noten): 'arg' should be one of "sehr gut", "gut", "nicht soo gut", "das kann auf jeden Fall noch besser werden"
+
+----
+
 
 +match.arg+ ist genau, was hinter Steuerargumenten vieler Funktionen (z.b.  +mgcv::gam(optimizer = ...)+) steckt, hier ein Beispiel aus der Hilfe zu +match.arg+:
-//begin.rcode
+
+[source,r]
+----
 center <- function(x, type = c("mean", "median", "trimmed")) {
     type <- match.arg(type)
     switch(type,
@@ -418,29 +742,67 @@ center <- function(x, type = c("mean", "median", "trimmed")) {
            trimmed = mean(x, trim = .1))
 }
 center(rnorm(100), "med")
+----
+
+----
+## [1] 0.2048751
+----
+
+[source,r]
+----
 center(rnorm(100), "m")
-//end.rcode
+----
+
+[source,r]
+----
+## Error in match.arg(type): 'arg' should be one of "mean", "median", "trimmed"
+
+----
+
 
 
 +checkmate+ kennt auch Auswahllisten, macht aber kein +partial matching+ (was ich ganz gut finde):
-//begin.rcode
+
+[source,r]
+----
 note  <- "das"
 checkmate::assertChoice(x = note, choices = noten)
-//end.rcode
+----
+
+[source,r]
+----
+## Error in rasciidoc::render("index.Rasciidoc"): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.
+
+----
+
 
 Außerdem gibt +checkmate+ die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites +print+ benötige:
-//begin.rcode
+
+[source,r]
+----
 note  <- "gut"
 checkmate::assertChoice(x = note, choices = noten)
 print(checkmate::assertChoice(x = note, choices = noten))
-//end.rcode
+----
+
+----
+## [1] "gut"
+----
+
 
 +checkmate+ kann nicht nur mit alphanumerischen Vektoren umgehen:
-//begin.rcode
+
+[source,r]
+----
 x <- 3
 choices <- 1:7
 print(checkmate::assertChoice(x = x, choices = choices))
-//end.rcode
+----
+
+----
+## [1] 3
+----
+
 
 
 _Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren Auswahlmöglichenkeiten in meinen Funktionen habe._
@@ -464,86 +826,245 @@ Die kleinste Testeinheit ist immer ein Vergleich.
 
 Wenn wir die Funktionen 
 
-//begin.rcode, code = readLines("src/my_sum.R")
-//end.rcode
+
+[source,r]
+----
+my_sum <- function(x) {
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
  und 
-//begin.rcode, code = readLines("src/not_my_sum.R")
-//end.rcode
+
+[source,r]
+----
+not_my_sum <- function(x) {
+    value <- 0
+    for (x_i in x) {
+        value <- value - x_i 
+    }
+    return(value)
+}
+----
+
 haben, k&ouml;nnen wir zum Beispiel mit +base R+ prüfen, ob sie tun, was wir erwarten:
 
-//begin.rcode
+
+[source,r]
+----
 my_sum(c(2, 7)) == 9
+----
+
+----
+## [1] TRUE
+----
+
+[source,r]
+----
 # better use identical(), see ?Comparison 
 identical(not_my_sum(c(2, 7)), 9)
-//end.rcode
+----
+
+----
+## [1] FALSE
+----
+
 
 Beide Packages formalisieren dies zu Erwartungsfunktionen die haupts&auml;chliche dazu dienen, 
 Fehler zu beschreiben:
 
 .+RUnit+
-//begin.rcode
+
+[source,r]
+----
 RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
-//end.rcode
+----
+
+[source,r]
+----
+## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE 
+## 
+
+----
+
 
 .+testthat+
-//begin.rcode, eval  = FALSE
+
+[source,r]
+----
 testthat::expect_identical(not_my_sum(c(2, 7)), 9)
-//end.rcode
-//begin.rcode, echo  = FALSE
-# testthat stop()s R, need to tryCatch
-tryCatch(testthat::expect_identical(not_my_sum(c(2, 7)), 9), expectation_failure= function(cond) cat(unlist(cond)))
-//end.rcode
+----
+
+
+----
+## not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+----
+
 
 ===== Tests 
 Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<test-coverage, Coverage>> auszuwerten,
     werden in beiden Packages Erwartungen zu Tests zusammenfasst:
 
 .+RUnit+
-//begin.rcode
+
+[source,r]
+----
 testthat::test_that("Simple test on summation.", {
                         testthat::expect_identical(not_my_sum(c(2, 7)), 9)
                         testthat::expect_identical(my_sum(c(2, 7)), 9)}
 )
-//end.rcode
+----
+
+[source,r]
+----
+## Error: Test failed: 'Simple test on summation.'
+## * not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+
+----
+
 
 .+testthat+
-//begin.rcode
+
+[source,r]
+----
 test_sum <- function() {
     RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
     RUnit::checkIdentical(my_sum(c(2, 7)), 9)
 }
 test_sum()
-//end.rcode
+----
+
+[source,r]
+----
+## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE 
+## 
+
+----
+
 
 ==== Test Coverage
-//begin.rcode, code = readLines("src/my_sum_assertion.R")
-//end.rcode
-//begin.rcode, code = readLines("src/test_my_sum_assertion.R")
-//end.rcode
+
+[source,r]
+----
+my_sum <- function(x) {
+    assertthat::assert_that(is.numeric(x))
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
+
+[source,r]
+----
+testthat::test_that("Simple test on summation.",
+                    testthat::expect_identical(my_sum(c(2, 7)), 9)
+                    )
+
+testthat::test_that("Create error on non-numerical x.",
+                    testthat::expect_error(my_sum("This is a string"))
+                    )
+----
 
 
 
-//begin.rcode
+
+
+[source,r]
+----
 cov <- covr::file_coverage("src/my_sum_assertion.R", "src/test_my_sum_assertion.R")
 print(cov)
-//end.rcode
+----
 
-//begin.rcode, code = readLines("src/my_sum_coverage.R")
-//end.rcode
-//begin.rcode
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/my_sum_assertion.R: 100.00%
+
+----
+
+
+
+[source,r]
+----
+my_sum <- function(x) {
+    assertthat::assert_that(is.numeric(x))
+    if (! is.numeric(x)) message("You'll never get here!")
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
+
+[source,r]
+----
 cov <- covr::file_coverage("src/my_sum_coverage.R", "src/test_my_sum_assertion.R")
 print(cov)
-//end.rcode
+----
 
-//begin.rcode
+[source,r]
+----
+## Coverage: 83.33%
+
+----
+
+[source,r]
+----
+## src/my_sum_coverage.R: 83.33%
+
+----
+
+
+
+[source,r]
+----
 covr::zero_coverage(cov)
-//end.rcode
+----
+
+----
+##                filename functions line value
+## 2 src/my_sum_coverage.R    my_sum    3     0
+----
+
 
 ===== Nebenwirkungen testen
-//begin.rcode
+
+[source,r]
+----
 cov <- covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean_broken.R")
 print(cov)
-//end.rcode
+----
+
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/wipe_clean_broken.R: 100.00%
+
+----
+
 
 _Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke._
 
@@ -555,16 +1076,56 @@ Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der _reco
 Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne 
 und kaputte Funktion geschrieben:
 
-//begin.rcode, code = readLines("src/code.R"), eval = FALSE
-//end.rcode
+
+[source,r]
+----
+foo <- function(this, func, has, way, too, many,args) {
+    if (TRUE) { if (TRUE) {
+            if (TRUE) {
+                if (TRUE) {
+                    if (TRUE) {
+                        print(this_is_not_defined)
+                    } else {
+                        stop("Foobar!")
+                    }
+                } else {
+                    stop("Foobar!")
+                }
+            } else {
+                stop("Foobar!")
+            }
+        } else {
+            stop("Foobar!")
+        }
+    } else {
+        stop("Foobar!")
+    }
+    return(invisible(NULL))
+}
+----
+
 
 ==== Code prüfen mit Codetools 
 In Deiner Funktion findet +codetools+ die nicht benutzten Funktionsargumente und das nicht definierte Objekt +this_is_not_defined+:
 
-//begin.rcode
+
+[source,r]
+----
 source("src/code.R")
 codetools::checkUsage(foo, all = TRUE)
-//end.rcode
+----
+
+----
+## <anonymous>: no visible binding for global variable 'this_is_not_defined'
+## <anonymous>: parameter 'args' may not be used
+## <anonymous>: parameter 'func' may not be used
+## <anonymous>: parameter 'has' may not be used
+## <anonymous>: parameter 'many' may not be used
+## <anonymous>: parameter 'this' may not be used
+## <anonymous>: parameter 'too' may not be used
+## <anonymous>: parameter 'way' may not be used
+----
+
 
 ==== Entflusen mit lintr 
 
@@ -577,9 +1138,27 @@ dass auf Kommas immer ein Leerzeichen folgen sollte,
 dass auf öffnende geschweifte Klammern immer ein Zeilenumbruch folgen sollte und 
 dass eine Datei keine Leerzeilen am Ende enthalten sollte:
 
-//begin.rcode
+
+[source,r]
+----
 lintr::lint("src/code.R")
-//end.rcode
+----
+
+----
+## src/code.R:1:49: style: Commas should always have a space after.
+## foo <- function(this, func, has, way, too, many,args) {
+##                                                 ^
+## src/code.R:2:15: style: Opening curly braces should never go on their own line and should always be followed by a new line.
+##     if (TRUE) { if (TRUE) {
+##               ^
+## src/code.R:6:31: warning: no visible binding for global variable 'this_is_not_defined'
+##                         print(this_is_not_defined)
+##                               ^~~~~~~~~~~~~~~~~~~
+## src/code.R:24:1: style: Trailing blank lines are superfluous.
+## 
+## ^
+----
+
 
 Das Package kennt viele Optionen, lies Dir die Hilfe durch!
 
@@ -587,9 +1166,19 @@ Das Package kennt viele Optionen, lies Dir die Hilfe durch!
 Das Package `cleanr` prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.
-//begin.rcode
+
+[source,r]
+----
 print(suppressWarnings(cleanr::check_file("src/code.R")))
-//end.rcode
+----
+
+[source,r]
+----
+## Error in cleanr::check_file("src/code.R"):  src/code.R  foo  found 7 arguments, max_num_arguments was 5
+## foo  found nesting depth 4, max_nesting_depth was 3
+
+----
+
 
 
 Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!
@@ -604,41 +1193,124 @@ Insbesondere gibt uns die "cyclomatic complexity" eine Idee davon, wie viele Tes
 für eine Funktion schreiben sollten 
 (genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige https://en.wikipedia.org/wiki/Code_coverage[branch coverage] benötigten Testfälle).
 Für Deine häßliche Funktion bräuchtest Du also 
-+r cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))+ Testfälle:
+6 Testfälle:
 
-//begin.rcode
+
+[source,r]
+----
 cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
-//end.rcode
+----
+
+----
+## [1] 6
+----
+
 
 Allgemein gilt: je höher die "cyclomatic complexity", desto unverständlicher der Code.
 McCabe empfiehlt eine "cyclomatic complexity" von nicht mehr als 10 für eine Funktion. Und der war professioneller Programmierer des Departement of Defense der National Security Agency. Bei einer "cyclomatic complexity"  von 20 dürfte es selbst für professionelle Programmiererinnen langsam schwierig werden, die Absicht hinter Deinem Code zu verstehen. Wenn Du eine "cyclomatic complexity" von mehr als 40 schaffst, hast Du vielleicht eine Funktion geschrieben, die tut, was sie soll, aber ziemlich sicher eine, die kaum ein Mensch mehr versteht. 
 
 Natürlich gibt es immer Ausnahmen von der Regel. Die Funktion `devtools::release` beispielsweise 
 hat eine ganze Reihe von interaktiven Abfragen des Typs
-//begin.rcode, eval = FALSE
-  if (yesno("Were devtool's checks successful?"))
-    return(invisible())
-//end.rcode
+
+[source,r]
+----
+if (yesno("Were devtool's checks successful?"))
+  return(invisible())
+----
+
 Diese treiben die "cyclomatic complexity" in die Höhe (weil die `return`-Anweisungen 
                                                         viele verschiedene mögliche Endpunkte der Funktion definieren. Eine gut strukturierte Funktion hat _genau einen_ "exit node"):
 
-//begin.rcode
+
+[source,r]
+----
 source("src/release.R")
 cyclocomp::cyclocomp(release)
-//end.rcode
+----
+
+----
+## [1] 44
+----
+
 Dabei ist die Funktion nur schwer verdaulich und nicht völlig unlesbar.
 Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln:
-//begin.rcode
+
+[source,r]
+----
 linters <- lintr::default_linters[names(lintr::default_linters )!= "object_usage_linter"]
 lintr::lint("src/release.R", linters = linters)
-//end.rcode
-//begin.rcode
+----
+
+----
+## src/release.R:70:1: style: lines should not be more than 80 characters.
+##     if (yesno("Is documentation free of spelling errors? (you can ignore false positives)"))
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:87:40: warning: Do not use absolute paths.
+##     cran_url <- paste0(cran_mirror(), "/web/checks/check_results_",
+##                                        ^~~~
+## src/release.R:100:49: style: Commas should never have a space before.
+##     msg <- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                ~^
+## src/release.R:100:50: style: Commas should always have a space after.
+##     msg <- paste0("Have you checked the ", deps ," packages that depend on ",
+##                                                  ^
+## src/release.R:166:1: style: lines should not be more than 80 characters.
+##   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
+## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## src/release.R:187:53: style: Closing curly-braces should always be on their own line, unless it's followed by an else.
+##     utils::browseURL(url, browser = email_browser())},
+##                                                     ^
+## src/release.R:301:17: style: Variable and function names should be all lowercase.
+##   new_url$query$strErr
+##                 ^~~~~~
+----
+
+
+[source,r]
+----
 suppressWarnings(cleanr::check_file("src/release.R"))
-//end.rcode
+----
+
+[source,r]
+----
+## Error in cleanr::check_file("src/release.R"):  src/release.R: line 70 counts 92 characters.
+## src/release.R: line 166 counts 85 characters.
+## src/release.R: 325 lines in file.
+##  src/release.R  as.object_size  found no return() statement at all.
+## src/release.R  build_cran  found no return() statement at all.
+## src/release.R  cran_comments  found no return() statement at all.
+## src/release.R  email  found no return() statement at all.
+## src/release.R  email_browser  found no return() statement at all.
+## src/release.R  maintainer  found no return() statement at all.
+## src/release.R  release  line 24: found width 92 max_line_width was 80
+## release  found 98 lines, max_lines was 65
+## release  found 97 lines of code, max_lines_of_code was 50
+## release  found no return() statement at all.
+## src/release.R  release_email  found no return() statement at all.
+## src/release.R  submit_cran  found no return() statement at all.
+## src/release.R  upload_cran  found no return() statement at all.
+## src/release.R  yesno  line 1: found width 85 max_line_width was 80
+## yesno  found no return() statement at all.
+
+----
+
 
 === Funktionen dokumentieren 
-//begin.rcode, code = readLines("src/wipe_clean.R")
-//end.rcode
+
+[source,r]
+----
+#' Remove All Objects From an Environment
+#'
+#' @param environment The environment to be wiped.
+#' @return A character vector containing the names of objects removed.
+#' @export
+wipe_clean <- function(environment = parent.frame()) {
+    objects <- ls(name = environment, all.names = TRUE)
+    rm(list = objects, envir = environment)
+    return(invisible(objects))
+}
+----
+
 
 == Bibliographie
 [bibliography]
