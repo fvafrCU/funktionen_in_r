@@ -531,7 +531,7 @@ ls()
 ## character(0)
 ----
 
-Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.
+Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Funktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.
 
 
 === Funktionen verwalten
@@ -745,7 +745,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] -0.02563853
+## [1] 0.04986237
 ----
 
 [source,r]
@@ -819,7 +819,7 @@ Ich kenne zwei Packages, die Unit Testing in R formalisieren
 
 - +RUnit+ gibt es schon seit 2004, es ist sehr formal
  und hat wenige Abhängigkeiten (daher bevorzuge ich es).
-- +testthat+ finde ich bei der Entwicklung von Packages einfacher anzuwenden.
+- +testthat+ finde ich interaktiv einfacher anzuwenden.
 
 ===== Erwartungen 
 Die kleinste Testeinheit ist immer ein Vergleich. 
@@ -912,7 +912,7 @@ Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<_code_coverage,
     werden in beiden Packages Erwartungen zu Tests zusammenfasst 
 (eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):
 
-.+RUnit+
+.+testthat+
 
 [source,r]
 ----
@@ -932,7 +932,8 @@ testthat::test_that("Simple test on summation.", {
 ----
 
 
-.+testthat+
+.+RUnit+
++RUnit+ wurde f&uuml;r das Testen von Packages entwickelt, es ist beim einfachen
 
 [source,r]
 ----
@@ -948,6 +949,65 @@ test_sum()
 ## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE 
 ## 
 
+----
+
+recht spr&ouml;de. Das Package erwartet eine Testdatei 
+
+
+.src/runit_my_sum.R
+[source,r]
+include::src/runit_my_sum.R[]
+
+und wird dann gespr&auml;chiger:
+
+
+[source,r]
+----
+source(file.path("src", "my_sum.R"))
+source(file.path("src", "not_my_sum.R"))
+test_file <- normalizePath(file.path("src", "runit_my_sum.R"))
+runit <- RUnit::runTestFile(test_file)
+----
+
+----
+## 
+## 
+## Executing test function test_sum  ... Timing stopped at: 0 0 0 
+##  done successfully.
+----
+
+[source,r]
+----
+RUnit::printTextProtocol(runit)
+----
+
+----
+## RUNIT TEST PROTOCOL -- Thu Mar 15 16:57:17 2018 
+## *********************************************** 
+## Number of test functions: 1 
+## Number of errors: 0 
+## Number of failures: 1 
+## 
+##  
+## 1 Test Suite : 
+## runit_my_sum - 1 test function, 0 errors, 1 failure
+## FAILURE in test_sum: Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
+##  
+## 
+## 
+## 
+## Details 
+## *************************** 
+## Test Suite: runit_my_sum 
+## Test function regexp: ^test.+ 
+## Test file regexp: ^runit_my_sum.R$ 
+## Involved directory: 
+## /home/nik/git/cs/fvafrcu/funktionen_in_r/src 
+## --------------------------- 
+## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
+## test_sum: FAILURE !! (check number 1)
+## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
+## 
 ----
 
 
@@ -1072,12 +1132,12 @@ print(cov)
 ----
 
 
-Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt m&uuml;sst 
+Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt m&uuml;sste 
 auf die Nebenwirkung testen:
 
-.src/wipe_clean_broken.R
+.src/test_wipe_clean.R
 [source,r]
-include::src/wipe_clean.R[]
+include::src/test_wipe_clean.R[]
 
 
 [source,r]
@@ -1092,6 +1152,98 @@ covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean.R")
 ## Lengths differ: 1 vs 0
 
 ----
+
+
+==== Was soll die ganze Testerei?
+
+
+Ich habe einmal die Funktion
+
+
+.src/golden_ratio.R
+[source,r]
+include::src/golden_ratio.R[]
+
+
+geschrieben, die mir den https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldenen Schnitt] anwendet:
+
+[source,r]
+----
+golden_ratio(6)
+----
+
+----
+##        a        b    a + b 
+## 6.000000 3.708204 9.708204
+----
+
+[source,r]
+----
+golden_ratio(6, "b")
+----
+
+----
+##         a         b     a + b 
+##  9.708204  6.000000 15.708204
+----
+
+
+
+Und ich habe auch einen Test geschrieben:
+
+.src/test_golden_ratio2.R
+[source,r]
+include::src/test_golden_ratio2.R[]
+
+
+[source,r]
+----
+covr::file_coverage(file.path("src", "golden_ratio.R"), 
+                    file.path("src", "test_golden_ratio.R"))
+----
+
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_ratio.R: 100.00%
+
+----
+
+
+// //begin.rcode, echo = FALSE, results = "hide"
+// withr::with_dir("src", file.copy("test_memhogs_ordered.R", "test_memory_hogs.R", overwrite = TRUE))
+// //end.rcode
+// 
+// .src/tst_memory_hogs.R
+// [source,r]
+// include::src/test_memory_hogs.R[]
+// 
+// //begin.rcode
+// source("src/memory_hogs.R")
+// test_file <- normalizePath(file.path("src", "test_memhogs_ordered.R"))
+// runit <- RUnit::runTestFile(test_file)
+// RUnit::printTextProtocol(runit)
+// covr::file_coverage("src/memory_hogs.R", "src/test_memhogs_ordered.R")
+// //end.rcode
+// 
+// Dann merkte ich, dass ich bei vielen Objekten im Speicher nach oben scrollen muss, um die Namen der gro&szlig;en Objekte zu sehen:
+// //begin.rcode
+// for (i in 1:100) {
+//     assign(paste0("what_a_long_name_cluttering_my_screen_", i), rep(mtcars, i))
+// }
+// memory_hogs()
+// //end.rcode
+// 
+// 
+// 
+// 
+// die Ausgabe gerne genau _umgekehrt_ sortiert h&auml;tte, dann m&uuml;sste ich nicht nach oben scrollen, um 
+// 
 
 
 

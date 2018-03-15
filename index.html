@@ -1307,7 +1307,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## character(0)</code></pre>
 </div></div>
-<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Fnktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
+<div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Funktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_funktionen_verwalten">2.7. Funktionen verwalten</h3>
@@ -1526,7 +1526,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] -0.02563853</code></pre>
+<pre><code>## [1] 0.04986237</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1604,7 +1604,7 @@ Also im Zweifel ihren Rückgabewert.</p></div>
 </li>
 <li>
 <p>
-<code>testthat</code> finde ich bei der Entwicklung von Packages einfacher anzuwenden.
+<code>testthat</code> finde ich interaktiv einfacher anzuwenden.
 </p>
 </li>
 </ul></div>
@@ -1699,7 +1699,7 @@ http://www.gnu.org/software/src-highlite -->
     werden in beiden Packages Erwartungen zu Tests zusammenfasst
 (eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):</p></div>
 <div class="listingblock">
-<div class="title"><code>RUnit</code></div>
+<div class="title"><code>testthat</code></div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -1718,8 +1718,8 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-style: italic"><span style="color: #9A1900">## 1/1 mismatches</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## [1] -9 - 9 == -18</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><div class="title"><code>RUnit</code></div><p><code>RUnit</code> wurde f&uuml;r das Testen von Packages entwickelt, es ist beim einfachen</p></div>
 <div class="listingblock">
-<div class="title"><code>testthat</code></div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -1737,6 +1737,69 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">##</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><p>recht spr&ouml;de. Das Package erwartet eine Testdatei</p></div>
+<div class="listingblock">
+<div class="title">src/runit_my_sum.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>test_sum &lt;- function() {
+    RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
+    RUnit::checkIdentical(my_sum(c(2, 7)), 9)
+}</tt></pre></div></div>
+<div class="paragraph"><p>und wird dann gespr&auml;chiger:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>source(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"my_sum.R"</span>))
+source(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"not_my_sum.R"</span>))
+test_file &lt;- normalizePath(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"runit_my_sum.R"</span>))
+runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##
+##
+## Executing test function test_sum  ... Timing stopped at: 0 0 0
+##  done successfully.</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## RUNIT TEST PROTOCOL -- Thu Mar 15 16:57:17 2018
+## ***********************************************
+## Number of test functions: 1
+## Number of errors: 0
+## Number of failures: 1
+##
+##
+## 1 Test Suite :
+## runit_my_sum - 1 test function, 0 errors, 1 failure
+## FAILURE in test_sum: Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE
+##
+##
+##
+##
+## Details
+## ***************************
+## Test Suite: runit_my_sum
+## Test function regexp: ^test.+
+## Test file regexp: ^runit_my_sum.R$
+## Involved directory:
+## /home/nik/git/cs/fvafrcu/funktionen_in_r/src
+## ---------------------------
+## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R
+## test_sum: FAILURE !! (check number 1)
+## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE
+##</code></pre>
+</div></div>
 </div>
 </div>
 <div class="sect3">
@@ -1894,24 +1957,19 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/wipe_clean_broken.R: 100.00%</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt m&uuml;sst
+<div class="paragraph"><p>Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt m&uuml;sste
 auf die Nebenwirkung testen:</p></div>
 <div class="listingblock">
-<div class="title">src/wipe_clean_broken.R</div>
+<div class="title">src/test_wipe_clean.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">#' Remove All Objects From an Environment</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' @param environment The environment to be wiped.</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' @return A character vector containing the names of objects removed.</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' @export</span></span>
-wipe_clean &lt;- function(environment = parent.frame()) {
-    objects &lt;- ls(name = environment, all.names = TRUE)
-    rm(list = objects, envir = environment)
-    return(invisible(objects))
-}</tt></pre></div></div>
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Test return value and side effects."</span>, {
+                    a &lt;- 3
+                    testthat::expect_identical(wipe_clean(), c(<span style="color: #FF0000">"a"</span>))
+                    testthat::expect_identical(ls(), character(0))}
+                    )</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1927,8 +1985,90 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-style: italic"><span style="color: #9A1900">## * ls() not identical to character(0).</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## Lengths differ: 1 vs 0</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke.</em></p></div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_was_soll_die_ganze_testerei">3.2.3. Was soll die ganze Testerei?</h4>
+<div class="paragraph"><p>Ich habe einmal die Funktion</p></div>
+<div class="listingblock">
+<div class="title">src/golden_ratio.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>golden_ratio  &lt;- function(value, quantity = c(<span style="color: #FF0000">"a"</span>, <span style="color: #FF0000">"b"</span>)) {
+    quantity &lt;- match.arg(quantity)
+    phi &lt;- (1 + sqrt(5)) / 2
+    switch(quantity,
+           <span style="color: #FF0000">"a"</span> = {
+               a  &lt;- value
+               b &lt;- a / phi
+           },
+           <span style="color: #FF0000">"b"</span> = {
+               b &lt;- value
+               a &lt;- b * phi
+           }           )
+    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b, <span style="color: #FF0000">"a + b"</span> = a + b))
+}</tt></pre></div></div>
+<div class="paragraph"><p>geschrieben, die mir den <a href="https://de.wikipedia.org/wiki/Goldener_Schnitt">Goldenen Schnitt</a> anwendet:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>golden_ratio(6)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##        a        b    a + b
+## 6.000000 3.708204 9.708204</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>golden_ratio(6, <span style="color: #FF0000">"b"</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##         a         b     a + b
+##  9.708204  6.000000 15.708204</code></pre>
+</div></div>
+<div class="paragraph"><p>Und ich habe auch einen Test geschrieben:</p></div>
+<div class="listingblock">
+<div class="title">src/test_golden_ratio2.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>, {
+                    expectation &lt;- c(a = 6, b = 3.70820393249937, <span style="color: #FF0000">"a + b"</span> = 9.70820393249937)
+                    result &lt;- golden_ratio(6, <span style="color: #FF0000">"a"</span>)
+                    testthat::expect_equal(result, expectation)
+                    result &lt;- golden_ratio(3.70820393249937, <span style="color: #FF0000">"b"</span>)
+                    testthat::expect_equal(result, expectation)
+})</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"golden_ratio.R"</span>),
+                    file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_golden_ratio.R"</span>))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Coverage: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_ratio.R: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke.</em></p></div>
 </div>
 </div>
 <div class="sect2">
@@ -2196,7 +2336,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-15 14:39:49 CET
+ 2018-03-15 16:57:19 CET
 </div>
 </div>
 </body>
