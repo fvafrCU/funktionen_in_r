@@ -907,10 +907,8 @@ http://www.gnu.org/software/src-highlite -->
 <h3 id="_scoping">2.4. Scoping</h3>
 <div class="paragraph"><p>Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche
 (englisch "scope"), wir sehen uns das am Beispiel an:
-
 ==== Schreibzugriffe
 .Ausgangszustand
-
 Im Augenblick hat das Objekte <code>value</code> den Wert 19:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -985,7 +983,6 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>## [1] 25</code></pre>
 </div></div>
 <div class="paragraph"><p>Was ist passiert?
-
 Im ersten Durchlauf der Schleife gibt es beim Lesen von
 <code>value</code> noch kein lokales Objekt dieses Namens. Daher sucht <strong>R</strong> außerhalb der
 Funktion und findet ein Objekt mit dem Wert 19.
@@ -1464,7 +1461,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc", clean = TRUE): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render("index.Rasciidoc"): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p><em>Ich nutze Typentests oft in Funktionen. Da <code>checkmate</code> deutlich mehr Funktionalität bietet, nutzte ich <code>assert_that</code> eher selten.</em></p></div>
 </div>
@@ -1529,7 +1526,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.3734614</code></pre>
+<pre><code>## [1] 0.1459834</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1557,7 +1554,7 @@ checkmate::assertChoice(x = note, choices = noten)</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc", clean = TRUE): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render("index.Rasciidoc"): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Außerdem gibt <code>checkmate</code> die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites <code>print</code> benötige:</p></div>
 <div class="listingblock">
@@ -2081,7 +2078,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-14 18:09:30 CET
+ 2018-03-15 12:06:35 CET
 </div>
 </div>
 </body>
