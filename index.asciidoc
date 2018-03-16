@@ -476,7 +476,7 @@ Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offentsicht
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?
 
 Komplexere Funktionen haben oft Nebenwirkungen (side effects)
-Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Röckgabewert explizit drucken:
+Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:
 
 [source,r]
 ----
@@ -536,14 +536,54 @@ Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir w
 
 === Funktionen verwalten
 
+==== Im jeweiligen Skript
+Ich schreibe viele Funktionen während Datenauswertungen, sie landen dann erstmal 
+im jeweiligen Auswertungsskript. Manchmal sammele ich sie an dessen Beginn, meist lege ich 
+sie aber gleich <<_lokal, lokal>> ab.
+
 ==== Lokal
-Mit source
+Viele meiner wissenschaftlichen Projekte haben im R-Skript-Verzeichnis ein Unterverzeichnis mit dem Namen +/functions+.
+Darin lege ich die Funktionen, die ich <<_im_jeweiligen_skript, in den Skripten des Projektes>> schreibe, ab.
+Wichtige Funktionen kommen in eigene Dateien, die nach ihnen benannt sind, andere sammele ich, beispielsweise in 
++./functions/utils.R+ oder +./functions/misc.R+.
+
+Jedes Auswertungsskript hat dann am Beginn die Zeile
+
+[source,r]
+----
+for (f in dir("./functions/", full.names = TRUE, pattern = ".*\\.[rR]")) source(f)
+----
+
 
 ====  Global 
-Mit .Rprofile und einer Schleife
+Funktionen, die Du nicht nur in einem Projekt nutzen willst, kannst Du zentral verwalten, 
+in dem Du Dateien wie <<_lokal, lokal>>, aber in einem zentralen Verzeichnis ablegst, 
+und in eine Deiner R-Startup-Dateien die Anweisung
+
+[source,r]
+----
+for (f in dir("/full/path/to/functions_directory/", 
+              full.names = TRUE, pattern = ".*\\.[rR]")) source(f)
+----
+
+einfügst und den  "/full/path/to/functions_directory/" anpasst.
+Geeignte R-Startup-Dateien verrät Dir die R-Hilfe +?Startup+ oder der Code:
+
+[source,r]
+----
+candidates <- c( Sys.getenv("R_PROFILE"),
+                 Sys.getenv("R_PROFILE_USER"),
+                 file.path(Sys.getenv("R_HOME"), "etc", "Rprofile.site"),
+                 file.path(Sys.getenv("HOME"), ".Rprofile"),
+                 file.path(getwd(), ".Rprofile") )
+
+Filter(file.exists, candidates)
+----
+
 
 ==== Als Paket
-Das ist am aufwendigsten, aber auch am elegantesten.
+Wenn Du Dir die Mühe machst, Deine Funktionen zu <<_funktionen_dokumentieren, dokumentieren>>, kannst 
+Du eigentlich auch gleich in einem oder mehreren Paketen verwalten, ist zwar am aufwendigsten, aber auch am elegantesten.
 
 
 == Weniger schlecht programmieren
@@ -745,7 +785,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] -0.04300697
+## [1] -0.1943434
 ----
 
 [source,r]
@@ -851,7 +891,7 @@ not_my_sum <- function(x) {
 }
 ----
 
-haben, k&ouml;nnen wir zum Beispiel mit +base R+ prüfen, ob sie tun, was wir erwarten:
+haben, können wir zum Beispiel mit +base R+ prüfen, ob sie tun, was wir erwarten:
 
 
 [source,r]
@@ -874,7 +914,7 @@ identical(not_my_sum(c(2, 7)), 9)
 ----
 
 
-Beide Pakete formalisieren dies zu Erwartungsfunktionen die haupts&auml;chlich dazu dienen, 
+Beide Pakete formalisieren dies zu Erwartungsfunktionen die hauptsächlich dazu dienen, 
 Fehler zu beschreiben:
 
 .+RUnit+
@@ -945,13 +985,13 @@ oder den Test in einer  Testdatei
 [source,r]
 include::src/test_my_sum.R[]
 
-mit einer Funktion auswerten, bei +testthat+ &auml;ndert sich 
+mit einer Funktion auswerten, bei +testthat+ ändert sich 
 relativ wenig: 
 
 
 [source,r]
 ----
-testthat::test_file("src/test_my_sum.R")
+testthat::test_file(file.path("src", "test_my_sum.R"))
 ----
 
 ----
@@ -966,11 +1006,11 @@ testthat::test_file("src/test_my_sum.R")
 ## DONE ======================================================================
 ----
 
-Du erh&auml;lst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
+Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
 
 .+RUnit+
-Gr&ouml;&szlig;er sind die Unterschiede bei +RUnit+, 
-das prim&auml;r f&uuml;r das Testen von Paketen entwickelt wurde:
+Größer sind die Unterschiede bei +RUnit+, 
+das primär für das Testen von Paketen entwickelt wurde:
 Es ist beim einfachen
 
 [source,r]
@@ -989,13 +1029,13 @@ test_sum()
 
 ----
 
-recht spr&ouml;de, mit einer Testdatei 
+recht spröde, mit einer Testdatei 
 
 .src/runit_my_sum.R
 [source,r]
 include::src/runit_my_sum.R[]
 
-allerdings gespr&auml;chiger:
+allerdings gesprächiger:
 
 
 [source,r]
@@ -1007,7 +1047,7 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ... Timing stopped at: 0 0 0 
+## Executing test function test_sum  ... Timing stopped at: 0 0 0.001 
 ##  done successfully.
 ----
 
@@ -1017,7 +1057,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Fri Mar 16 12:37:26 2018 
+## RUNIT TEST PROTOCOL -- Fri Mar 16 13:37:17 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1047,10 +1087,10 @@ RUnit::printTextProtocol(runit)
 
 
 ==== Code Coverage
-Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (https://en.wikipedia.org/wiki/Code_coverage[&Uuml;berdeckung]) berechnen.
-+covr+ ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich wei&szlig; es nicht, glaube aber, dass +covr+ die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
+Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (https://en.wikipedia.org/wiki/Code_coverage[Überdeckung]) berechnen.
++covr+ ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass +covr+ die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
 berechnet. 
-Prinzipiell ist eine hohe &Uuml;berdeckung gut.
+Prinzipiell ist eine hohe Überdeckung gut.
 
 Wenn Du eine Datei mit einer Funktionsdefinition
 
@@ -1064,7 +1104,7 @@ und eine mit dem Test
 [source,r]
 include::src/test_my_sum_assertion.R[]
 
-hast, kannst Du die &Uuml;berdeckung berechnen.
+hast, kannst Du die Überdeckung berechnen.
 
 
 [source,r]
@@ -1130,10 +1170,10 @@ covr::zero_coverage(cov)
 
 ===== Nebenwirkungen testen
 
-Funktionen sind relativ einfach zu testen, wenn ihr R&uuml;ckgabewert ihr Zweck ist.
+Funktionen sind relativ einfach zu testen, wenn ihr Rückgabewert ihr Zweck ist.
 Wenn sie aber Nebenwirkungen bezwecken, finde ich Tests schwieriger zu schreiben.
 
-Stell Dir vor, Du h&auml;ttest die fehlerhafte L&ouml;schfunktion aus 
+Stell Dir vor, Du hättest die fehlerhafte Löschfunktion aus 
 <<_arbeiten_mit_gültigkeitsbereichen, Arbeiten mit Gültigkeitsbereichen>> 
 in eine Datei geschrieben:
 
@@ -1147,7 +1187,7 @@ Nun schreibst Du eine Testdatei:
 [source,r]
 include::src/test_wipe_clean_broken.R[]
 
-Und erh&auml;lst vollst&auml;ndige &Uuml;berdeckung:
+Und erhälst vollständige Überdeckung:
 
 
 [source,r]
@@ -1170,7 +1210,7 @@ print(cov)
 ----
 
 
-Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt m&uuml;sste 
+Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt müsste 
 auf die Nebenwirkung testen:
 
 .src/test_wipe_clean.R
@@ -1196,11 +1236,11 @@ covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
 ==== Was soll die ganze Testerei?
 
 
-Stell Dir vor, Du erstelltest &ouml;fter Abbildungen. 
-Jetzt bist Du ein Mensch mit einem Gef&uuml;hl f&uuml;r Harmonien,
-daher willst Du gerne, wenn m&ouml;glich, den 
+Stell Dir vor, Du erstelltest öfter Abbildungen. 
+Jetzt bist Du ein Mensch mit einem Gefühl für Harmonien,
+daher willst Du gerne, wenn möglich, den 
 https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldenen Schnitt] bei der 
-Wahl der Seitenl&auml;ngen ber&uuml;cksichtigen.
+Wahl der Zuschnitte berücksichtigen.
 
 Da Du Dir den Goldenen Schnitt nicht gut merken kannst, schreibst Du folgende Funktion:
 
@@ -1216,7 +1256,7 @@ Das ginge auch als Einzeiler:
 golden_ratio  <- function() return((1 + sqrt(5)) / 2)  
 ----
 
-aber den findest Du auch nicht viel eleganter, daf&uuml;r aber schlechter lesbar.
+aber den findest Du auch nicht viel eleganter, dafür aber schlechter lesbar.
 
 Du schreibst auch einen Test, obwohl der ziemlich trivial ist:
 
@@ -1244,8 +1284,8 @@ covr::file_coverage(file.path("src", "golden_ratio.R"),
 
 
 Wenn Du Graphiken nach dem Goldenen Schnitt proportionieren willst, musst Du bei 
-gegebener L&auml;nge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren 
-um die L&auml;nge der langen Seite zu erhalten. 
+gegebener Länge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren 
+um die Länge der langen Seite zu erhalten. 
 
 Das ist eigentlich nicht allzu kompliziert, dennoch kommst Du manchmal durcheinander, 
 also schreibst Du die folgende Funktion:
@@ -1274,11 +1314,11 @@ dev.off()
 
 
 
-.Oh, wie sch&ouml;n!
+.Oh, wie schön!
 image::p1.png[]
 [caption=""]
 
-Auch f&uuml;r diese Funktion schreibst Du einen Test:
+Auch für diese Funktion schreibst Du einen Test:
 
 
 .src/test_golden_rectangle.R
@@ -1306,12 +1346,12 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 
 Du benutzt die Funktion eine Weile, merkst dann aber, dass Du ja auch querformatige
 Abbildungen erstellen willst, und daher 
-bei gegebener L&auml;nge der 
-langen Seite diese durch den Goldenen Schnitt dividieren musst, um die L&auml;nge 
+bei gegebener Länge der 
+langen Seite diese durch den Goldenen Schnitt dividieren musst, um die Länge 
 der kurzen Seite zu erhalten.
 
 Jetzt kannst Du entweder eine neue Funktion schreiben oder die alte erweitern.
-Da die Funktionalit&auml;ten zum selben Thema passen und +golden_rectangle+ bislang
+Da die Funktionalitäten zum selben Thema passen und +golden_rectangle+ bislang
 recht simpel ist, schreibst Du Deine Funktion also um:
 
 
@@ -1336,12 +1376,12 @@ dev.off()
 ----
 
 
-.Auch sehr sch&ouml;n!
+.Auch sehr schön!
 image::p2.png[]
 [caption=""]
 
-Herzlichen Gl&uuml;ckwunsch, Du hast gerade die https://en.wikipedia.org/wiki/Application_programming_interface[Schnittstelle] Deiner Funktion zerschossen, indem Du ihr voreingestelltes Verhalten ge&auml;ndert hast. 
-Gl&uuml;cklicherweise hast Du einen Test, der Dir jetzt um die Ohren fliegt:
+Herzlichen Glückwunsch, Du hast gerade die https://en.wikipedia.org/wiki/Application_programming_interface[Schnittstelle] Deiner Funktion zerschossen, indem Du ihr voreingestelltes Verhalten geändert hast. 
+Glücklicherweise hast Du einen Test, der Dir jetzt um die Ohren fliegt:
 
 
 [source,r]
@@ -1364,11 +1404,11 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 Was bedeuetet das? 
 Du musst entweder
 
-- *alle* Aufrufe der Funktion, die Du vor der Ver&auml;derung ihrer Schnittstelle progammiert hast, 
-  anpassen (indem Du +, landscape = FALSE+ einf&uuml;gst) oder
-- die Funktion so &auml;ndern, dass der Test weiterhin funktioniert.
+- *alle* Aufrufe der Funktion, die Du vor der Veränderung ihrer Schnittstelle progammiert hast, 
+  anpassen (indem Du +, landscape = FALSE+ einfügst) oder
+- die Funktion so ändern, dass der Test weiterhin funktioniert.
 
-Du entscheidest Dich, die Funktion zu &auml;ndern:
+Du entscheidest Dich, die Funktion zu ändern:
 
 
 
@@ -1379,8 +1419,8 @@ include::src/golden_rectangle.R[]
 Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
 +golden_rectangle(width, landscape = TRUE)+
 
-Der Test funktioniert wieder, da Du aber die Funktion ge&auml;ndert hast, &uuml;berdeckt
-er sie nicht mehr vollst&auml;ndig:
+Der Test funktioniert wieder, da Du aber die Funktion geändert hast, überdeckt
+er sie nicht mehr vollständig:
 
 
 [source,r]
@@ -1402,7 +1442,7 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 ----
 
 
-Du passt also die Testdatei an:
+Du erweiterst also Deine Testdatei an:
 
 
 .src/test_golden_rectangle.R
@@ -1428,102 +1468,9 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 ----
 
 
-
-// Ich habe einmal die Funktion
-// 
-// //begin.rcode, echo = FALSE, results = "hide"
-// src <- "golden_ratio2.R"
-// withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
-// source("src/golden_ratio.R")
-// //end.rcode
-// .src/golden_ratio.R
-// [source,r]
-// include::src/golden_ratio.R[]
-// 
-// 
-// geschrieben, die mir den https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldenen Schnitt] anwendet:
-// //begin.rcode
-// golden_ratio(6)
-// golden_ratio(6, "b")
-// //end.rcode
-// 
-// 
-// Und ich habe auch einen Test geschrieben:
-// //begin.rcode, echo = FALSE, results = "hide"
-// src <- "test_golden_ratio2.R"
-// withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
-// //end.rcode
-// .src/test_golden_ratio.R
-// [source,r]
-// include::src/test_golden_ratio.R[]
-// 
-// //begin.rcode
-// covr::file_coverage(file.path("src", "golden_ratio.R"), 
-//                     file.path("src", "test_golden_ratio.R"))
-// //end.rcode
-// 
-// // #FIXME: Gesamtlaenge eher die angabe
-// //begin.rcode, echo = FALSE, results = "hide"
-// src <- "golden_ratio3.R"
-// withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
-// //end.rcode
-// .src/golden_ratio.R
-// [source,r]
-// include::src/golden_ratio.R[]
-// //begin.rcode
-// covr::file_coverage(file.path("src", "golden_ratio.R"), 
-//                     file.path("src", "test_golden_ratio.R"))
-// //end.rcode
-// 
-// // #FIXME: Default geaendert, zerschiesst alte aufrufe
-// //begin.rcode, echo = FALSE, results = "hide"
-// 
-// src <- "test_golden_ratio2.R"
-// withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
-// //end.rcode
-// .src/test_golden_ratio.R
-// [source,r]
-// include::src/test_golden_ratio.R[]
-// 
-// //begin.rcode
-// covr::file_coverage(file.path("src", "golden_ratio.R"), 
-//                     file.path("src", "test_golden_ratio.R"))
-// //end.rcode
-// 
-// 
-// //begin.rcode, echo = FALSE, results = "hide"
-// withr::with_dir("src", file.copy("test_memhogs_ordered.R", "test_memory_hogs.R", overwrite = TRUE))
-// //end.rcode
-// 
-// .src/tst_memory_hogs.R
-// [source,r]
-// include::src/test_memory_hogs.R[]
-// 
-// //begin.rcode
-// source("src/memory_hogs.R")
-// test_file <- normalizePath(file.path("src", "test_memhogs_ordered.R"))
-// runit <- RUnit::runTestFile(test_file)
-// RUnit::printTextProtocol(runit)
-// covr::file_coverage("src/memory_hogs.R", "src/test_memhogs_ordered.R")
-// //end.rcode
-// 
-// Dann merkte ich, dass ich bei vielen Objekten im Speicher nach oben scrollen muss, um die Namen der gro&szlig;en Objekte zu sehen:
-// //begin.rcode
-// for (i in 1:100) {
-//     assign(paste0("what_a_long_name_cluttering_my_screen_", i), rep(mtcars, i))
-// }
-// memory_hogs()
-// //end.rcode
-// 
-// 
-// 
-// 
-// die Ausgabe gerne genau _umgekehrt_ sortiert h&auml;tte, dann m&uuml;sste ich nicht nach oben scrollen, um 
-// 
-
-
-
-_Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Paket verpacke._
++golden_rectangle+ habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen.
+_Aber ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
+wenn ich sie in ein Paket verpacke._
 
 === Schöner Programmieren
 Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Paketen vorstellen, 
@@ -1689,7 +1636,7 @@ cyclocomp::cyclocomp(release)
 ## [1] 44
 ----
 
-Dabei ist die Funktion nur schwer verdaulich und nicht völlig unlesbar.
+Dabei ist die Funktion lediglich schwer verdaulich und nicht völlig unlesbar.
 Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln:
 
 [source,r]
@@ -1752,6 +1699,8 @@ suppressWarnings(cleanr::check_file("src/release.R"))
 
 
 === Funktionen dokumentieren 
+Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die **R**-Hilfe mit +?functionsname+ aufrufen.
+
 
 [source,r]
 ----

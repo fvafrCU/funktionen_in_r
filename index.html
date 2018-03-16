@@ -1253,7 +1253,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?</p></div>
 <div class="paragraph"><p>Komplexere Funktionen haben oft Nebenwirkungen (side effects)
-Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion <code>rm</code> gibt beispielsweise unsichtbar <code>NULL</code> zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Röckgabewert explizit drucken:</p></div>
+Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion <code>rm</code> gibt beispielsweise unsichtbar <code>NULL</code> zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1312,16 +1312,56 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect2">
 <h3 id="_funktionen_verwalten">2.7. Funktionen verwalten</h3>
 <div class="sect3">
-<h4 id="_lokal">2.7.1. Lokal</h4>
-<div class="paragraph"><p>Mit source</p></div>
+<h4 id="_im_jeweiligen_skript">2.7.1. Im jeweiligen Skript</h4>
+<div class="paragraph"><p>Ich schreibe viele Funktionen während Datenauswertungen, sie landen dann erstmal
+im jeweiligen Auswertungsskript. Manchmal sammele ich sie an dessen Beginn, meist lege ich
+sie aber gleich <a href="#_lokal">lokal</a> ab.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_global">2.7.2. Global</h4>
-<div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
+<h4 id="_lokal">2.7.2. Lokal</h4>
+<div class="paragraph"><p>Viele meiner wissenschaftlichen Projekte haben im R-Skript-Verzeichnis ein Unterverzeichnis mit dem Namen <code>/functions</code>.
+Darin lege ich die Funktionen, die ich <a href="#_im_jeweiligen_skript">in den Skripten des Projektes</a> schreibe, ab.
+Wichtige Funktionen kommen in eigene Dateien, die nach ihnen benannt sind, andere sammele ich, beispielsweise in
+<code>./functions/utils.R</code> oder <code>./functions/misc.R</code>.</p></div>
+<div class="paragraph"><p>Jedes Auswertungsskript hat dann am Beginn die Zeile</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (f in dir(<span style="color: #FF0000">"./functions/"</span>, full.names = TRUE, pattern = <span style="color: #FF0000">".*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.[rR]"</span>)) source(f)</tt></pre></div></div>
 </div>
 <div class="sect3">
-<h4 id="_als_paket">2.7.3. Als Paket</h4>
-<div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
+<h4 id="_global">2.7.3. Global</h4>
+<div class="paragraph"><p>Funktionen, die Du nicht nur in einem Projekt nutzen willst, kannst Du zentral verwalten,
+in dem Du Dateien wie <a href="#_lokal">lokal</a>, aber in einem zentralen Verzeichnis ablegst,
+und in eine Deiner R-Startup-Dateien die Anweisung</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (f in dir(<span style="color: #FF0000">"/full/path/to/functions_directory/"</span>,
+              full.names = TRUE, pattern = <span style="color: #FF0000">".*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.[rR]"</span>)) source(f)</tt></pre></div></div>
+<div class="paragraph"><p>einfügst und den  "/full/path/to/functions_directory/" anpasst.
+Geeignte R-Startup-Dateien verrät Dir die R-Hilfe <code>?Startup</code> oder der Code:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>candidates &lt;- c( Sys.getenv(<span style="color: #FF0000">"R_PROFILE"</span>),
+                 Sys.getenv(<span style="color: #FF0000">"R_PROFILE_USER"</span>),
+                 file.path(Sys.getenv(<span style="color: #FF0000">"R_HOME"</span>), <span style="color: #FF0000">"etc"</span>, <span style="color: #FF0000">"Rprofile.site"</span>),
+                 file.path(Sys.getenv(<span style="color: #FF0000">"HOME"</span>), <span style="color: #FF0000">".Rprofile"</span>),
+                 file.path(getwd(), <span style="color: #FF0000">".Rprofile"</span>) )
+
+Filter(file.exists, candidates)</tt></pre></div></div>
+</div>
+<div class="sect3">
+<h4 id="_als_paket">2.7.4. Als Paket</h4>
+<div class="paragraph"><p>Wenn Du Dir die Mühe machst, Deine Funktionen zu <a href="#_funktionen_dokumentieren">dokumentieren</a>, kannst
+Du eigentlich auch gleich in einem oder mehreren Paketen verwalten, ist zwar am aufwendigsten, aber auch am elegantesten.</p></div>
 </div>
 </div>
 </div>
@@ -1526,7 +1566,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] -0.04300697</code></pre>
+<pre><code>## [1] -0.1943434</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1640,7 +1680,7 @@ http://www.gnu.org/software/src-highlite -->
     }
     return(value)
 }</tt></pre></div></div>
-<div class="paragraph"><p>haben, k&ouml;nnen wir zum Beispiel mit <code>base R</code> prüfen, ob sie tun, was wir erwarten:</p></div>
+<div class="paragraph"><p>haben, können wir zum Beispiel mit <code>base R</code> prüfen, ob sie tun, was wir erwarten:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1662,7 +1702,7 @@ identical(not_my_sum(c(2, 7)), 9)</tt></pre></div></div>
 <div class="content">
 <pre><code>## [1] FALSE</code></pre>
 </div></div>
-<div class="paragraph"><p>Beide Pakete formalisieren dies zu Erwartungsfunktionen die haupts&auml;chlich dazu dienen,
+<div class="paragraph"><p>Beide Pakete formalisieren dies zu Erwartungsfunktionen die hauptsächlich dazu dienen,
 Fehler zu beschreiben:</p></div>
 <div class="listingblock">
 <div class="title"><code>RUnit</code></div>
@@ -1733,14 +1773,14 @@ http://www.gnu.org/software/src-highlite -->
                         testthat::expect_identical(my_sum(c(2, 7)), 9,
                                                    info = <span style="color: #FF0000">"My sum."</span>)
 })</tt></pre></div></div>
-<div class="paragraph"><p>mit einer Funktion auswerten, bei <code>testthat</code> &auml;ndert sich
+<div class="paragraph"><p>mit einer Funktion auswerten, bei <code>testthat</code> ändert sich
 relativ wenig:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>testthat::test_file(<span style="color: #FF0000">"src/test_my_sum.R"</span>)</tt></pre></div></div>
+<pre><tt>testthat::test_file(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_my_sum.R"</span>))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## 1.
@@ -1753,9 +1793,9 @@ http://www.gnu.org/software/src-highlite -->
 ##
 ## DONE ======================================================================</code></pre>
 </div></div>
-<div class="paragraph"><p>Du erh&auml;lst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.</p></div>
-<div class="paragraph"><div class="title"><code>RUnit</code></div><p>Gr&ouml;&szlig;er sind die Unterschiede bei <code>RUnit</code>,
-das prim&auml;r f&uuml;r das Testen von Paketen entwickelt wurde:
+<div class="paragraph"><p>Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.</p></div>
+<div class="paragraph"><div class="title"><code>RUnit</code></div><p>Größer sind die Unterschiede bei <code>RUnit</code>,
+das primär für das Testen von Paketen entwickelt wurde:
 Es ist beim einfachen</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1775,7 +1815,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">##</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>recht spr&ouml;de, mit einer Testdatei</p></div>
+<div class="paragraph"><p>recht spröde, mit einer Testdatei</p></div>
 <div class="listingblock">
 <div class="title">src/runit_my_sum.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1786,7 +1826,7 @@ http://www.gnu.org/software/src-highlite -->
     RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
     RUnit::checkIdentical(my_sum(c(2, 7)), 9)
 }</tt></pre></div></div>
-<div class="paragraph"><p>allerdings gespr&auml;chiger:</p></div>
+<div class="paragraph"><p>allerdings gesprächiger:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1798,7 +1838,7 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ... Timing stopped at: 0 0 0
+## Executing test function test_sum  ... Timing stopped at: 0 0 0.001
 ##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
@@ -1809,7 +1849,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Fri Mar 16 12:37:26 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Fri Mar 16 13:37:17 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -1840,10 +1880,10 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 <div class="sect3">
 <h4 id="_code_coverage">3.2.2. Code Coverage</h4>
-<div class="paragraph"><p>Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (<a href="https://en.wikipedia.org/wiki/Code_coverage">&Uuml;berdeckung</a>) berechnen.
-<code>covr</code> ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich wei&szlig; es nicht, glaube aber, dass <code>covr</code> die <a href="https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria"><em>branch coverage</em></a>
+<div class="paragraph"><p>Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (<a href="https://en.wikipedia.org/wiki/Code_coverage">Überdeckung</a>) berechnen.
+<code>covr</code> ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass <code>covr</code> die <a href="https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria"><em>branch coverage</em></a>
 berechnet.
-Prinzipiell ist eine hohe &Uuml;berdeckung gut.</p></div>
+Prinzipiell ist eine hohe Überdeckung gut.</p></div>
 <div class="paragraph"><p>Wenn Du eine Datei mit einer Funktionsdefinition</p></div>
 <div class="listingblock">
 <div class="title">src/my_sum_assertion.R</div>
@@ -1869,7 +1909,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>,
                     testthat::expect_identical(my_sum(c(2, 7)), 9)
                     )</tt></pre></div></div>
-<div class="paragraph"><p>hast, kannst Du die &Uuml;berdeckung berechnen.</p></div>
+<div class="paragraph"><p>hast, kannst Du die Überdeckung berechnen.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1945,9 +1985,9 @@ http://www.gnu.org/software/src-highlite -->
 </div></div>
 <div class="sect4">
 <h5 id="_nebenwirkungen_testen">Nebenwirkungen testen</h5>
-<div class="paragraph"><p>Funktionen sind relativ einfach zu testen, wenn ihr R&uuml;ckgabewert ihr Zweck ist.
+<div class="paragraph"><p>Funktionen sind relativ einfach zu testen, wenn ihr Rückgabewert ihr Zweck ist.
 Wenn sie aber Nebenwirkungen bezwecken, finde ich Tests schwieriger zu schreiben.</p></div>
-<div class="paragraph"><p>Stell Dir vor, Du h&auml;ttest die fehlerhafte L&ouml;schfunktion aus
+<div class="paragraph"><p>Stell Dir vor, Du hättest die fehlerhafte Löschfunktion aus
 <a href="#_arbeiten_mit_gültigkeitsbereichen">Arbeiten mit Gültigkeitsbereichen</a>
 in eine Datei geschrieben:</p></div>
 <div class="listingblock">
@@ -1973,7 +2013,7 @@ http://www.gnu.org/software/src-highlite -->
                     testthat::expect_identical(wipe_clean(),
                                                c(<span style="color: #FF0000">"a"</span>))}
                     )</tt></pre></div></div>
-<div class="paragraph"><p>Und erh&auml;lst vollst&auml;ndige &Uuml;berdeckung:</p></div>
+<div class="paragraph"><p>Und erhälst vollständige Überdeckung:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1996,7 +2036,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/wipe_clean_broken.R: 100.00%</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt m&uuml;sste
+<div class="paragraph"><p>Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt müsste
 auf die Nebenwirkung testen:</p></div>
 <div class="listingblock">
 <div class="title">src/test_wipe_clean.R</div>
@@ -2029,11 +2069,11 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 <div class="sect3">
 <h4 id="_was_soll_die_ganze_testerei">3.2.3. Was soll die ganze Testerei?</h4>
-<div class="paragraph"><p>Stell Dir vor, Du erstelltest &ouml;fter Abbildungen.
-Jetzt bist Du ein Mensch mit einem Gef&uuml;hl f&uuml;r Harmonien,
-daher willst Du gerne, wenn m&ouml;glich, den
+<div class="paragraph"><p>Stell Dir vor, Du erstelltest öfter Abbildungen.
+Jetzt bist Du ein Mensch mit einem Gefühl für Harmonien,
+daher willst Du gerne, wenn möglich, den
 <a href="https://de.wikipedia.org/wiki/Goldener_Schnitt">Goldenen Schnitt</a> bei der
-Wahl der Seitenl&auml;ngen ber&uuml;cksichtigen.</p></div>
+Wahl der Zuschnitte berücksichtigen.</p></div>
 <div class="paragraph"><p>Da Du Dir den Goldenen Schnitt nicht gut merken kannst, schreibst Du folgende Funktion:</p></div>
 <div class="listingblock">
 <div class="title">src/golden_ratio.R</div>
@@ -2052,7 +2092,7 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>golden_ratio  &lt;- function() return((1 + sqrt(5)) / 2)</tt></pre></div></div>
-<div class="paragraph"><p>aber den findest Du auch nicht viel eleganter, daf&uuml;r aber schlechter lesbar.</p></div>
+<div class="paragraph"><p>aber den findest Du auch nicht viel eleganter, dafür aber schlechter lesbar.</p></div>
 <div class="paragraph"><p>Du schreibst auch einen Test, obwohl der ziemlich trivial ist:</p></div>
 <div class="listingblock">
 <div class="title">src/test_golden_ratio.R</div>
@@ -2087,8 +2127,8 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_ratio.R: 100.00%</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Wenn Du Graphiken nach dem Goldenen Schnitt proportionieren willst, musst Du bei
-gegebener L&auml;nge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren
-um die L&auml;nge der langen Seite zu erhalten.</p></div>
+gegebener Länge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren
+um die Länge der langen Seite zu erhalten.</p></div>
 <div class="paragraph"><p>Das ist eigentlich nicht allzu kompliziert, dennoch kommst Du manchmal durcheinander,
 also schreibst Du die folgende Funktion:</p></div>
 <div class="listingblock">
@@ -2597,9 +2637,9 @@ oOoQ8aDqEPGg6hDxoOoQ8aDqEPGg6hDxoOoQ8aDqEPGg6hDxoOoQ8aDqEPGg6hDxoOoQ8aDqEPGg
 6hDxoOoQ8aDqEPGg6hDxoOoQ8aDqEPGg6hDxoOoQ8aDqEPGg6hDxoOoQ8aDqEPGg6hDxoOoQ8aDq
 EPGg6hDxoOoQ8aDqEPH8HyD+/AHcNkfwAAAAAElFTkSuQmCC" />
 </div>
-<div class="title">Figure 1. Oh, wie sch&ouml;n!</div>
+<div class="title">Figure 1. Oh, wie schön!</div>
 </div>
-<div class="paragraph"><p>Auch f&uuml;r diese Funktion schreibst Du einen Test:</p></div>
+<div class="paragraph"><p>Auch für diese Funktion schreibst Du einen Test:</p></div>
 <div class="listingblock">
 <div class="title">src/test_golden_rectangle.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -2637,11 +2677,11 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 <div class="paragraph"><p>Du benutzt die Funktion eine Weile, merkst dann aber, dass Du ja auch querformatige
 Abbildungen erstellen willst, und daher
-bei gegebener L&auml;nge der
-langen Seite diese durch den Goldenen Schnitt dividieren musst, um die L&auml;nge
+bei gegebener Länge der
+langen Seite diese durch den Goldenen Schnitt dividieren musst, um die Länge
 der kurzen Seite zu erhalten.</p></div>
 <div class="paragraph"><p>Jetzt kannst Du entweder eine neue Funktion schreiben oder die alte erweitern.
-Da die Funktionalit&auml;ten zum selben Thema passen und <code>golden_rectangle</code> bislang
+Da die Funktionalitäten zum selben Thema passen und <code>golden_rectangle</code> bislang
 recht simpel ist, schreibst Du Deine Funktion also um:</p></div>
 <div class="listingblock">
 <div class="title">src/golden_rectangle.R</div>
@@ -2975,10 +3015,10 @@ Q+wHVYfYD6oOsR9UHWI/qDrEflB1iP2g6hD7QdUh9oOqQ+wHVYfYD6oOsR9UHWI/qDrEflB1iP2g
 6hD7QdUh9oOqQ+wHVYfYD6oOsR9UHWI/qDrEflB1iP2g6hD7QdUh9oOqQ+wHVYfYD6oOsR9UHWI/
 qDrEflB1iP2g6hD7QdUh9oOqQ+wHVYfYD6oOsZ//A181jRi7tnxOAAAAAElFTkSuQmCC" />
 </div>
-<div class="title">Figure 2. Auch sehr sch&ouml;n!</div>
+<div class="title">Figure 2. Auch sehr schön!</div>
 </div>
-<div class="paragraph"><p>Herzlichen Gl&uuml;ckwunsch, Du hast gerade die <a href="https://en.wikipedia.org/wiki/Application_programming_interface">Schnittstelle</a> Deiner Funktion zerschossen, indem Du ihr voreingestelltes Verhalten ge&auml;ndert hast.
-Gl&uuml;cklicherweise hast Du einen Test, der Dir jetzt um die Ohren fliegt:</p></div>
+<div class="paragraph"><p>Herzlichen Glückwunsch, Du hast gerade die <a href="https://en.wikipedia.org/wiki/Application_programming_interface">Schnittstelle</a> Deiner Funktion zerschossen, indem Du ihr voreingestelltes Verhalten geändert hast.
+Glücklicherweise hast Du einen Test, der Dir jetzt um die Ohren fliegt:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3002,17 +3042,17 @@ Du musst entweder</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<strong>alle</strong> Aufrufe der Funktion, die Du vor der Ver&auml;derung ihrer Schnittstelle progammiert hast,
-  anpassen (indem Du <code>, landscape = FALSE</code> einf&uuml;gst) oder
+<strong>alle</strong> Aufrufe der Funktion, die Du vor der Veränderung ihrer Schnittstelle progammiert hast,
+  anpassen (indem Du <code>, landscape = FALSE</code> einfügst) oder
 </p>
 </li>
 <li>
 <p>
-die Funktion so &auml;ndern, dass der Test weiterhin funktioniert.
+die Funktion so ändern, dass der Test weiterhin funktioniert.
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Du entscheidest Dich, die Funktion zu &auml;ndern:</p></div>
+<div class="paragraph"><p>Du entscheidest Dich, die Funktion zu ändern:</p></div>
 <div class="listingblock">
 <div class="title">src/golden_rectangle.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3032,8 +3072,8 @@ http://www.gnu.org/software/src-highlite -->
 }</tt></pre></div></div>
 <div class="paragraph"><p>Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
 <code>golden_rectangle(width, landscape = TRUE)</code></p></div>
-<div class="paragraph"><p>Der Test funktioniert wieder, da Du aber die Funktion ge&auml;ndert hast, &uuml;berdeckt
-er sie nicht mehr vollst&auml;ndig:</p></div>
+<div class="paragraph"><p>Der Test funktioniert wieder, da Du aber die Funktion geändert hast, überdeckt
+er sie nicht mehr vollständig:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3055,7 +3095,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_rectangle.R: 71.43%</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Du passt also die Testdatei an:</p></div>
+<div class="paragraph"><p>Du erweiterst also Deine Testdatei an:</p></div>
 <div class="listingblock">
 <div class="title">src/test_golden_rectangle.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3091,7 +3131,9 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_rectangle.R: 100.00%</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Paket verpacke.</em></p></div>
+<div class="paragraph"><p><code>golden_rectangle</code> habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen.
+<em>Aber ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens,
+wenn ich sie in ein Paket verpacke.</em></p></div>
 </div>
 </div>
 <div class="sect2">
@@ -3249,7 +3291,7 @@ cyclocomp::cyclocomp(release)</tt></pre></div></div>
 <div class="content">
 <pre><code>## [1] 44</code></pre>
 </div></div>
-<div class="paragraph"><p>Dabei ist die Funktion nur schwer verdaulich und nicht völlig unlesbar.
+<div class="paragraph"><p>Dabei ist die Funktion lediglich schwer verdaulich und nicht völlig unlesbar.
 Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3316,6 +3358,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 <div class="sect2">
 <h3 id="_funktionen_dokumentieren">3.4. Funktionen dokumentieren</h3>
+<div class="paragraph"><p>Wenn Du Hilfe zu einer Funktion in <strong>R</strong> suchst, kannst Du unter anderem die <strong>R</strong>-Hilfe mit <code>?functionsname</code> aufrufen.</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3359,7 +3402,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-16 12:37:28 CET
+ 2018-03-16 13:37:19 CET
 </div>
 </div>
 </body>
