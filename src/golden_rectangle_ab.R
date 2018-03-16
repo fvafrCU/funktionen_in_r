@@ -1,14 +1,11 @@
-golden_rectangle  <- function(value, quantity = c("a", "b")) {
-    quantity <- match.arg(quantity)
+golden_rectangle  <- function(value, landscape = TRUE) {
     phi <- (1 + sqrt(5)) / 2
-    switch(quantity,
-           "a" = {
-               a  <- value
-               b <- a / phi
-           },
-           "b" = {
-               b <- value
-               a <- b * phi
-           }           )
-    return(c("a" = a, "b" = b, "a + b" = a + b))
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
 }

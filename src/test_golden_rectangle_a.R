@@ -1,7 +1,7 @@
 testthat::test_that("Test on golden rectangle", {
-                        a <- 2
-                        expectation <- c(a = a, b = a / golden_ratio())
-                        result <- golden_rectangle(a)
+                        b <- 2
+                        expectation <- c(a = b * golden_ratio(), b = b)
+                        result <- golden_rectangle(b)
                         testthat::expect_identical(result, expectation)
 })
 

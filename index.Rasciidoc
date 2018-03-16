@@ -522,7 +522,7 @@ relativ wenig:
 //begin.rcode
 testthat::test_file("src/test_my_sum.R")
 //end.rcode
-Du erh&auml;lst aber die Information, dass der Fehler in Zeile 2 auftrat.
+Du erh&auml;lst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
 
 .+RUnit+
 Gr&ouml;&szlig;er sind die Unterschiede bei +RUnit+, 
@@ -671,13 +671,10 @@ covr::file_coverage(file.path("src", "golden_ratio.R"),
 
 Wenn Du Graphiken nach dem Goldenen Schnitt proportionieren willst, musst Du bei 
 gegebener L&auml;nge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren 
-um die L&auml;nge der langen Seite zu erhalten und bei gegebener L&auml;nge der 
-langen Seite musst Du sie durch den Goldenen Schnitt dividieren, um die L&auml;nge 
-der Kurzen Seite zu erhalten. 
+um die L&auml;nge der langen Seite zu erhalten. 
 
 Das ist eigentlich nicht allzu kompliziert, dennoch kommst Du manchmal durcheinander, 
-also schreibst Du die folgende Funktion, die Dir f&uuml;r die L&auml;nge der 
-langen Seite a eben diese L&auml;nge und die l&auml;nge der kurzen Seite b zur&uuml;ckgibt:
+also schreibst Du die folgende Funktion:
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "golden_rectangle_a.R"
 withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
@@ -686,9 +683,22 @@ source("src/golden_rectangle.R")
 .src/golden_rectangle.R
 [source,r]
 include::src/golden_rectangle.R[]
-//begin.rcode
-golden_rectangle(1)
+
+
+//begin.rcode cars, fig.show = "hide"
+width <- 4
+png("p1.png", units = "cm", res = 400,
+    width = width, 
+    height = golden_rectangle(width)[["a"]])
+par(mar=c(1,1,1,1))
+plot(cars)
+dev.off()
 //end.rcode
+
+
+.Oh, wie sch&ouml;n!
+image::p1.png[]
+[caption=""]
 
 Auch f&uuml;r diese Funktion schreibst Du einen Test:
 
@@ -705,6 +715,89 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
                     file.path("src", "test_golden_rectangle.R"))
 //end.rcode
 
+Du benutzt die Funktion eine Weile, merkst dann aber, dass Du ja auch querformatige
+Abbildungen erstellen willst, und daher 
+bei gegebener L&auml;nge der 
+langen Seite diese durch den Goldenen Schnitt dividieren musst, um die L&auml;nge 
+der kurzen Seite zu erhalten.
+
+Jetzt kannst Du entweder eine neue Funktion schreiben oder die alte erweitern.
+Da die Funktionalit&auml;ten zum selben Thema passen und +golden_rectangle+ bislang
+recht simpel ist, schreibst Du Deine Funktion also um:
+
+//begin.rcode, echo = FALSE, results = "hide"
+src <- "golden_rectangle_ab.R"
+withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
+source("src/golden_rectangle.R")
+//end.rcode
+.src/golden_rectangle.R
+[source,r]
+include::src/golden_rectangle.R[]
+//begin.rcode
+width <- 4
+png("p2.png", units = "cm", res = 400,
+    width = width, 
+    height = golden_rectangle(width)[["b"]])
+par(mar=c(1,1,1,1))
+plot(cars)
+dev.off()
+//end.rcode
+
+.Auch sehr sch&ouml;n!
+image::p2.png[]
+[caption=""]
+
+Herzlichen Gl&uuml;ckwunsch, Du hast gerade die https://en.wikipedia.org/wiki/Application_programming_interface[Schnittstelle] Deiner Funktion zerschossen, indem Du ihr voreingestelltes Verhalten ge&auml;ndert hast. 
+Gl&uuml;cklicherweise hast Du einen Test, der Dir jetzt um die Ohren fliegt:
+
+//begin.rcode
+covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+                    file.path("src", "test_golden_rectangle.R"))
+//end.rcode
+
+Was bedeuetet das? 
+Du musst entweder
+
+- *alle* Aufrufe der Funktion, die Du vor der Ver&auml;nderung ihrer Schnittstelle progammiert hast, 
+  anpassen (indem Du +, landscape = FALSE+ einf&uuml;gst) oder
+- die Funktion so &auml;ndern, dass der Test weiterhin funktioniert.
+
+Du entscheidest Dich, die Funktion zu &auml;ndern:
+
+
+//begin.rcode, echo = FALSE, results = "hide"
+src <- "golden_rectangle_ba.R"
+withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
+source("src/golden_rectangle.R")
+//end.rcode
+.src/golden_rectangle.R
+[source,r]
+include::src/golden_rectangle.R[]
+
+Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
++golden_rectangle(width, landscape = TRUE)+
+
+Der Test funktioniert wieder, da Du aber die Funktion ge&auml;ndert hast, &uuml;berdeckt
+er sie nicht mehr vollst&auml;ndig:
+
+//begin.rcode
+covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+                    file.path("src", "test_golden_rectangle.R"))
+//end.rcode
+
+Du erweiterst also Deine Testdatei an:
+
+//begin.rcode, echo = FALSE, results = "hide"
+src <- "test_golden_rectangle_ba.R"
+withr::with_dir("src", file.copy(src, "test_golden_rectangle.R", overwrite = TRUE))
+//end.rcode
+.src/test_golden_rectangle.R
+[source,r]
+include::src/test_golden_rectangle.R[]
+//begin.rcode
+covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+                    file.path("src", "test_golden_rectangle.R"))
+//end.rcode
 
 
 // Ich habe einmal die Funktion

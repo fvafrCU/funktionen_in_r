@@ -1,6 +1,4 @@
-golden_rectangle  <- function(value) {
-    phi <- golden_ratio()
-    a  <- value
-    b <- a / phi
+golden_rectangle  <- function(b) {
+    a <- b * golden_ratio()
     return(c("a" = a, "b" = b))
 }
