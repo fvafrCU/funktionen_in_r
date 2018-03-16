@@ -542,7 +542,7 @@ Mit source
 ====  Global 
 Mit .Rprofile und einer Schleife
 
-==== Als Package
+==== Als Paket
 Das ist am aufwendigsten, aber auch am elegantesten.
 
 
@@ -560,7 +560,7 @@ Das geht mir reinen +base R+, ist aber eher umständlich,
 die https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro[Vignette zu +checkmate+] 
 bietet ein anschauliches Bespiel.
 
-Ich kenne zwei Packages, die Typentest vereinfachen: +assertthat+ und +checkmate+.
+Ich kenne zwei Pakete, die Typentest vereinfachen: +assertthat+ und +checkmate+.
 
 - +checkmate+ ist hauptsächlich in C geschrieben, sehr schnell, 
 sehr flexibel mit unterschiedlichen Testarten ("checks", "asserts" und "tests"), 
@@ -745,7 +745,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] -0.1310966
+## [1] -0.0006431012
 ----
 
 [source,r]
@@ -812,13 +812,13 @@ _Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren
 Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
 Also im Zweifel ihren Rückgabewert.
 
-Ich kenne zwei Packages, die Unit Testing in R formalisieren 
-(im Prinzip geht es auch ohne spezielle Packages, 
- aber seit ich die beiden Packages kenne, 
+Ich kenne zwei Pakete, die Unit Testing in R formalisieren 
+(im Prinzip geht es auch ohne spezielle Pakete, 
+ aber seit ich die beiden Pakete kenne, 
  habe ich nie mehr wie früher "von Hand" getestet):
 
 - +RUnit+ gibt es schon seit 2004, es ist sehr formal
- und hat wenige Abhängigkeiten (daher bevorzuge ich es).
+ und hat wenige Abhängigkeiten (daher bevorzuge ich es beim Testen von Paketen).
 - +testthat+ finde ich interaktiv einfacher anzuwenden.
 
 ===== Erwartungen 
@@ -874,7 +874,7 @@ identical(not_my_sum(c(2, 7)), 9)
 ----
 
 
-Beide Packages formalisieren dies zu Erwartungsfunktionen die haupts&auml;chliche dazu dienen, 
+Beide Pakete formalisieren dies zu Erwartungsfunktionen die haupts&auml;chliche dazu dienen, 
 Fehler zu beschreiben:
 
 .+RUnit+
@@ -909,17 +909,24 @@ testthat::expect_identical(not_my_sum(c(2, 7)), 9)
 
 ===== Tests 
 Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<_code_coverage, Coverage>> auszuwerten,
-    werden in beiden Packages Erwartungen zu Tests zusammenfasst 
+    werden in beiden Paketen Erwartungen zu Tests zusammenfasst 
 (eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):
 
+
+
 .+testthat+
+Du kannst einen Test entweder einzeln laufen lassen
+
+
 
 [source,r]
 ----
 testthat::test_that("Simple test on summation.", {
-                        testthat::expect_identical(not_my_sum(c(2, 7)), 9)
-                        testthat::expect_identical(my_sum(c(2, 7)), 9)}
-)
+                        testthat::expect_identical(not_my_sum(c(2, 7)), 9,
+                                                   info = "Not my sum.")
+                        testthat::expect_identical(my_sum(c(2, 7)), 9, 
+                                                   info = "My sum.")
+})
 ----
 
 [source,r]
@@ -928,12 +935,43 @@ testthat::test_that("Simple test on summation.", {
 ## * not_my_sum(c(2, 7)) not identical to 9.
 ## 1/1 mismatches
 ## [1] -9 - 9 == -18
+## Not my sum.
 
 ----
 
 
+oder den Test in einer  Testdatei 
+
+[source,r]
+include::src/test_my_sum.R[]
+
+mit einer Funktion auswerten, bei +testthat+ &auml;ndert sich 
+relativ wenig: 
+
+
+[source,r]
+----
+testthat::test_file("src/test_my_sum.R")
+----
+
+----
+## 1.
+## Failed --------------------------------------------------------------------
+## 1. Failure: Simple test on summation. (@test_my_sum.R#2) ------------------
+## not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+## Not my sum.
+## 
+## DONE ======================================================================
+----
+
+Du erh&auml;lst aber die Information, dass der Fehler in Zeile 2 auftrat.
+
 .+RUnit+
-+RUnit+ wurde f&uuml;r das Testen von Packages entwickelt, es ist beim einfachen
+Gr&ouml;&szlig;er sind die Unterschiede bei +RUnit+, 
+das prim&auml;r f&uuml;r das Testen von Paketen entwickelt wurde:
+Es ist beim einfachen
 
 [source,r]
 ----
@@ -951,20 +989,17 @@ test_sum()
 
 ----
 
-recht spr&ouml;de. Das Package erwartet eine Testdatei 
-
+recht spr&ouml;de, mit einer Testdatei 
 
 .src/runit_my_sum.R
 [source,r]
 include::src/runit_my_sum.R[]
 
-und wird dann gespr&auml;chiger:
+allerdings gespr&auml;chiger:
 
 
 [source,r]
 ----
-source(file.path("src", "my_sum.R"))
-source(file.path("src", "not_my_sum.R"))
 test_file <- normalizePath(file.path("src", "runit_my_sum.R"))
 runit <- RUnit::runTestFile(test_file)
 ----
@@ -972,7 +1007,7 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ... Timing stopped at: 0 0 0.001 
+## Executing test function test_sum  ... Timing stopped at: 0 0 0 
 ##  done successfully.
 ----
 
@@ -982,7 +1017,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Thu Mar 15 17:13:53 2018 
+## RUNIT TEST PROTOCOL -- Fri Mar 16 09:19:26 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1013,7 +1048,7 @@ RUnit::printTextProtocol(runit)
 
 ==== Code Coverage
 Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (https://en.wikipedia.org/wiki/Code_coverage[&Uuml;berdeckung]) berechnen.
-+covr+ ist eines der Packages, die Code Coverage implentieren und das einzige, das ich nutze. Ich wei&szlig; es nicht, glaube aber, dass +covr+ die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
++covr+ ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich wei&szlig; es nicht, glaube aber, dass +covr+ die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
 berechnet. 
 Prinzipiell ist eine hohe &Uuml;berdeckung gut.
 
@@ -1034,7 +1069,8 @@ hast, kannst Du die &Uuml;berdeckung berechnen.
 
 [source,r]
 ----
-cov <- covr::file_coverage("src/my_sum_assertion.R", "src/test_my_sum_assertion.R")
+cov <- covr::file_coverage(file.path("src", "my_sum_assertion.R"), 
+                           file.path("src", "test_my_sum_assertion.R"))
 print(cov)
 ----
 
@@ -1061,7 +1097,8 @@ include::src/my_sum_coverage.R[]
 
 [source,r]
 ----
-cov <- covr::file_coverage("src/my_sum_coverage.R", "src/test_my_sum_assertion.R")
+cov <- covr::file_coverage(file.path("src", "my_sum_coverage.R"), 
+                           file.path("src", "test_my_sum_assertion.R"))
 print(cov)
 ----
 
@@ -1115,7 +1152,8 @@ Und erh&auml;lst vollst&auml;ndige &Uuml;berdeckung:
 
 [source,r]
 ----
-cov <- covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean_broken.R")
+cov <- covr::file_coverage(file.path("src", "wipe_clean_broken.R"), 
+                           file.path("src", "test_wipe_clean_broken.R"))
 print(cov)
 ----
 
@@ -1142,7 +1180,8 @@ include::src/test_wipe_clean.R[]
 
 [source,r]
 ----
-covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean.R")
+covr::file_coverage(file.path("src", "wipe_clean_broken.R"), 
+                    file.path("src", "test_wipe_clean.R"))
 ----
 
 [source,r]
@@ -1157,44 +1196,33 @@ covr::file_coverage("src/wipe_clean_broken.R", "src/test_wipe_clean.R")
 ==== Was soll die ganze Testerei?
 
 
-Ich habe einmal die Funktion
+Stell Dir vor, Du erstelltest &ouml;fter Abbildungen. 
+Jetzt bist Du ein Mensch mit einem Gef&uuml;hl f&uuml;r Harmonien,
+daher willst Du gerne, wenn m&ouml;glich, den 
+https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldenen Schnitt] bei der 
+Wahl der Seitenl&auml;ngen ber&uuml;cksichtigen.
 
+Da Du Dir den Goldenen Schnitt nicht gut merken kannst, schreibst Du folgende Funktion:
 
 .src/golden_ratio.R
 [source,r]
 include::src/golden_ratio.R[]
 
 
-geschrieben, die mir den https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldenen Schnitt] anwendet:
+Das ginge auch als Einzeiler: 
 
 [source,r]
 ----
-golden_ratio(6)
+golden_ratio  <- function() return((1 + sqrt(5)) / 2)  
 ----
 
-----
-##        a        b    a + b 
-## 6.000000 3.708204 9.708204
-----
+aber den findest Du auch nicht viel eleganter, daf&uuml;r aber schlechter lesbar.
 
-[source,r]
-----
-golden_ratio(6, "b")
-----
-
-----
-##         a         b     a + b 
-##  9.708204  6.000000 15.708204
-----
-
-
-
-Und ich habe auch einen Test geschrieben:
+Du schreibst auch einen Test, obwohl der ziemlich trivial ist:
 
 .src/test_golden_ratio.R
 [source,r]
 include::src/test_golden_ratio.R[]
-
 
 [source,r]
 ----
@@ -1215,38 +1243,121 @@ covr::file_coverage(file.path("src", "golden_ratio.R"),
 ----
 
 
-// #FIXME: Gesamtlaenge eher die angabe
+Wenn Du Graphiken nach dem Goldenen Schnitt proportionieren willst, musst Du bei 
+gegebener L&auml;nge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren 
+um die L&auml;nge der langen Seite zu erhalten und bei gegebener L&auml;nge der 
+langen Seite musst Du sie durch den Goldenen Schnitt dividieren, um die L&auml;nge 
+der Kurzen Seite zu erhalten. 
 
-.src/golden_ratio.R
+Das ist eigentlich nicht allzu kompliziert, dennoch kommst Du manchmal durcheinander, 
+also schreibst Du die folgende Funktion, die Dir f&uuml;r die L&auml;nge der 
+langen Seite a eben diese L&auml;nge und die l&auml;nge der kurzen Seite b zur&uuml;ckgibt:
+
+.src/golden_rectangle.R
 [source,r]
-include::src/golden_ratio.R[]
-
-[source,r]
-----
-covr::file_coverage(file.path("src", "golden_ratio.R"), 
-                    file.path("src", "test_golden_ratio.R"))
-----
-
-[source,r]
-----
-## Warning in mapply(FUN = f, ..., SIMPLIFY = FALSE): longer argument not a
-## multiple of length of shorter
-
-----
+include::src/golden_rectangle.R[]
 
 [source,r]
 ----
-## Error: Test failed: 'Simple test golden ratio'
-## * `result` not equal to `expectation`.
-## 3/3 mismatches (average diff: 2.47)
-## [1] 3.71 - 6.00 == -2.29
-## [2] 2.29 - 3.71 == -1.42
-## [3] 6.00 - 9.71 == -3.71
+golden_rectangle(1)
+----
+
+----
+##        a        b 
+## 1.000000 0.618034
+----
+
+
+Auch f&uuml;r diese Funktion schreibst Du einen Test:
+
+
+.src/test_golden_rectangle.R
+[source,r]
+include::src/test_golden_rectangle.R[]
+
+[source,r]
+----
+covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+                    file.path("src", "test_golden_rectangle.R"))
+----
+
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_rectangle.R: 100.00%
 
 ----
 
 
 
+
+// Ich habe einmal die Funktion
+// 
+// //begin.rcode, echo = FALSE, results = "hide"
+// src <- "golden_ratio2.R"
+// withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
+// source("src/golden_ratio.R")
+// //end.rcode
+// .src/golden_ratio.R
+// [source,r]
+// include::src/golden_ratio.R[]
+// 
+// 
+// geschrieben, die mir den https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldenen Schnitt] anwendet:
+// //begin.rcode
+// golden_ratio(6)
+// golden_ratio(6, "b")
+// //end.rcode
+// 
+// 
+// Und ich habe auch einen Test geschrieben:
+// //begin.rcode, echo = FALSE, results = "hide"
+// src <- "test_golden_ratio2.R"
+// withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
+// //end.rcode
+// .src/test_golden_ratio.R
+// [source,r]
+// include::src/test_golden_ratio.R[]
+// 
+// //begin.rcode
+// covr::file_coverage(file.path("src", "golden_ratio.R"), 
+//                     file.path("src", "test_golden_ratio.R"))
+// //end.rcode
+// 
+// // #FIXME: Gesamtlaenge eher die angabe
+// //begin.rcode, echo = FALSE, results = "hide"
+// src <- "golden_ratio3.R"
+// withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
+// //end.rcode
+// .src/golden_ratio.R
+// [source,r]
+// include::src/golden_ratio.R[]
+// //begin.rcode
+// covr::file_coverage(file.path("src", "golden_ratio.R"), 
+//                     file.path("src", "test_golden_ratio.R"))
+// //end.rcode
+// 
+// // #FIXME: Default geaendert, zerschiesst alte aufrufe
+// //begin.rcode, echo = FALSE, results = "hide"
+// 
+// src <- "test_golden_ratio2.R"
+// withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
+// //end.rcode
+// .src/test_golden_ratio.R
+// [source,r]
+// include::src/test_golden_ratio.R[]
+// 
+// //begin.rcode
+// covr::file_coverage(file.path("src", "golden_ratio.R"), 
+//                     file.path("src", "test_golden_ratio.R"))
+// //end.rcode
+// 
+// 
 // //begin.rcode, echo = FALSE, results = "hide"
 // withr::with_dir("src", file.copy("test_memhogs_ordered.R", "test_memory_hogs.R", overwrite = TRUE))
 // //end.rcode
@@ -1279,12 +1390,12 @@ covr::file_coverage(file.path("src", "golden_ratio.R"),
 
 
 
-_Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke._
+_Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Paket verpacke._
 
 === Schöner Programmieren
-Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen, 
-die Dir helfen können, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardmäßig bei der Entwicklung von Packages._
-Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der _recommended_ Packages von **R** und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil +codetools+ schon da war.
+Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Paketen vorstellen, 
+die Dir helfen können, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen._
+Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der "_recommended_ Packages" von **R** und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil +codetools+ schon da war.
 
 Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne 
 und kaputte Funktion geschrieben:
@@ -1324,7 +1435,7 @@ In Deiner Funktion findet +codetools+ die nicht benutzten Funktionsargumente und
 
 [source,r]
 ----
-source("src/code.R")
+source(file.path("src", "code.R"))
 codetools::checkUsage(foo, all = TRUE)
 ----
 
@@ -1342,7 +1453,7 @@ codetools::checkUsage(foo, all = TRUE)
 
 ==== Entflusen mit lintr 
 
-Das Package `lintr` prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
+Das Paket `lintr` prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
 zur übersichtlichen Formatierung. 
 Die Richtlinien (gegen die `lintr` prüft, und die sind gut, halte Dich an sie;
                  zu mehr über Progammierrichtlinien findest Du im https://fvafrcu.github.io/programmierleitfaden.ps[Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg]) 
@@ -1373,10 +1484,10 @@ lintr::lint("src/code.R")
 ----
 
 
-Das Package kennt viele Optionen, lies Dir die Hilfe durch!
+Das Paket kennt viele Optionen, lies Dir die Hilfe durch!
 
 ==== Code säubern mit cleanr 
-Das Package `cleanr` prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
+Das Paket `cleanr` prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.
 
@@ -1394,7 +1505,7 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 
 
 
-Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!
+Auch dieses Paket kennt viele Optionen, lies Dir die Hilfe durch!
 
 ==== Cyclomatic Complexity prüfen mit cyclocomp 
 
@@ -1437,7 +1548,7 @@ Diese treiben die "cyclomatic complexity" in die Höhe (weil die `return`-Anweis
 
 [source,r]
 ----
-source("src/release.R")
+source(file.path("src", "release.R"))
 cyclocomp::cyclocomp(release)
 ----
 
@@ -1477,7 +1588,6 @@ lintr::lint("src/release.R", linters = linters)
 ##   new_url$query$strErr
 ##                 ^~~~~~
 ----
-
 
 [source,r]
 ----

@@ -1320,7 +1320,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Mit .Rprofile und einer Schleife</p></div>
 </div>
 <div class="sect3">
-<h4 id="_als_package">2.7.3. Als Package</h4>
+<h4 id="_als_paket">2.7.3. Als Paket</h4>
 <div class="paragraph"><p>Das ist am aufwendigsten, aber auch am elegantesten.</p></div>
 </div>
 </div>
@@ -1339,7 +1339,7 @@ bei Objekten, die einer Funktion als Argument übergeben werden ist dies besonde
 Das geht mir reinen <code>base R</code>, ist aber eher umständlich,
 die <a href="https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro">Vignette zu <code>checkmate</code></a>
 bietet ein anschauliches Bespiel.</p></div>
-<div class="paragraph"><p>Ich kenne zwei Packages, die Typentest vereinfachen: <code>assertthat</code> und <code>checkmate</code>.</p></div>
+<div class="paragraph"><p>Ich kenne zwei Pakete, die Typentest vereinfachen: <code>assertthat</code> und <code>checkmate</code>.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1526,7 +1526,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] -0.1310966</code></pre>
+<pre><code>## [1] -0.0006431012</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1591,15 +1591,15 @@ print(checkmate::assertChoice(x = x, choices = choices))</tt></pre></div></div>
 <h4 id="_unit_testing">3.2.1. Unit Testing</h4>
 <div class="paragraph"><p>Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
 Also im Zweifel ihren Rückgabewert.</p></div>
-<div class="paragraph"><p>Ich kenne zwei Packages, die Unit Testing in R formalisieren
-(im Prinzip geht es auch ohne spezielle Packages,
- aber seit ich die beiden Packages kenne,
+<div class="paragraph"><p>Ich kenne zwei Pakete, die Unit Testing in R formalisieren
+(im Prinzip geht es auch ohne spezielle Pakete,
+ aber seit ich die beiden Pakete kenne,
  habe ich nie mehr wie früher "von Hand" getestet):</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
 <code>RUnit</code> gibt es schon seit 2004, es ist sehr formal
- und hat wenige Abhängigkeiten (daher bevorzuge ich es).
+ und hat wenige Abhängigkeiten (daher bevorzuge ich es beim Testen von Paketen).
 </p>
 </li>
 <li>
@@ -1662,7 +1662,7 @@ identical(not_my_sum(c(2, 7)), 9)</tt></pre></div></div>
 <div class="content">
 <pre><code>## [1] FALSE</code></pre>
 </div></div>
-<div class="paragraph"><p>Beide Packages formalisieren dies zu Erwartungsfunktionen die haupts&auml;chliche dazu dienen,
+<div class="paragraph"><p>Beide Pakete formalisieren dies zu Erwartungsfunktionen die haupts&auml;chliche dazu dienen,
 Fehler zu beschreiben:</p></div>
 <div class="listingblock">
 <div class="title"><code>RUnit</code></div>
@@ -1696,18 +1696,20 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect4">
 <h5 id="_tests">Tests</h5>
 <div class="paragraph"><p>Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <a href="#_code_coverage">Coverage</a> auszuwerten,
-    werden in beiden Packages Erwartungen zu Tests zusammenfasst
+    werden in beiden Paketen Erwartungen zu Tests zusammenfasst
 (eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):</p></div>
+<div class="paragraph"><div class="title"><code>testthat</code></div><p>Du kannst einen Test entweder einzeln laufen lassen</p></div>
 <div class="listingblock">
-<div class="title"><code>testthat</code></div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>, {
-                        testthat::expect_identical(not_my_sum(c(2, 7)), 9)
-                        testthat::expect_identical(my_sum(c(2, 7)), 9)}
-)</tt></pre></div></div>
+                        testthat::expect_identical(not_my_sum(c(2, 7)), 9,
+                                                   info = <span style="color: #FF0000">"Not my sum."</span>)
+                        testthat::expect_identical(my_sum(c(2, 7)), 9,
+                                                   info = <span style="color: #FF0000">"My sum."</span>)
+})</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1717,8 +1719,44 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-style: italic"><span style="color: #9A1900">## * not_my_sum(c(2, 7)) not identical to 9.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## 1/1 mismatches</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## [1] -9 - 9 == -18</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## Not my sum.</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><div class="title"><code>RUnit</code></div><p><code>RUnit</code> wurde f&uuml;r das Testen von Packages entwickelt, es ist beim einfachen</p></div>
+<div class="paragraph"><p>oder den Test in einer  Testdatei</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>, {
+                        testthat::expect_identical(not_my_sum(c(2, 7)), 9,
+                                                   info = <span style="color: #FF0000">"Not my sum."</span>)
+                        testthat::expect_identical(my_sum(c(2, 7)), 9,
+                                                   info = <span style="color: #FF0000">"My sum."</span>)
+})</tt></pre></div></div>
+<div class="paragraph"><p>mit einer Funktion auswerten, bei <code>testthat</code> &auml;ndert sich
+relativ wenig:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>testthat::test_file(<span style="color: #FF0000">"src/test_my_sum.R"</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## 1.
+## Failed --------------------------------------------------------------------
+## 1. Failure: Simple test on summation. (@test_my_sum.R#2) ------------------
+## not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+## Not my sum.
+##
+## DONE ======================================================================</code></pre>
+</div></div>
+<div class="paragraph"><p>Du erh&auml;lst aber die Information, dass der Fehler in Zeile 2 auftrat.</p></div>
+<div class="paragraph"><div class="title"><code>RUnit</code></div><p>Gr&ouml;&szlig;er sind die Unterschiede bei <code>RUnit</code>,
+das prim&auml;r f&uuml;r das Testen von Paketen entwickelt wurde:
+Es ist beim einfachen</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1737,7 +1775,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">##</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>recht spr&ouml;de. Das Package erwartet eine Testdatei</p></div>
+<div class="paragraph"><p>recht spr&ouml;de, mit einer Testdatei</p></div>
 <div class="listingblock">
 <div class="title">src/runit_my_sum.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1748,21 +1786,19 @@ http://www.gnu.org/software/src-highlite -->
     RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
     RUnit::checkIdentical(my_sum(c(2, 7)), 9)
 }</tt></pre></div></div>
-<div class="paragraph"><p>und wird dann gespr&auml;chiger:</p></div>
+<div class="paragraph"><p>allerdings gespr&auml;chiger:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>source(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"my_sum.R"</span>))
-source(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"not_my_sum.R"</span>))
-test_file &lt;- normalizePath(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"runit_my_sum.R"</span>))
+<pre><tt>test_file &lt;- normalizePath(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"runit_my_sum.R"</span>))
 runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ... Timing stopped at: 0 0 0.001
+## Executing test function test_sum  ... Timing stopped at: 0 0 0
 ##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
@@ -1773,7 +1809,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Thu Mar 15 17:13:53 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Fri Mar 16 09:19:26 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -1805,7 +1841,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect3">
 <h4 id="_code_coverage">3.2.2. Code Coverage</h4>
 <div class="paragraph"><p>Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (<a href="https://en.wikipedia.org/wiki/Code_coverage">&Uuml;berdeckung</a>) berechnen.
-<code>covr</code> ist eines der Packages, die Code Coverage implentieren und das einzige, das ich nutze. Ich wei&szlig; es nicht, glaube aber, dass <code>covr</code> die <a href="https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria"><em>branch coverage</em></a>
+<code>covr</code> ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich wei&szlig; es nicht, glaube aber, dass <code>covr</code> die <a href="https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria"><em>branch coverage</em></a>
 berechnet.
 Prinzipiell ist eine hohe &Uuml;berdeckung gut.</p></div>
 <div class="paragraph"><p>Wenn Du eine Datei mit einer Funktionsdefinition</p></div>
@@ -1839,7 +1875,8 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>cov &lt;- covr::file_coverage(<span style="color: #FF0000">"src/my_sum_assertion.R"</span>, <span style="color: #FF0000">"src/test_my_sum_assertion.R"</span>)
+<pre><tt>cov &lt;- covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"my_sum_assertion.R"</span>),
+                           file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_my_sum_assertion.R"</span>))
 print(cov)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1877,7 +1914,8 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>cov &lt;- covr::file_coverage(<span style="color: #FF0000">"src/my_sum_coverage.R"</span>, <span style="color: #FF0000">"src/test_my_sum_assertion.R"</span>)
+<pre><tt>cov &lt;- covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"my_sum_coverage.R"</span>),
+                           file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_my_sum_assertion.R"</span>))
 print(cov)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1941,7 +1979,8 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>cov &lt;- covr::file_coverage(<span style="color: #FF0000">"src/wipe_clean_broken.R"</span>, <span style="color: #FF0000">"src/test_wipe_clean_broken.R"</span>)
+<pre><tt>cov &lt;- covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"wipe_clean_broken.R"</span>),
+                           file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_wipe_clean_broken.R"</span>))
 print(cov)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1975,7 +2014,8 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>covr::file_coverage(<span style="color: #FF0000">"src/wipe_clean_broken.R"</span>, <span style="color: #FF0000">"src/test_wipe_clean.R"</span>)</tt></pre></div></div>
+<pre><tt>covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"wipe_clean_broken.R"</span>),
+                    file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_wipe_clean.R"</span>))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1989,70 +2029,41 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 <div class="sect3">
 <h4 id="_was_soll_die_ganze_testerei">3.2.3. Was soll die ganze Testerei?</h4>
-<div class="paragraph"><p>Ich habe einmal die Funktion</p></div>
+<div class="paragraph"><p>Stell Dir vor, Du erstelltest &ouml;fter Abbildungen.
+Jetzt bist Du ein Mensch mit einem Gef&uuml;hl f&uuml;r Harmonien,
+daher willst Du gerne, wenn m&ouml;glich, den
+<a href="https://de.wikipedia.org/wiki/Goldener_Schnitt">Goldenen Schnitt</a> bei der
+Wahl der Seitenl&auml;ngen ber&uuml;cksichtigen.</p></div>
+<div class="paragraph"><p>Da Du Dir den Goldenen Schnitt nicht gut merken kannst, schreibst Du folgende Funktion:</p></div>
 <div class="listingblock">
 <div class="title">src/golden_ratio.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>golden_ratio  &lt;- function(value, quantity = c(<span style="color: #FF0000">"a + b"</span>, <span style="color: #FF0000">"a"</span>, <span style="color: #FF0000">"b"</span>)) {
-    quantity &lt;- match.arg(quantity)
+<pre><tt>golden_ratio  &lt;- function() {
     phi &lt;- (1 + sqrt(5)) / 2
-    switch(quantity,
-           <span style="color: #FF0000">"a"</span> = {
-               a  &lt;- value
-               b &lt;- a / phi
-           },
-           <span style="color: #FF0000">"b"</span> = {
-               b &lt;- value
-               a &lt;- b * phi
-           },
-           {
-               a &lt;- value / phi
-               b &lt;- a * phi - a
-           }
-           )
-    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b, <span style="color: #FF0000">"a + b"</span> = a + b))
+    return(phi)
 }</tt></pre></div></div>
-<div class="paragraph"><p>geschrieben, die mir den <a href="https://de.wikipedia.org/wiki/Goldener_Schnitt">Goldenen Schnitt</a> anwendet:</p></div>
+<div class="paragraph"><p>Das ginge auch als Einzeiler:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>golden_ratio(6)</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>##        a        b    a + b
-## 6.000000 3.708204 9.708204</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>golden_ratio(6, <span style="color: #FF0000">"b"</span>)</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>##         a         b     a + b
-##  9.708204  6.000000 15.708204</code></pre>
-</div></div>
-<div class="paragraph"><p>Und ich habe auch einen Test geschrieben:</p></div>
+<pre><tt>golden_ratio  &lt;- function() return((1 + sqrt(5)) / 2)</tt></pre></div></div>
+<div class="paragraph"><p>aber den findest Du auch nicht viel eleganter, daf&uuml;r aber schlechter lesbar.</p></div>
+<div class="paragraph"><p>Du schreibst auch einen Test, obwohl der ziemlich trivial ist:</p></div>
 <div class="listingblock">
 <div class="title">src/test_golden_ratio.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test golden ratio"</span>, {
-                    expectation &lt;- c(a = 6, b = 3.70820393249937, <span style="color: #FF0000">"a + b"</span> = 9.70820393249937)
-                    result &lt;- golden_ratio(6)
-                    testthat::expect_equal(result, expectation)
-                    result &lt;- golden_ratio(6, <span style="color: #FF0000">"a"</span>)
-                    testthat::expect_equal(result, expectation)
-                    result &lt;- golden_ratio(3.70820393249937, <span style="color: #FF0000">"b"</span>)
-                    testthat::expect_equal(result, expectation)
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Trivial test on golden ratio."</span>, {
+                    expectation &lt;- (1 + sqrt(5)) / 2
+                    result &lt;- golden_ratio()
+                    testthat::expect_identical(result, expectation)
 })</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -2075,66 +2086,79 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_ratio.R: 100.00%</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><p>Wenn Du Graphiken nach dem Goldenen Schnitt proportionieren willst, musst Du bei
+gegebener L&auml;nge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren
+um die L&auml;nge der langen Seite zu erhalten und bei gegebener L&auml;nge der
+langen Seite musst Du sie durch den Goldenen Schnitt dividieren, um die L&auml;nge
+der Kurzen Seite zu erhalten.</p></div>
+<div class="paragraph"><p>Das ist eigentlich nicht allzu kompliziert, dennoch kommst Du manchmal durcheinander,
+also schreibst Du die folgende Funktion, die Dir f&uuml;r die L&auml;nge der
+langen Seite a eben diese L&auml;nge und die l&auml;nge der kurzen Seite b zur&uuml;ckgibt:</p></div>
 <div class="listingblock">
-<div class="title">src/golden_ratio.R</div>
+<div class="title">src/golden_rectangle.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>golden_ratio  &lt;- function(value, quantity = c(<span style="color: #FF0000">"a + b"</span>, <span style="color: #FF0000">"a"</span>, <span style="color: #FF0000">"b"</span>)) {
-    quantity &lt;- match.arg(quantity)
-    phi &lt;- (1 + sqrt(5)) / 2
-    switch(quantity,
-           <span style="color: #FF0000">"a"</span> = {
-               a  &lt;- value
-               b &lt;- a / phi
-           },
-           <span style="color: #FF0000">"b"</span> = {
-               b &lt;- value
-               a &lt;- b * phi
-           },
-           {
-               a &lt;- value / phi
-               b &lt;- a * phi - a
-           }
-           )
-    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b, <span style="color: #FF0000">"a + b"</span> = a + b))
+<pre><tt>golden_rectangle  &lt;- function(value) {
+    phi &lt;- golden_ratio()
+    a  &lt;- value
+    b &lt;- a / phi
+    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
 }</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"golden_ratio.R"</span>),
-                    file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_golden_ratio.R"</span>))</tt></pre></div></div>
+<pre><tt>golden_rectangle(1)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##        a        b
+## 1.000000 0.618034</code></pre>
+</div></div>
+<div class="paragraph"><p>Auch f&uuml;r diese Funktion schreibst Du einen Test:</p></div>
+<div class="listingblock">
+<div class="title">src/test_golden_rectangle.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Test on golden rectangle"</span>, {
+                        a &lt;- 2
+                        expectation &lt;- c(a = a, b = a / golden_ratio())
+                        result &lt;- golden_rectangle(a)
+                        testthat::expect_identical(result, expectation)
+})</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Warning in mapply(FUN = f, ..., SIMPLIFY = FALSE): longer argument not a</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## multiple of length of shorter</span></span>
+<pre><tt>covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"golden_rectangle.R"</span>),
+                    file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_golden_rectangle.R"</span>))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Coverage: 100.00%</span></span>
 </tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Simple test golden ratio'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * `result` not equal to `expectation`.</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 3/3 mismatches (average diff: 2.47)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## [1] 3.71 - 6.00 == -2.29</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## [2] 2.29 - 3.71 == -1.42</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## [3] 6.00 - 9.71 == -3.71</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_rectangle.R: 100.00%</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Package verpacke.</em></p></div>
+<div class="paragraph"><p><em>Ich teste fast alle meine Funktion spätestens, wenn ich sie in ein Paket verpacke.</em></p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_schöner_programmieren">3.3. Schöner Programmieren</h3>
-<div class="paragraph"><p>Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Packages vorstellen,
-die Dir helfen können, gut lesbare Funktionen zu schreiben. <em>Ich nutze alle drei standardmäßig bei der Entwicklung von Packages.</em>
-Aber vorweg stelle ich Dir noch <code>codetools</code> vor, es gehört zur Gruppe der <em>recommended</em> Packages von <strong>R</strong> und kann Programmfehler finden, die drei anderen Packages gibt es nur, weil <code>codetools</code> schon da war.</p></div>
+<div class="paragraph"><p>Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Paketen vorstellen,
+die Dir helfen können, gut lesbare Funktionen zu schreiben. <em>Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen.</em>
+Aber vorweg stelle ich Dir noch <code>codetools</code> vor, es gehört zur Gruppe der "<em>recommended</em> Packages" von <strong>R</strong> und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil <code>codetools</code> schon da war.</p></div>
 <div class="paragraph"><p>Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne
 und kaputte Funktion geschrieben:</p></div>
 <div class="listingblock">
@@ -2173,7 +2197,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>source(<span style="color: #FF0000">"src/code.R"</span>)
+<pre><tt>source(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"code.R"</span>))
 codetools::checkUsage(foo, all = TRUE)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
@@ -2189,7 +2213,7 @@ codetools::checkUsage(foo, all = TRUE)</tt></pre></div></div>
 </div>
 <div class="sect3">
 <h4 id="_entflusen_mit_lintr">3.3.2. Entflusen mit lintr</h4>
-<div class="paragraph"><p>Das Package <code>lintr</code> prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien
+<div class="paragraph"><p>Das Paket <code>lintr</code> prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien
 zur übersichtlichen Formatierung.
 Die Richtlinien (gegen die <code>lintr</code> prüft, und die sind gut, halte Dich an sie;
                  zu mehr über Progammierrichtlinien findest Du im <a href="https://fvafrcu.github.io/programmierleitfaden.ps">Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg</a>)
@@ -2218,11 +2242,11 @@ http://www.gnu.org/software/src-highlite -->
 ##
 ## ^</code></pre>
 </div></div>
-<div class="paragraph"><p>Das Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
+<div class="paragraph"><p>Das Paket kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 <div class="sect3">
 <h4 id="_code_säubern_mit_cleanr">3.3.3. Code säubern mit cleanr</h4>
-<div class="paragraph"><p>Das Package <code>cleanr</code> prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
+<div class="paragraph"><p>Das Paket <code>cleanr</code> prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.</p></div>
 <div class="listingblock">
@@ -2239,7 +2263,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file("src/code.R"):  src/code.R  foo  found 7 arguments, max_num_arguments was 5</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## foo  found nesting depth 4, max_nesting_depth was 3</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Auch dieses Package kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
+<div class="paragraph"><p>Auch dieses Paket kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 <div class="sect3">
 <h4 id="_cyclomatic_complexity_prüfen_mit_cyclocomp">3.3.4. Cyclomatic Complexity prüfen mit cyclocomp</h4>
@@ -2279,7 +2303,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>source(<span style="color: #FF0000">"src/release.R"</span>)
+<pre><tt>source(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"release.R"</span>))
 cyclocomp::cyclocomp(release)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
@@ -2395,7 +2419,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-15 17:13:55 CET
+ 2018-03-16 09:19:28 CET
 </div>
 </div>
 </body>

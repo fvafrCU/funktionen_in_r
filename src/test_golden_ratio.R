@@ -1,11 +1,7 @@
-testthat::test_that("Simple test golden ratio", {
-                    expectation <- c(a = 6, b = 3.70820393249937, "a + b" = 9.70820393249937) 
-                    result <- golden_ratio(6)
-                    testthat::expect_equal(result, expectation)
-                    result <- golden_ratio(6, "a")
-                    testthat::expect_equal(result, expectation)
-                    result <- golden_ratio(3.70820393249937, "b")
-                    testthat::expect_equal(result, expectation) 
+testthat::test_that("Trivial test on golden ratio.", {
+                    expectation <- (1 + sqrt(5)) / 2
+                    result <- golden_ratio()
+                    testthat::expect_identical(result, expectation)
 })
 
 
