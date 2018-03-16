@@ -927,9 +927,15 @@ Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die **R
 .src/wipe_clean.R
 [source,r]
 include::src/wipe_clean.R[]
+//begin.rcode, results = "hide"
+document::document(file.path("src", "wipe_clean.R"))
+//end.rcode
+//begin.rcode, echo = FALSE
+pager_function <- function(x, ...) return(cat(readLines(x), sep = "\n"))
+options(pager = pager_function)
+//end.rcode
 //begin.rcode
-#document::man(file.path("src", "wipe_clean.R"), "wipe_clean")
-#document::document(file.path("src", "wipe_clean.R"))
+document::man("wipe_clean")
 //end.rcode
 
 == Bibliographie
