@@ -924,7 +924,12 @@ suppressWarnings(cleanr::check_file("src/release.R"))
 === Funktionen dokumentieren 
 Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die **R**-Hilfe mit +?functionsname+ aufrufen.
 
-//begin.rcode, code = readLines("src/wipe_clean.R")
+.src/wipe_clean.R
+[source,r]
+include::src/wipe_clean.R[]
+//begin.rcode
+#document::man(file.path("src", "wipe_clean.R"), "wipe_clean")
+#document::document(file.path("src", "wipe_clean.R"))
 //end.rcode
 
 == Bibliographie
