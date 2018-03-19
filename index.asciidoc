@@ -214,7 +214,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error: object 'value' not found
+## Error in my_sum_broken(1:3): object 'value' not found
 
 ----
 
@@ -308,7 +308,7 @@ ls()
 
 ----
 ## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
+## [5] "my_sum_safer"  "value"         "wipe_clean"
 ----
 
 [source,r]
@@ -359,7 +359,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##        7576        4232     3432720     6864720      343920
+##        7896        4424     3520824     7040824      352824
 ----
 
 
@@ -387,7 +387,7 @@ memory_hogs()
 
 ----
 ##          va memory_hogs          vd          vb          vc 
-##        4232        9576      343920     3432720     6864720
+##        4424        9952      352824     3520824     7040824
 ----
 
 
@@ -419,7 +419,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##       13080        4232     3432720     6864720      343920
+##       13624        4424     3520824     7040824      352824
 ----
 
 [source,r]
@@ -429,7 +429,7 @@ memory_hogs(decreasing = TRUE)
 
 ----
 ##          vc          vb          vd memory_hogs          va 
-##     6864720     3432720      343920       13080        4232
+##     7040824     3520824      352824       50120        4424
 ----
 
 
@@ -444,7 +444,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vd 
-##       13080        4232      343920
+##       50120        4424      352824
 ----
 
 
@@ -786,7 +786,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] -0.2357195
+## [1] 0.07781613
 ----
 
 [source,r]
@@ -1006,15 +1006,24 @@ testthat::test_file(file.path("src", "test_my_sum.R"))
 ----
 
 ----
-## 1.
-## Failed --------------------------------------------------------------------
-## 1. Failure: Simple test on summation. (@test_my_sum.R#2) ------------------
-## not_my_sum(c(2, 7)) not identical to 9.
-## 1/1 mismatches
-## [1] -9 - 9 == -18
-## Not my sum.
+## ✔ | OK F W S | Context
+----
+
+[source,r]
+----
+## Error in x[[method]](...): attempt to apply non-function
+
+----
+
+----
 ## 
-## DONE ======================================================================
+## ══ Results ════════════════════════════════════════════════════════════════
+## Duration: 0.2 s
+## 
+## OK:       0
+## Failed:   5
+## Warnings: 0
+## Skipped:  0
 ----
 
 Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
@@ -1066,7 +1075,16 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ... Timing stopped at: 0 0 0.001 
+## Executing test function test_sum  ...
+----
+
+[source,r]
+----
+## Timing stopped at: 0 0 0.001
+
+----
+
+----
 ##  done successfully.
 ----
 
@@ -1076,7 +1094,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Mon Mar 19 13:06:19 2018 
+## RUNIT TEST PROTOCOL -- Mon Mar 19 15:37:05 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1096,9 +1114,9 @@ RUnit::printTextProtocol(runit)
 ## Test function regexp: ^test.+ 
 ## Test file regexp: ^runit_my_sum.R$ 
 ## Involved directory: 
-## /home/nik/git/cs/fvafrcu/funktionen_in_r/src 
+## /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src 
 ## --------------------------- 
-## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
+## Test file: /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
 ## test_sum: FAILURE !! (check number 1)
 ## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
 ## 
@@ -1276,7 +1294,7 @@ covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
 ----
 ## Error: Test failed: 'Test return value and side effects.'
 ## * ls() not identical to character(0).
-## Lengths differ: 1 vs 0
+## Lengths differ: 1 is not 0
 
 ----
 
@@ -2020,7 +2038,7 @@ list.files(pattern = "^golden.*", full.names = TRUE)
 ----
 
 ----
-## [1] "./golden_ratio.html" "./golden_ratio.pdf"  "./golden_ratio.txt"
+## [1] "./golden_ratio.html" "./golden_ratio.txt"
 ----
 
 
