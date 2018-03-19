@@ -1567,7 +1567,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.1025283</code></pre>
+<pre><code>## [1] -0.03116864</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1839,7 +1839,7 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ... Timing stopped at: 0 0 0
+## Executing test function test_sum  ... Timing stopped at: 0 0 0.001
 ##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
@@ -1850,7 +1850,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Mon Mar 19 11:23:47 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Mon Mar 19 11:28:20 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -2087,8 +2087,8 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-style: italic"><span style="color: #9A1900">#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#' the Golden Ratio.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' Specify \code{value = 1} to obtain the Golden ratio in element "a" of the</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' return value.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' Specify \code{value = 1} to obtain the Golden Ratio itself in element "a" of</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' the return value.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#' @param value A Quantity.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#' @param landscape Is the quantity given by \code{value} the larger one ("a")?</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#' @return A vector giving the quantities "a" and "b".</span></span>
@@ -2106,6 +2106,21 @@ golden_ratio  &lt;- function(value, landscape = FALSE) {
     }
     return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
 }</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Warning in file(filename, "r", encoding = encoding): cannot open file 'src/</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## golden_ratio.R': No such file or directory</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in file(filename, "r", encoding = encoding): cannot open the connection</span></span>
+</tt></pre></div></div>
 <div class="paragraph"><p>Das ginge auch als Einzeiler:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -2141,9 +2156,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Test on golden rectangle'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * argument "value" is missing, with no default</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 1: golden_ratio() at src/test_golden_ratio.R:3</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in FUN(X[[i]], ...): 'src/golden_ratio.R' is not an existing file</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Wenn Du Graphiken nach dem Goldenen Schnitt proportionieren willst, musst Du bei
 gegebener Länge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren
@@ -3387,7 +3400,7 @@ http://www.gnu.org/software/src-highlite -->
                  directory = <span style="color: #FF0000">"src"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "src/.golden_ratio.R"      "src/test_.golden_ratio.R"</code></pre>
+<pre><code>## NULL</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3418,8 +3431,8 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-style: italic"><span style="color: #9A1900">#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#' the Golden Ratio.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' Specify \code{value = 1} to obtain the Golden ratio in element "a" of the</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' return value.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' Specify \code{value = 1} to obtain the Golden Ratio itself in element "a" of</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' the return value.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#' @param value A Quantity.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#' @param landscape Is the quantity given by \code{value} the larger one ("a")?</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">#' @return A vector giving the quantities "a" and "b".</span></span>
@@ -3448,7 +3461,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>list.files(pattern = <span style="color: #FF0000">"^golden_ratio*"</span>, full.names = TRUE)</tt></pre></div></div>
+<pre><tt>list.files(pattern = <span style="color: #FF0000">"^golden.*"</span>, full.names = TRUE)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "./golden_ratio.html" "./golden_ratio.pdf"  "./golden_ratio.txt"</code></pre>
@@ -3480,8 +3493,8 @@ landscape: Is the quantity given by ‘value’ the larger one ("a")?
 
 Details:
 
-     Specify ‘value = 1’ to obtain the Golden ratio in element "a" of
-     the return value.
+     Specify ‘value = 1’ to obtain the Golden Ratio itself in element
+     "a" of the return value.
 
 Value:
 
@@ -3519,7 +3532,7 @@ Examples:
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-19 11:24:01 CET
+ 2018-03-19 11:28:34 CET
 </div>
 </div>
 </body>
