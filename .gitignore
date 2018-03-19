@@ -2,3 +2,5 @@
 *.png
 wipe_clean*
 foo*
+src/*golden_ratio.R
+src/*golden_rectangle.R

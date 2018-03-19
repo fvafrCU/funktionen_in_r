@@ -3,8 +3,8 @@
 #' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to
 #' the Golden Ratio.
 #'
-#' Specify \code{value = 1} to obtain the Golden ratio in element "a" of the
-#' return value.
+#' Specify \code{value = 1} to obtain the Golden Ratio itself in element "a" of 
+#' the return value.
 #' @param value A Quantity.
 #' @param landscape Is the quantity given by \code{value} the larger one ("a")?
 #' @return A vector giving the quantities "a" and "b".

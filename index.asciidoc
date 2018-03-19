@@ -278,7 +278,7 @@ Nun  bin ich
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich 
-(in **R** heissen die Gültigkeitsbereiche "environments", in **S** hießen sie "frames") ist, und die 
+(in **R** heissen die Gültigkeitsbereiche "environments", in **S** hießen sie "frames") ist und die 
 Funktionen  `ls` und `rm` nur in _einem_ Gültigkeitsbereich arbeiten, funktioniert das naheliegende
 
 [source,r]
@@ -363,7 +363,7 @@ memory_hogs()
 ----
 
 
-Bei so wenigen Objekten erkenne ich leicht, dass `vc` der größte Speicherfresser ist, und ich, falls mir der Speicher platzt und ich `vc` nicht mehr unbedingt brauche, `vc` löschen sollte.
+Bei so wenigen Objekten erkenne ich leicht, dass `vc` der größte Speicherfresser ist und ich, falls mir der Speicher platzt und ich `vc` nicht mehr unbedingt brauche, `vc` löschen sollte.
 
 Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:
 
@@ -583,7 +583,8 @@ Filter(file.exists, candidates)
 
 ==== Als Paket
 Wenn Du Dir die Mühe machst, Deine Funktionen zu <<_funktionen_dokumentieren, dokumentieren>>, kannst 
-Du eigentlich auch gleich in einem oder mehreren Paketen verwalten, ist zwar am aufwendigsten, aber auch am elegantesten.
+Du eigentlich auch gleich in einem oder mehreren Paketen verwalten. 
+Das ist zwar am aufwendigsten, aber auch am elegantesten.
 
 
 == Weniger schlecht programmieren
@@ -785,7 +786,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] 0.06008227
+## [1] 0.1025283
 ----
 
 [source,r]
@@ -1057,7 +1058,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Mon Mar 19 09:05:57 2018 
+## RUNIT TEST PROTOCOL -- Mon Mar 19 11:23:47 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1210,7 +1211,7 @@ print(cov)
 ----
 
 
-Alles gut? Nein, die Funktion ist kaputt, und die Testdatei, die dies zeigt müsste 
+Alles gut? Nein, die Funktion ist kaputt und die Testdatei, die dies zeigt müsste 
 auf die Nebenwirkung testen:
 
 .src/test_wipe_clean.R
@@ -1272,13 +1273,9 @@ covr::file_coverage(file.path("src", "golden_ratio.R"),
 
 [source,r]
 ----
-## Coverage: 100.00%
-
-----
-
-[source,r]
-----
-## src/golden_ratio.R: 100.00%
+## Error: Test failed: 'Test on golden rectangle'
+## * argument "value" is missing, with no default
+## 1: golden_ratio() at src/test_golden_ratio.R:3
 
 ----
 
@@ -1345,7 +1342,7 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 
 
 Du benutzt die Funktion eine Weile, merkst dann aber, dass Du ja auch querformatige
-Abbildungen erstellen willst, und daher 
+Abbildungen erstellen willst und daher 
 bei gegebener Länge der 
 langen Seite diese durch den Goldenen Schnitt dividieren musst, um die Länge 
 der kurzen Seite zu erhalten.
@@ -1401,14 +1398,15 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 ----
 
 
-Was bedeuetet das? 
+Was bedeutet das? 
 Du musst entweder
 
 - *alle* Aufrufe der Funktion, die Du vor der Veränderung ihrer Schnittstelle progammiert hast, 
   anpassen (indem Du +, landscape = FALSE+ einfügst) oder
 - die Funktion so ändern, dass der Test weiterhin funktioniert.
 
-Du entscheidest Dich, die Funktion zu ändern:
+Du entscheidest Dich, die Funktion zu ändern 
+(und erweiterst bei der Gelegenheit gleich den R&uuml;ckgabewert):
 
 
 
@@ -1699,59 +1697,161 @@ suppressWarnings(cleanr::check_file("src/release.R"))
 
 
 === Funktionen dokumentieren 
-Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die **R**-Hilfe mit +?functionsname+ aufrufen.
+Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die 
+**R**-Hilfe mit +help(topic) oder der Kurzform ++?topic+ aufrufen, bei Paketen findest Du
+die selbe Information auch immer als pdf beigelegt.
 
-.src/wipe_clean.R
+Solche Hilfeformate kannst Du f&uuml;r Deine Funktionen auch schreiben.
+
+.Warum solltest Du Deine Funktionen dokumentieren?
+Wenn Du Funktionen dokumentierst, erkl&auml;rst Du einer anderen Person, was die Funktion
+tun sollte. Wenn Du das schaffst, kannst Du Dir einigerma&szlig;en sicher sein, 
+dass Du wei&szlig;t, was die Funktion tut und dass es richtig war, 
+sie (und nicht eine etwas andere) zu schreiben.
+
+Au&szlig;erdem ist es von dokumentierten Funktionen zu Paketen nicht mehr weit, 
+was ihre <<_als_paket, Verwaltung>> deutlich erleichtert.
+
+Nehmen wir unser <<_was_soll_die_ganze_testerei, Beispiel zum Goldenen Schnitt>>:
+
+Du merkst, dass Du die Funktion +golden_ratio+ eigentlich nur innerhalb 
+von +golden_rectangle+ benutzt und letzteres kein gl&uuml;cklicher Name ist, weil 
+Du die Funktion zwar zum Errechnen von Seitenl&auml;ngen von Graphiken nutzt, sie
+ja aber ganz allgemein den Goldenen Schnitt ausrechnet.
+Du entschlie&szlig;t Dich daher, die interne Funktion in 
++.golden_ratio+ (der f&uuml;hrende Punkt ist eine Konvention, die aus der UNIX-Welt stammt, 
+                 dort werden (vorwiegend Konfigurations-) Dateien mit einem f&uuml;hrenden Punkt 
+                 aus dem directory listing ausgeschlossen (unter Windows heissen diese Dateien "versteckt")
+                 -- in **R** kennzeichnet die Konvention interne Funktionen, die gew&ouml;hnlich
+                 nicht direkt aufgerufen werden (sollten))
+                 und +golden_rectangle+ in +golden_ratio+ umzubenennen.
+Dazu musst Du 
+
+- die Funktionsdateien und die zugeh&ouml;rigen Testdateien umbenennen,
+- die Namen in den Funktionsdefinitionen &auml;ndern und
+- die Namen in den Funktionsaufrufen &auml;ndern.
+
+Das kannst Du von Hand machen, oder Du schreibst folgende Funktion:
+
+
 [source,r]
-include::src/wipe_clean.R[]
+----
+rename_funtction <- function(old_name, new_name, directory = ".") {
+    file_names <- list.files(directory, full.names = TRUE, 
+                             pattern = paste0("^(test_|)", old_name, "\\.[rR]$")
+                             )
+    new_file_names <- NULL
+
+    for (file_name in file_names) {
+        patterns <- c(definition_pattern = paste0(old_name, "( *<-)"),
+                      call_pattern = paste0(old_name, "(\\()"))
+
+        new_file_name <- file.path(dirname(file_name), 
+                                   sub(old_name, new_name, basename(file_name)))
+        x <- readLines(file_name)
+        for (pattern in patterns) 
+            x <- sub(pattern, paste0(new_name, "\\1"), x)
+
+        writeLines(x, con = file_name)
+        file.rename(file_name, new_file_name)
+        new_file_names <- c(new_file_names, new_file_name)
+    }
+    return(new_file_names)
+}
+----
+
+
+Die &uuml;bernimmt dann die Arbeit:
+
 
 [source,r]
 ----
-document::document(file.path("src", "wipe_clean.R"), output_directory = ".")
+rename_funtction(old_name = "golden_ratio", new_name = ".golden_ratio", 
+                 directory = "src")
+----
+
+----
+## [1] "src/.golden_ratio.R"      "src/test_.golden_ratio.R"
 ----
 
 [source,r]
 ----
-## Error in check_package(package_directory = package_directory, working_directory = working_directory, : R CMD check failed, read the above log and fix.
-
-----
-
-
-[source,r]
-----
-list.files(pattern = "^wipe.*", full.names = TRUE)
+rename_funtction(old_name = "golden_rectangle", new_name = "golden_ratio", 
+                 directory = "src")
 ----
 
 ----
-## [1] "./wipe_clean.html" "./wipe_clean.pdf"  "./wipe_clean.txt"
+## [1] "src/golden_ratio.R"      "src/test_golden_ratio.R"
 ----
 
 
 
 [source,r]
 ----
-document::man("wipe_clean")
+src <- "golden_ratio_doc.R"
+withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
+----
+
+
+.src/golden_ratio.R
+[source,r]
+include::src/golden_ratio.R[]
+
+
+
+[source,r]
+----
+document::document(file.path("src", "golden_ratio.R"), output_directory = ".")
+----
+
+
+[source,r]
+----
+list.files(pattern = "^golden_ratio*", full.names = TRUE)
 ----
 
 ----
-Remove All Objects From an Environment
+## [1] "./golden_ratio.html" "./golden_ratio.pdf"  "./golden_ratio.txt"
+----
+
+
+
+[source,r]
+----
+document::man("golden_ratio")
+----
+
+----
+Compute the Other Quantity in Golden Ratio
 
 Description:
 
-     Remove All Objects From an Environment
+     See <URL: https://en.wikipedia.org/wiki/Golden_ratio> for an
+     introduction to the Golden Ratio.
 
 Usage:
 
-     wipe_clean(environment = parent.frame())
+     golden_ratio(value, landscape = FALSE)
      
 Arguments:
 
-environment: The environment to be wiped.
+   value: A Quantity.
+
+landscape: Is the quantity given by ‘value’ the larger one ("a")?
+
+Details:
+
+     Specify ‘value = 1’ to obtain the Golden ratio in element "a" of
+     the return value.
 
 Value:
 
-     A character vector containing the names of objects removed.
+     A vector giving the quantities "a" and "b".
 
+Examples:
+
+     print(golden_ratio(value = 1)[["a"]])
+     
  
 ----
 
