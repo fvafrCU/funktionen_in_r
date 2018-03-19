@@ -678,15 +678,18 @@ Wahl der Zuschnitte berücksichtigen.
 
 Da Du Dir den Goldenen Schnitt nicht gut merken kannst, schreibst Du folgende Funktion:
 
+//begin.rcode, echo = FALSE, results = "hide"
+src <- "golden_ratio_bare.R"
+withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
+src <- "test_golden_ratio_bare.R"
+withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
+//end.rcode
 .src/golden_ratio.R
 [source,r]
 include::src/golden_ratio.R[]
-//begin.rcode, echo = FALSE
-    source("src/golden_ratio.R")
-//end.rcode
 
 Das ginge auch als Einzeiler: 
-//begin.rcode
+//begin.rcode, eval = FALSE
 golden_ratio  <- function() return((1 + sqrt(5)) / 2)  
 //end.rcode
 aber den findest Du auch nicht viel eleganter, dafür aber schlechter lesbar.
@@ -925,7 +928,7 @@ suppressWarnings(cleanr::check_file("src/release.R"))
 
 === Funktionen dokumentieren 
 Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die 
-**R**-Hilfe mit +help(topic) oder der Kurzform ++?topic+ aufrufen, bei Paketen findest Du
+**R**-Hilfe mit +help(topic)+ oder der Kurzform + ?topic + aufrufen, bei Paketen findest Du
 die selbe Information auch immer als pdf beigelegt.
 
 Solche Hilfeformate kannst Du f&uuml;r Deine Funktionen auch schreiben.
@@ -958,43 +961,59 @@ Dazu musst Du
 - die Namen in den Funktionsdefinitionen &auml;ndern und
 - die Namen in den Funktionsaufrufen &auml;ndern.
 
-Das kannst Du von Hand machen, oder Du schreibst folgende Funktion:
+Das kannst Du von Hand machen, oder Du schreibst folgende Funktionen:
 
 //begin.rcode
 
-rename_funtction <- function(old_name, new_name, directory = ".") {
+substitute_function <- function(from, to, file_name) {
+        patterns <- c(definition_pattern = paste0(from, "( *<-)"),
+                      call_pattern = paste0(from, "(\\()"))
+        x <- readLines(file_name)
+        for (pattern in patterns) 
+            x <- sub(pattern, paste0(to, "\\1"), x)
+
+        writeLines(x, con = file_name)
+
+}
+
+rename_function <- function(from, to, directory = ".") {
     file_names <- list.files(directory, full.names = TRUE, 
-                             pattern = paste0("^(test_|)", old_name, "\\.[rR]$")
+                             pattern = paste0("^(test_|)", from, "\\.[rR]$")
                              )
     new_file_names <- NULL
 
     for (file_name in file_names) {
-        patterns <- c(definition_pattern = paste0(old_name, "( *<-)"),
-                      call_pattern = paste0(old_name, "(\\()"))
 
+        substitute_function(from = from, to = to, file_name = file_name)
         new_file_name <- file.path(dirname(file_name), 
-                                   sub(old_name, new_name, basename(file_name)))
-        x <- readLines(file_name)
-        for (pattern in patterns) 
-            x <- sub(pattern, paste0(new_name, "\\1"), x)
-
-        writeLines(x, con = file_name)
+                                   sub(from, to, basename(file_name)))
         file.rename(file_name, new_file_name)
         new_file_names <- c(new_file_names, new_file_name)
     }
     return(new_file_names)
 }
 //end.rcode
+Diese Funktionen lebt ja von Nebenwirkungen, sie ist schwer zu testen und wir hoffen also, dass Du keine Fehler gemachst hast.
 
-Die &uuml;bernimmt dann die Arbeit:
+Funktionieren tut das so:
 
 //begin.rcode
-rename_funtction(old_name = "golden_ratio", new_name = ".golden_ratio", 
+rename_function(from = "golden_ratio", to = ".golden_ratio", 
                  directory = "src")
-rename_funtction(old_name = "golden_rectangle", new_name = "golden_ratio", 
+# replace call to golden_ratio() in tests first!
+substitute_function(from = "golden_ratio", to = ".golden_ratio", 
+                 file_name = file.path("src", "test_golden_rectangle.R"))
+rename_function(from = "golden_rectangle", to = "golden_ratio", 
                  directory = "src")
 
 
+//end.rcode
+Ob das funktioniert, testen wir nat&uuml;rlich:
+//begin.rcode
+covr::file_coverage(file.path("src", ".golden_ratio.R"), 
+                    file.path("src", "test_.golden_ratio.R"))
+covr::file_coverage(file.path("src", c("golden_ratio.R", ".golden_ratio.R")), 
+                    file.path("src", "test_golden_ratio.R"))
 //end.rcode
 
 //begin.rcode, results = "hide", warning = FALSE, message = FALSE, error = FALSE
