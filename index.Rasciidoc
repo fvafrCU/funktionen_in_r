@@ -1036,11 +1036,11 @@ willst.
 
 Das **R**-Hilfeformat wird https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-R-documentation-files[hier] 
 beschrieben, ich rate Dir aber, https://cran.r-project.org/web/packages/roxygen2/index.html[roxygen2] zu
-benutzen (http://r-pkgs.had.co.nz/man.html<hier> gibt Hadley Wickham eine druckreife Einf&uuml;hrung).
+benutzen (http://r-pkgs.had.co.nz/man.html[hier] gibt Hadley Wickham eine druckreife Einf&uuml;hrung).
 
 Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einf&uuml;gst:
 
-//begin.rcode, echo = FALSE
+//begin.rcode, echo = FALSE, results = "hide"
 src <- "golden_ratio_doc.R"
 withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
 //end.rcode
