@@ -1004,7 +1004,7 @@ print(my_sum_broken(1:3))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in my_sum_broken(1:3): object 'value' not found</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>erhälst Du einen Fehler, weil <strong>R</strong> auch außerhalb der Funktion kein Objekt
 names <code>value</code> finden kann. Und diesen Fehler erwarten wir ja eigentlich, wenn
@@ -1092,7 +1092,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "value"         "wipe_clean"</code></pre>
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1199,7 +1199,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       48048        4232</code></pre>
+##     6864720     3432720      343920       13080        4232</code></pre>
 </div></div>
 <div class="paragraph"><p>Jetzt können wir die Rückgabe unserer Funktion nutzen, um die beiden größten Speicherfresser zu löschen:</p></div>
 <div class="listingblock">
@@ -1212,7 +1212,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## memory_hogs          va          vd
-##       48048        4232      343920</code></pre>
+##       13080        4232      343920</code></pre>
 </div></div>
 <div class="paragraph"><p>Wir können also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
 <div class="ulist"><ul>
@@ -1566,7 +1566,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.008247236</code></pre>
+<pre><code>## [1] 0.06008227</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1783,25 +1783,15 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>testthat::test_file(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_my_sum.R"</span>))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## ✔ | OK F W S | Context</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in x[[method]](...): attempt to apply non-function</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>##
-## ══ Results ════════════════════════════════════════════════════════════════
-## Duration: 1.8 s
+<pre><code>## 1.
+## Failed --------------------------------------------------------------------
+## 1. Failure: Simple test on summation. (@test_my_sum.R#2) ------------------
+## not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+## Not my sum.
 ##
-## OK:       0
-## Failed:   5
-## Warnings: 0
-## Skipped:  0</code></pre>
+## DONE ======================================================================</code></pre>
 </div></div>
 <div class="paragraph"><p>Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.</p></div>
 <div class="paragraph"><div class="title"><code>RUnit</code></div><p>Größer sind die Unterschiede bei <code>RUnit</code>,
@@ -1848,18 +1838,8 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ...</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Timing stopped at: 0.004 0 0.002</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>##  done successfully.</code></pre>
+## Executing test function test_sum  ... Timing stopped at: 0 0 0
+##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1869,7 +1849,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Fri Mar 16 21:05:27 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Mon Mar 19 09:05:57 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -1889,9 +1869,9 @@ http://www.gnu.org/software/src-highlite -->
 ## Test function regexp: ^test.+
 ## Test file regexp: ^runit_my_sum.R$
 ## Involved directory:
-## /home/nik/git/cyclops/fvafrcu/funktionen_in_r/src
+## /home/nik/git/cs/fvafrcu/funktionen_in_r/src
 ## ---------------------------
-## Test file: /home/nik/git/cyclops/fvafrcu/funktionen_in_r/src/runit_my_sum.R
+## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R
 ## test_sum: FAILURE !! (check number 1)
 ## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE
 ##</code></pre>
@@ -2083,7 +2063,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Test return value and side effects.'</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## * ls() not identical to character(0).</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Lengths differ: 1 is not 0</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## Lengths differ: 1 vs 0</span></span>
 </tt></pre></div></div>
 </div>
 </div>
@@ -3400,214 +3380,7 @@ wipe_clean &lt;- function(environment = parent.frame()) {
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>document::document(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"wipe_clean.R"</span>))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## First time using roxygen2. Upgrading automatically...</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Updating roxygen version in /tmp/RtmpkaGZ64/document_62d912befa84/wipe.clean/DESCRIPTION</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## * using log directory ‘/tmp/RtmpkaGZ64/file62d9209658ce/wipe.clean.Rcheck’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using R Under development (unstable) (2017-08-15 r73096)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using session charset: UTF-8</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using option ‘--as-cran’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for file ‘wipe.clean/DESCRIPTION’ ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking extension type ... Package</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * this is package ‘wipe.clean’ version ‘2.0.0’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking CRAN incoming feasibility ... NOTE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Maintainer: ‘Who to complain to &lt;yourfault@somewhere.net&gt;’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## New submission</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package namespace information ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package dependencies ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking if this is a source package ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking if there is a namespace ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for executable files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for hidden files and directories ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for portable file names ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for sufficient/correct file permissions ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether package ‘wipe.clean’ can be installed ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking installed package size ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package directory ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking DESCRIPTION meta-information ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking top-level files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for left-over files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking index information ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package subdirectories ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking R files for non-ASCII characters ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking R files for syntax errors ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the package can be loaded ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the package can be loaded with stated dependencies ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the package can be unloaded cleanly ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the namespace can be loaded with stated dependencies ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the namespace can be unloaded cleanly ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking loading without being on the library search path ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking use of S3 registration ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking dependencies in R code ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking S3 generic/method consistency ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking replacement functions ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking foreign function calls ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking R code for possible problems ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd metadata ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd line widths ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd cross-references ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for missing documentation entries ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for code/documentation mismatches ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd \usage sections ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd contents ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for unstated dependencies in examples ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking examples ... NONE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking PDF version of manual ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for code which exercises the package ... WARNING</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## No examples, no tests, no vignettes</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * DONE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Status: 1 WARNING, 1 NOTE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## ###</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Got: * using log directory ‘/tmp/RtmpkaGZ64/file62d9209658ce/wipe.clean.Rcheck’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using R Under development (unstable) (2017-08-15 r73096)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using session charset: UTF-8</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using option ‘--as-cran’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for file ‘wipe.clean/DESCRIPTION’ ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking extension type ... Package</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * this is package ‘wipe.clean’ version ‘2.0.0’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking CRAN incoming feasibility ... NOTE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Maintainer: ‘Who to complain to &lt;yourfault@somewhere.net&gt;’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## New submission</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package namespace information ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package dependencies ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking if this is a source package ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking if there is a namespace ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for executable files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for hidden files and directories ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for portable file names ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for sufficient/correct file permissions ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether package ‘wipe.clean’ can be installed ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking installed package size ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package directory ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking DESCRIPTION meta-information ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking top-level files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for left-over files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking index information ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package subdirectories ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking R files for non-ASCII characters ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking R files for syntax errors ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the package can be loaded ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the package can be loaded with stated dependencies ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the package can be unloaded cleanly ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the namespace can be loaded with stated dependencies ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the namespace can be unloaded cleanly ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking loading without being on the library search path ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking use of S3 registration ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking dependencies in R code ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking S3 generic/method consistency ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking replacement functions ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking foreign function calls ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking R code for possible problems ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd metadata ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd line widths ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd cross-references ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for missing documentation entries ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for code/documentation mismatches ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd \usage sections ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd contents ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for unstated dependencies in examples ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking examples ... NONE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking PDF version of manual ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for code which exercises the package ... WARNING</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## No examples, no tests, no vignettes</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * DONE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Status: 1 WARNING, 1 NOTE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## /home/nik/svn/R/r-devel/build/library</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using log directory ‘/tmp/RtmpkaGZ64/file62d9209658ce/wipe.clean.Rcheck’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using R Under development (unstable) (2017-08-15 r73096)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using session charset: UTF-8</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * using option ‘--as-cran’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for file ‘wipe.clean/DESCRIPTION’ ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking extension type ... Package</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * this is package ‘wipe.clean’ version ‘2.0.0’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking CRAN incoming feasibility ... NOTE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Maintainer: ‘Who to complain to &lt;yourfault@somewhere.net&gt;’</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## New submission</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package namespace information ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package dependencies ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking if this is a source package ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking if there is a namespace ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for executable files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for hidden files and directories ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for portable file names ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for sufficient/correct file permissions ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether package ‘wipe.clean’ can be installed ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking installed package size ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package directory ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking DESCRIPTION meta-information ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking top-level files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for left-over files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking index information ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking package subdirectories ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking R files for non-ASCII characters ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking R files for syntax errors ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the package can be loaded ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the package can be loaded with stated dependencies ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the package can be unloaded cleanly ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the namespace can be loaded with stated dependencies ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking whether the namespace can be unloaded cleanly ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking loading without being on the library search path ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking use of S3 registration ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking dependencies in R code ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking S3 generic/method consistency ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking replacement functions ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking foreign function calls ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking R code for possible problems ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd files ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd metadata ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd line widths ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd cross-references ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for missing documentation entries ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for code/documentation mismatches ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd \usage sections ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking Rd contents ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for unstated dependencies in examples ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking examples ... NONE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking PDF version of manual ... OK</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * checking for code which exercises the package ... WARNING</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## No examples, no tests, no vignettes</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * DONE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Status: 1 WARNING, 1 NOTE</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Sys.info:</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## h5</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## #1 SMP Debian 4.9.82-1+deb9u3 (2018-03-02)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Path: /tmp/RtmpkaGZ64/document_62d912befa84/wipe.clean</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## ###</span></span>
-</tt></pre></div></div>
+<pre><tt>document::document(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"wipe_clean.R"</span>), output_directory = <span style="color: #FF0000">"."</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3620,26 +3393,36 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
+<pre><tt>list.files(pattern = <span style="color: #FF0000">"^wipe.*"</span>, full.names = TRUE)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "./wipe_clean.html" "./wipe_clean.pdf"  "./wipe_clean.txt"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
 <pre><tt>document::man(<span style="color: #FF0000">"wipe_clean"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## _R_e_m_o_v_e _A_l_l _O_b_j_e_c_t_s _F_r_o_m _a_n _E_n_v_i_r_o_n_m_e_n_t
-##
-## _D_e_s_c_r_i_p_t_i_o_n:
-##
-##      Remove All Objects From an Environment
-##
-## _U_s_a_g_e:
-##
-##      wipe_clean(environment = parent.frame())
-##
-## _A_r_g_u_m_e_n_t_s:
-##
-## environment: The environment to be wiped.
-##
-## _V_a_l_u_e:
-##
-##      A character vector containing the names of objects removed.</code></pre>
+<pre><code>Remove All Objects From an Environment
+
+Description:
+
+     Remove All Objects From an Environment
+
+Usage:
+
+     wipe_clean(environment = parent.frame())
+
+Arguments:
+
+environment: The environment to be wiped.
+
+Value:
+
+     A character vector containing the names of objects removed.</code></pre>
 </div></div>
 </div>
 </div>
@@ -3669,7 +3452,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-16 21:07:07 CET
+ 2018-03-19 09:06:11 CET
 </div>
 </div>
 </body>

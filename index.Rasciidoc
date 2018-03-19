@@ -350,7 +350,8 @@ Filter(file.exists, candidates)
 
 ==== Als Paket
 Wenn Du Dir die Mühe machst, Deine Funktionen zu <<_funktionen_dokumentieren, dokumentieren>>, kannst 
-Du eigentlich auch gleich in einem oder mehreren Paketen verwalten, ist zwar am aufwendigsten, aber auch am elegantesten.
+Du eigentlich auch gleich in einem oder mehreren Paketen verwalten. 
+Das ist zwar am aufwendigsten, aber auch am elegantesten.
 
 
 == Weniger schlecht programmieren
@@ -922,19 +923,82 @@ suppressWarnings(cleanr::check_file("src/release.R"))
 //end.rcode
 
 === Funktionen dokumentieren 
-Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die **R**-Hilfe mit +?functionsname+ aufrufen.
+Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die 
+**R**-Hilfe mit +help(topic) oder der Kurzform ++?topic+ aufrufen, bei Paketen findest Du
+die selbe Information auch immer als pdf beigelegt.
+
+Solche Hilfeformate kannst Du f&uuml;r Deine Funktionen auch schreiben.
+
+.Warum solltest Du Deine Funktionen dokumentieren?
+Wenn Du Funktionen dokumentierst, erkl&auml;rst Du einer anderen Person, was die Funktion
+tun sollte. Wenn Du das schaffst, kannst Du Dir einigerma&szlig;en sicher sein, 
+dass Du wei&szlig;t, was die Funktion tut, und dass es richtig war, 
+sie (und nicht eine etwas andere) zu schreiben.
+
+Au&szlig;erdem ist es von dokumentierten Funktionen zu Paketen nicht mehr weit, 
+was ihre <<_als_paket, Verwaltung>> deutlich erleichtert.
+
+
+//begin.rcode
+base <- c("golden_ratio.R", "golden_rectangle.R")
+file_names <- file.path("src", unlist(lapply(base, function(x) paste0(c("", "test_"), x))))
+
+
+old_name = "golden_ratio"
+new_name = ".golden_ratio"
+directory = "src"
+
+file_names <- list.files(directory, full.names = TRUE, 
+                         pattern = paste0(".*", old_name, ".*"))
+
+for (file_name in file_names) {
+    patterns <- c(definition_pattern = paste0(old_name, "( *<-)"),
+                  call_pattern = paste0(old_name, "(\\()"))
+
+    new_name <- file.path(dirname(file_name), 
+                          sub(old_name, new_name, basename(file_name)))
+    x <- readLines(file_name)
+    for (pattern in patterns) 
+        x <- sub(pattern, paste0(new_name, "\\1"), x)
+
+    readLines(
+
+    sub(paste0(old_name, "\\("), paste0(new_name, "\\1"), x)
+    sub(paste0(old_name, " <-"), paste0(new_name, "\\1"), x)
+
+    sub(()
+    for (pattern in patterns) {
+        z <- sub("(golden_ratio)", "\\.\\1", x)
+
+}
+
+declarations <- 
+
+
+
+
+//end.rcode
+
+
+
 
 .src/wipe_clean.R
 [source,r]
 include::src/wipe_clean.R[]
-//begin.rcode, results = "hide"
-document::document(file.path("src", "wipe_clean.R"))
-//end.rcode
-//begin.rcode, echo = FALSE
-pager_function <- function(x, ...) return(cat(readLines(x), sep = "\n"))
-options(pager = pager_function)
+//begin.rcode, results = "hide", warning = FALSE, message = FALSE, error = FALSE
+document::document(file.path("src", "wipe_clean.R"), output_directory = ".")
 //end.rcode
 //begin.rcode
+list.files(pattern = "^wipe.*", full.names = TRUE)
+//end.rcode
+//begin.rcode, echo = FALSE
+pager_function <- function(x, ...){
+    x <- readLines(x)
+    x <- gsub("_", "", x)
+    cat(paste(x, collapse="\n"), "\n")}
+options(pager = pager_function)
+//end.rcode
+//begin.rcode, comment = ""
 document::man("wipe_clean")
 //end.rcode
 
