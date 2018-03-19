@@ -1567,7 +1567,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.09229292</code></pre>
+<pre><code>## [1] 0.1579374</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1839,7 +1839,7 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ... Timing stopped at: 0 0 0.001
+## Executing test function test_sum  ... Timing stopped at: 0.004 0 0.001
 ##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
@@ -1850,7 +1850,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Mon Mar 19 12:16:42 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Mon Mar 19 13:04:44 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -2082,29 +2082,9 @@ Wahl der Zuschnitte berücksichtigen.</p></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">#' Compute the Other Quantity in Golden Ratio</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' the Golden Ratio.</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' Specify \code{value = 1} to obtain the Golden Ratio itself in element "a" of</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' the return value.</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' @param value A Quantity.</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' @param landscape Is the quantity given by \code{value} the larger one ("a")?</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' @return A vector giving the quantities "a" and "b".</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' @export</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' @examples</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">#' print(golden_ratio(value = 1)[["a"]])</span></span>
-golden_ratio  &lt;- function(value, landscape = FALSE) {
+<pre><tt>golden_ratio  &lt;- function() {
     phi &lt;- (1 + sqrt(5)) / 2
-    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (isTRUE(landscape)) {
-        a  &lt;- value
-        b &lt;- a / phi
-    } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
-        b &lt;- value
-        a &lt;- b * phi
-    }
-    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
+    return(phi)
 }</tt></pre></div></div>
 <div class="paragraph"><p>Das ginge auch als Einzeiler:</p></div>
 <div class="listingblock">
@@ -2121,12 +2101,9 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>testthat::test_that(<span style="color: #FF0000">"Test on golden rectangle"</span>, {
-                        value &lt;- 2
-                        expectation &lt;- c(a = value * .golden_ratio(), b = value)
-                        result &lt;- golden_ratio(value)
-                        testthat::expect_identical(result, expectation)
-                        result &lt;- golden_ratio(value * .golden_ratio(), TRUE)
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Test on Golden Ratio"</span>, {
+                        expectation &lt;- (1 + sqrt(5)) / 2
+                        result &lt;- golden_ratio()
                         testthat::expect_identical(result, expectation)
 })</tt></pre></div></div>
 <div class="listingblock">
@@ -2141,9 +2118,14 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Test on golden rectangle'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * unused argument (value)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 1: golden_ratio(value) at src/test_golden_ratio.R:3</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Coverage: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_ratio.R: 100.00%</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Wenn Du Graphiken nach dem Goldenen Schnitt proportionieren willst, musst Du bei
 gegebener Länge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren
@@ -2156,34 +2138,73 @@ also schreibst Du die folgende Funktion:</p></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>width &lt;- 4
-png(<span style="color: #FF0000">"p1.png"</span>, units = <span style="color: #FF0000">"cm"</span>, res = 400,
-    width = width,
-    height = golden_rectangle(width)[[<span style="color: #FF0000">"a"</span>]])</tt></pre></div></div>
+<pre><tt>golden_rectangle  &lt;- function(b) {
+    a &lt;- b * golden_ratio()
+    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
+}</tt></pre></div></div>
+<div class="paragraph"><p>Auch für diese Funktion schreibst Du einen Test:</p></div>
+<div class="listingblock">
+<div class="title">src/test_golden_rectangle.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>testthat::test_that(<span style="color: #FF0000">"Test on golden rectangle"</span>, {
+                        b &lt;- 2
+                        expectation &lt;- c(a = b * golden_ratio(), b = b)
+                        result &lt;- golden_rectangle(b)
+                        testthat::expect_identical(result, expectation)
+})</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in golden_rectangle(width): could not find function "golden_ratio"</span></span>
+<pre><tt>covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, c(<span style="color: #FF0000">"golden_ratio.R"</span>, <span style="color: #FF0000">"golden_rectangle.R"</span>)),
+                    file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_golden_rectangle.R"</span>))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Coverage: 100.00%</span></span>
 </tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>par(mar=c(1,1,1,1))
-plot(cars)</tt></pre></div></div>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_ratio.R: 100.00%</span></span>
+</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>dev.off()</tt></pre></div></div>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_rectangle.R: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p>Du benutzt die Funtktion &#8230;</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>source(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"golden_ratio.R"</span>))
+width &lt;- 4
+png(<span style="color: #FF0000">"p1.png"</span>, units = <span style="color: #FF0000">"cm"</span>, res = 400,
+    width = width,
+    height = golden_rectangle(width)[[<span style="color: #FF0000">"a"</span>]])
+par(mar=c(1,1,1,1))
+plot(cars)
+dev.off()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## null device
-##           1</code></pre>
+<pre><code>## pdf
+##   2</code></pre>
+</div></div>
+<div class="literalblock">
+<div class="content">
+<pre><code>und bist begeistert:</code></pre>
 </div></div>
 <div class="imageblock">
 <div class="content">
@@ -2659,31 +2680,7 @@ EPGg6hDxoOoQ8aDqEPH8HyD+/AHcNkfwAAAAAElFTkSuQmCC" />
 </div>
 <div class="title">Figure 1. Oh, wie schön!</div>
 </div>
-<div class="paragraph"><p>Auch für diese Funktion schreibst Du einen Test:</p></div>
-<div class="listingblock">
-<div class="title">src/test_golden_rectangle.R</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"golden_rectangle.R"</span>),
-                    file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_golden_rectangle.R"</span>))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Test on golden rectangle'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * could not find function "golden_ratio"</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 1: .handleSimpleError(function (e)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##    {</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        e$call &lt;- sys.calls()[(frame + 11):(sys.nframe() - 2)]</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        register_expectation(e, frame + 11, sys.nframe() - 2)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        signalCondition(e)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##    }, "could not find function \"golden_ratio\"", quote(eval(expr, envir, enclos))) at src/test_golden_rectangle.R:3</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 2: eval(expr, envir, enclos)</span></span>
-</tt></pre></div></div>
-<div class="paragraph"><p>Du benutzt die Funktion eine Weile, merkst dann aber, dass Du ja auch querformatige
+<div class="paragraph"><p>Du benutzt die Funktion eine Weile weiter, merkst dann aber, dass Du ja auch querformatige
 Abbildungen erstellen willst und daher
 bei gegebener Länge der
 langen Seite diese durch den Goldenen Schnitt dividieren musst, um die Länge
@@ -2693,6 +2690,22 @@ Da die Funktionalitäten zum selben Thema passen und <code>golden_rectangle</cod
 recht simpel ist, schreibst Du Deine Funktion also um:</p></div>
 <div class="listingblock">
 <div class="title">src/golden_rectangle.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>golden_rectangle  &lt;- function(value, landscape = TRUE) {
+    phi &lt;- (1 + sqrt(5)) / 2
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (isTRUE(landscape)) {
+        a  &lt;- value
+        b &lt;- a / phi
+    } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+        b &lt;- value
+        a &lt;- b * phi
+    }
+    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
+}</tt></pre></div></div>
+<div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -3024,14 +3037,10 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Test on golden rectangle'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * could not find function "golden_ratio"</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 1: .handleSimpleError(function (e)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##    {</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        e$call &lt;- sys.calls()[(frame + 11):(sys.nframe() - 2)]</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        register_expectation(e, frame + 11, sys.nframe() - 2)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        signalCondition(e)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##    }, "could not find function \"golden_ratio\"", quote(eval(expr, envir, enclos))) at src/test_golden_rectangle.R:3</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 2: eval(expr, envir, enclos)</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## * `result` not identical to `expectation`.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## 2/2 mismatches (average diff: 1)</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## [1] 2.00 - 3.24 == -1.236</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## [2] 1.24 - 2.00 == -0.764</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Was bedeutet das?
 Du musst entweder</p></div>
@@ -3056,8 +3065,19 @@ die Funktion so ändern, dass der Test weiterhin funktioniert.
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
-+golden_rectangle(width, landscape = TRUE)+</tt></pre></div></div>
+<pre><tt>golden_rectangle  &lt;- function(value, landscape = FALSE) {
+    phi &lt;- (1 + sqrt(5)) / 2
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (isTRUE(landscape)) {
+        a  &lt;- value
+        b &lt;- a / phi
+    } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+        b &lt;- value
+        a &lt;- b * phi
+    }
+    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
+}</tt></pre></div></div>
+<div class="paragraph"><p>Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
+<code>golden_rectangle(width, landscape = TRUE)</code></p></div>
 <div class="paragraph"><p>Der Test funktioniert wieder, da Du aber die Funktion geändert hast, überdeckt
 er sie nicht mehr vollständig:</p></div>
 <div class="listingblock">
@@ -3072,19 +3092,34 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Test on golden rectangle'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * could not find function "golden_ratio"</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 1: .handleSimpleError(function (e)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##    {</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        e$call &lt;- sys.calls()[(frame + 11):(sys.nframe() - 2)]</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        register_expectation(e, frame + 11, sys.nframe() - 2)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        signalCondition(e)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##    }, "could not find function \"golden_ratio\"", quote(eval(expr, envir, enclos))) at src/test_golden_rectangle.R:3</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 2: eval(expr, envir, enclos)</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Coverage: 71.43%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_rectangle.R: 71.43%</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Du erweiterst also Deine Testdatei an:</p></div>
 <div class="listingblock">
 <div class="title">src/test_golden_rectangle.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>golden_rectangle  &lt;- function(value, landscape = FALSE) {
+    phi &lt;- (1 + sqrt(5)) / 2
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (isTRUE(landscape)) {
+        a  &lt;- value
+        b &lt;- a / phi
+    } <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> {
+        b &lt;- value
+        a &lt;- b * phi
+    }
+    return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
+}</tt></pre></div></div>
+<div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -3096,15 +3131,14 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Test on golden rectangle'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * could not find function "golden_ratio"</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 1: .handleSimpleError(function (e)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##    {</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        e$call &lt;- sys.calls()[(frame + 11):(sys.nframe() - 2)]</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        register_expectation(e, frame + 11, sys.nframe() - 2)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##        signalCondition(e)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">##    }, "could not find function \"golden_ratio\"", quote(eval(expr, envir, enclos))) at src/test_golden_rectangle.R:3</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 2: eval(expr, envir, enclos)</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Coverage: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_rectangle.R: 100.00%</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p><code>golden_rectangle</code> habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen.
 <em>Aber ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens,
@@ -3334,10 +3368,12 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect2">
 <h3 id="_funktionen_dokumentieren">3.4. Funktionen dokumentieren</h3>
 <div class="paragraph"><p>Wenn Du Hilfe zu einer Funktion in <strong>R</strong> suchst, kannst Du unter anderem die
-<strong>R</strong>-Hilfe mit <code>help(topic)</code> oder der Kurzform + ?topic + aufrufen, bei Paketen findest Du
+<strong>R</strong>-Hilfe mit <code>help(topic)</code> oder der Kurzform <code>?topic</code> aufrufen, bei Paketen findest Du
 die selbe Information auch immer als pdf beigelegt.</p></div>
 <div class="paragraph"><p>Solche Hilfeformate kannst Du f&uuml;r Deine Funktionen auch schreiben.</p></div>
-<div class="paragraph"><div class="title">Warum solltest Du Deine Funktionen dokumentieren?</div><p>Wenn Du Funktionen dokumentierst, erkl&auml;rst Du einer anderen Person, was die Funktion
+<div class="sect3">
+<h4 id="_warum_solltest_du_deine_funktionen_dokumentieren">3.4.1. Warum solltest Du Deine Funktionen dokumentieren?</h4>
+<div class="paragraph"><p>Wenn Du Funktionen dokumentierst, erkl&auml;rst Du einer anderen Person, was die Funktion
 tun sollte. Wenn Du das schaffst, kannst Du Dir einigerma&szlig;en sicher sein,
 dass Du wei&szlig;t, was die Funktion tut und dass es richtig war,
 sie (und nicht eine etwas andere) zu schreiben.</p></div>
@@ -3406,7 +3442,7 @@ rename_function &lt;- function(from, to, directory = <span style="color: #FF0000
     }
     return(new_file_names)
 }</tt></pre></div></div>
-<div class="paragraph"><p>Diese Funktionen lebt ja von Nebenwirkungen, sie ist schwer zu testen und wir hoffen also, dass Du keine Fehler gemachst hast.</p></div>
+<div class="paragraph"><p>Diese Funktionen leben ja von Nebenwirkungen, sie sind schwer zu testen und wir hoffen also, dass Du keine Fehler gemachst hast.</p></div>
 <div class="paragraph"><p>Funktionieren tut das so:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3433,7 +3469,7 @@ rename_function(from = <span style="color: #FF0000">"golden_rectangle"</span>, t
 <div class="content">
 <pre><code>## [1] "src/golden_ratio.R"      "src/test_golden_ratio.R"</code></pre>
 </div></div>
-<div class="paragraph"><p>Ob das funktioniert, testen wir nat&uuml;rlich:</p></div>
+<div class="paragraph"><p>Du testest nat&uuml;rlich Deine neuen Dateien:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3441,15 +3477,6 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>covr::file_coverage(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">".golden_ratio.R"</span>),
                     file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_.golden_ratio.R"</span>))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: Test failed: 'Test on golden rectangle'</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## * unused argument (value)</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## 1: .golden_ratio(value) at src/test_.golden_ratio.R:3</span></span>
-</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3471,13 +3498,20 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_ratio.R: 100.00%</span></span>
 </tt></pre></div></div>
+<div class="paragraph"><p>Scheint geklappt zu haben.</p></div>
+<div class="paragraph"><p>Du siehst also, dass Du Deine Funktionen ver&auml;ndert hast, <em>weil</em> Du sie dokumentieren
+willst.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_wie_kannst_du_funktionen_dokumentieren">3.4.2. Wie kannst Du Funktionen dokumentieren?</h4>
+<div class="paragraph"><p>Das <strong>R</strong>-Hilfeformat wird <a href="https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-R-documentation-files">hier</a>
+beschrieben, ich rate Dir aber, <a href="https://cran.r-project.org/web/packages/roxygen2/index.html">roxygen2</a> zu
+benutzen (<a href="http://r-pkgs.had.co.nz/man.html&lt;hier&gt">http://r-pkgs.had.co.nz/man.html&lt;hier&gt</a>; gibt Hadley Wickham eine druckreife Einf&uuml;hrung).</p></div>
+<div class="paragraph"><p>Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einf&uuml;gst:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>src &lt;- <span style="color: #FF0000">"golden_ratio_doc.R"</span>
-withr::with_dir(<span style="color: #FF0000">"src"</span>, file.copy(src, <span style="color: #FF0000">"golden_ratio.R"</span>, overwrite = TRUE))</tt></pre></div></div>
+<div class="content">
+<pre><code>## [1] TRUE</code></pre>
+</div></div>
 <div class="listingblock">
 <div class="title">src/golden_ratio.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3565,6 +3599,7 @@ Examples:
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
 <h2 id="_bibliographie">4. Bibliographie</h2>
 <div class="sectionbody">
@@ -3590,7 +3625,7 @@ Examples:
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-19 12:16:57 CET
+ 2018-03-19 13:04:58 CET
 </div>
 </div>
 </body>

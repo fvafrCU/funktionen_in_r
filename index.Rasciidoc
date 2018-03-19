@@ -546,7 +546,8 @@ Du kannst einen Test entweder einzeln laufen lassen
 oder den Test in einer  Testdatei 
 
 [source,r]
-include::src/test_my_sum.R[]
+//begin.rcode, code = readLines("src/test_my_sum.R"), eval = FALSE
+//end.rcode
 
 mit einer Funktion auswerten, bei +testthat+ ändert sich 
 relativ wenig: 
@@ -571,7 +572,8 @@ recht spröde, mit einer Testdatei
 
 .src/runit_my_sum.R
 [source,r]
-include::src/runit_my_sum.R[]
+//begin.rcode, code = readLines("src/runit_my_sum.R"), eval = FALSE
+//end.rcode
 
 allerdings gesprächiger:
 
@@ -590,14 +592,14 @@ Prinzipiell ist eine hohe Überdeckung gut.
 Wenn Du eine Datei mit einer Funktionsdefinition
 
 .src/my_sum_assertion.R
-[source,r]
-include::src/my_sum_assertion.R[]
+//begin.rcode, code = readLines("src/my_sum_assertion.R"), eval = FALSE
+//end.rcode
 
 und eine mit dem Test
 
 .src/test_my_sum_assertion.R
-[source,r]
-include::src/test_my_sum_assertion.R[]
+//begin.rcode, code = readLines("src/test_my_sum_assertion.R"), eval = FALSE
+//end.rcode
 
 hast, kannst Du die Überdeckung berechnen.
 
@@ -611,8 +613,8 @@ Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test n
 erreicht, weist Dich +covr+ darauf hin:
 
 .src/my_sum_assertion.R
-[source,r]
-include::src/my_sum_coverage.R[]
+//begin.rcode, code = readLines("src/my_sum_coverage.R"), eval = FALSE
+//end.rcode
 
 //begin.rcode
 cov <- covr::file_coverage(file.path("src", "my_sum_coverage.R"), 
@@ -685,8 +687,12 @@ src <- "test_golden_ratio_bare.R"
 withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
 //end.rcode
 .src/golden_ratio.R
-[source,r]
-include::src/golden_ratio.R[]
+// WARNING: Do not use
+//     [source,r]
+//     include::src/golden_ratio.R[]
+// here as does not evaluate _now_ whereas knitr does!
+//begin.rcode, code = readLines("src/golden_ratio.R"), eval = FALSE
+//end.rcode
 
 Das ginge auch als Einzeiler: 
 //begin.rcode, eval = FALSE
@@ -697,8 +703,9 @@ aber den findest Du auch nicht viel eleganter, dafür aber schlechter lesbar.
 Du schreibst auch einen Test, obwohl der ziemlich trivial ist:
 
 .src/test_golden_ratio.R
+//begin.rcode, code = readLines("src/test_golden_ratio.R"), eval = FALSE
+//end.rcode
 [source,r]
-include::src/test_golden_ratio.R[]
 //begin.rcode
 covr::file_coverage(file.path("src", "golden_ratio.R"), 
                     file.path("src", "test_golden_ratio.R"))
@@ -716,11 +723,27 @@ withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
 source("src/golden_rectangle.R")
 //end.rcode
 .src/golden_rectangle.R
-[source,r]
-include::src/golden_rectangle.R[]
+//begin.rcode, code = readLines("src/golden_rectangle.R"), eval = FALSE
+//end.rcode
 
+Auch für diese Funktion schreibst Du einen Test:
+
+//begin.rcode, echo = FALSE, results = "hide"
+src <- "test_golden_rectangle_a.R"
+withr::with_dir("src", file.copy(src, "test_golden_rectangle.R", overwrite = TRUE))
+//end.rcode
+.src/test_golden_rectangle.R
+//begin.rcode, code = readLines("src/test_golden_rectangle.R"), eval = FALSE
+//end.rcode
+//begin.rcode
+covr::file_coverage(file.path("src", c("golden_ratio.R", "golden_rectangle.R")), 
+                    file.path("src", "test_golden_rectangle.R"))
+//end.rcode
+
+Du benutzt die Funtktion ...
 
 //begin.rcode cars, fig.show = "hide"
+source(file.path("src", "golden_ratio.R"))
 width <- 4
 png("p1.png", units = "cm", res = 400,
     width = width, 
@@ -730,27 +753,14 @@ plot(cars)
 dev.off()
 //end.rcode
 
+ und bist begeistert:
 
 .Oh, wie schön!
 image::p1.png[]
 [caption=""]
 
-Auch für diese Funktion schreibst Du einen Test:
 
-//begin.rcode, echo = FALSE, results = "hide"
-src <- "test_golden_rectangle_a.R"
-withr::with_dir("src", file.copy(src, "test_golden_rectangle.R", overwrite = TRUE))
-source("src/golden_rectangle.R")
-//end.rcode
-.src/test_golden_rectangle.R
-[source,r]
-include::src/test_golden_rectangle.R[]
-//begin.rcode
-covr::file_coverage(file.path("src", "golden_rectangle.R"), 
-                    file.path("src", "test_golden_rectangle.R"))
-//end.rcode
-
-Du benutzt die Funktion eine Weile, merkst dann aber, dass Du ja auch querformatige
+Du benutzt die Funktion eine Weile weiter, merkst dann aber, dass Du ja auch querformatige
 Abbildungen erstellen willst und daher 
 bei gegebener Länge der 
 langen Seite diese durch den Goldenen Schnitt dividieren musst, um die Länge 
@@ -766,8 +776,8 @@ withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
 source("src/golden_rectangle.R")
 //end.rcode
 .src/golden_rectangle.R
-[source,r]
-include::src/golden_rectangle.R[]
+//begin.rcode, code = readLines("src/golden_rectangle.R"), eval = FALSE
+//end.rcode
 //begin.rcode
 width <- 4
 png("p2.png", units = "cm", res = 400,
@@ -807,8 +817,8 @@ withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
 source("src/golden_rectangle.R")
 //end.rcode
 .src/golden_rectangle.R
-[source,r]
-include::src/golden_rectangle.R[]
+//begin.rcode, code = readLines("src/golden_rectangle.R"), eval = FALSE
+//end.rcode
 
 Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
 +golden_rectangle(width, landscape = TRUE)+
@@ -828,8 +838,8 @@ src <- "test_golden_rectangle_ba.R"
 withr::with_dir("src", file.copy(src, "test_golden_rectangle.R", overwrite = TRUE))
 //end.rcode
 .src/test_golden_rectangle.R
-[source,r]
-include::src/test_golden_rectangle.R[]
+//begin.rcode, code = readLines("src/golden_rectangle.R"), eval = FALSE
+//end.rcode
 //begin.rcode
 covr::file_coverage(file.path("src", "golden_rectangle.R"), 
                     file.path("src", "test_golden_rectangle.R"))
@@ -928,12 +938,12 @@ suppressWarnings(cleanr::check_file("src/release.R"))
 
 === Funktionen dokumentieren 
 Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die 
-**R**-Hilfe mit +help(topic)+ oder der Kurzform + ?topic + aufrufen, bei Paketen findest Du
+**R**-Hilfe mit +help(topic)+ oder der Kurzform +?topic+ aufrufen, bei Paketen findest Du
 die selbe Information auch immer als pdf beigelegt.
 
 Solche Hilfeformate kannst Du f&uuml;r Deine Funktionen auch schreiben.
 
-.Warum solltest Du Deine Funktionen dokumentieren?
+==== Warum solltest Du Deine Funktionen dokumentieren?
 Wenn Du Funktionen dokumentierst, erkl&auml;rst Du einer anderen Person, was die Funktion
 tun sollte. Wenn Du das schaffst, kannst Du Dir einigerma&szlig;en sicher sein, 
 dass Du wei&szlig;t, was die Funktion tut und dass es richtig war, 
@@ -993,7 +1003,7 @@ rename_function <- function(from, to, directory = ".") {
     return(new_file_names)
 }
 //end.rcode
-Diese Funktionen lebt ja von Nebenwirkungen, sie ist schwer zu testen und wir hoffen also, dass Du keine Fehler gemachst hast.
+Diese Funktionen leben ja von Nebenwirkungen, sie sind schwer zu testen und wir hoffen also, dass Du keine Fehler gemachst hast.
 
 Funktionieren tut das so:
 
@@ -1008,7 +1018,7 @@ rename_function(from = "golden_rectangle", to = "golden_ratio",
 
 
 //end.rcode
-Ob das funktioniert, testen wir nat&uuml;rlich:
+Du testest nat&uuml;rlich Deine neuen Dateien:
 //begin.rcode
 covr::file_coverage(file.path("src", ".golden_ratio.R"), 
                     file.path("src", "test_.golden_ratio.R"))
@@ -1016,14 +1026,28 @@ covr::file_coverage(file.path("src", c("golden_ratio.R", ".golden_ratio.R")),
                     file.path("src", "test_golden_ratio.R"))
 //end.rcode
 
-//begin.rcode, results = "hide", warning = FALSE, message = FALSE, error = FALSE
+Scheint geklappt zu haben.
+
+Du siehst also, dass Du Deine Funktionen ver&auml;ndert hast, _weil_ Du sie dokumentieren 
+willst.
+
+
+==== Wie kannst Du Funktionen dokumentieren?
+
+Das **R**-Hilfeformat wird https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-R-documentation-files[hier] 
+beschrieben, ich rate Dir aber, https://cran.r-project.org/web/packages/roxygen2/index.html[roxygen2] zu
+benutzen (http://r-pkgs.had.co.nz/man.html<hier> gibt Hadley Wickham eine druckreife Einf&uuml;hrung).
+
+Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einf&uuml;gst:
+
+//begin.rcode, echo = FALSE
 src <- "golden_ratio_doc.R"
 withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
 //end.rcode
 
 .src/golden_ratio.R
-[source,r]
-include::src/golden_ratio.R[]
+//begin.rcode, code = readLines("src/golden_ratio.R"), eval = FALSE
+//end.rcode
 
 
 //begin.rcode, results = "hide", warning = FALSE, message = FALSE, error = FALSE

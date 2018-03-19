@@ -786,7 +786,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] 0.09229292
+## [1] 0.1579374
 ----
 
 [source,r]
@@ -984,7 +984,17 @@ testthat::test_that("Simple test on summation.", {
 oder den Test in einer  Testdatei 
 
 [source,r]
-include::src/test_my_sum.R[]
+
+[source,r]
+----
+testthat::test_that("Simple test on summation.", {
+                        testthat::expect_identical(not_my_sum(c(2, 7)), 9,
+                                                   info = "Not my sum.")
+                        testthat::expect_identical(my_sum(c(2, 7)), 9, 
+                                                   info = "My sum.")
+})
+----
+
 
 mit einer Funktion auswerten, bei +testthat+ ändert sich 
 relativ wenig: 
@@ -1034,7 +1044,15 @@ recht spröde, mit einer Testdatei
 
 .src/runit_my_sum.R
 [source,r]
-include::src/runit_my_sum.R[]
+
+[source,r]
+----
+test_sum <- function() {
+    RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
+    RUnit::checkIdentical(my_sum(c(2, 7)), 9)
+}
+----
+
 
 allerdings gesprächiger:
 
@@ -1048,7 +1066,7 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ... Timing stopped at: 0 0 0.001 
+## Executing test function test_sum  ... Timing stopped at: 0.004 0 0.001 
 ##  done successfully.
 ----
 
@@ -1058,7 +1076,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Mon Mar 19 12:16:42 2018 
+## RUNIT TEST PROTOCOL -- Mon Mar 19 13:04:44 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1096,14 +1114,31 @@ Prinzipiell ist eine hohe Überdeckung gut.
 Wenn Du eine Datei mit einer Funktionsdefinition
 
 .src/my_sum_assertion.R
+
 [source,r]
-include::src/my_sum_assertion.R[]
+----
+my_sum <- function(x) {
+    assertthat::assert_that(is.numeric(x))
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
 
 und eine mit dem Test
 
 .src/test_my_sum_assertion.R
+
 [source,r]
-include::src/test_my_sum_assertion.R[]
+----
+testthat::test_that("Simple test on summation.",
+                    testthat::expect_identical(my_sum(c(2, 7)), 9)
+                    )
+----
+
 
 hast, kannst Du die Überdeckung berechnen.
 
@@ -1132,8 +1167,20 @@ Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test n
 erreicht, weist Dich +covr+ darauf hin:
 
 .src/my_sum_assertion.R
+
 [source,r]
-include::src/my_sum_coverage.R[]
+----
+my_sum <- function(x) {
+    assertthat::assert_that(is.numeric(x))
+    if (! is.numeric(x)) message("You'll never get here!")
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
 
 
 [source,r]
@@ -1247,8 +1294,19 @@ Da Du Dir den Goldenen Schnitt nicht gut merken kannst, schreibst Du folgende Fu
 
 
 .src/golden_ratio.R
+// WARNING: Do not use
+//     [source,r]
+//     include::src/golden_ratio.R[]
+// here as does not evaluate _now_ whereas knitr does!
+
 [source,r]
-include::src/golden_ratio.R[]
+----
+golden_ratio  <- function() {
+    phi <- (1 + sqrt(5)) / 2
+    return(phi)
+}
+----
+
 
 Das ginge auch als Einzeiler: 
 
@@ -1262,8 +1320,17 @@ aber den findest Du auch nicht viel eleganter, dafür aber schlechter lesbar.
 Du schreibst auch einen Test, obwohl der ziemlich trivial ist:
 
 .src/test_golden_ratio.R
+
 [source,r]
-include::src/test_golden_ratio.R[]
+----
+testthat::test_that("Test on Golden Ratio", {
+                        expectation <- (1 + sqrt(5)) / 2
+                        result <- golden_ratio()
+                        testthat::expect_identical(result, expectation)
+})
+----
+
+[source,r]
 
 [source,r]
 ----
@@ -1273,9 +1340,13 @@ covr::file_coverage(file.path("src", "golden_ratio.R"),
 
 [source,r]
 ----
-## Error: Test failed: 'Test on golden rectangle'
-## * unused argument (value)
-## 1: golden_ratio(value) at src/test_golden_ratio.R:3
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_ratio.R: 100.00%
 
 ----
 
@@ -1288,76 +1359,86 @@ Das ist eigentlich nicht allzu kompliziert, dennoch kommst Du manchmal durcheina
 also schreibst Du die folgende Funktion:
 
 .src/golden_rectangle.R
-[source,r]
-include::src/golden_rectangle.R[]
-
-
 
 [source,r]
 ----
-width <- 4
-png("p1.png", units = "cm", res = 400,
-    width = width, 
-    height = golden_rectangle(width)[["a"]])
+golden_rectangle  <- function(b) {
+    a <- b * golden_ratio()
+    return(c("a" = a, "b" = b))
+}
 ----
 
-[source,r]
-----
-## Error in golden_rectangle(width): could not find function "golden_ratio"
-
-----
-
-[source,r]
-----
-par(mar=c(1,1,1,1))
-plot(cars)
-----
-
-[source,r]
-----
-dev.off()
-----
-
-----
-## null device 
-##           1
-----
-
-
-
-.Oh, wie schön!
-image::p1.png[]
-[caption=""]
 
 Auch für diese Funktion schreibst Du einen Test:
 
 
 .src/test_golden_rectangle.R
-[source,r]
-include::src/test_golden_rectangle.R[]
 
 [source,r]
 ----
-covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+testthat::test_that("Test on golden rectangle", {
+                        b <- 2
+                        expectation <- c(a = b * golden_ratio(), b = b)
+                        result <- golden_rectangle(b)
+                        testthat::expect_identical(result, expectation)
+})
+----
+
+
+[source,r]
+----
+covr::file_coverage(file.path("src", c("golden_ratio.R", "golden_rectangle.R")), 
                     file.path("src", "test_golden_rectangle.R"))
 ----
 
 [source,r]
 ----
-## Error: Test failed: 'Test on golden rectangle'
-## * could not find function "golden_ratio"
-## 1: .handleSimpleError(function (e) 
-##    {
-##        e$call <- sys.calls()[(frame + 11):(sys.nframe() - 2)]
-##        register_expectation(e, frame + 11, sys.nframe() - 2)
-##        signalCondition(e)
-##    }, "could not find function \"golden_ratio\"", quote(eval(expr, envir, enclos))) at src/test_golden_rectangle.R:3
-## 2: eval(expr, envir, enclos)
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_ratio.R: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_rectangle.R: 100.00%
 
 ----
 
 
-Du benutzt die Funktion eine Weile, merkst dann aber, dass Du ja auch querformatige
+Du benutzt die Funtktion ...
+
+
+[source,r]
+----
+source(file.path("src", "golden_ratio.R"))
+width <- 4
+png("p1.png", units = "cm", res = 400,
+    width = width, 
+    height = golden_rectangle(width)[["a"]])
+par(mar=c(1,1,1,1))
+plot(cars)
+dev.off()
+----
+
+----
+## pdf 
+##   2
+----
+
+
+ und bist begeistert:
+
+.Oh, wie schön!
+image::p1.png[]
+[caption=""]
+
+
+Du benutzt die Funktion eine Weile weiter, merkst dann aber, dass Du ja auch querformatige
 Abbildungen erstellen willst und daher 
 bei gegebener Länge der 
 langen Seite diese durch den Goldenen Schnitt dividieren musst, um die Länge 
@@ -1369,8 +1450,22 @@ recht simpel ist, schreibst Du Deine Funktion also um:
 
 
 .src/golden_rectangle.R
+
 [source,r]
-include::src/golden_rectangle.R[]
+----
+golden_rectangle  <- function(value, landscape = TRUE) {
+    phi <- (1 + sqrt(5)) / 2
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
+}
+----
+
 
 [source,r]
 ----
@@ -1406,14 +1501,10 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 [source,r]
 ----
 ## Error: Test failed: 'Test on golden rectangle'
-## * could not find function "golden_ratio"
-## 1: .handleSimpleError(function (e) 
-##    {
-##        e$call <- sys.calls()[(frame + 11):(sys.nframe() - 2)]
-##        register_expectation(e, frame + 11, sys.nframe() - 2)
-##        signalCondition(e)
-##    }, "could not find function \"golden_ratio\"", quote(eval(expr, envir, enclos))) at src/test_golden_rectangle.R:3
-## 2: eval(expr, envir, enclos)
+## * `result` not identical to `expectation`.
+## 2/2 mismatches (average diff: 1)
+## [1] 2.00 - 3.24 == -1.236
+## [2] 1.24 - 2.00 == -0.764
 
 ----
 
@@ -1431,8 +1522,22 @@ Du entscheidest Dich, die Funktion zu ändern
 
 
 .src/golden_rectangle.R
+
 [source,r]
-include::src/golden_rectangle.R[]
+----
+golden_rectangle  <- function(value, landscape = FALSE) {
+    phi <- (1 + sqrt(5)) / 2
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
+}
+----
+
 
 Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
 +golden_rectangle(width, landscape = TRUE)+
@@ -1449,15 +1554,13 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 
 [source,r]
 ----
-## Error: Test failed: 'Test on golden rectangle'
-## * could not find function "golden_ratio"
-## 1: .handleSimpleError(function (e) 
-##    {
-##        e$call <- sys.calls()[(frame + 11):(sys.nframe() - 2)]
-##        register_expectation(e, frame + 11, sys.nframe() - 2)
-##        signalCondition(e)
-##    }, "could not find function \"golden_ratio\"", quote(eval(expr, envir, enclos))) at src/test_golden_rectangle.R:3
-## 2: eval(expr, envir, enclos)
+## Coverage: 71.43%
+
+----
+
+[source,r]
+----
+## src/golden_rectangle.R: 71.43%
 
 ----
 
@@ -1466,8 +1569,22 @@ Du erweiterst also Deine Testdatei an:
 
 
 .src/test_golden_rectangle.R
+
 [source,r]
-include::src/test_golden_rectangle.R[]
+----
+golden_rectangle  <- function(value, landscape = FALSE) {
+    phi <- (1 + sqrt(5)) / 2
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
+}
+----
+
 
 [source,r]
 ----
@@ -1477,15 +1594,13 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 
 [source,r]
 ----
-## Error: Test failed: 'Test on golden rectangle'
-## * could not find function "golden_ratio"
-## 1: .handleSimpleError(function (e) 
-##    {
-##        e$call <- sys.calls()[(frame + 11):(sys.nframe() - 2)]
-##        register_expectation(e, frame + 11, sys.nframe() - 2)
-##        signalCondition(e)
-##    }, "could not find function \"golden_ratio\"", quote(eval(expr, envir, enclos))) at src/test_golden_rectangle.R:3
-## 2: eval(expr, envir, enclos)
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_rectangle.R: 100.00%
 
 ----
 
@@ -1722,12 +1837,12 @@ suppressWarnings(cleanr::check_file("src/release.R"))
 
 === Funktionen dokumentieren 
 Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die 
-**R**-Hilfe mit +help(topic)+ oder der Kurzform + ?topic + aufrufen, bei Paketen findest Du
+**R**-Hilfe mit +help(topic)+ oder der Kurzform +?topic+ aufrufen, bei Paketen findest Du
 die selbe Information auch immer als pdf beigelegt.
 
 Solche Hilfeformate kannst Du f&uuml;r Deine Funktionen auch schreiben.
 
-.Warum solltest Du Deine Funktionen dokumentieren?
+==== Warum solltest Du Deine Funktionen dokumentieren?
 Wenn Du Funktionen dokumentierst, erkl&auml;rst Du einer anderen Person, was die Funktion
 tun sollte. Wenn Du das schaffst, kannst Du Dir einigerma&szlig;en sicher sein, 
 dass Du wei&szlig;t, was die Funktion tut und dass es richtig war, 
@@ -1789,7 +1904,7 @@ rename_function <- function(from, to, directory = ".") {
 }
 ----
 
-Diese Funktionen lebt ja von Nebenwirkungen, sie ist schwer zu testen und wir hoffen also, dass Du keine Fehler gemachst hast.
+Diese Funktionen leben ja von Nebenwirkungen, sie sind schwer zu testen und wir hoffen also, dass Du keine Fehler gemachst hast.
 
 Funktionieren tut das so:
 
@@ -1817,20 +1932,12 @@ rename_function(from = "golden_rectangle", to = "golden_ratio",
 ## [1] "src/golden_ratio.R"      "src/test_golden_ratio.R"
 ----
 
-Ob das funktioniert, testen wir nat&uuml;rlich:
+Du testest nat&uuml;rlich Deine neuen Dateien:
 
 [source,r]
 ----
 covr::file_coverage(file.path("src", ".golden_ratio.R"), 
                     file.path("src", "test_.golden_ratio.R"))
-----
-
-[source,r]
-----
-## Error: Test failed: 'Test on golden rectangle'
-## * unused argument (value)
-## 1: .golden_ratio(value) at src/test_.golden_ratio.R:3
-
 ----
 
 [source,r]
@@ -1852,17 +1959,56 @@ covr::file_coverage(file.path("src", c("golden_ratio.R", ".golden_ratio.R")),
 ----
 
 
+Scheint geklappt zu haben.
 
-[source,r]
+Du siehst also, dass Du Deine Funktionen ver&auml;ndert hast, _weil_ Du sie dokumentieren 
+willst.
+
+
+==== Wie kannst Du Funktionen dokumentieren?
+
+Das **R**-Hilfeformat wird https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-R-documentation-files[hier] 
+beschrieben, ich rate Dir aber, https://cran.r-project.org/web/packages/roxygen2/index.html[roxygen2] zu
+benutzen (http://r-pkgs.had.co.nz/man.html<hier> gibt Hadley Wickham eine druckreife Einf&uuml;hrung).
+
+Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einf&uuml;gst:
+
+
 ----
-src <- "golden_ratio_doc.R"
-withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
+## [1] TRUE
 ----
 
 
 .src/golden_ratio.R
+
 [source,r]
-include::src/golden_ratio.R[]
+----
+#' Compute the Other Quantity in Golden Ratio
+#'
+#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to
+#' the Golden Ratio.
+#'
+#' Specify \code{value = 1} to obtain the Golden Ratio itself in element "a" of 
+#' the return value.
+#' @param value A Quantity.
+#' @param landscape Is the quantity given by \code{value} the larger one ("a")?
+#' @return A vector giving the quantities "a" and "b".
+#' @export
+#' @examples
+#' print(golden_ratio(value = 1)[["a"]])
+golden_ratio  <- function(value, landscape = FALSE) {
+    phi <- (1 + sqrt(5)) / 2
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
+}
+----
+
 
 
 
