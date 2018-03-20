@@ -1049,6 +1049,8 @@ withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
 //begin.rcode, code = readLines("src/golden_ratio.R"), eval = FALSE
 //end.rcode
 
+Was hast Du davon, au&szlig;er Arbeit?
+Zum Ersten erh&auml;lst Du Hilfe-Dateien, wie Du sie aus **R** kennst:
 
 //begin.rcode, results = "hide", warning = FALSE, message = FALSE, error = FALSE
 document::document(file.path("src", "golden_ratio.R"), output_directory = ".")
@@ -1056,6 +1058,9 @@ document::document(file.path("src", "golden_ratio.R"), output_directory = ".")
 //begin.rcode
 list.files(pattern = "^golden.*", full.names = TRUE)
 //end.rcode
+
+Zum Zweiten kannst Du Dir in einer laufenden **R**-Sitzung die Hilfe zu Deiner Funktion
+ansehen, wie die zu jeder anderen:
 //begin.rcode, echo = FALSE
 pager_function <- function(x, ...){
     x <- readLines(x)
@@ -1066,6 +1071,9 @@ options(pager = pager_function)
 //begin.rcode, comment = ""
 document::man("golden_ratio")
 //end.rcode
+
+Und zum Dritten und Wichtigsten: Du hast Deine Funktion dokumentiert und ihre Schnittstellen
+beschrieben. Sie ist jetzt <<_als_paket, paketierungsreif>>.
 
 == Bibliographie
 [bibliography]
