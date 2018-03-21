@@ -368,14 +368,16 @@ Das geht mir reinen +base R+, ist aber eher umständlich,
 die https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro[Vignette zu +checkmate+] 
 bietet ein anschauliches Bespiel.
 
-Ich kenne zwei Pakete, die Typentest vereinfachen: +assertthat+ und +checkmate+.
+Ich kenne zwei Pakete, die Typentest vereinfachen: 
+https://CRAN.R-project.org/package=assertthat[assertthat] und 
+https://CRAN.R-project.org/package=checkmate[checkmate]
 
-- +checkmate+ ist hauptsächlich in C geschrieben, sehr schnell, 
+-  https://CRAN.R-project.org/package=checkmate[checkmate] ist hauptsächlich in C geschrieben, sehr schnell, 
 sehr flexibel mit unterschiedlichen Testarten ("checks", "asserts" und "tests"), 
 hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist über 100 Seiten lang. 
-- +assertthat+ ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
+- https://CRAN.R-project.org/package=assertthat[assertthat] ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
 
-+assertthat+ ist sehr einfach:
+https://CRAN.R-project.org/package=assertthat[assertthat] ist sehr einfach:
 //begin.rcode
 x <- 6
 assertthat::assert_that(is.numeric(x))
@@ -407,7 +409,7 @@ wird die Meldung deutlich verständlicher:
 my_sum(c("a", "b"))
 //end.rcode
 
-Mit +checkmate+ können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
+Mit https://CRAN.R-project.org/package=checkmate[checkmate] können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
 sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:
 //begin.rcode, code = readLines("src/my_sum_checkmate.R")
 //end.rcode
@@ -416,7 +418,7 @@ sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja e
 my_sum(42)
 //end.rcode
 
-_Ich nutze Typentests oft in Funktionen. Da +checkmate+ deutlich mehr Funktionalität bietet, nutzte ich +assert_that+ eher selten._
+_Ich nutze Typentests oft in Funktionen. Da https://CRAN.R-project.org/package=checkmate[checkmate] deutlich mehr Funktionalität bietet, nutzte ich https://CRAN.R-project.org/package=assert_that[assert_that] eher selten._
 
 ==== Auswahllisten
 Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
@@ -454,20 +456,20 @@ center(rnorm(100), "m")
 //end.rcode
 
 
-+checkmate+ kennt auch Auswahllisten, macht aber kein +partial matching+ (was ich ganz gut finde):
+https://CRAN.R-project.org/package=checkmate[checkmate] kennt auch Auswahllisten, macht aber kein +partial matching+ (was ich ganz gut finde):
 //begin.rcode
 note  <- "das"
 checkmate::assertChoice(x = note, choices = noten)
 //end.rcode
 
-Außerdem gibt +checkmate+ die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites +print+ benötige:
+Außerdem gibt https://CRAN.R-project.org/package=checkmate[checkmate] die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites +print+ benötige:
 //begin.rcode
 note  <- "gut"
 checkmate::assertChoice(x = note, choices = noten)
 print(checkmate::assertChoice(x = note, choices = noten))
 //end.rcode
 
-+checkmate+ kann nicht nur mit alphanumerischen Vektoren umgehen:
+https://CRAN.R-project.org/package=checkmate[checkmate] kann nicht nur mit alphanumerischen Vektoren umgehen:
 //begin.rcode
 x <- 3
 choices <- 1:7
@@ -487,9 +489,9 @@ Ich kenne zwei Pakete, die Unit Testing in R formalisieren
  aber seit ich die beiden Pakete kenne, 
  habe ich nie mehr wie früher "von Hand" getestet):
 
-- +RUnit+ gibt es schon seit 2004, es ist sehr formal
+- https://CRAN.R-project.org/package=RUnit[RUnit] gibt es schon seit 2004, es ist sehr formal
  und hat wenige Abhängigkeiten (daher bevorzuge ich es beim Testen von Paketen).
-- +testthat+ finde ich interaktiv einfacher anzuwenden.
+- https://CRAN.R-project.org/package=testthat[testthat] finde ich interaktiv einfacher anzuwenden.
 
 ===== Erwartungen 
 Die kleinste Testeinheit ist immer ein Vergleich. 
@@ -512,12 +514,12 @@ identical(not_my_sum(c(2, 7)), 9)
 Beide Pakete formalisieren dies zu Erwartungsfunktionen die hauptsächlich dazu dienen, 
 Fehler zu beschreiben:
 
-.+RUnit+
+. https://CRAN.R-project.org/package=RUnit[RUnit]
 //begin.rcode
 RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
 //end.rcode
 
-.+testthat+
+. https://CRAN.R-project.org/package=testthat[testthat]
 //begin.rcode, eval  = FALSE
 testthat::expect_identical(not_my_sum(c(2, 7)), 9)
 //end.rcode
@@ -536,7 +538,7 @@ source("src/my_sum.R")
 source("src/not_my_sum.R")
 //end.rcode
 
-.+testthat+
+. https://CRAN.R-project.org/package=testthat[testthat]
 Du kannst einen Test entweder einzeln laufen lassen
 
 
@@ -549,7 +551,7 @@ oder den Test in einer  Testdatei
 //begin.rcode, code = readLines("src/test_my_sum.R"), eval = FALSE
 //end.rcode
 
-mit einer Funktion auswerten, bei +testthat+ ändert sich 
+mit einer Funktion auswerten, bei https://CRAN.R-project.org/package=testthat[testthat] ändert sich 
 relativ wenig: 
 
 //begin.rcode
@@ -557,8 +559,8 @@ testthat::test_file(file.path("src", "test_my_sum.R"))
 //end.rcode
 Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
 
-.+RUnit+
-Größer sind die Unterschiede bei +RUnit+, 
+. https://CRAN.R-project.org/package=RUnit[RUnit]
+Größer sind die Unterschiede bei https://CRAN.R-project.org/package=RUnit[RUnit], 
 das primär für das Testen von Paketen entwickelt wurde:
 Es ist beim einfachen
 //begin.rcode
@@ -585,7 +587,7 @@ RUnit::printTextProtocol(runit)
 
 ==== Code Coverage
 Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (https://en.wikipedia.org/wiki/Code_coverage[Überdeckung]) berechnen.
-+covr+ ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass +covr+ die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
+https://CRAN.R-project.org/package=covr[covr] ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass https://CRAN.R-project.org/package=covr[covr] die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
 berechnet. 
 Prinzipiell ist eine hohe Überdeckung gut.
 
@@ -610,7 +612,7 @@ print(cov)
 //end.rcode
 
 Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test nicht
-erreicht, weist Dich +covr+ darauf hin:
+erreicht, weist Dich https://CRAN.R-project.org/package=covr[covr] darauf hin:
 
 .src/my_sum_assertion.R
 //begin.rcode, code = readLines("src/my_sum_coverage.R"), eval = FALSE
@@ -622,7 +624,7 @@ cov <- covr::file_coverage(file.path("src", "my_sum_coverage.R"),
 print(cov)
 //end.rcode
 
-+covr+ sagt Dir sogar, dass es die dritte Zeile ist:
+https://CRAN.R-project.org/package=covr[covr] sagt Dir sogar, dass es die dritte Zeile ist:
 //begin.rcode
 covr::zero_coverage(cov)
 //end.rcode
@@ -868,11 +870,11 @@ source(file.path("src", "code.R"))
 codetools::checkUsage(foo, all = TRUE)
 //end.rcode
 
-==== Entflusen mit lintr 
+==== Entflusen mit  https://CRAN.R-project.org/package=lintr[lintr]  
 
-Das Paket `lintr` prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
+Das Paket https://CRAN.R-project.org/package=lintr[lintr] prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
 zur übersichtlichen Formatierung. 
-Die Richtlinien (gegen die `lintr` prüft, und die sind gut, halte Dich an sie;
+Die Richtlinien (gegen die https://CRAN.R-project.org/package=lintr[lintr] prüft, und die sind gut, halte Dich an sie;
                  zu mehr über Progammierrichtlinien findest Du im https://fvafrcu.github.io/programmierleitfaden.ps[Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg]) 
 sehen unter anderem vor, 
 dass auf Kommas immer ein Leerzeichen folgen sollte, 
@@ -885,8 +887,8 @@ lintr::lint("src/code.R")
 
 Das Paket kennt viele Optionen, lies Dir die Hilfe durch!
 
-==== Code säubern mit cleanr 
-Das Paket `cleanr` prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
+==== Code säubern mit  https://CRAN.R-project.org/package=cleanr[cleanr]  
+Das Paket https://CRAN.R-project.org/package=cleanr[cleanr] prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.
 //begin.rcode
@@ -896,7 +898,7 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 
 Auch dieses Paket kennt viele Optionen, lies Dir die Hilfe durch!
 
-==== Cyclomatic Complexity prüfen mit cyclocomp 
+==== Cyclomatic Complexity prüfen mit https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
 
 McCabes "cyclomatic complexity" (<<cyc>>) mißt die 
 Komplexität von Programmcode.
@@ -1053,13 +1055,28 @@ writeLines(text = code,
 //begin.rcode, code = readLines("src/golden_ratio.R"), eval = FALSE
 //end.rcode
 
+und weil dokumentieren Dir soviel Spa&szlig; bereit, dokumentierst Du gleich auch
+die interne Funktion (interne Funktionen zu dokumentieren ist ein wenig umstritten,
+                      ich finde es gut).
+
+//begin.rcode, echo = FALSE, results = "hide"
+code <- c(readLines("src/.golden_ratio_doc.R"), 
+          readLines("src/.golden_ratio.R")) 
+writeLines(text = code,
+           con = "src/.golden_ratio.R")
+//end.rcode
+
+.src/.golden_ratio.R
+//begin.rcode, code = readLines("src/.golden_ratio.R"), eval = FALSE
+//end.rcode
+
 Was hast Du davon, au&szlig;er Arbeit?
 
-Wenn Du Deine beiden Funktionen in eine Datei schreibst:
+Wenn Du Deine beiden Funktionen in eine Datei schreibst
 
 //begin.rcode, echo = FALSE, results = "hide"
 
-code <- c(readLines("src/.golden_ratio.R"),
+code <- c(readLines("src/.golden_ratio.R"), "\n"
           readLines("src/golden_ratio.R")) 
 writeLines(text = code,
            con = "src/golden_ratios.R")
@@ -1069,7 +1086,7 @@ writeLines(text = code,
 //begin.rcode, code = readLines("src/golden_ratios.R"), eval = FALSE
 //end.rcode
 
-kannst Du mit dem Paket +document+ Du Hilfe-Dateien erstellen, 
+kannst Du mit dem Paket https://CRAN.R-project.org/package=document[document] Hilfe-Dateien erstellen, 
 wie Du sie aus **R** kennst:
 
 //begin.rcode, results = "hide", warning = FALSE, message = FALSE, error = FALSE
@@ -1079,7 +1096,7 @@ document::document(file.path("src", "golden_ratios.R"), output_directory = ".")
 list.files(pattern = "^golden.*", full.names = TRUE)
 //end.rcode
 
-Au&szlig;erdem kannst Du mit +document+ nach der Erstellung der Hilfe-Dateien 
+Au&szlig;erdem kannst Du mit https://CRAN.R-project.org/package=document[document] nach der Erstellung der Hilfe-Dateien 
 in einer laufenden **R**-Sitzung die Hilfe zu Deiner Funktion ansehen:
 //begin.rcode, echo = FALSE
 pager_function <- function(x, ...){
@@ -1093,14 +1110,15 @@ document::man("golden_ratio")
 //end.rcode
 
 Und zum Dritten und Wichtigsten: Du hast Deine Funktion dokumentiert und ihre Schnittstellen
-beschrieben. Sie ist jetzt versandfertig:
+beschrieben. Sie ist jetzt paketierungsreif:
 
-==== Paketieren
+=== Paketieren
 
-Zum Paketieren nehmen wir wieder die getrennten Funktionsdateien, 
-+src/golden_ratio.R+ und und +src/.golden_ratio.R+:
+Zum Paketieren nimmst Du wieder die getrennten Funktionsdateien, 
++src/golden_ratio.R+ und und +src/.golden_ratio.R+ und ihre zugeh&ouml;rigen Testdateien.
+Du erstellst eine Paketvorlage und kopierst die Dateien hinein:
 
-//begin.rcode
+//begin.rcode, results = "hide", message = FALSE
 # Create package skeleton
 package_name <- "mytools"
 package_dir <- file.path(dirname(tempdir()), package_name)
@@ -1120,12 +1138,45 @@ file.copy(from = file.path("src", c("test_golden_ratio.R",
                            file.path(package_dir, "tests", "testthat"))
 # build the docs
 roxygen2::roxygenize(package_dir)
+# Set package Metadata
+desc::desc_set_authors(person(given = "Your", family = "Name", role = "cre", 
+                        email = "your.name@somewhe.re"), 
+                 file = package_dir, normalize = TRUE)
+desc::desc_bump_version("minor", package_dir)
+# Set package License
+d <- desc::desc(package_dir)
+d$set(License = "GPL")
+d$write()
+
 //end.rcode
 
+Nun kannst Du das Paket pr&uuml;fen:
 
-//begin.rcode
+//begin.rcode, results = "hide", message = FALSE
 check <- rcmdcheck::rcmdcheck(package_dir, args = "--as-cran")
 //end.rcode
+//begin.rcode
+print(check)
+//end.rcode
+Nun ja, Du hast die Metadaten noch nicht angepa&szlig;t. Solltest Du noch tun.
+
+Du kannst Dein Paket auch testen:
+
+//begin.rcode
+covr::package_coverage(package_dir)
+//end.rcode
+
+Gut! Das wird jetzt verpackt:
+//begin.rcode
+withr::with_dir(dirname(package_dir), 
+                callr::rcmd_safe("build", basename(package_dir)))
+package_path <- paste0(package_dir, "_0.1.0.tar.gz")
+file.exists(package_path)
+//end.rcode
+
+
+Deine Paket ist jetzt in +r package_path+, fertig zur Installation.
+
 == Bibliographie
 [bibliography]
 - [[[cc]]] R.C. Martin. 2008. 'Clean Code: A Handbook of Agile Software Craftsmanship'. 

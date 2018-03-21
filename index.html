@@ -1380,22 +1380,24 @@ bei Objekten, die einer Funktion als Argument übergeben werden ist dies besonde
 Das geht mir reinen <code>base R</code>, ist aber eher umständlich,
 die <a href="https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro">Vignette zu <code>checkmate</code></a>
 bietet ein anschauliches Bespiel.</p></div>
-<div class="paragraph"><p>Ich kenne zwei Pakete, die Typentest vereinfachen: <code>assertthat</code> und <code>checkmate</code>.</p></div>
+<div class="paragraph"><p>Ich kenne zwei Pakete, die Typentest vereinfachen:
+<a href="https://CRAN.R-project.org/package=assertthat">assertthat</a> und
+<a href="https://CRAN.R-project.org/package=checkmate">checkmate</a></p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<code>checkmate</code> ist hauptsächlich in C geschrieben, sehr schnell,
+<a href="https://CRAN.R-project.org/package=checkmate">checkmate</a> ist hauptsächlich in C geschrieben, sehr schnell,
 sehr flexibel mit unterschiedlichen Testarten ("checks", "asserts" und "tests"),
 hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist über 100 Seiten lang.
 </p>
 </li>
 <li>
 <p>
-<code>assertthat</code> ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
+<a href="https://CRAN.R-project.org/package=assertthat">assertthat</a> ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p><code>assertthat</code> ist sehr einfach:</p></div>
+<div class="paragraph"><p><a href="https://CRAN.R-project.org/package=assertthat">assertthat</a> ist sehr einfach:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1476,7 +1478,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: x is not a numeric or integer vector</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Mit <code>checkmate</code> können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
+<div class="paragraph"><p>Mit <a href="https://CRAN.R-project.org/package=checkmate">checkmate</a> können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
 sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1504,7 +1506,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render("index.Rasciidoc"): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><em>Ich nutze Typentests oft in Funktionen. Da <code>checkmate</code> deutlich mehr Funktionalität bietet, nutzte ich <code>assert_that</code> eher selten.</em></p></div>
+<div class="paragraph"><p><em>Ich nutze Typentests oft in Funktionen. Da <a href="https://CRAN.R-project.org/package=checkmate">checkmate</a> deutlich mehr Funktionalität bietet, nutzte ich <a href="https://CRAN.R-project.org/package=assert_that">assert_that</a> eher selten.</em></p></div>
 </div>
 <div class="sect3">
 <h4 id="_auswahllisten">3.1.2. Auswahllisten</h4>
@@ -1567,7 +1569,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.0810608</code></pre>
+<pre><code>## [1] 0.1866914</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1582,7 +1584,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in match.arg(type): 'arg' should be one of "mean", "median", "trimmed"</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><code>checkmate</code> kennt auch Auswahllisten, macht aber kein <code>partial matching</code> (was ich ganz gut finde):</p></div>
+<div class="paragraph"><p><a href="https://CRAN.R-project.org/package=checkmate">checkmate</a> kennt auch Auswahllisten, macht aber kein <code>partial matching</code> (was ich ganz gut finde):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1597,7 +1599,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render("index.Rasciidoc"): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Außerdem gibt <code>checkmate</code> die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites <code>print</code> benötige:</p></div>
+<div class="paragraph"><p>Außerdem gibt <a href="https://CRAN.R-project.org/package=checkmate">checkmate</a> die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites <code>print</code> benötige:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1610,7 +1612,7 @@ print(checkmate::assertChoice(x = note, choices = noten))</tt></pre></div></div>
 <div class="content">
 <pre><code>## [1] "gut"</code></pre>
 </div></div>
-<div class="paragraph"><p><code>checkmate</code> kann nicht nur mit alphanumerischen Vektoren umgehen:</p></div>
+<div class="paragraph"><p><a href="https://CRAN.R-project.org/package=checkmate">checkmate</a> kann nicht nur mit alphanumerischen Vektoren umgehen:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1639,13 +1641,13 @@ Also im Zweifel ihren Rückgabewert.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<code>RUnit</code> gibt es schon seit 2004, es ist sehr formal
+<a href="https://CRAN.R-project.org/package=RUnit">RUnit</a> gibt es schon seit 2004, es ist sehr formal
  und hat wenige Abhängigkeiten (daher bevorzuge ich es beim Testen von Paketen).
 </p>
 </li>
 <li>
 <p>
-<code>testthat</code> finde ich interaktiv einfacher anzuwenden.
+<a href="https://CRAN.R-project.org/package=testthat">testthat</a> finde ich interaktiv einfacher anzuwenden.
 </p>
 </li>
 </ul></div>
@@ -1705,8 +1707,14 @@ identical(not_my_sum(c(2, 7)), 9)</tt></pre></div></div>
 </div></div>
 <div class="paragraph"><p>Beide Pakete formalisieren dies zu Erwartungsfunktionen die hauptsächlich dazu dienen,
 Fehler zu beschreiben:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+<a href="https://CRAN.R-project.org/package=RUnit">RUnit</a>
+</p>
+</li>
+</ol></div>
 <div class="listingblock">
-<div class="title"><code>RUnit</code></div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -1720,8 +1728,14 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">##</span></span>
 </tt></pre></div></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+<a href="https://CRAN.R-project.org/package=testthat">testthat</a>
+</p>
+</li>
+</ol></div>
 <div class="listingblock">
-<div class="title"><code>testthat</code></div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -1739,7 +1753,14 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <a href="#_code_coverage">Coverage</a> auszuwerten,
     werden in beiden Paketen Erwartungen zu Tests zusammenfasst
 (eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):</p></div>
-<div class="paragraph"><div class="title"><code>testthat</code></div><p>Du kannst einen Test entweder einzeln laufen lassen</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+<a href="https://CRAN.R-project.org/package=testthat">testthat</a>
+Du kannst einen Test entweder einzeln laufen lassen
+</p>
+</li>
+</ol></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1774,7 +1795,7 @@ http://www.gnu.org/software/src-highlite -->
                         testthat::expect_identical(my_sum(c(2, 7)), 9,
                                                    info = <span style="color: #FF0000">"My sum."</span>)
 })</tt></pre></div></div>
-<div class="paragraph"><p>mit einer Funktion auswerten, bei <code>testthat</code> ändert sich
+<div class="paragraph"><p>mit einer Funktion auswerten, bei <a href="https://CRAN.R-project.org/package=testthat">testthat</a> ändert sich
 relativ wenig:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1795,9 +1816,16 @@ http://www.gnu.org/software/src-highlite -->
 ## DONE ======================================================================</code></pre>
 </div></div>
 <div class="paragraph"><p>Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.</p></div>
-<div class="paragraph"><div class="title"><code>RUnit</code></div><p>Größer sind die Unterschiede bei <code>RUnit</code>,
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+<a href="https://CRAN.R-project.org/package=RUnit">RUnit</a>
+Größer sind die Unterschiede bei <a href="https://CRAN.R-project.org/package=RUnit">RUnit</a>,
 das primär für das Testen von Paketen entwickelt wurde:
-Es ist beim einfachen</p></div>
+Es ist beim einfachen
+</p>
+</li>
+</ol></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1850,7 +1878,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Wed Mar 21 10:24:44 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Wed Mar 21 11:34:41 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -1882,7 +1910,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect3">
 <h4 id="_code_coverage">3.2.2. Code Coverage</h4>
 <div class="paragraph"><p>Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (<a href="https://en.wikipedia.org/wiki/Code_coverage">Überdeckung</a>) berechnen.
-<code>covr</code> ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass <code>covr</code> die <a href="https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria"><em>branch coverage</em></a>
+<a href="https://CRAN.R-project.org/package=covr">covr</a> ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass <a href="https://CRAN.R-project.org/package=covr">covr</a> die <a href="https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria"><em>branch coverage</em></a>
 berechnet.
 Prinzipiell ist eine hohe Überdeckung gut.</p></div>
 <div class="paragraph"><p>Wenn Du eine Datei mit einer Funktionsdefinition</p></div>
@@ -1934,7 +1962,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/my_sum_assertion.R: 100.00%</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test nicht
-erreicht, weist Dich <code>covr</code> darauf hin:</p></div>
+erreicht, weist Dich <a href="https://CRAN.R-project.org/package=covr">covr</a> darauf hin:</p></div>
 <div class="listingblock">
 <div class="title">src/my_sum_assertion.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1972,7 +2000,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/my_sum_coverage.R: 83.33%</span></span>
 </tt></pre></div></div>
-<div class="paragraph"><p><code>covr</code> sagt Dir sogar, dass es die dritte Zeile ist:</p></div>
+<div class="paragraph"><p><a href="https://CRAN.R-project.org/package=covr">covr</a> sagt Dir sogar, dass es die dritte Zeile ist:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3203,10 +3231,10 @@ codetools::checkUsage(foo, all = TRUE)</tt></pre></div></div>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_entflusen_mit_lintr">3.3.2. Entflusen mit lintr</h4>
-<div class="paragraph"><p>Das Paket <code>lintr</code> prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien
+<h4 id="_entflusen_mit_a_href_https_cran_r_project_org_package_lintr_lintr_a">3.3.2. Entflusen mit  <a href="https://CRAN.R-project.org/package=lintr">lintr</a></h4>
+<div class="paragraph"><p>Das Paket <a href="https://CRAN.R-project.org/package=lintr">lintr</a> prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien
 zur übersichtlichen Formatierung.
-Die Richtlinien (gegen die <code>lintr</code> prüft, und die sind gut, halte Dich an sie;
+Die Richtlinien (gegen die <a href="https://CRAN.R-project.org/package=lintr">lintr</a> prüft, und die sind gut, halte Dich an sie;
                  zu mehr über Progammierrichtlinien findest Du im <a href="https://fvafrcu.github.io/programmierleitfaden.ps">Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg</a>)
 sehen unter anderem vor,
 dass auf Kommas immer ein Leerzeichen folgen sollte,
@@ -3236,8 +3264,8 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Das Paket kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 <div class="sect3">
-<h4 id="_code_säubern_mit_cleanr">3.3.3. Code säubern mit cleanr</h4>
-<div class="paragraph"><p>Das Paket <code>cleanr</code> prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
+<h4 id="_code_säubern_mit_a_href_https_cran_r_project_org_package_cleanr_cleanr_a">3.3.3. Code säubern mit  <a href="https://CRAN.R-project.org/package=cleanr">cleanr</a></h4>
+<div class="paragraph"><p>Das Paket <a href="https://CRAN.R-project.org/package=cleanr">cleanr</a> prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.</p></div>
 <div class="listingblock">
@@ -3257,7 +3285,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Auch dieses Paket kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
 </div>
 <div class="sect3">
-<h4 id="_cyclomatic_complexity_prüfen_mit_cyclocomp">3.3.4. Cyclomatic Complexity prüfen mit cyclocomp</h4>
+<h4 id="_cyclomatic_complexity_prüfen_mit_a_href_https_cran_r_project_org_package_cyclocomp_cyclocomp_a">3.3.4. Cyclomatic Complexity prüfen mit <a href="https://CRAN.R-project.org/package=cyclocomp">cyclocomp</a></h4>
 <div class="paragraph"><p>McCabes "cyclomatic complexity" (<a href="#cyc">[cyc]</a>) mißt die
 Komplexität von Programmcode.
 Mit ihr kannst Du prüfen, ob Deine Funktionen einfach genug sind.</p></div>
@@ -3540,15 +3568,56 @@ golden_ratio  &lt;- function(value, landscape = FALSE) {
     }
     return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
 }</tt></pre></div></div>
+<div class="paragraph"><p>und weil dokumentieren Dir soviel Spa&szlig; bereit, dokumentierst Du gleich auch
+die interne Funktion (interne Funktionen zu dokumentieren ist ein wenig umstritten,
+                      ich finde es gut).</p></div>
+<div class="listingblock">
+<div class="title">src/.golden_ratio.R</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">#' Compute the Golden Ratio</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' the Golden Ratio.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' @return The Golden Ratio</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' @keywords internal</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' @examples</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' print(.golden_ratio())</span></span>
+.golden_ratio  &lt;- function() {
+    phi &lt;- (1 + sqrt(5)) / 2
+    return(phi)
+}</tt></pre></div></div>
 <div class="paragraph"><p>Was hast Du davon, au&szlig;er Arbeit?</p></div>
-<div class="paragraph"><p>Wenn Du Deine beiden Funktionen in eine Datei schreibst:</p></div>
+<div class="paragraph"><p>Wenn Du Deine beiden Funktionen in eine Datei schreibst</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: &lt;text&gt;:3:11: unexpected symbol</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## 2: code &lt;- c(readLines("src/.golden_ratio.R"), "\n"</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## 3:           readLines</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">##              ^</span></span>
+</tt></pre></div></div>
 <div class="listingblock">
 <div class="title">src/golden_ratios.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>.golden_ratio  &lt;- function() {
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">#' Compute the Golden Ratio</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' the Golden Ratio.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#'</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' @return The Golden Ratio</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' @keywords internal</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' @examples</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">#' print(.golden_ratio())</span></span>
+.golden_ratio  &lt;- function() {
     phi &lt;- (1 + sqrt(5)) / 2
     return(phi)
 }
@@ -3576,7 +3645,7 @@ golden_ratio  &lt;- function(value, landscape = FALSE) {
     }
     return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
 }</tt></pre></div></div>
-<div class="paragraph"><p>kannst Du mit dem Paket <code>document</code> Du Hilfe-Dateien erstellen,
+<div class="paragraph"><p>kannst Du mit dem Paket <a href="https://CRAN.R-project.org/package=document">document</a> Hilfe-Dateien erstellen,
 wie Du sie aus <strong>R</strong> kennst:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3592,10 +3661,9 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>list.files(pattern = <span style="color: #FF0000">"^golden.*"</span>, full.names = TRUE)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "./golden_ratio.html"  "./golden_ratio.pdf"   "./golden_ratio.txt"
-## [4] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"</code></pre>
+<pre><code>## [1] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"</code></pre>
 </div></div>
-<div class="paragraph"><p>Au&szlig;erdem kannst Du mit <code>document</code> nach der Erstellung der Hilfe-Dateien
+<div class="paragraph"><p>Au&szlig;erdem kannst Du mit <a href="https://CRAN.R-project.org/package=document">document</a> nach der Erstellung der Hilfe-Dateien
 in einer laufenden <strong>R</strong>-Sitzung die Hilfe zu Deiner Funktion ansehen:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3636,12 +3704,14 @@ Examples:
      print(golden_ratio(value = 1)[["a"]])</code></pre>
 </div></div>
 <div class="paragraph"><p>Und zum Dritten und Wichtigsten: Du hast Deine Funktion dokumentiert und ihre Schnittstellen
-beschrieben. Sie ist jetzt versandfertig:</p></div>
+beschrieben. Sie ist jetzt paketierunsreif:</p></div>
 </div>
-<div class="sect3">
-<h4 id="_paketieren">3.4.3. Paketieren</h4>
-<div class="paragraph"><p>Zum Paketieren nehmen wir wieder die getrennten Funktionsdateien,
-<code>src/golden_ratio.R</code> und und <code>src/.golden_ratio.R</code>:</p></div>
+</div>
+<div class="sect2">
+<h3 id="_paketieren">3.5. Paketieren</h3>
+<div class="paragraph"><p>Zum Paketieren nimmst Du wieder die getrennten Funktionsdateien,
+<code>src/golden_ratio.R</code> und und <code>src/.golden_ratio.R</code> und ihre zugeh&ouml;rigen Testdateien.
+Du erstellst eine Paketvorlage und kopierst die Dateien hinein:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3651,131 +3721,31 @@ http://www.gnu.org/software/src-highlite -->
 package_name &lt;- <span style="color: #FF0000">"mytools"</span>
 package_dir &lt;- file.path(dirname(tempdir()), package_name)
 unlink(package_dir, recursive = TRUE) <span style="font-style: italic"><span style="color: #9A1900"># make sure it's not there</span></span>
-devtools::create(package_dir)</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Creating package 'mytools' in '/tmp'</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## No DESCRIPTION found. Creating with values:</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## Package: mytools
-## Title: What the Package Does (one line, title case)
-## Version: 0.0.0.9000
-## Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-## Description: What the package does (one paragraph).
-## Depends: R (&gt;= 3.3.3)
-## License: What license is it under?
-## Encoding: UTF-8
-## LazyData: true</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## * Creating `mytools.Rproj` from template.</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## * Adding `.Rproj.user`, `.Rhistory`, `.RData` to ./.gitignore</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># add source files</span></span>
+devtools::create(package_dir)
+<span style="font-style: italic"><span style="color: #9A1900"># add source files</span></span>
 file.copy(from = file.path(<span style="color: #FF0000">"src"</span>, c(<span style="color: #FF0000">"golden_ratio.R"</span>, <span style="color: #FF0000">".golden_ratio.R"</span>)),
-          to = file.path(package_dir, <span style="color: #FF0000">"R"</span>))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] TRUE TRUE</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># rename the hidden file, package will not build otherwise:</span></span>
+          to = file.path(package_dir, <span style="color: #FF0000">"R"</span>))
+<span style="font-style: italic"><span style="color: #9A1900"># rename the hidden file, package will not build otherwise:</span></span>
 file.rename(file.path(package_dir, <span style="color: #FF0000">"R"</span>, <span style="color: #FF0000">".golden_ratio.R"</span>),
-            file.path(package_dir, <span style="color: #FF0000">"R"</span>, <span style="color: #FF0000">"_golden_ratio.R"</span>))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] TRUE</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># create package's testing skeleton</span></span>
-devtools::use_testthat(package_dir)</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## * Adding testthat to Suggests</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## * Creating `tests/testthat`.</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## * Creating `tests/testthat.R` from template.</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># add test files</span></span>
+            file.path(package_dir, <span style="color: #FF0000">"R"</span>, <span style="color: #FF0000">"golden_ratio_internals.R"</span>))
+<span style="font-style: italic"><span style="color: #9A1900"># create package's testing skeleton</span></span>
+devtools::use_testthat(package_dir)
+<span style="font-style: italic"><span style="color: #9A1900"># add test files</span></span>
 file.copy(from = file.path(<span style="color: #FF0000">"src"</span>, c(<span style="color: #FF0000">"test_golden_ratio.R"</span>,
                                     <span style="color: #FF0000">"test_.golden_ratio.R"</span>)),
-                           file.path(package_dir, <span style="color: #FF0000">"tests"</span>, <span style="color: #FF0000">"testthat"</span>))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] TRUE TRUE</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># build the docs</span></span>
-roxygen2::roxygenize(package_dir)</tt></pre></div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Updating roxygen version in /tmp/mytools/DESCRIPTION</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## Writing NAMESPACE
-## Writing golden_ratio.Rd</code></pre>
-</div></div>
+                           file.path(package_dir, <span style="color: #FF0000">"tests"</span>, <span style="color: #FF0000">"testthat"</span>))
+<span style="font-style: italic"><span style="color: #9A1900"># build the docs</span></span>
+roxygen2::roxygenize(package_dir)
+<span style="font-style: italic"><span style="color: #9A1900"># Set package Metadata</span></span>
+desc::desc_set_authors(person(given = <span style="color: #FF0000">"Your"</span>, family = <span style="color: #FF0000">"Name"</span>, role = <span style="color: #FF0000">"cre"</span>,
+                        email = <span style="color: #FF0000">"your.name@somewhe.re"</span>),
+                 file = package_dir, normalize = TRUE)
+desc::desc_bump_version(<span style="color: #FF0000">"minor"</span>, package_dir)
+<span style="font-style: italic"><span style="color: #9A1900"># Set package License</span></span>
+d &lt;- desc::desc(package_dir)
+d$set(License = <span style="color: #FF0000">"GPL"</span>)
+d$write()</tt></pre></div></div>
+<div class="paragraph"><p>Nun kannst Du das Paket pr&uuml;fen:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3783,105 +3753,78 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>check &lt;- rcmdcheck::rcmdcheck(package_dir, args = <span style="color: #FF0000">"--as-cran"</span>)</tt></pre></div></div>
 <div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(check)</tt></pre></div></div>
+<div class="listingblock">
 <div class="content">
-<pre><code>## ───────────────────────────────────────────────────────────────────────────
-## ─  using log directory ‘/tmp/Rtmp09pQo4/file691a5a5e09b/mytools.Rcheck’
-## ─  using R version 3.3.3 (2017-03-06)
-## ─  using platform: x86_64-pc-linux-gnu (64-bit)
-## ─  using session charset: UTF-8
-## ─  using option ‘--as-cran’
-## ✔  checking for file ‘mytools/DESCRIPTION’
-## ─  this is package ‘mytools’ version ‘0.0.0.9000’
-## ─  package encoding: UTF-8
-## N  checking CRAN incoming feasibility
-##    Maintainer: ‘First Last &lt;first.last@example.com&gt;’
+<pre><code>##
+## ── R CMD check results ───────────────────────────────── mytools 0.1.0 ────
 ##
-##    Version contains large components (0.0.0.9000)
-## ✔  checking package namespace information
-## ✔  checking package dependencies
-## ✔  checking if this is a source package
-## ✔  checking if there is a namespace
-## ✔  checking for executable files
-## ✔  checking for hidden files and directories
-## ✔  checking for portable file names
-## ✔  checking for sufficient/correct file permissions
-## ✔  checking whether package ‘mytools’ can be installed
-## ✔  checking installed package size
-## ✔  checking package directory
-## W  checking DESCRIPTION meta-information
-##    Non-standard license specification:
-##      What license is it under?
-##    Standardizable: FALSE
-## ✔  checking top-level files
-## ✔  checking for left-over files
-## ✔  checking index information
-## ✔  checking package subdirectories
-## ✔  checking R files for non-ASCII characters
-## ✔  checking R files for syntax errors
-## ✔  checking whether the package can be loaded
-## ✔  checking whether the package can be loaded with stated dependencies
-## ✔  checking whether the package can be unloaded cleanly
-## ✔  checking whether the namespace can be loaded with stated dependencies
-## ✔  checking whether the namespace can be unloaded cleanly
-## ✔  checking loading without being on the library search path
-## ✔  checking use of S3 registration
-## ✔  checking dependencies in R code
-## ✔  checking S3 generic/method consistency
-## ✔  checking replacement functions
-## ✔  checking foreign function calls
-## N  checking R code for possible problems
-##    golden_ratio: no visible global function definition for ‘.golden_ratio’
-##    Undefined global functions or variables:
-##      .golden_ratio
-## ✔  checking Rd files
-## ✔  checking Rd metadata
-## ✔  checking Rd line widths
-## ✔  checking Rd cross-references
-## ✔  checking for missing documentation entries
-## ✔  checking for code/documentation mismatches
-## ✔  checking Rd \usage sections
-## ✔  checking Rd contents
-## ✔  checking for unstated dependencies in examples
-## E  checking examples
-##    Running examples in ‘mytools-Ex.R’ failed
-##    The error most likely occurred in:
-##
-##    &gt; base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-##    &gt; ### Name: golden_ratio
-##    &gt; ### Title: Compute the Other Quantity in Golden Ratio
-##    &gt; ### Aliases: golden_ratio
-##    &gt;
-## ─  &gt; ### ** Examples
-##    &gt;
-##    &gt; print(golden_ratio(value = 1)[["a"]])
-##    Error in golden_ratio(value = 1) :
-##      could not find function ".golden_ratio"
-##    Calls: print -&gt; golden_ratio
-##    Execution halted
-## ✔  checking for unstated dependencies in ‘tests’
-## E  checking tests
-##    Running the tests in ‘tests/testthat.R’ failed.
-##    Last 13 lines of output:
-##      1: .handleSimpleError(function (e)
-##         {
-##             e$call &lt;- sys.calls()[(frame + 11):(sys.nframe() - 2)]
-##             register_expectation(e, frame + 11, sys.nframe() - 2)
-##             signalCondition(e)
-##         }, "could not find function \".golden_ratio\"", quote(eval(expr, envir, enclos))) at testthat/test_golden_ratio.R:3
-##      2: eval(expr, envir, enclos)
-##
-##      testthat results ================================================================
-##      OK: 0 SKIPPED: 0 FAILED: 2
-##      1. Error: Test on Golden Ratio (@test_.golden_ratio.R#3)
-##      2. Error: Test on golden rectangle (@test_golden_ratio.R#3)
-##
-##      Error: testthat unit tests failed
-##      Execution halted
-## ✔  checking PDF version of manual
-##
-## ── 2 errors ✖ | 1 warning ✖ | 2 notes ✖</code></pre>
+## ── 0 errors ✔ | 0 warnings ✔ | 0 notes ✔</code></pre>
 </div></div>
-</div>
+<div class="paragraph"><p>Nun ja, Du hast die Metadaten noch nicht angepa&szlig;t. Solltest Du noch tun.</p></div>
+<div class="paragraph"><p>Du kannst Dein Paket auch testen:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>covr::package_coverage(package_dir)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## mytools Coverage: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## R/golden_ratio_internals.R: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## R/golden_ratio.R: 100.00%</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p>Gut! Das wird jetzt verpackt:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>withr::with_dir(dirname(package_dir),
+                callr::rcmd_safe(<span style="color: #FF0000">"build"</span>, basename(package_dir)))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## $stdout
+## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
+##
+## $stderr
+## [1] "\n"
+##
+## $status
+## [1] 0</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>package_path &lt;- paste0(package_dir, <span style="color: #FF0000">"_0.1.0.tar.gz"</span>)
+file.exists(package_path)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] TRUE</code></pre>
+</div></div>
+<div class="paragraph"><p>/tmp/mytools_0.1.0.tar.gz  ist jetzt versandfertig.</p></div>
 </div>
 </div>
 </div>
@@ -3910,7 +3853,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-21 10:25:06 CET
+ 2018-03-21 11:35:09 CET
 </div>
 </div>
 </body>

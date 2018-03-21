@@ -601,14 +601,16 @@ Das geht mir reinen +base R+, ist aber eher umständlich,
 die https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro[Vignette zu +checkmate+] 
 bietet ein anschauliches Bespiel.
 
-Ich kenne zwei Pakete, die Typentest vereinfachen: +assertthat+ und +checkmate+.
+Ich kenne zwei Pakete, die Typentest vereinfachen: 
+https://CRAN.R-project.org/package=assertthat[assertthat] und 
+https://CRAN.R-project.org/package=checkmate[checkmate]
 
-- +checkmate+ ist hauptsächlich in C geschrieben, sehr schnell, 
+-  https://CRAN.R-project.org/package=checkmate[checkmate] ist hauptsächlich in C geschrieben, sehr schnell, 
 sehr flexibel mit unterschiedlichen Testarten ("checks", "asserts" und "tests"), 
 hat aber viele Abhängigkeiten und ist etwas sperrig: sein Manual ist über 100 Seiten lang. 
-- +assertthat+ ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
+- https://CRAN.R-project.org/package=assertthat[assertthat] ist reines R ohne irgendwelche Abhängigkeiten und recht übersichtlich.
 
-+assertthat+ ist sehr einfach:
+https://CRAN.R-project.org/package=assertthat[assertthat] ist sehr einfach:
 
 [source,r]
 ----
@@ -695,7 +697,7 @@ my_sum(c("a", "b"))
 ----
 
 
-Mit +checkmate+ können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
+Mit https://CRAN.R-project.org/package=checkmate[checkmate] können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
 sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:
 
 [source,r]
@@ -724,7 +726,7 @@ my_sum(42)
 ----
 
 
-_Ich nutze Typentests oft in Funktionen. Da +checkmate+ deutlich mehr Funktionalität bietet, nutzte ich +assert_that+ eher selten._
+_Ich nutze Typentests oft in Funktionen. Da https://CRAN.R-project.org/package=checkmate[checkmate] deutlich mehr Funktionalität bietet, nutzte ich https://CRAN.R-project.org/package=assert_that[assert_that] eher selten._
 
 ==== Auswahllisten
 Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
@@ -786,7 +788,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] 0.0810608
+## [1] 0.1866914
 ----
 
 [source,r]
@@ -802,7 +804,7 @@ center(rnorm(100), "m")
 
 
 
-+checkmate+ kennt auch Auswahllisten, macht aber kein +partial matching+ (was ich ganz gut finde):
+https://CRAN.R-project.org/package=checkmate[checkmate] kennt auch Auswahllisten, macht aber kein +partial matching+ (was ich ganz gut finde):
 
 [source,r]
 ----
@@ -817,7 +819,7 @@ checkmate::assertChoice(x = note, choices = noten)
 ----
 
 
-Außerdem gibt +checkmate+ die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites +print+ benötige:
+Außerdem gibt https://CRAN.R-project.org/package=checkmate[checkmate] die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites +print+ benötige:
 
 [source,r]
 ----
@@ -831,7 +833,7 @@ print(checkmate::assertChoice(x = note, choices = noten))
 ----
 
 
-+checkmate+ kann nicht nur mit alphanumerischen Vektoren umgehen:
+https://CRAN.R-project.org/package=checkmate[checkmate] kann nicht nur mit alphanumerischen Vektoren umgehen:
 
 [source,r]
 ----
@@ -858,9 +860,9 @@ Ich kenne zwei Pakete, die Unit Testing in R formalisieren
  aber seit ich die beiden Pakete kenne, 
  habe ich nie mehr wie früher "von Hand" getestet):
 
-- +RUnit+ gibt es schon seit 2004, es ist sehr formal
+- https://CRAN.R-project.org/package=RUnit[RUnit] gibt es schon seit 2004, es ist sehr formal
  und hat wenige Abhängigkeiten (daher bevorzuge ich es beim Testen von Paketen).
-- +testthat+ finde ich interaktiv einfacher anzuwenden.
+- https://CRAN.R-project.org/package=testthat[testthat] finde ich interaktiv einfacher anzuwenden.
 
 ===== Erwartungen 
 Die kleinste Testeinheit ist immer ein Vergleich. 
@@ -918,7 +920,7 @@ identical(not_my_sum(c(2, 7)), 9)
 Beide Pakete formalisieren dies zu Erwartungsfunktionen die hauptsächlich dazu dienen, 
 Fehler zu beschreiben:
 
-.+RUnit+
+. https://CRAN.R-project.org/package=RUnit[RUnit]
 
 [source,r]
 ----
@@ -933,7 +935,7 @@ RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
 ----
 
 
-.+testthat+
+. https://CRAN.R-project.org/package=testthat[testthat]
 
 [source,r]
 ----
@@ -955,7 +957,7 @@ Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<_code_coverage,
 
 
 
-.+testthat+
+. https://CRAN.R-project.org/package=testthat[testthat]
 Du kannst einen Test entweder einzeln laufen lassen
 
 
@@ -996,7 +998,7 @@ testthat::test_that("Simple test on summation.", {
 ----
 
 
-mit einer Funktion auswerten, bei +testthat+ ändert sich 
+mit einer Funktion auswerten, bei https://CRAN.R-project.org/package=testthat[testthat] ändert sich 
 relativ wenig: 
 
 
@@ -1019,8 +1021,8 @@ testthat::test_file(file.path("src", "test_my_sum.R"))
 
 Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
 
-.+RUnit+
-Größer sind die Unterschiede bei +RUnit+, 
+. https://CRAN.R-project.org/package=RUnit[RUnit]
+Größer sind die Unterschiede bei https://CRAN.R-project.org/package=RUnit[RUnit], 
 das primär für das Testen von Paketen entwickelt wurde:
 Es ist beim einfachen
 
@@ -1076,7 +1078,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Wed Mar 21 10:24:44 2018 
+## RUNIT TEST PROTOCOL -- Wed Mar 21 11:34:41 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1107,7 +1109,7 @@ RUnit::printTextProtocol(runit)
 
 ==== Code Coverage
 Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (https://en.wikipedia.org/wiki/Code_coverage[Überdeckung]) berechnen.
-+covr+ ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass +covr+ die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
+https://CRAN.R-project.org/package=covr[covr] ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass https://CRAN.R-project.org/package=covr[covr] die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
 berechnet. 
 Prinzipiell ist eine hohe Überdeckung gut.
 
@@ -1164,7 +1166,7 @@ print(cov)
 
 
 Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test nicht
-erreicht, weist Dich +covr+ darauf hin:
+erreicht, weist Dich https://CRAN.R-project.org/package=covr[covr] darauf hin:
 
 .src/my_sum_assertion.R
 
@@ -1203,7 +1205,7 @@ print(cov)
 ----
 
 
-+covr+ sagt Dir sogar, dass es die dritte Zeile ist:
+https://CRAN.R-project.org/package=covr[covr] sagt Dir sogar, dass es die dritte Zeile ist:
 
 [source,r]
 ----
@@ -1668,11 +1670,11 @@ codetools::checkUsage(foo, all = TRUE)
 ----
 
 
-==== Entflusen mit lintr 
+==== Entflusen mit  https://CRAN.R-project.org/package=lintr[lintr]  
 
-Das Paket `lintr` prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
+Das Paket https://CRAN.R-project.org/package=lintr[lintr] prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
 zur übersichtlichen Formatierung. 
-Die Richtlinien (gegen die `lintr` prüft, und die sind gut, halte Dich an sie;
+Die Richtlinien (gegen die https://CRAN.R-project.org/package=lintr[lintr] prüft, und die sind gut, halte Dich an sie;
                  zu mehr über Progammierrichtlinien findest Du im https://fvafrcu.github.io/programmierleitfaden.ps[Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg]) 
 sehen unter anderem vor, 
 dass auf Kommas immer ein Leerzeichen folgen sollte, 
@@ -1703,8 +1705,8 @@ lintr::lint("src/code.R")
 
 Das Paket kennt viele Optionen, lies Dir die Hilfe durch!
 
-==== Code säubern mit cleanr 
-Das Paket `cleanr` prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
+==== Code säubern mit  https://CRAN.R-project.org/package=cleanr[cleanr]  
+Das Paket https://CRAN.R-project.org/package=cleanr[cleanr] prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.
 
@@ -1724,7 +1726,7 @@ print(suppressWarnings(cleanr::check_file("src/code.R")))
 
 Auch dieses Paket kennt viele Optionen, lies Dir die Hilfe durch!
 
-==== Cyclomatic Complexity prüfen mit cyclocomp 
+==== Cyclomatic Complexity prüfen mit https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
 
 McCabes "cyclomatic complexity" (<<cyc>>) mißt die 
 Komplexität von Programmcode.
@@ -2008,16 +2010,60 @@ golden_ratio  <- function(value, landscape = FALSE) {
 ----
 
 
+und weil dokumentieren Dir soviel Spa&szlig; bereit, dokumentierst Du gleich auch
+die interne Funktion (interne Funktionen zu dokumentieren ist ein wenig umstritten,
+                      ich finde es gut).
+
+
+
+.src/.golden_ratio.R
+
+[source,r]
+----
+#' Compute the Golden Ratio
+#'
+#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to
+#' the Golden Ratio.
+#'
+#' @return The Golden Ratio
+#' @keywords internal
+#' @examples
+#' print(.golden_ratio())
+.golden_ratio  <- function() {
+    phi <- (1 + sqrt(5)) / 2
+    return(phi)
+}
+----
+
+
 Was hast Du davon, au&szlig;er Arbeit?
 
-Wenn Du Deine beiden Funktionen in eine Datei schreibst:
+Wenn Du Deine beiden Funktionen in eine Datei schreibst
 
+
+[source,r]
+----
+## Error: <text>:3:11: unexpected symbol
+## 2: code <- c(readLines("src/.golden_ratio.R"), "\n"
+## 3:           readLines
+##              ^
+
+----
 
 
 .src/golden_ratios.R
 
 [source,r]
 ----
+#' Compute the Golden Ratio
+#'
+#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to
+#' the Golden Ratio.
+#'
+#' @return The Golden Ratio
+#' @keywords internal
+#' @examples
+#' print(.golden_ratio())
 .golden_ratio  <- function() {
     phi <- (1 + sqrt(5)) / 2
     return(phi)
@@ -2049,7 +2095,7 @@ golden_ratio  <- function(value, landscape = FALSE) {
 ----
 
 
-kannst Du mit dem Paket +document+ Du Hilfe-Dateien erstellen, 
+kannst Du mit dem Paket https://CRAN.R-project.org/package=document[document] Hilfe-Dateien erstellen, 
 wie Du sie aus **R** kennst:
 
 
@@ -2065,12 +2111,11 @@ list.files(pattern = "^golden.*", full.names = TRUE)
 ----
 
 ----
-## [1] "./golden_ratio.html"  "./golden_ratio.pdf"   "./golden_ratio.txt"  
-## [4] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"
+## [1] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"
 ----
 
 
-Au&szlig;erdem kannst Du mit +document+ nach der Erstellung der Hilfe-Dateien 
+Au&szlig;erdem kannst Du mit https://CRAN.R-project.org/package=document[document] nach der Erstellung der Hilfe-Dateien 
 in einer laufenden **R**-Sitzung die Hilfe zu Deiner Funktion ansehen:
 
 
@@ -2115,12 +2160,13 @@ Examples:
 
 
 Und zum Dritten und Wichtigsten: Du hast Deine Funktion dokumentiert und ihre Schnittstellen
-beschrieben. Sie ist jetzt versandfertig:
+beschrieben. Sie ist jetzt paketierunsreif:
 
-==== Paketieren
+=== Paketieren
 
-Zum Paketieren nehmen wir wieder die getrennten Funktionsdateien, 
-+src/golden_ratio.R+ und und +src/.golden_ratio.R+:
+Zum Paketieren nimmst Du wieder die getrennten Funktionsdateien, 
++src/golden_ratio.R+ und und +src/.golden_ratio.R+ und ihre zugeh&ouml;rigen Testdateien.
+Du erstellst eine Paketvorlage und kopierst die Dateien hinein:
 
 
 [source,r]
@@ -2130,120 +2176,33 @@ package_name <- "mytools"
 package_dir <- file.path(dirname(tempdir()), package_name)
 unlink(package_dir, recursive = TRUE) # make sure it's not there 
 devtools::create(package_dir)
-----
-
-[source,r]
-----
-## Creating package 'mytools' in '/tmp'
-
-----
-
-[source,r]
-----
-## No DESCRIPTION found. Creating with values:
-
-----
-
-----
-## Package: mytools
-## Title: What the Package Does (one line, title case)
-## Version: 0.0.0.9000
-## Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-## Description: What the package does (one paragraph).
-## Depends: R (>= 3.3.3)
-## License: What license is it under?
-## Encoding: UTF-8
-## LazyData: true
-----
-
-[source,r]
-----
-## * Creating `mytools.Rproj` from template.
-
-----
-
-[source,r]
-----
-## * Adding `.Rproj.user`, `.Rhistory`, `.RData` to ./.gitignore
-
-----
-
-[source,r]
-----
 # add source files
 file.copy(from = file.path("src", c("golden_ratio.R", ".golden_ratio.R")), 
           to = file.path(package_dir, "R"))
-----
-
-----
-## [1] TRUE TRUE
-----
-
-[source,r]
-----
 # rename the hidden file, package will not build otherwise:
 file.rename(file.path(package_dir, "R", ".golden_ratio.R"), 
-            file.path(package_dir, "R", "_golden_ratio.R"))
-----
-
-----
-## [1] TRUE
-----
-
-[source,r]
-----
+            file.path(package_dir, "R", "golden_ratio_internals.R"))
 # create package's testing skeleton
 devtools::use_testthat(package_dir)
-----
-
-[source,r]
-----
-## * Adding testthat to Suggests
-
-----
-
-[source,r]
-----
-## * Creating `tests/testthat`.
-
-----
-
-[source,r]
-----
-## * Creating `tests/testthat.R` from template.
-
-----
-
-[source,r]
-----
 # add test files
 file.copy(from = file.path("src", c("test_golden_ratio.R", 
                                     "test_.golden_ratio.R")), 
                            file.path(package_dir, "tests", "testthat"))
-----
-
-----
-## [1] TRUE TRUE
-----
-
-[source,r]
-----
 # build the docs
 roxygen2::roxygenize(package_dir)
-----
-
-[source,r]
-----
-## Updating roxygen version in /tmp/mytools/DESCRIPTION
-
-----
-
-----
-## Writing NAMESPACE
-## Writing golden_ratio.Rd
+# Set package Metadata
+desc::desc_set_authors(person(given = "Your", family = "Name", role = "cre", 
+                        email = "your.name@somewhe.re"), 
+                 file = package_dir, normalize = TRUE)
+desc::desc_bump_version("minor", package_dir)
+# Set package License
+d <- desc::desc(package_dir)
+d$set(License = "GPL")
+d$write()
 ----
 
 
+Nun kannst Du das Paket pr&uuml;fen:
 
 
 [source,r]
@@ -2251,104 +2210,81 @@ roxygen2::roxygenize(package_dir)
 check <- rcmdcheck::rcmdcheck(package_dir, args = "--as-cran")
 ----
 
+
+[source,r]
 ----
-## ───────────────────────────────────────────────────────────────────────────
-## ─  using log directory ‘/tmp/Rtmp09pQo4/file691a5a5e09b/mytools.Rcheck’
-## ─  using R version 3.3.3 (2017-03-06)
-## ─  using platform: x86_64-pc-linux-gnu (64-bit)
-## ─  using session charset: UTF-8
-## ─  using option ‘--as-cran’
-## ✔  checking for file ‘mytools/DESCRIPTION’
-## ─  this is package ‘mytools’ version ‘0.0.0.9000’
-## ─  package encoding: UTF-8
-## N  checking CRAN incoming feasibility
-##    Maintainer: ‘First Last <first.last@example.com>’
-##    
-##    Version contains large components (0.0.0.9000)
-## ✔  checking package namespace information
-## ✔  checking package dependencies
-## ✔  checking if this is a source package
-## ✔  checking if there is a namespace
-## ✔  checking for executable files
-## ✔  checking for hidden files and directories
-## ✔  checking for portable file names
-## ✔  checking for sufficient/correct file permissions
-## ✔  checking whether package ‘mytools’ can be installed
-## ✔  checking installed package size
-## ✔  checking package directory
-## W  checking DESCRIPTION meta-information
-##    Non-standard license specification:
-##      What license is it under?
-##    Standardizable: FALSE
-## ✔  checking top-level files
-## ✔  checking for left-over files
-## ✔  checking index information
-## ✔  checking package subdirectories
-## ✔  checking R files for non-ASCII characters
-## ✔  checking R files for syntax errors
-## ✔  checking whether the package can be loaded
-## ✔  checking whether the package can be loaded with stated dependencies
-## ✔  checking whether the package can be unloaded cleanly
-## ✔  checking whether the namespace can be loaded with stated dependencies
-## ✔  checking whether the namespace can be unloaded cleanly
-## ✔  checking loading without being on the library search path
-## ✔  checking use of S3 registration
-## ✔  checking dependencies in R code
-## ✔  checking S3 generic/method consistency
-## ✔  checking replacement functions
-## ✔  checking foreign function calls
-## N  checking R code for possible problems
-##    golden_ratio: no visible global function definition for ‘.golden_ratio’
-##    Undefined global functions or variables:
-##      .golden_ratio
-## ✔  checking Rd files
-## ✔  checking Rd metadata
-## ✔  checking Rd line widths
-## ✔  checking Rd cross-references
-## ✔  checking for missing documentation entries
-## ✔  checking for code/documentation mismatches
-## ✔  checking Rd \usage sections
-## ✔  checking Rd contents
-## ✔  checking for unstated dependencies in examples
-## E  checking examples
-##    Running examples in ‘mytools-Ex.R’ failed
-##    The error most likely occurred in:
-##    
-##    > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-##    > ### Name: golden_ratio
-##    > ### Title: Compute the Other Quantity in Golden Ratio
-##    > ### Aliases: golden_ratio
-##    > 
-## ─  > ### ** Examples
-##    > 
-##    > print(golden_ratio(value = 1)[["a"]])
-##    Error in golden_ratio(value = 1) : 
-##      could not find function ".golden_ratio"
-##    Calls: print -> golden_ratio
-##    Execution halted
-## ✔  checking for unstated dependencies in ‘tests’
-## E  checking tests
-##    Running the tests in ‘tests/testthat.R’ failed.
-##    Last 13 lines of output:
-##      1: .handleSimpleError(function (e) 
-##         {
-##             e$call <- sys.calls()[(frame + 11):(sys.nframe() - 2)]
-##             register_expectation(e, frame + 11, sys.nframe() - 2)
-##             signalCondition(e)
-##         }, "could not find function \".golden_ratio\"", quote(eval(expr, envir, enclos))) at testthat/test_golden_ratio.R:3
-##      2: eval(expr, envir, enclos)
-##      
-##      testthat results ================================================================
-##      OK: 0 SKIPPED: 0 FAILED: 2
-##      1. Error: Test on Golden Ratio (@test_.golden_ratio.R#3) 
-##      2. Error: Test on golden rectangle (@test_golden_ratio.R#3) 
-##      
-##      Error: testthat unit tests failed
-##      Execution halted
-## ✔  checking PDF version of manual
+print(check)
+----
+
+----
 ## 
-## ── 2 errors ✖ | 1 warning ✖ | 2 notes ✖
+## ── R CMD check results ───────────────────────────────── mytools 0.1.0 ────
+## 
+## ── 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 ----
+
+Nun ja, Du hast die Metadaten noch nicht angepa&szlig;t. Solltest Du noch tun.
+
+Du kannst Dein Paket auch testen:
+
+
+[source,r]
+----
+covr::package_coverage(package_dir)
+----
+
+[source,r]
+----
+## mytools Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## R/golden_ratio_internals.R: 100.00%
+
+----
+
+[source,r]
+----
+## R/golden_ratio.R: 100.00%
+
+----
+
+
+Gut! Das wird jetzt verpackt:
+
+[source,r]
+----
+withr::with_dir(dirname(package_dir), 
+                callr::rcmd_safe("build", basename(package_dir)))
+----
+
+----
+## $stdout
+## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
+## 
+## $stderr
+## [1] "\n"
+## 
+## $status
+## [1] 0
+----
+
+[source,r]
+----
+package_path <- paste0(package_dir, "_0.1.0.tar.gz")
+file.exists(package_path)
+----
+
+----
+## [1] TRUE
+----
+
+
+
+
+/tmp/mytools_0.1.0.tar.gz  ist jetzt versandfertig.
 
 == Bibliographie
 [bibliography]
