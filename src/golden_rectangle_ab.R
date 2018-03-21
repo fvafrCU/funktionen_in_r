@@ -1,5 +1,5 @@
 golden_rectangle  <- function(value, landscape = TRUE) {
-    phi <- (1 + sqrt(5)) / 2
+    phi <- golden_ratio()
     if (isTRUE(landscape)) {
         a  <- value
         b <- a / phi

@@ -12,7 +12,7 @@
 #' @examples
 #' print(golden_ratio(value = 1)[["a"]])
 golden_ratio  <- function(value, landscape = FALSE) {
-    phi <- (1 + sqrt(5)) / 2
+    phi <- golden_ratio()
     if (isTRUE(landscape)) {
         a  <- value
         b <- a / phi
