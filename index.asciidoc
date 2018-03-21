@@ -214,7 +214,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error: object 'value' not found
+## Error in my_sum_broken(1:3): object 'value' not found
 
 ----
 
@@ -308,7 +308,7 @@ ls()
 
 ----
 ## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
+## [5] "my_sum_safer"  "value"         "wipe_clean"
 ----
 
 [source,r]
@@ -359,7 +359,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##        7576        4232     3432720     6864720      343920
+##        7896        4424     3520824     7040824      352824
 ----
 
 
@@ -387,7 +387,7 @@ memory_hogs()
 
 ----
 ##          va memory_hogs          vd          vb          vc 
-##        4232        9576      343920     3432720     6864720
+##        4424        9952      352824     3520824     7040824
 ----
 
 
@@ -419,7 +419,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##       13080        4232     3432720     6864720      343920
+##       13624        4424     3520824     7040824      352824
 ----
 
 [source,r]
@@ -429,7 +429,7 @@ memory_hogs(decreasing = TRUE)
 
 ----
 ##          vc          vb          vd memory_hogs          va 
-##     6864720     3432720      343920       13080        4232
+##     7040824     3520824      352824       50120        4424
 ----
 
 
@@ -444,7 +444,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vd 
-##       13080        4232      343920
+##       50120        4424      352824
 ----
 
 
@@ -587,7 +587,7 @@ Du eigentlich auch gleich in einem oder mehreren Paketen verwalten.
 Das ist zwar am aufwendigsten, aber auch am elegantesten.
 
 
-== Weniger schlecht programmieren
+== Schöner Programmieren
 
 === Argumententests
 Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.
@@ -788,7 +788,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] 0.1866914
+## [1] 0.1264631
 ----
 
 [source,r]
@@ -920,7 +920,7 @@ identical(not_my_sum(c(2, 7)), 9)
 Beide Pakete formalisieren dies zu Erwartungsfunktionen die hauptsächlich dazu dienen, 
 Fehler zu beschreiben:
 
-. https://CRAN.R-project.org/package=RUnit[RUnit]
+.https://CRAN.R-project.org/package=RUnit[RUnit]
 
 [source,r]
 ----
@@ -935,7 +935,7 @@ RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
 ----
 
 
-. https://CRAN.R-project.org/package=testthat[testthat]
+.https://CRAN.R-project.org/package=testthat[testthat]
 
 [source,r]
 ----
@@ -957,7 +957,7 @@ Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<_code_coverage,
 
 
 
-. https://CRAN.R-project.org/package=testthat[testthat]
+.https://CRAN.R-project.org/package=testthat[testthat]
 Du kannst einen Test entweder einzeln laufen lassen
 
 
@@ -1008,20 +1008,29 @@ testthat::test_file(file.path("src", "test_my_sum.R"))
 ----
 
 ----
-## 1.
-## Failed --------------------------------------------------------------------
-## 1. Failure: Simple test on summation. (@test_my_sum.R#2) ------------------
-## not_my_sum(c(2, 7)) not identical to 9.
-## 1/1 mismatches
-## [1] -9 - 9 == -18
-## Not my sum.
+## ✔ | OK F W S | Context
+----
+
+[source,r]
+----
+## Error in x[[method]](...): attempt to apply non-function
+
+----
+
+----
 ## 
-## DONE ======================================================================
+## ══ Results ════════════════════════════════════════════════════════════════
+## Duration: 0.2 s
+## 
+## OK:       0
+## Failed:   5
+## Warnings: 0
+## Skipped:  0
 ----
 
 Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
 
-. https://CRAN.R-project.org/package=RUnit[RUnit]
+.https://CRAN.R-project.org/package=RUnit[RUnit]
 Größer sind die Unterschiede bei https://CRAN.R-project.org/package=RUnit[RUnit], 
 das primär für das Testen von Paketen entwickelt wurde:
 Es ist beim einfachen
@@ -1068,7 +1077,16 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ... Timing stopped at: 0 0 0 
+## Executing test function test_sum  ...
+----
+
+[source,r]
+----
+## Timing stopped at: 0 0 0
+
+----
+
+----
 ##  done successfully.
 ----
 
@@ -1078,7 +1096,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Wed Mar 21 11:34:41 2018 
+## RUNIT TEST PROTOCOL -- Wed Mar 21 16:14:55 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1098,9 +1116,9 @@ RUnit::printTextProtocol(runit)
 ## Test function regexp: ^test.+ 
 ## Test file regexp: ^runit_my_sum.R$ 
 ## Involved directory: 
-## /home/nik/git/cs/fvafrcu/funktionen_in_r/src 
+## /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src 
 ## --------------------------- 
-## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
+## Test file: /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
 ## test_sum: FAILURE !! (check number 1)
 ## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
 ## 
@@ -1278,7 +1296,7 @@ covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
 ----
 ## Error: Test failed: 'Test return value and side effects.'
 ## * ls() not identical to character(0).
-## Lengths differ: 1 vs 0
+## Lengths differ: 1 is not 0
 
 ----
 
@@ -1611,7 +1629,7 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 _Aber ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
 wenn ich sie in ein Paket verpacke._
 
-=== Schöner Programmieren
+=== Weniger schlecht programmieren
 Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Paketen vorstellen, 
 die Dir helfen können, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen._
 Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der "_recommended_ Packages" von **R** und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil +codetools+ schon da war.
@@ -2041,15 +2059,6 @@ Was hast Du davon, au&szlig;er Arbeit?
 Wenn Du Deine beiden Funktionen in eine Datei schreibst
 
 
-[source,r]
-----
-## Error: <text>:3:11: unexpected symbol
-## 2: code <- c(readLines("src/.golden_ratio.R"), "\n"
-## 3:           readLines
-##              ^
-
-----
-
 
 .src/golden_ratios.R
 
@@ -2068,6 +2077,7 @@ Wenn Du Deine beiden Funktionen in eine Datei schreibst
     phi <- (1 + sqrt(5)) / 2
     return(phi)
 }
+
 #' Compute the Other Quantity in Golden Ratio
 #'
 #' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to
@@ -2111,7 +2121,8 @@ list.files(pattern = "^golden.*", full.names = TRUE)
 ----
 
 ----
-## [1] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"
+## [1] "./golden_ratio.html"  "./golden_ratio.pdf"   "./golden_ratios.html"
+## [4] "./golden_ratios.pdf"  "./golden_ratios.txt"  "./golden_ratio.txt"
 ----
 
 
@@ -2160,7 +2171,7 @@ Examples:
 
 
 Und zum Dritten und Wichtigsten: Du hast Deine Funktion dokumentiert und ihre Schnittstellen
-beschrieben. Sie ist jetzt paketierunsreif:
+beschrieben. Sie ist jetzt paketierungsreif:
 
 === Paketieren
 
@@ -2220,7 +2231,19 @@ print(check)
 ## 
 ## ── R CMD check results ───────────────────────────────── mytools 0.1.0 ────
 ## 
-## ── 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+## ❯ checking CRAN incoming feasibility ... NOTE
+##   Maintainer: ‘Your Name <your.name@somewhe.re>’
+##   
+##   New submission
+##   
+##   The Title field should be in title case, current version then in title case:
+##   ‘What the Package Does (one line, title case)’
+##   ‘What the Package Does (One Line, Title Case)’
+## 
+## ❯ checking DESCRIPTION meta-information ... NOTE
+##   Authors@R field gives no person with name and author role
+## 
+## ── 0 errors ✔ | 0 warnings ✔ | 2 notes ✖
 ----
 
 Nun ja, Du hast die Metadaten noch nicht angepa&szlig;t. Solltest Du noch tun.
@@ -2252,6 +2275,40 @@ covr::package_coverage(package_dir)
 ----
 
 
+Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  nutzen:
+
+
+[source,r]
+----
+print(lintr::lint_package(package_dir))
+----
+
+----
+## R/golden_ratio.R:15:12: warning: no visible global function definition for '.golden_ratio', Did you mean 'golden_ratio'?
+##     phi <- .golden_ratio()
+##            ^~~~~~~~~~~~~
+----
+
+[source,r]
+----
+print(suppressWarnings(cleanr::check_directory(package_dir)))
+----
+
+----
+## [1] TRUE
+----
+
+[source,r]
+----
+print(cyclocomp::cyclocomp_package_dir(package_dir))
+----
+
+----
+##           name cyclocomp
+## 1 golden_ratio         2
+----
+
+
 Gut! Das wird jetzt verpackt:
 
 [source,r]
@@ -2261,14 +2318,23 @@ withr::with_dir(dirname(package_dir),
 ----
 
 ----
+## $status
+## [1] 0
+## 
 ## $stdout
-## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
+## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files and shell scripts\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
 ## 
 ## $stderr
 ## [1] "\n"
 ## 
-## $status
-## [1] 0
+## $timeout
+## [1] FALSE
+## 
+## $command
+## [1] "/home/qwer/svn/R/r-devel/build/bin/R"
+## [2] "CMD"                                 
+## [3] "build"                               
+## [4] "mytools"
 ----
 
 [source,r]
@@ -2283,8 +2349,7 @@ file.exists(package_path)
 
 
 
-
-/tmp/mytools_0.1.0.tar.gz  ist jetzt versandfertig.
+Deine Paket ist jetzt in /tmp/mytools_0.1.0.tar.gz, fertig zur Installation.
 
 == Bibliographie
 [bibliography]

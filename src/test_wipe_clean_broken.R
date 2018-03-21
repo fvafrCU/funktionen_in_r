@@ -3,5 +3,3 @@ testthat::test_that("Test return value.", {
                     testthat::expect_identical(wipe_clean(), 
                                                c("a"))}
                     )
-
-

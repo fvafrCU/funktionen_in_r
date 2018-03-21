@@ -6,6 +6,3 @@ testthat::test_that("Test on golden rectangle", {
                         result <- golden_rectangle(value * golden_ratio(), TRUE)
                         testthat::expect_identical(result, expectation)
 })
-
-
-

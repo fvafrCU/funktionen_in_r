@@ -354,7 +354,7 @@ Du eigentlich auch gleich in einem oder mehreren Paketen verwalten.
 Das ist zwar am aufwendigsten, aber auch am elegantesten.
 
 
-== Weniger schlecht programmieren
+== Schöner Programmieren
 
 === Argumententests
 Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer Funktion übergeben, zu testen.
@@ -514,12 +514,12 @@ identical(not_my_sum(c(2, 7)), 9)
 Beide Pakete formalisieren dies zu Erwartungsfunktionen die hauptsächlich dazu dienen, 
 Fehler zu beschreiben:
 
-. https://CRAN.R-project.org/package=RUnit[RUnit]
+.https://CRAN.R-project.org/package=RUnit[RUnit]
 //begin.rcode
 RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
 //end.rcode
 
-. https://CRAN.R-project.org/package=testthat[testthat]
+.https://CRAN.R-project.org/package=testthat[testthat]
 //begin.rcode, eval  = FALSE
 testthat::expect_identical(not_my_sum(c(2, 7)), 9)
 //end.rcode
@@ -538,7 +538,7 @@ source("src/my_sum.R")
 source("src/not_my_sum.R")
 //end.rcode
 
-. https://CRAN.R-project.org/package=testthat[testthat]
+.https://CRAN.R-project.org/package=testthat[testthat]
 Du kannst einen Test entweder einzeln laufen lassen
 
 
@@ -559,7 +559,7 @@ testthat::test_file(file.path("src", "test_my_sum.R"))
 //end.rcode
 Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
 
-. https://CRAN.R-project.org/package=RUnit[RUnit]
+.https://CRAN.R-project.org/package=RUnit[RUnit]
 Größer sind die Unterschiede bei https://CRAN.R-project.org/package=RUnit[RUnit], 
 das primär für das Testen von Paketen entwickelt wurde:
 Es ist beim einfachen
@@ -851,7 +851,7 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 _Aber ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
 wenn ich sie in ein Paket verpacke._
 
-=== Schöner Programmieren
+=== Weniger schlecht programmieren
 Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Paketen vorstellen, 
 die Dir helfen können, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen._
 Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der "_recommended_ Packages" von **R** und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil +codetools+ schon da war.
@@ -1076,7 +1076,7 @@ Wenn Du Deine beiden Funktionen in eine Datei schreibst
 
 //begin.rcode, echo = FALSE, results = "hide"
 
-code <- c(readLines("src/.golden_ratio.R"), "\n"
+code <- c(readLines("src/.golden_ratio.R"), "",
           readLines("src/golden_ratio.R")) 
 writeLines(text = code,
            con = "src/golden_ratios.R")
@@ -1164,6 +1164,14 @@ Du kannst Dein Paket auch testen:
 
 //begin.rcode
 covr::package_coverage(package_dir)
+//end.rcode
+
+Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  nutzen:
+
+//begin.rcode
+print(lintr::lint_package(package_dir))
+print(suppressWarnings(cleanr::check_directory(package_dir)))
+print(cyclocomp::cyclocomp_package_dir(package_dir))
 //end.rcode
 
 Gut! Das wird jetzt verpackt:

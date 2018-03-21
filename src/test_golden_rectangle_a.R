@@ -4,6 +4,3 @@ testthat::test_that("Test on golden rectangle", {
                         result <- golden_rectangle(b)
                         testthat::expect_identical(result, expectation)
 })
-
-
-

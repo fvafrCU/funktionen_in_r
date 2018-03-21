@@ -3,6 +3,3 @@ testthat::test_that("Test on Golden Ratio", {
                         result <- golden_ratio()
                         testthat::expect_identical(result, expectation)
 })
-
-
-
