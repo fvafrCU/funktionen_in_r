@@ -214,7 +214,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error in my_sum_broken(1:3): object 'value' not found
+## Error: object 'value' not found
 
 ----
 
@@ -308,7 +308,7 @@ ls()
 
 ----
 ## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "value"         "wipe_clean"
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
 ----
 
 [source,r]
@@ -359,7 +359,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##        7896        4424     3520824     7040824      352824
+##        7576        4232     3432720     6864720      343920
 ----
 
 
@@ -387,7 +387,7 @@ memory_hogs()
 
 ----
 ##          va memory_hogs          vd          vb          vc 
-##        4424        9952      352824     3520824     7040824
+##        4232        9576      343920     3432720     6864720
 ----
 
 
@@ -419,7 +419,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##       13624        4424     3520824     7040824      352824
+##       13080        4232     3432720     6864720      343920
 ----
 
 [source,r]
@@ -429,7 +429,7 @@ memory_hogs(decreasing = TRUE)
 
 ----
 ##          vc          vb          vd memory_hogs          va 
-##     7040824     3520824      352824       50120        4424
+##     6864720     3432720      343920       13080        4232
 ----
 
 
@@ -444,7 +444,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vd 
-##       50120        4424      352824
+##       13080        4232      343920
 ----
 
 
@@ -786,7 +786,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] -0.237973
+## [1] 0.0810608
 ----
 
 [source,r]
@@ -1006,24 +1006,15 @@ testthat::test_file(file.path("src", "test_my_sum.R"))
 ----
 
 ----
-## ✔ | OK F W S | Context
-----
-
-[source,r]
-----
-## Error in x[[method]](...): attempt to apply non-function
-
-----
-
-----
+## 1.
+## Failed --------------------------------------------------------------------
+## 1. Failure: Simple test on summation. (@test_my_sum.R#2) ------------------
+## not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+## Not my sum.
 ## 
-## ══ Results ════════════════════════════════════════════════════════════════
-## Duration: 0.2 s
-## 
-## OK:       0
-## Failed:   5
-## Warnings: 0
-## Skipped:  0
+## DONE ======================================================================
 ----
 
 Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
@@ -1075,16 +1066,7 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ...
-----
-
-[source,r]
-----
-## Timing stopped at: 0 0 0
-
-----
-
-----
+## Executing test function test_sum  ... Timing stopped at: 0 0 0 
 ##  done successfully.
 ----
 
@@ -1094,7 +1076,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Tue Mar 20 22:11:00 2018 
+## RUNIT TEST PROTOCOL -- Wed Mar 21 10:24:44 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1114,9 +1096,9 @@ RUnit::printTextProtocol(runit)
 ## Test function regexp: ^test.+ 
 ## Test file regexp: ^runit_my_sum.R$ 
 ## Involved directory: 
-## /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src 
+## /home/nik/git/cs/fvafrcu/funktionen_in_r/src 
 ## --------------------------- 
-## Test file: /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
+## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
 ## test_sum: FAILURE !! (check number 1)
 ## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
 ## 
@@ -1294,7 +1276,7 @@ covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
 ----
 ## Error: Test failed: 'Test return value and side effects.'
 ## * ls() not identical to character(0).
-## Lengths differ: 1 is not 0
+## Lengths differ: 1 vs 0
 
 ----
 
@@ -1472,7 +1454,7 @@ recht simpel ist, schreibst Du Deine Funktion also um:
 [source,r]
 ----
 golden_rectangle  <- function(value, landscape = TRUE) {
-    phi <- (1 + sqrt(5)) / 2
+    phi <- golden_ratio()
     if (isTRUE(landscape)) {
         a  <- value
         b <- a / phi
@@ -1544,7 +1526,7 @@ Du entscheidest Dich, die Funktion zu ändern
 [source,r]
 ----
 golden_rectangle  <- function(value, landscape = FALSE) {
-    phi <- (1 + sqrt(5)) / 2
+    phi <- golden_ratio()
     if (isTRUE(landscape)) {
         a  <- value
         b <- a / phi
@@ -1591,7 +1573,7 @@ Du erweiterst also Deine Testdatei an:
 [source,r]
 ----
 golden_rectangle  <- function(value, landscape = FALSE) {
-    phi <- (1 + sqrt(5)) / 2
+    phi <- golden_ratio()
     if (isTRUE(landscape)) {
         a  <- value
         b <- a / phi
@@ -1939,9 +1921,11 @@ rename_function(from = "golden_ratio", to = ".golden_ratio",
 
 [source,r]
 ----
-# replace call to golden_ratio() in tests first!
+# replace calls to golden_ratio()!
 substitute_function(from = "golden_ratio", to = ".golden_ratio", 
                  file_name = file.path("src", "test_golden_rectangle.R"))
+substitute_function(from = "golden_ratio", to = ".golden_ratio", 
+                 file_name = file.path("src", "golden_rectangle.R"))
 rename_function(from = "golden_rectangle", to = "golden_ratio", 
                  directory = "src")
 ----
@@ -2011,7 +1995,7 @@ Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare
 #' @examples
 #' print(golden_ratio(value = 1)[["a"]])
 golden_ratio  <- function(value, landscape = FALSE) {
-    phi <- (1 + sqrt(5)) / 2
+    phi <- .golden_ratio()
     if (isTRUE(landscape)) {
         a  <- value
         b <- a / phi
@@ -2025,12 +2009,53 @@ golden_ratio  <- function(value, landscape = FALSE) {
 
 
 Was hast Du davon, au&szlig;er Arbeit?
-Zum Ersten erh&auml;lst Du Hilfe-Dateien, wie Du sie aus **R** kennst:
+
+Wenn Du Deine beiden Funktionen in eine Datei schreibst:
+
+
+
+.src/golden_ratios.R
+
+[source,r]
+----
+.golden_ratio  <- function() {
+    phi <- (1 + sqrt(5)) / 2
+    return(phi)
+}
+#' Compute the Other Quantity in Golden Ratio
+#'
+#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to
+#' the Golden Ratio.
+#'
+#' Specify \code{value = 1} to obtain the Golden Ratio itself in element "a" of 
+#' the return value.
+#' @param value A Quantity.
+#' @param landscape Is the quantity given by \code{value} the larger one ("a")?
+#' @return A vector giving the quantities "a" and "b".
+#' @export
+#' @examples
+#' print(golden_ratio(value = 1)[["a"]])
+golden_ratio  <- function(value, landscape = FALSE) {
+    phi <- .golden_ratio()
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
+}
+----
+
+
+kannst Du mit dem Paket +document+ Du Hilfe-Dateien erstellen, 
+wie Du sie aus **R** kennst:
 
 
 [source,r]
 ----
-document::document(file.path("src", "golden_ratio.R"), output_directory = ".")
+document::document(file.path("src", "golden_ratios.R"), output_directory = ".")
 ----
 
 
@@ -2040,12 +2065,13 @@ list.files(pattern = "^golden.*", full.names = TRUE)
 ----
 
 ----
-## [1] "./golden_ratio.html" "./golden_ratio.pdf"  "./golden_ratio.txt"
+## [1] "./golden_ratio.html"  "./golden_ratio.pdf"   "./golden_ratio.txt"  
+## [4] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"
 ----
 
 
-Zum Zweiten kannst Du Dir in einer laufenden **R**-Sitzung die Hilfe zu Deiner Funktion
-ansehen, wie die zu jeder anderen:
+Au&szlig;erdem kannst Du mit +document+ nach der Erstellung der Hilfe-Dateien 
+in einer laufenden **R**-Sitzung die Hilfe zu Deiner Funktion ansehen:
 
 
 [source,r]
@@ -2089,7 +2115,240 @@ Examples:
 
 
 Und zum Dritten und Wichtigsten: Du hast Deine Funktion dokumentiert und ihre Schnittstellen
-beschrieben. Sie ist jetzt <<_als_paket, paketierungsreif>>.
+beschrieben. Sie ist jetzt versandfertig:
+
+==== Paketieren
+
+Zum Paketieren nehmen wir wieder die getrennten Funktionsdateien, 
++src/golden_ratio.R+ und und +src/.golden_ratio.R+:
+
+
+[source,r]
+----
+# Create package skeleton
+package_name <- "mytools"
+package_dir <- file.path(dirname(tempdir()), package_name)
+unlink(package_dir, recursive = TRUE) # make sure it's not there 
+devtools::create(package_dir)
+----
+
+[source,r]
+----
+## Creating package 'mytools' in '/tmp'
+
+----
+
+[source,r]
+----
+## No DESCRIPTION found. Creating with values:
+
+----
+
+----
+## Package: mytools
+## Title: What the Package Does (one line, title case)
+## Version: 0.0.0.9000
+## Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+## Description: What the package does (one paragraph).
+## Depends: R (>= 3.3.3)
+## License: What license is it under?
+## Encoding: UTF-8
+## LazyData: true
+----
+
+[source,r]
+----
+## * Creating `mytools.Rproj` from template.
+
+----
+
+[source,r]
+----
+## * Adding `.Rproj.user`, `.Rhistory`, `.RData` to ./.gitignore
+
+----
+
+[source,r]
+----
+# add source files
+file.copy(from = file.path("src", c("golden_ratio.R", ".golden_ratio.R")), 
+          to = file.path(package_dir, "R"))
+----
+
+----
+## [1] TRUE TRUE
+----
+
+[source,r]
+----
+# rename the hidden file, package will not build otherwise:
+file.rename(file.path(package_dir, "R", ".golden_ratio.R"), 
+            file.path(package_dir, "R", "_golden_ratio.R"))
+----
+
+----
+## [1] TRUE
+----
+
+[source,r]
+----
+# create package's testing skeleton
+devtools::use_testthat(package_dir)
+----
+
+[source,r]
+----
+## * Adding testthat to Suggests
+
+----
+
+[source,r]
+----
+## * Creating `tests/testthat`.
+
+----
+
+[source,r]
+----
+## * Creating `tests/testthat.R` from template.
+
+----
+
+[source,r]
+----
+# add test files
+file.copy(from = file.path("src", c("test_golden_ratio.R", 
+                                    "test_.golden_ratio.R")), 
+                           file.path(package_dir, "tests", "testthat"))
+----
+
+----
+## [1] TRUE TRUE
+----
+
+[source,r]
+----
+# build the docs
+roxygen2::roxygenize(package_dir)
+----
+
+[source,r]
+----
+## Updating roxygen version in /tmp/mytools/DESCRIPTION
+
+----
+
+----
+## Writing NAMESPACE
+## Writing golden_ratio.Rd
+----
+
+
+
+
+[source,r]
+----
+check <- rcmdcheck::rcmdcheck(package_dir, args = "--as-cran")
+----
+
+----
+## ───────────────────────────────────────────────────────────────────────────
+## ─  using log directory ‘/tmp/Rtmp09pQo4/file691a5a5e09b/mytools.Rcheck’
+## ─  using R version 3.3.3 (2017-03-06)
+## ─  using platform: x86_64-pc-linux-gnu (64-bit)
+## ─  using session charset: UTF-8
+## ─  using option ‘--as-cran’
+## ✔  checking for file ‘mytools/DESCRIPTION’
+## ─  this is package ‘mytools’ version ‘0.0.0.9000’
+## ─  package encoding: UTF-8
+## N  checking CRAN incoming feasibility
+##    Maintainer: ‘First Last <first.last@example.com>’
+##    
+##    Version contains large components (0.0.0.9000)
+## ✔  checking package namespace information
+## ✔  checking package dependencies
+## ✔  checking if this is a source package
+## ✔  checking if there is a namespace
+## ✔  checking for executable files
+## ✔  checking for hidden files and directories
+## ✔  checking for portable file names
+## ✔  checking for sufficient/correct file permissions
+## ✔  checking whether package ‘mytools’ can be installed
+## ✔  checking installed package size
+## ✔  checking package directory
+## W  checking DESCRIPTION meta-information
+##    Non-standard license specification:
+##      What license is it under?
+##    Standardizable: FALSE
+## ✔  checking top-level files
+## ✔  checking for left-over files
+## ✔  checking index information
+## ✔  checking package subdirectories
+## ✔  checking R files for non-ASCII characters
+## ✔  checking R files for syntax errors
+## ✔  checking whether the package can be loaded
+## ✔  checking whether the package can be loaded with stated dependencies
+## ✔  checking whether the package can be unloaded cleanly
+## ✔  checking whether the namespace can be loaded with stated dependencies
+## ✔  checking whether the namespace can be unloaded cleanly
+## ✔  checking loading without being on the library search path
+## ✔  checking use of S3 registration
+## ✔  checking dependencies in R code
+## ✔  checking S3 generic/method consistency
+## ✔  checking replacement functions
+## ✔  checking foreign function calls
+## N  checking R code for possible problems
+##    golden_ratio: no visible global function definition for ‘.golden_ratio’
+##    Undefined global functions or variables:
+##      .golden_ratio
+## ✔  checking Rd files
+## ✔  checking Rd metadata
+## ✔  checking Rd line widths
+## ✔  checking Rd cross-references
+## ✔  checking for missing documentation entries
+## ✔  checking for code/documentation mismatches
+## ✔  checking Rd \usage sections
+## ✔  checking Rd contents
+## ✔  checking for unstated dependencies in examples
+## E  checking examples
+##    Running examples in ‘mytools-Ex.R’ failed
+##    The error most likely occurred in:
+##    
+##    > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+##    > ### Name: golden_ratio
+##    > ### Title: Compute the Other Quantity in Golden Ratio
+##    > ### Aliases: golden_ratio
+##    > 
+## ─  > ### ** Examples
+##    > 
+##    > print(golden_ratio(value = 1)[["a"]])
+##    Error in golden_ratio(value = 1) : 
+##      could not find function ".golden_ratio"
+##    Calls: print -> golden_ratio
+##    Execution halted
+## ✔  checking for unstated dependencies in ‘tests’
+## E  checking tests
+##    Running the tests in ‘tests/testthat.R’ failed.
+##    Last 13 lines of output:
+##      1: .handleSimpleError(function (e) 
+##         {
+##             e$call <- sys.calls()[(frame + 11):(sys.nframe() - 2)]
+##             register_expectation(e, frame + 11, sys.nframe() - 2)
+##             signalCondition(e)
+##         }, "could not find function \".golden_ratio\"", quote(eval(expr, envir, enclos))) at testthat/test_golden_ratio.R:3
+##      2: eval(expr, envir, enclos)
+##      
+##      testthat results ================================================================
+##      OK: 0 SKIPPED: 0 FAILED: 2
+##      1. Error: Test on Golden Ratio (@test_.golden_ratio.R#3) 
+##      2. Error: Test on golden rectangle (@test_golden_ratio.R#3) 
+##      
+##      Error: testthat unit tests failed
+##      Execution halted
+## ✔  checking PDF version of manual
+## 
+## ── 2 errors ✖ | 1 warning ✖ | 2 notes ✖
+----
 
 == Bibliographie
 [bibliography]

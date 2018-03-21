@@ -1010,9 +1010,11 @@ Funktionieren tut das so:
 //begin.rcode
 rename_function(from = "golden_ratio", to = ".golden_ratio", 
                  directory = "src")
-# replace call to golden_ratio() in tests first!
+# replace calls to golden_ratio()!
 substitute_function(from = "golden_ratio", to = ".golden_ratio", 
                  file_name = file.path("src", "test_golden_rectangle.R"))
+substitute_function(from = "golden_ratio", to = ".golden_ratio", 
+                 file_name = file.path("src", "golden_rectangle.R"))
 rename_function(from = "golden_rectangle", to = "golden_ratio", 
                  directory = "src")
 
@@ -1041,8 +1043,10 @@ benutzen (http://r-pkgs.had.co.nz/man.html[hier] gibt Hadley Wickham eine druckr
 Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einf&uuml;gst:
 
 //begin.rcode, echo = FALSE, results = "hide"
-src <- "golden_ratio_doc.R"
-withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
+code <- c(readLines("src/golden_ratio_doc.R"), 
+          readLines("src/golden_ratio.R")) 
+writeLines(text = code,
+           con = "src/golden_ratio.R")
 //end.rcode
 
 .src/golden_ratio.R
@@ -1050,17 +1054,33 @@ withr::with_dir("src", file.copy(src, "golden_ratio.R", overwrite = TRUE))
 //end.rcode
 
 Was hast Du davon, au&szlig;er Arbeit?
-Zum Ersten erh&auml;lst Du Hilfe-Dateien, wie Du sie aus **R** kennst:
+
+Wenn Du Deine beiden Funktionen in eine Datei schreibst:
+
+//begin.rcode, echo = FALSE, results = "hide"
+
+code <- c(readLines("src/.golden_ratio.R"),
+          readLines("src/golden_ratio.R")) 
+writeLines(text = code,
+           con = "src/golden_ratios.R")
+//end.rcode
+
+.src/golden_ratios.R
+//begin.rcode, code = readLines("src/golden_ratios.R"), eval = FALSE
+//end.rcode
+
+kannst Du mit dem Paket +document+ Du Hilfe-Dateien erstellen, 
+wie Du sie aus **R** kennst:
 
 //begin.rcode, results = "hide", warning = FALSE, message = FALSE, error = FALSE
-document::document(file.path("src", "golden_ratio.R"), output_directory = ".")
+document::document(file.path("src", "golden_ratios.R"), output_directory = ".")
 //end.rcode
 //begin.rcode
 list.files(pattern = "^golden.*", full.names = TRUE)
 //end.rcode
 
-Zum Zweiten kannst Du Dir in einer laufenden **R**-Sitzung die Hilfe zu Deiner Funktion
-ansehen, wie die zu jeder anderen:
+Au&szlig;erdem kannst Du mit +document+ nach der Erstellung der Hilfe-Dateien 
+in einer laufenden **R**-Sitzung die Hilfe zu Deiner Funktion ansehen:
 //begin.rcode, echo = FALSE
 pager_function <- function(x, ...){
     x <- readLines(x)
@@ -1073,8 +1093,39 @@ document::man("golden_ratio")
 //end.rcode
 
 Und zum Dritten und Wichtigsten: Du hast Deine Funktion dokumentiert und ihre Schnittstellen
-beschrieben. Sie ist jetzt <<_als_paket, paketierungsreif>>.
+beschrieben. Sie ist jetzt versandfertig:
 
+==== Paketieren
+
+Zum Paketieren nehmen wir wieder die getrennten Funktionsdateien, 
++src/golden_ratio.R+ und und +src/.golden_ratio.R+:
+
+//begin.rcode
+# Create package skeleton
+package_name <- "mytools"
+package_dir <- file.path(dirname(tempdir()), package_name)
+unlink(package_dir, recursive = TRUE) # make sure it's not there 
+devtools::create(package_dir)
+# add source files
+file.copy(from = file.path("src", c("golden_ratio.R", ".golden_ratio.R")), 
+          to = file.path(package_dir, "R"))
+# rename the hidden file, package will not build otherwise:
+file.rename(file.path(package_dir, "R", ".golden_ratio.R"), 
+            file.path(package_dir, "R", "golden_ratio_internals.R"))
+# create package's testing skeleton
+devtools::use_testthat(package_dir)
+# add test files
+file.copy(from = file.path("src", c("test_golden_ratio.R", 
+                                    "test_.golden_ratio.R")), 
+                           file.path(package_dir, "tests", "testthat"))
+# build the docs
+roxygen2::roxygenize(package_dir)
+//end.rcode
+
+
+//begin.rcode
+check <- rcmdcheck::rcmdcheck(package_dir, args = "--as-cran")
+//end.rcode
 == Bibliographie
 [bibliography]
 - [[[cc]]] R.C. Martin. 2008. 'Clean Code: A Handbook of Agile Software Craftsmanship'. 
