@@ -788,7 +788,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] 0.1298431
+## [1] -0.03118922
 ----
 
 [source,r]
@@ -1078,7 +1078,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Thu Mar 22 10:13:53 2018 
+## RUNIT TEST PROTOCOL -- Thu Mar 22 10:18:37 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -2330,7 +2330,8 @@ covr::package_coverage(package_dir)
 
 Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  
 fragen (wobei https://CRAN.R-project.org/package=lintr[lintr] hier die vorhandene Funktion
-        +.golden_ratio()+ _nicht_ erkennt und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] ebenfalls nicht und:
+        +.golden_ratio()+ _nicht_ erkennt und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
+        ebenfalls nicht und daher keine +cyclomatic complexity+ f&uuml;r sie berechnet:
 
 
 [source,r]
