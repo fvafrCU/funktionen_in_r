@@ -302,7 +302,7 @@ print(rm())
 
 Das heißt also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`).
 
-Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion läscht, in ein Steuerargument mit Voreinstellung um):
+Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion l&ouml;scht, in ein Steuerargument mit Voreinstellung um):
 
 //begin.rcode, code = grep("#'", readLines(file.path("src", "wipe_clean.R")), value = TRUE, invert = TRUE)
 //end.rcode

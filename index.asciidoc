@@ -503,7 +503,7 @@ print(rm())
 
 Das heißt also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`).
 
-Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion läscht, in ein Steuerargument mit Voreinstellung um):
+Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion l&ouml;scht, in ein Steuerargument mit Voreinstellung um):
 
 
 [source,r]
@@ -791,7 +791,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] -0.1677595
+## [1] -0.09339851
 ----
 
 [source,r]
@@ -1071,7 +1071,7 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ... Timing stopped at: 0 0 0 
+## Executing test function test_sum  ... Timing stopped at: 0 0 0.001 
 ##  done successfully.
 ----
 
@@ -1081,7 +1081,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Thu Mar 22 15:03:16 2018 
+## RUNIT TEST PROTOCOL -- Thu Mar 22 15:16:29 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 

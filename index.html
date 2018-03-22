@@ -1277,7 +1277,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>## NULL</code></pre>
 </div></div>
 <div class="paragraph"><p>Das heißt also, dass unsere Funktion <code>wipe_clean</code> den Wert <code>invisible(NULL)</code>, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion <code>rm</code>).</p></div>
-<div class="paragraph"><p>Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion läscht, in ein Steuerargument mit Voreinstellung um):</p></div>
+<div class="paragraph"><p>Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion l&ouml;scht, in ein Steuerargument mit Voreinstellung um):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1570,7 +1570,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] -0.1677595</code></pre>
+<pre><code>## [1] -0.09339851</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1842,7 +1842,7 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ... Timing stopped at: 0 0 0
+## Executing test function test_sum  ... Timing stopped at: 0 0 0.001
 ##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
@@ -1853,7 +1853,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Thu Mar 22 15:03:16 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Thu Mar 22 15:16:29 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -3938,7 +3938,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-22 15:03:46 CET
+ 2018-03-22 15:16:58 CET
 </div>
 </div>
 </body>
