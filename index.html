@@ -1570,7 +1570,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] -0.1305521</code></pre>
+<pre><code>## [1] -0.03423868</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1842,7 +1842,7 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ... Timing stopped at: 0 0 0
+## Executing test function test_sum  ... Timing stopped at: 0.004 0 0.001
 ##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
@@ -1853,7 +1853,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Thu Mar 22 12:50:57 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Thu Mar 22 13:05:30 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -3156,7 +3156,7 @@ wenn ich sie in ein Paket verpacke._</code></pre>
 <div class="paragraph"><p>Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Paketen vorstellen,
 die Dir helfen können, gut lesbare Funktionen zu schreiben.</p></div>
 <div class="paragraph"><p><em>Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen.</em></p></div>
-<div class="paragraph"><p>Aber vorweg stelle ich Dir noch <code>codetools</code> vor, es gehört zur Gruppe der "<em>recommended</em> Packages" von <strong>R</strong> und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil <code>codetools</code> schon da war.</p></div>
+<div class="paragraph"><p>Aber vorweg stelle ich Dir noch <a href="https://CRAN.R-project.org/package=codetools">codetools</a> vor, es gehört zur Gruppe der "<em>recommended</em> Packages" von <strong>R</strong> und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil <a href="https://CRAN.R-project.org/package=codetools">codetools</a> schon da war.</p></div>
 <div class="paragraph"><p>Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne
 und kaputte Funktion geschrieben:</p></div>
 <div class="listingblock">
@@ -3188,8 +3188,9 @@ http://www.gnu.org/software/src-highlite -->
     return(invisible(NULL))
 }</tt></pre></div></div>
 <div class="sect3">
-<h4 id="_code_prüfen_mit_codetools">3.3.1. Code prüfen mit Codetools</h4>
-<div class="paragraph"><p>In Deiner Funktion findet <code>codetools</code> die nicht benutzten Funktionsargumente und das nicht definierte Objekt <code>this_is_not_defined</code>:</p></div>
+<h4 id="_code_prüfen_mit_a_href_https_cran_r_project_org_package_codetools_codetools_a">3.3.1. Code prüfen mit <a href="https://CRAN.R-project.org/package=codetools">codetools</a></h4>
+<div class="paragraph"><p>In Deiner Funktion findet <a href="https://CRAN.R-project.org/package=codetools">codetools</a>
+die nicht benutzten Funktionsargumente und das nicht definierte Objekt <code>this_is_not_defined</code>:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3224,7 +3225,7 @@ dass eine Datei keine Leerzeilen am Ende enthalten sollte:</p></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>lintr::lint(<span style="color: #FF0000">"src/code.R"</span>)</tt></pre></div></div>
+<pre><tt>lintr::lint(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"code.R"</span>))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## src/code.R:1:49: style: Commas should always have a space after.
@@ -3252,13 +3253,13 @@ Rückgabewert haben.</p></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>print(suppressWarnings(cleanr::check_file(<span style="color: #FF0000">"src/code.R"</span>)))</tt></pre></div></div>
+<pre><tt>print(suppressWarnings(cleanr::check_file(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"code.R"</span>))))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file("src/code.R"):  src/code.R  foo  found 7 arguments, max_num_arguments was 5</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file(file.path("src", "code.R")):  src/code.R  foo  found 7 arguments, max_num_arguments was 5</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## foo  found nesting depth 4, max_nesting_depth was 3</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Auch dieses Paket kennt viele Optionen, lies Dir die Hilfe durch!</p></div>
@@ -3278,7 +3279,7 @@ Für Deine häßliche Funktion bräuchtest Du also
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>cyclocomp::cyclocomp(parse(text = readLines(<span style="color: #FF0000">"src/code.R"</span>)))</tt></pre></div></div>
+<pre><tt>cyclocomp::cyclocomp(parse(text = readLines(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"code.R"</span>))))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] 6</code></pre>
@@ -3315,7 +3316,7 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>linters &lt;- lintr::default_linters[names(lintr::default_linters )!= <span style="color: #FF0000">"object_usage_linter"</span>]
-lintr::lint(<span style="color: #FF0000">"src/release.R"</span>, linters = linters)</tt></pre></div></div>
+lintr::lint(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"release.R"</span>), linters = linters)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## src/release.R:70:1: style: lines should not be more than 80 characters.
@@ -3345,13 +3346,13 @@ lintr::lint(<span style="color: #FF0000">"src/release.R"</span>, linters = linte
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>suppressWarnings(cleanr::check_file(<span style="color: #FF0000">"src/release.R"</span>))</tt></pre></div></div>
+<pre><tt>suppressWarnings(cleanr::check_file(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"release.R"</span>)))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file("src/release.R"):  src/release.R: line 70 counts 92 characters.</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in cleanr::check_file(file.path("src", "release.R")):  src/release.R: line 70 counts 92 characters.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## src/release.R: line 166 counts 85 characters.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">## src/release.R: 325 lines in file.</span></span>
 <span style="font-style: italic"><span style="color: #9A1900">##  src/release.R  as.object_size  found no return() statement at all.</span></span>
@@ -3937,7 +3938,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-22 12:51:32 CET
+ 2018-03-22 13:06:04 CET
 </div>
 </div>
 </body>

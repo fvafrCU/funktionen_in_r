@@ -1056,7 +1056,7 @@ Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare
 code <- c(readLines(file.path("src", "golden_ratio_doc.R")), 
           readLines(file.path("src", "golden_ratio.R"))) 
 writeLines(text = code,
-           con = "file.path(src", "golden_ratio.R"))
+           con = file.path("src", "golden_ratio.R"))
 //end.rcode
 
 .src/golden_ratio.R
@@ -1071,7 +1071,7 @@ die interne Funktion (interne Funktionen zu dokumentieren ist ein wenig umstritt
 code <- c(readLines(file.path("src", ".golden_ratio_doc.R")), 
           readLines(file.path("src", ".golden_ratio.R"))) 
 writeLines(text = code,
-           con = "file.path(src", ".golden_ratio.R"))
+           con = file.path("src", ".golden_ratio.R"))
 //end.rcode
 
 .src/.golden_ratio.R
@@ -1087,7 +1087,7 @@ Wenn Du Deine beiden Funktionen in eine Datei schreibst
 code <- c(readLines(file.path("src", ".golden_ratio.R")), "",
           readLines(file.path("src", "golden_ratio.R"))) 
 writeLines(text = code,
-           con = "file.path(src", "golden_ratios.R"))
+           con = file.path("src", "golden_ratios.R"))
 //end.rcode
 
 .src/golden_ratios.R
