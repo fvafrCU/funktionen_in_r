@@ -1116,6 +1116,39 @@ beschrieben. Sie ist jetzt paketierungsreif:
 
 Zum Paketieren nimmst Du wieder die getrennten Funktionsdateien, 
 +src/golden_ratio.R+ und und +src/.golden_ratio.R+ und ihre zugeh&ouml;rigen Testdateien.
+
+Damit sie den Paketanforderungen gen&uuml;gen, mu&szlig;t Du noch zwei kleine
+&Auml;derungen vornehmen: +golden_ratio.R+ braucht noch einen
+Verweis darauf, dass interne Funktionen in +golden_ratio_internals.R+ stehen
+
+//begin.rcode
+code <- c("#' @include golden_ratio_internals.R", "NULL", "",
+          readLines(file.path("src", "golden_ratio.R")))
+writeLines(code, file.path("src", "golden_ratio.R"))
+//end.rcode
+.src/golden_ratio.R
+//begin.rcode, code = readLines("src/golden_ratio.R"), eval = FALSE
+//end.rcode
+
+und die Dokumentation f&uuml;r +.golden_ratio+ sollte in eine Datei geschrieben
+werden, deren Name nicht mit einem Punkt beginnt
+(der Name der Hilfedatei wird, wenn Du ihn nicht explizit angibst, aus dem der
+dokumentierten Funktion abgeleitet)
+
+//begin.rcode
+code <- readLines(file.path("src", ".golden_ratio.R"))
+return_line <- grep("@return", code)
+code_upper <- code[1:return_line]
+code_lower <- code[(return_line + 1):length(code)]
+code <- c(code_upper, "#' @rdname internals", code_lower)
+writeLines(code, file.path("src", ".golden_ratio.R"))
+//end.rcode
+.src/.golden_ratio.R
+//begin.rcode, code = readLines("src/.golden_ratio.R"), eval = FALSE
+//end.rcode
+
+
+
 Du erstellst eine Paketvorlage und kopierst die Dateien hinein:
 
 //begin.rcode, results = "hide", message = FALSE
@@ -1139,12 +1172,16 @@ file.copy(from = file.path("src", c("test_golden_ratio.R",
 # build the docs
 roxygen2::roxygenize(package_dir)
 # Set package Metadata
-desc::desc_set_authors(person(given = "Your", family = "Name", role = "cre", 
-                        email = "your.name@somewhe.re"), 
-                 file = package_dir, normalize = TRUE)
+desc::desc_set_authors(person(given = "Your", family = "Name", 
+                              role = c("aut", "cre"), 
+                              email = "your.name@somewhe.re"), 
+                       file = package_dir, normalize = TRUE)
 desc::desc_bump_version("minor", package_dir)
-# Set package License
+## Fix some more metadata
 d <- desc::desc(package_dir)
+### Use title case
+d$set(Title = tools::toTitleCase(d$get("Title")))
+### Set package License
 d$set(License = "GPL")
 d$write()
 
@@ -1166,7 +1203,10 @@ Du kannst Dein Paket auch testen:
 covr::package_coverage(package_dir)
 //end.rcode
 
-Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  nutzen:
+Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  
+fragen (wobei https://CRAN.R-project.org/package=lintr[lintr] hier die vorhandene Funktion
+        +.golden_ratio()+ _nicht_ erkennt und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
+        ebenfalls nicht und daher keine +cyclomatic complexity+ f&uuml;r sie berechnet:
 
 //begin.rcode
 print(lintr::lint_package(package_dir))
@@ -1179,11 +1219,10 @@ Gut! Das wird jetzt verpackt:
 withr::with_dir(dirname(package_dir), 
                 callr::rcmd_safe("build", basename(package_dir)))
 package_path <- paste0(package_dir, "_0.1.0.tar.gz")
-file.exists(package_path)
+if (file.exists(package_path)) print(package_path)
 //end.rcode
 
-
-Deine Paket ist jetzt in +r package_path+, fertig zur Installation.
+Paket fertig.
 
 == Bibliographie
 [bibliography]

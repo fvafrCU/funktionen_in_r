@@ -5,5 +5,3 @@
 #'
 #' @return The Golden Ratio
 #' @keywords internal
-#' @examples
-#' print(.golden_ratio())

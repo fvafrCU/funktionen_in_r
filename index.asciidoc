@@ -214,7 +214,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error in my_sum_broken(1:3): object 'value' not found
+## Error: object 'value' not found
 
 ----
 
@@ -308,7 +308,7 @@ ls()
 
 ----
 ## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "value"         "wipe_clean"
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
 ----
 
 [source,r]
@@ -359,7 +359,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##        7896        4424     3520824     7040824      352824
+##        7576        4232     3432720     6864720      343920
 ----
 
 
@@ -387,7 +387,7 @@ memory_hogs()
 
 ----
 ##          va memory_hogs          vd          vb          vc 
-##        4424        9952      352824     3520824     7040824
+##        4232        9576      343920     3432720     6864720
 ----
 
 
@@ -419,7 +419,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##       13624        4424     3520824     7040824      352824
+##       13080        4232     3432720     6864720      343920
 ----
 
 [source,r]
@@ -429,7 +429,7 @@ memory_hogs(decreasing = TRUE)
 
 ----
 ##          vc          vb          vd memory_hogs          va 
-##     7040824     3520824      352824       50120        4424
+##     6864720     3432720      343920       13080        4232
 ----
 
 
@@ -444,7 +444,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vd 
-##       50120        4424      352824
+##       13080        4232      343920
 ----
 
 
@@ -788,7 +788,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] 0.1264631
+## [1] 0.1298431
 ----
 
 [source,r]
@@ -1008,24 +1008,15 @@ testthat::test_file(file.path("src", "test_my_sum.R"))
 ----
 
 ----
-## ✔ | OK F W S | Context
-----
-
-[source,r]
-----
-## Error in x[[method]](...): attempt to apply non-function
-
-----
-
-----
+## 1.
+## Failed --------------------------------------------------------------------
+## 1. Failure: Simple test on summation. (@test_my_sum.R#2) ------------------
+## not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+## Not my sum.
 ## 
-## ══ Results ════════════════════════════════════════════════════════════════
-## Duration: 0.2 s
-## 
-## OK:       0
-## Failed:   5
-## Warnings: 0
-## Skipped:  0
+## DONE ======================================================================
 ----
 
 Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
@@ -1077,16 +1068,7 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ...
-----
-
-[source,r]
-----
-## Timing stopped at: 0 0 0
-
-----
-
-----
+## Executing test function test_sum  ... Timing stopped at: 0 0 0 
 ##  done successfully.
 ----
 
@@ -1096,7 +1078,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Wed Mar 21 16:14:55 2018 
+## RUNIT TEST PROTOCOL -- Thu Mar 22 10:13:53 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1116,9 +1098,9 @@ RUnit::printTextProtocol(runit)
 ## Test function regexp: ^test.+ 
 ## Test file regexp: ^runit_my_sum.R$ 
 ## Involved directory: 
-## /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src 
+## /home/nik/git/cs/fvafrcu/funktionen_in_r/src 
 ## --------------------------- 
-## Test file: /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
+## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
 ## test_sum: FAILURE !! (check number 1)
 ## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
 ## 
@@ -1296,7 +1278,7 @@ covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
 ----
 ## Error: Test failed: 'Test return value and side effects.'
 ## * ls() not identical to character(0).
-## Lengths differ: 1 is not 0
+## Lengths differ: 1 vs 0
 
 ----
 
@@ -2045,8 +2027,6 @@ die interne Funktion (interne Funktionen zu dokumentieren ist ein wenig umstritt
 #'
 #' @return The Golden Ratio
 #' @keywords internal
-#' @examples
-#' print(.golden_ratio())
 .golden_ratio  <- function() {
     phi <- (1 + sqrt(5)) / 2
     return(phi)
@@ -2071,8 +2051,6 @@ Wenn Du Deine beiden Funktionen in eine Datei schreibst
 #'
 #' @return The Golden Ratio
 #' @keywords internal
-#' @examples
-#' print(.golden_ratio())
 .golden_ratio  <- function() {
     phi <- (1 + sqrt(5)) / 2
     return(phi)
@@ -2121,8 +2099,7 @@ list.files(pattern = "^golden.*", full.names = TRUE)
 ----
 
 ----
-## [1] "./golden_ratio.html"  "./golden_ratio.pdf"   "./golden_ratios.html"
-## [4] "./golden_ratios.pdf"  "./golden_ratios.txt"  "./golden_ratio.txt"
+## [1] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"
 ----
 
 
@@ -2177,6 +2154,90 @@ beschrieben. Sie ist jetzt paketierungsreif:
 
 Zum Paketieren nimmst Du wieder die getrennten Funktionsdateien, 
 +src/golden_ratio.R+ und und +src/.golden_ratio.R+ und ihre zugeh&ouml;rigen Testdateien.
+
+Damit sie den Paketanforderungen gen&uuml;gen, mu&szlig;t Du noch zwei kleine
+&Auml;derungen vornehmen: +golden_ratio.R+ braucht noch einen
+Verweis darauf, dass interne Funktionen in +golden_ratio_internals.R+ stehen
+
+
+[source,r]
+----
+code <- c("#' @include golden_ratio_internals.R", "NULL", "",
+          readLines(file.path("src", "golden_ratio.R")))
+writeLines(code, file.path("src", "golden_ratio.R"))
+----
+
+.src/golden_ratio.R
+
+[source,r]
+----
+#' @include golden_ratio_internals.R
+NULL
+
+#' Compute the Other Quantity in Golden Ratio
+#'
+#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to
+#' the Golden Ratio.
+#'
+#' Specify \code{value = 1} to obtain the Golden Ratio itself in element "a" of 
+#' the return value.
+#' @param value A Quantity.
+#' @param landscape Is the quantity given by \code{value} the larger one ("a")?
+#' @return A vector giving the quantities "a" and "b".
+#' @export
+#' @examples
+#' print(golden_ratio(value = 1)[["a"]])
+golden_ratio  <- function(value, landscape = FALSE) {
+    phi <- .golden_ratio()
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
+}
+----
+
+
+und die Dokumentation f&uuml;r +.golden_ratio+ sollte in eine Datei geschrieben
+werden, deren Name nicht mit einem Punkt beginnt
+(der Name der Hilfedatei wird, wenn Du ihn nicht explizit angibst, aus dem der
+dokumentierten Funktion abgeleitet)
+
+
+[source,r]
+----
+code <- readLines(file.path("src", ".golden_ratio.R"))
+return_line <- grep("@return", code)
+code_upper <- code[1:return_line]
+code_lower <- code[(return_line + 1):length(code)]
+code <- c(code_upper, "#' @rdname internals", code_lower)
+writeLines(code, file.path("src", ".golden_ratio.R"))
+----
+
+.src/.golden_ratio.R
+
+[source,r]
+----
+#' Compute the Golden Ratio
+#'
+#' See \url{https://en.wikipedia.org/wiki/Golden_ratio} for an introduction to
+#' the Golden Ratio.
+#'
+#' @return The Golden Ratio
+#' @rdname internals
+#' @keywords internal
+.golden_ratio  <- function() {
+    phi <- (1 + sqrt(5)) / 2
+    return(phi)
+}
+----
+
+
+
+
 Du erstellst eine Paketvorlage und kopierst die Dateien hinein:
 
 
@@ -2202,12 +2263,16 @@ file.copy(from = file.path("src", c("test_golden_ratio.R",
 # build the docs
 roxygen2::roxygenize(package_dir)
 # Set package Metadata
-desc::desc_set_authors(person(given = "Your", family = "Name", role = "cre", 
-                        email = "your.name@somewhe.re"), 
-                 file = package_dir, normalize = TRUE)
+desc::desc_set_authors(person(given = "Your", family = "Name", 
+                              role = c("aut", "cre"), 
+                              email = "your.name@somewhe.re"), 
+                       file = package_dir, normalize = TRUE)
 desc::desc_bump_version("minor", package_dir)
-# Set package License
+## Fix some more metadata
 d <- desc::desc(package_dir)
+### Use title case
+d$set(Title = tools::toTitleCase(d$get("Title")))
+### Set package License
 d$set(License = "GPL")
 d$write()
 ----
@@ -2231,19 +2296,7 @@ print(check)
 ## 
 ## ── R CMD check results ───────────────────────────────── mytools 0.1.0 ────
 ## 
-## ❯ checking CRAN incoming feasibility ... NOTE
-##   Maintainer: ‘Your Name <your.name@somewhe.re>’
-##   
-##   New submission
-##   
-##   The Title field should be in title case, current version then in title case:
-##   ‘What the Package Does (one line, title case)’
-##   ‘What the Package Does (One Line, Title Case)’
-## 
-## ❯ checking DESCRIPTION meta-information ... NOTE
-##   Authors@R field gives no person with name and author role
-## 
-## ── 0 errors ✔ | 0 warnings ✔ | 2 notes ✖
+## ── 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 ----
 
 Nun ja, Du hast die Metadaten noch nicht angepa&szlig;t. Solltest Du noch tun.
@@ -2275,7 +2328,9 @@ covr::package_coverage(package_dir)
 ----
 
 
-Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  nutzen:
+Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  
+fragen (wobei https://CRAN.R-project.org/package=lintr[lintr] hier die vorhandene Funktion
+        +.golden_ratio()+ _nicht_ erkennt und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] ebenfalls nicht und:
 
 
 [source,r]
@@ -2284,7 +2339,7 @@ print(lintr::lint_package(package_dir))
 ----
 
 ----
-## R/golden_ratio.R:15:12: warning: no visible global function definition for '.golden_ratio', Did you mean 'golden_ratio'?
+## R/golden_ratio.R:18:12: warning: no visible global function definition for '.golden_ratio', Did you mean 'golden_ratio'?
 ##     phi <- .golden_ratio()
 ##            ^~~~~~~~~~~~~
 ----
@@ -2318,38 +2373,28 @@ withr::with_dir(dirname(package_dir),
 ----
 
 ----
-## $status
-## [1] 0
-## 
 ## $stdout
-## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files and shell scripts\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
+## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
 ## 
 ## $stderr
 ## [1] "\n"
 ## 
-## $timeout
-## [1] FALSE
-## 
-## $command
-## [1] "/home/qwer/svn/R/r-devel/build/bin/R"
-## [2] "CMD"                                 
-## [3] "build"                               
-## [4] "mytools"
+## $status
+## [1] 0
 ----
 
 [source,r]
 ----
 package_path <- paste0(package_dir, "_0.1.0.tar.gz")
-file.exists(package_path)
+if (file.exists(package_path)) print(package_path)
 ----
 
 ----
-## [1] TRUE
+## [1] "/tmp/mytools_0.1.0.tar.gz"
 ----
 
 
-
-Deine Paket ist jetzt in /tmp/mytools_0.1.0.tar.gz, fertig zur Installation.
+Paket fertig.
 
 == Bibliographie
 [bibliography]
