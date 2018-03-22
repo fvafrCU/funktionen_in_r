@@ -1117,8 +1117,8 @@ options(pager = pager_function)
 document::man("golden_ratio")
 //end.rcode
 
-Und zum Dritten und Wichtigsten: Du hast Deine Funktion dokumentiert und ihre Schnittstellen
-beschrieben. Sie ist jetzt paketierungsreif:
+Und zum Dritten und Wichtigsten: Du hast Deine Funktionen dokumentiert und ihre 
+Schnittstellen beschrieben. Sie sind jetzt <<_paketieren,paketierungsreif>>.
 
 === Paketieren
 
