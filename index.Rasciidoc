@@ -289,10 +289,10 @@ my_sum <- function(x) {
 }
 //end.rcode
 
-Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
+Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offensichtlich. Und damit weniger gut lesbar.
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?
 
-Komplexere Funktionen haben oft Nebenwirkungen (side effects)
+Komplexere Funktionen haben oft Nebenwirkungen (side effects).
 Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:
 //begin.rcode
 a <- "This is a string"

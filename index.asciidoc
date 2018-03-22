@@ -475,10 +475,10 @@ my_sum <- function(x) {
 ----
 
 
-Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offentsichtlich. Und damit weniger gut lesbar.
+Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offensichtlich. Und damit weniger gut lesbar.
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?
 
-Komplexere Funktionen haben oft Nebenwirkungen (side effects)
+Komplexere Funktionen haben oft Nebenwirkungen (side effects).
 Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:
 
 [source,r]
@@ -791,7 +791,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] -0.02185017
+## [1] -0.1677595
 ----
 
 [source,r]
@@ -1081,7 +1081,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Thu Mar 22 13:21:32 2018 
+## RUNIT TEST PROTOCOL -- Thu Mar 22 15:03:16 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
