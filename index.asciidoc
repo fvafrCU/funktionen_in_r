@@ -56,7 +56,7 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
     und eine Wiederholung schadet sicher nicht.
 
 
-=== Vom Code ... 
+==== Vom Code ... 
 
 [source,r]
 ----
@@ -81,7 +81,7 @@ Dabei siehst Du:
 <4> Addition des aktuellen Vektorelementes zum Ergebnis
 <5> Ausgabe des Ergebnisses
 
-=== ... zur Funktion 
+==== ... zur Funktion 
 
 Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
 der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
@@ -111,7 +111,9 @@ my_sum <- function(x) {
 === Scoping 
 Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche 
 (englisch "scope"), wir sehen uns das am Beispiel an:
+
 ==== Schreibzugriffe
+
 .Ausgangszustand
 Im Augenblick hat das Objekte +value+ den Wert 19:
 
@@ -161,6 +163,7 @@ Du _kannst_ auch aus einer Funktion in einen <<_arbeiten_mit_gültigkeitsbereich
 
 
 ==== Lesezugriffe
+
 .Lesen ist unsicher
 Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
 **R** zunächst nach einem lokalen Objekt des gesuchten Namens, dann in den der
@@ -224,7 +227,7 @@ wir nur die Funktion betrachten: sie ist fehlerhaft.
 
 .Sicherer Lesen
 Wie wir eine Funktion dazu bringen können, außerhalb ihres Gültigkeitsbereiches
-zu schreiben (nein, das _wie_ habe ich Dir noch nicht gezeigt... ), so können wir 
+zu schreiben (nein, das _wie_ habe ich Dir noch nicht gezeigt), so können wir 
 eine Funktion auch zwingen, beim Lesen nur nach lokalen Objekten zu
 suchen:
 
@@ -542,7 +545,7 @@ im jeweiligen Auswertungsskript. Manchmal sammele ich sie an dessen Beginn, meis
 sie aber gleich <<_lokal, lokal>> ab.
 
 ==== Lokal
-Viele meiner wissenschaftlichen Projekte haben im R-Skript-Verzeichnis ein Unterverzeichnis mit dem Namen +/functions+.
+Viele meiner wissenschaftlichen Projekte haben im R-Skript-Verzeichnis ein Unterverzeichnis mit dem Namen +./functions+.
 Darin lege ich die Funktionen, die ich <<_im_jeweiligen_skript, in den Skripten des Projektes>> schreibe, ab.
 Wichtige Funktionen kommen in eigene Dateien, die nach ihnen benannt sind, andere sammele ich, beispielsweise in 
 +./functions/utils.R+ oder +./functions/misc.R+.
@@ -583,8 +586,8 @@ Filter(file.exists, candidates)
 
 ==== Als Paket
 Wenn Du Dir die Mühe machst, Deine Funktionen zu <<_funktionen_dokumentieren, dokumentieren>>, kannst 
-Du eigentlich auch gleich in einem oder mehreren Paketen verwalten. 
-Das ist zwar am aufwendigsten, aber auch am elegantesten.
+Du sie eigentlich auch gleich in einem oder mehreren Paketen verwalten. 
+Das ist am elegantesten.
 
 
 == Schöner Programmieren
@@ -726,7 +729,7 @@ my_sum(42)
 ----
 
 
-_Ich nutze Typentests oft in Funktionen. Da https://CRAN.R-project.org/package=checkmate[checkmate] deutlich mehr Funktionalität bietet, nutzte ich https://CRAN.R-project.org/package=assert_that[assert_that] eher selten._
+_Ich nutze Typentests oft in Funktionen. Da https://CRAN.R-project.org/package=checkmate[checkmate] deutlich mehr Funktionalität bietet, nutzte ich https://CRAN.R-project.org/package=assertthat[assertthat] eher selten._
 
 ==== Auswahllisten
 Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
@@ -788,7 +791,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] -0.03118922
+## [1] -0.1305521
 ----
 
 [source,r]
@@ -1078,7 +1081,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Thu Mar 22 10:18:37 2018 
+## RUNIT TEST PROTOCOL -- Thu Mar 22 12:50:57 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1607,13 +1610,17 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 ----
 
 
-+golden_rectangle+ habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen.
-_Aber ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
++golden_rectangle+ habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen. Aber:
+
+ _Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
 wenn ich sie in ein Paket verpacke._
 
 === Weniger schlecht programmieren
 Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Paketen vorstellen, 
-die Dir helfen können, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen._
+die Dir helfen können, gut lesbare Funktionen zu schreiben. 
+
+_Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen._
+
 Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der "_recommended_ Packages" von **R** und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil +codetools+ schon da war.
 
 Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne 

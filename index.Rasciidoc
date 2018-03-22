@@ -56,8 +56,8 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
     und eine Wiederholung schadet sicher nicht.
 
 
-=== Vom Code ... 
-//begin.rcode, code = readLines("src/sum.R")
+==== Vom Code ... 
+//begin.rcode, code = readLines(file.path("src", "sum.R"))
 //end.rcode
 
 Dabei siehst Du:
@@ -68,7 +68,7 @@ Dabei siehst Du:
 <4> Addition des aktuellen Vektorelementes zum Ergebnis
 <5> Ausgabe des Ergebnisses
 
-=== ... zur Funktion 
+==== ... zur Funktion 
 
 Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
 der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
@@ -81,14 +81,16 @@ Das Ergebnis sieht dann so aus:
 
 
 
-//begin.rcode, code = readLines("src/my_sum.R")
+//begin.rcode, code = readLines(file.path("src", "my_sum.R"))
 //end.rcode
 
 
 === Scoping 
 Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche 
 (englisch "scope"), wir sehen uns das am Beispiel an:
+
 ==== Schreibzugriffe
+
 .Ausgangszustand
 Im Augenblick hat das Objekte +value+ den Wert +r value+:
 
@@ -117,6 +119,7 @@ Du _kannst_ auch aus einer Funktion in einen <<_arbeiten_mit_gültigkeitsbereich
 
 
 ==== Lesezugriffe
+
 .Lesen ist unsicher
 Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
 **R** zunächst nach einem lokalen Objekt des gesuchten Namens, dann in den der
@@ -125,7 +128,7 @@ Funktion übergeordneten Gültigkeitsbereichen, also außerhalb der Funktion.
 Das kann zu unerwünschten Nebeneffekten führen. Stell Dir vor, Du kommentierst 
 beim Schreiben der Summenfunktion die Definition des zur Addition neutralen
 Elementes aus Versehen aus:
-//begin.rcode, code = readLines("src/my_sum_scope_broken.R")
+//begin.rcode, code = readLines(file.path("src", "my_sum_scope_broken.R"))
 //end.rcode
 
 Du führst die Funktion aus und erhälst:
@@ -153,10 +156,10 @@ wir nur die Funktion betrachten: sie ist fehlerhaft.
 
 .Sicherer Lesen
 Wie wir eine Funktion dazu bringen können, außerhalb ihres Gültigkeitsbereiches
-zu schreiben (nein, das _wie_ habe ich Dir noch nicht gezeigt... ), so können wir 
+zu schreiben (nein, das _wie_ habe ich Dir noch nicht gezeigt), so können wir 
 eine Funktion auch zwingen, beim Lesen nur nach lokalen Objekten zu
 suchen:
-//begin.rcode, code = readLines("src/my_sum_get_safe.R")
+//begin.rcode, code = readLines(file.path("src", "my_sum_get_safe.R"))
 //end.rcode
 
 Selbst wenn wir ein Objekt namens +value+ anlegen, gibt die Funktion nun einen
@@ -220,7 +223,7 @@ Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie s
 Eine Funktion, die, wie `wipe_clean`, kein Argument kennt, ist Folgende:
 
 
-//begin.rcode, code = readLines("src/memhogs.R")
+//begin.rcode, code = readLines(file.path("src", "memhogs.R"))
 //end.rcode
 
 Diese Funktion gibt mir für jedes Objekt des Gültigkeitsbereiches, in dem ich sie aufrufe, den Speicherverbrauch aus.
@@ -237,7 +240,7 @@ Bei so wenigen Objekten erkenne ich leicht, dass `vc` der größte Speicherfress
 
 Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:
 
-//begin.rcode, code = readLines("src/memhogs_arg.R")
+//begin.rcode, code = readLines(file.path("src", "memhogs_arg.R"))
 //end.rcode
 
 //begin.rcode
@@ -250,7 +253,7 @@ Steuerargumente sollten eine sinnvolle Voreinstellung haben.
 Da die `memory_hogs` intern nun die Funktion `order` aufruft, könnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen. 
 Das können wir entweder explizit tun, oder wir benutzen ein spezielles, _Ellipsis_ genanntes Argument, das durch drei Punkte (`...`) aufgerufen wird:
 
-//begin.rcode, code = readLines("src/memhogs_ellipsis.R")
+//begin.rcode, code = readLines(file.path("src", "memhogs_ellipsis.R"))
 //end.rcode
 
 //begin.rcode
@@ -301,7 +304,7 @@ Das heißt also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, z
 
 Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion läscht, in ein Steuerargument mit Voreinstellung um):
 
-//begin.rcode, code = grep("#'", readLines("src/wipe_clean.R"), value = TRUE, invert = TRUE)
+//begin.rcode, code = grep("#'", readLines(file.path("src", "wipe_clean.R")), value = TRUE, invert = TRUE)
 //end.rcode
 //begin.rcode
 print(wipe_clean())
@@ -318,7 +321,7 @@ im jeweiligen Auswertungsskript. Manchmal sammele ich sie an dessen Beginn, meis
 sie aber gleich <<_lokal, lokal>> ab.
 
 ==== Lokal
-Viele meiner wissenschaftlichen Projekte haben im R-Skript-Verzeichnis ein Unterverzeichnis mit dem Namen +/functions+.
+Viele meiner wissenschaftlichen Projekte haben im R-Skript-Verzeichnis ein Unterverzeichnis mit dem Namen +./functions+.
 Darin lege ich die Funktionen, die ich <<_im_jeweiligen_skript, in den Skripten des Projektes>> schreibe, ab.
 Wichtige Funktionen kommen in eigene Dateien, die nach ihnen benannt sind, andere sammele ich, beispielsweise in 
 +./functions/utils.R+ oder +./functions/misc.R+.
@@ -350,8 +353,8 @@ Filter(file.exists, candidates)
 
 ==== Als Paket
 Wenn Du Dir die Mühe machst, Deine Funktionen zu <<_funktionen_dokumentieren, dokumentieren>>, kannst 
-Du eigentlich auch gleich in einem oder mehreren Paketen verwalten. 
-Das ist zwar am aufwendigsten, aber auch am elegantesten.
+Du sie eigentlich auch gleich in einem oder mehreren Paketen verwalten. 
+Das ist am elegantesten.
 
 
 == Schöner Programmieren
@@ -390,7 +393,7 @@ assertthat::assert_that(is.numeric(x))
 .Was haben wir davon?
 Wenn wir unserer Summenfunktion 
 
-//begin.rcode, code = readLines("src/my_sum.R")
+//begin.rcode, code = readLines(file.path("src", "my_sum.R"))
 //end.rcode
 
 ein nicht-numerisches Argument übergeben, erhalten wir eine recht kryptische Fehlermeldung:
@@ -402,7 +405,7 @@ my_sum(c("a", "b"))
 
 Durch den Einbau eines Typentests 
 
-//begin.rcode, code = readLines("src/my_sum_assertion.R")
+//begin.rcode, code = readLines(file.path("src", "my_sum_assertion.R"))
 //end.rcode
 wird die Meldung deutlich verständlicher:
 //begin.rcode
@@ -411,14 +414,14 @@ my_sum(c("a", "b"))
 
 Mit https://CRAN.R-project.org/package=checkmate[checkmate] können wir sogar erzwingen, dass x nicht nur numerisch sein muss,
 sondern auch mindestens zwei Elemente haben soll. Eine Summe einer Zahl ist ja etwas albern:
-//begin.rcode, code = readLines("src/my_sum_checkmate.R")
+//begin.rcode, code = readLines(file.path("src", "my_sum_checkmate.R"))
 //end.rcode
 
 //begin.rcode
 my_sum(42)
 //end.rcode
 
-_Ich nutze Typentests oft in Funktionen. Da https://CRAN.R-project.org/package=checkmate[checkmate] deutlich mehr Funktionalität bietet, nutzte ich https://CRAN.R-project.org/package=assert_that[assert_that] eher selten._
+_Ich nutze Typentests oft in Funktionen. Da https://CRAN.R-project.org/package=checkmate[checkmate] deutlich mehr Funktionalität bietet, nutzte ich https://CRAN.R-project.org/package=assertthat[assertthat] eher selten._
 
 ==== Auswahllisten
 Mit Auswahllisten können wir Objekte darauf testen, ob sie eine von mehreren Möglichkeiten
@@ -498,10 +501,10 @@ Die kleinste Testeinheit ist immer ein Vergleich.
 
 Wenn wir die Funktionen 
 
-//begin.rcode, code = readLines("src/my_sum.R")
+//begin.rcode, code = readLines(file.path("src", "my_sum.R"))
 //end.rcode
  und 
-//begin.rcode, code = readLines("src/not_my_sum.R")
+//begin.rcode, code = readLines(file.path("src", "not_my_sum.R"))
 //end.rcode
 haben, können wir zum Beispiel mit +base R+ prüfen, ob sie tun, was wir erwarten:
 
@@ -534,21 +537,21 @@ Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<_code_coverage,
 (eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):
 
 //begin.rcode, echo = FALSE
-source("src/my_sum.R")
-source("src/not_my_sum.R")
+source(file.path("src", "my_sum.R"))
+source(file.path("src", "not_my_sum.R"))
 //end.rcode
 
 .https://CRAN.R-project.org/package=testthat[testthat]
 Du kannst einen Test entweder einzeln laufen lassen
 
 
-//begin.rcode, code = readLines("src/test_my_sum.R")
+//begin.rcode, code = readLines(file.path("src", "test_my_sum.R"))
 //end.rcode
 
 oder den Test in einer  Testdatei 
 
 [source,r]
-//begin.rcode, code = readLines("src/test_my_sum.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "test_my_sum.R")), eval = FALSE
 //end.rcode
 
 mit einer Funktion auswerten, bei https://CRAN.R-project.org/package=testthat[testthat] ändert sich 
@@ -574,7 +577,7 @@ recht spröde, mit einer Testdatei
 
 .src/runit_my_sum.R
 [source,r]
-//begin.rcode, code = readLines("src/runit_my_sum.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "runit_my_sum.R")), eval = FALSE
 //end.rcode
 
 allerdings gesprächiger:
@@ -594,13 +597,13 @@ Prinzipiell ist eine hohe Überdeckung gut.
 Wenn Du eine Datei mit einer Funktionsdefinition
 
 .src/my_sum_assertion.R
-//begin.rcode, code = readLines("src/my_sum_assertion.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "my_sum_assertion.R")), eval = FALSE
 //end.rcode
 
 und eine mit dem Test
 
 .src/test_my_sum_assertion.R
-//begin.rcode, code = readLines("src/test_my_sum_assertion.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "test_my_sum_assertion.R")), eval = FALSE
 //end.rcode
 
 hast, kannst Du die Überdeckung berechnen.
@@ -615,7 +618,7 @@ Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test n
 erreicht, weist Dich https://CRAN.R-project.org/package=covr[covr] darauf hin:
 
 .src/my_sum_assertion.R
-//begin.rcode, code = readLines("src/my_sum_coverage.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "my_sum_coverage.R")), eval = FALSE
 //end.rcode
 
 //begin.rcode
@@ -670,7 +673,7 @@ covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
 
 ==== Was soll die ganze Testerei?
 //begin.rcode, echo = FALSE, results = "hide"
-source("src/wipe_clean.R")
+source(file.path("src", "wipe_clean.R"))
 wipe_clean()
 //end.rcode
 
@@ -693,7 +696,7 @@ withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
 //     [source,r]
 //     include::src/golden_ratio.R[]
 // here as does not evaluate _now_ whereas knitr does!
-//begin.rcode, code = readLines("src/golden_ratio.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "golden_ratio.R")), eval = FALSE
 //end.rcode
 
 Das ginge auch als Einzeiler: 
@@ -705,7 +708,7 @@ aber den findest Du auch nicht viel eleganter, dafür aber schlechter lesbar.
 Du schreibst auch einen Test, obwohl der ziemlich trivial ist:
 
 .src/test_golden_ratio.R
-//begin.rcode, code = readLines("src/test_golden_ratio.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "test_golden_ratio.R")), eval = FALSE
 //end.rcode
 [source,r]
 //begin.rcode
@@ -722,10 +725,10 @@ also schreibst Du die folgende Funktion:
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "golden_rectangle_a.R"
 withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
-source("src/golden_rectangle.R")
+source(file.path("src", "golden_rectangle.R"))
 //end.rcode
 .src/golden_rectangle.R
-//begin.rcode, code = readLines("src/golden_rectangle.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "golden_rectangle.R")), eval = FALSE
 //end.rcode
 
 Auch für diese Funktion schreibst Du einen Test:
@@ -735,7 +738,7 @@ src <- "test_golden_rectangle_a.R"
 withr::with_dir("src", file.copy(src, "test_golden_rectangle.R", overwrite = TRUE))
 //end.rcode
 .src/test_golden_rectangle.R
-//begin.rcode, code = readLines("src/test_golden_rectangle.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "test_golden_rectangle.R")), eval = FALSE
 //end.rcode
 //begin.rcode
 covr::file_coverage(file.path("src", c("golden_ratio.R", "golden_rectangle.R")), 
@@ -775,10 +778,10 @@ recht simpel ist, schreibst Du Deine Funktion also um:
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "golden_rectangle_ab.R"
 withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
-source("src/golden_rectangle.R")
+source(file.path("src", "golden_rectangle.R"))
 //end.rcode
 .src/golden_rectangle.R
-//begin.rcode, code = readLines("src/golden_rectangle.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "golden_rectangle.R")), eval = FALSE
 //end.rcode
 //begin.rcode
 width <- 4
@@ -816,10 +819,10 @@ Du entscheidest Dich, die Funktion zu ändern
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "golden_rectangle_ba.R"
 withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
-source("src/golden_rectangle.R")
+source(file.path("src", "golden_rectangle.R"))
 //end.rcode
 .src/golden_rectangle.R
-//begin.rcode, code = readLines("src/golden_rectangle.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "golden_rectangle.R")), eval = FALSE
 //end.rcode
 
 Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
@@ -840,30 +843,35 @@ src <- "test_golden_rectangle_ba.R"
 withr::with_dir("src", file.copy(src, "test_golden_rectangle.R", overwrite = TRUE))
 //end.rcode
 .src/test_golden_rectangle.R
-//begin.rcode, code = readLines("src/golden_rectangle.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "golden_rectangle.R")), eval = FALSE
 //end.rcode
 //begin.rcode
 covr::file_coverage(file.path("src", "golden_rectangle.R"), 
                     file.path("src", "test_golden_rectangle.R"))
 //end.rcode
 
-+golden_rectangle+ habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen.
-_Aber ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
++golden_rectangle+ habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen. Aber:
+
+ _Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
 wenn ich sie in ein Paket verpacke._
 
 === Weniger schlecht programmieren
 Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Paketen vorstellen, 
-die Dir helfen können, gut lesbare Funktionen zu schreiben. _Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen._
-Aber vorweg stelle ich Dir noch +codetools+ vor, es gehört zur Gruppe der "_recommended_ Packages" von **R** und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil +codetools+ schon da war.
+die Dir helfen können, gut lesbare Funktionen zu schreiben. 
+
+_Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen._
+
+Aber vorweg stelle ich Dir noch https://CRAN.R-project.org/package=codetools[codetools] vor, es gehört zur Gruppe der "_recommended_ Packages" von **R** und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil https://CRAN.R-project.org/package=codetools[codetools] schon da war.
 
 Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne 
 und kaputte Funktion geschrieben:
 
-//begin.rcode, code = readLines("src/code.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "code.R")), eval = FALSE
 //end.rcode
 
-==== Code prüfen mit Codetools 
-In Deiner Funktion findet +codetools+ die nicht benutzten Funktionsargumente und das nicht definierte Objekt +this_is_not_defined+:
+==== Code prüfen mit https://CRAN.R-project.org/package=codetools[codetools] 
+In Deiner Funktion findet https://CRAN.R-project.org/package=codetools[codetools] 
+die nicht benutzten Funktionsargumente und das nicht definierte Objekt +this_is_not_defined+:
 
 //begin.rcode
 source(file.path("src", "code.R"))
@@ -882,7 +890,7 @@ dass auf öffnende geschweifte Klammern immer ein Zeilenumbruch folgen sollte un
 dass eine Datei keine Leerzeilen am Ende enthalten sollte:
 
 //begin.rcode
-lintr::lint("src/code.R")
+lintr::lint(file.path("src", "code.R"))
 //end.rcode
 
 Das Paket kennt viele Optionen, lies Dir die Hilfe durch!
@@ -892,7 +900,7 @@ Das Paket https://CRAN.R-project.org/package=cleanr[cleanr] prüft die Länge un
 die Verschachtelungstiefe von Funktionen, ihre Argumentenanzahl und ob sie einen expliziten
 Rückgabewert haben.
 //begin.rcode
-print(suppressWarnings(cleanr::check_file("src/code.R")))
+print(suppressWarnings(cleanr::check_file(file.path("src", "code.R"))))
 //end.rcode
 
 
@@ -908,10 +916,10 @@ Insbesondere gibt Dir die "cyclomatic complexity" eine Idee davon, wie viele Tes
 für eine Funktion schreiben solltest
 (genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige https://en.wikipedia.org/wiki/Code_coverage[branch coverage] benötigten Testfälle).
 Für Deine häßliche Funktion bräuchtest Du also 
-+r cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))+ Testfälle:
++r cyclocomp::cyclocomp(parse(text = readLines(file.path("src", "code.R"))))+ Testfälle:
 
 //begin.rcode
-cyclocomp::cyclocomp(parse(text = readLines("src/code.R")))
+cyclocomp::cyclocomp(parse(text = readLines(file.path("src", "code.R"))))
 //end.rcode
 
 Allgemein gilt: je höher die "cyclomatic complexity", desto unverständlicher der Code.
@@ -934,8 +942,8 @@ Dabei ist die Funktion lediglich schwer verdaulich und nicht völlig unlesbar.
 Dennoch sollte Hadley Wickham die Funktion dringend entrümpeln:
 //begin.rcode
 linters <- lintr::default_linters[names(lintr::default_linters )!= "object_usage_linter"]
-lintr::lint("src/release.R", linters = linters)
-suppressWarnings(cleanr::check_file("src/release.R"))
+lintr::lint(file.path("src", "release.R"), linters = linters)
+suppressWarnings(cleanr::check_file(file.path("src", "release.R")))
 //end.rcode
 
 === Funktionen dokumentieren 
@@ -1045,14 +1053,14 @@ benutzen (http://r-pkgs.had.co.nz/man.html[hier] gibt Hadley Wickham eine druckr
 Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einf&uuml;gst:
 
 //begin.rcode, echo = FALSE, results = "hide"
-code <- c(readLines("src/golden_ratio_doc.R"), 
-          readLines("src/golden_ratio.R")) 
+code <- c(readLines(file.path("src", "golden_ratio_doc.R")), 
+          readLines(file.path("src", "golden_ratio.R"))) 
 writeLines(text = code,
-           con = "src/golden_ratio.R")
+           con = "file.path(src", "golden_ratio.R"))
 //end.rcode
 
 .src/golden_ratio.R
-//begin.rcode, code = readLines("src/golden_ratio.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "golden_ratio.R")), eval = FALSE
 //end.rcode
 
 und weil dokumentieren Dir soviel Spa&szlig; bereit, dokumentierst Du gleich auch
@@ -1060,14 +1068,14 @@ die interne Funktion (interne Funktionen zu dokumentieren ist ein wenig umstritt
                       ich finde es gut).
 
 //begin.rcode, echo = FALSE, results = "hide"
-code <- c(readLines("src/.golden_ratio_doc.R"), 
-          readLines("src/.golden_ratio.R")) 
+code <- c(readLines(file.path("src", ".golden_ratio_doc.R")), 
+          readLines(file.path("src", ".golden_ratio.R"))) 
 writeLines(text = code,
-           con = "src/.golden_ratio.R")
+           con = "file.path(src", ".golden_ratio.R"))
 //end.rcode
 
 .src/.golden_ratio.R
-//begin.rcode, code = readLines("src/.golden_ratio.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", ".golden_ratio.R")), eval = FALSE
 //end.rcode
 
 Was hast Du davon, au&szlig;er Arbeit?
@@ -1076,14 +1084,14 @@ Wenn Du Deine beiden Funktionen in eine Datei schreibst
 
 //begin.rcode, echo = FALSE, results = "hide"
 
-code <- c(readLines("src/.golden_ratio.R"), "",
-          readLines("src/golden_ratio.R")) 
+code <- c(readLines(file.path("src", ".golden_ratio.R")), "",
+          readLines(file.path("src", "golden_ratio.R"))) 
 writeLines(text = code,
-           con = "src/golden_ratios.R")
+           con = "file.path(src", "golden_ratios.R"))
 //end.rcode
 
 .src/golden_ratios.R
-//begin.rcode, code = readLines("src/golden_ratios.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "golden_ratios.R")), eval = FALSE
 //end.rcode
 
 kannst Du mit dem Paket https://CRAN.R-project.org/package=document[document] Hilfe-Dateien erstellen, 
@@ -1127,7 +1135,7 @@ code <- c("#' @include golden_ratio_internals.R", "NULL", "",
 writeLines(code, file.path("src", "golden_ratio.R"))
 //end.rcode
 .src/golden_ratio.R
-//begin.rcode, code = readLines("src/golden_ratio.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "golden_ratio.R")), eval = FALSE
 //end.rcode
 
 und die Dokumentation f&uuml;r +.golden_ratio+ sollte in eine Datei geschrieben
@@ -1144,7 +1152,7 @@ code <- c(code_upper, "#' @rdname internals", code_lower)
 writeLines(code, file.path("src", ".golden_ratio.R"))
 //end.rcode
 .src/.golden_ratio.R
-//begin.rcode, code = readLines("src/.golden_ratio.R"), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", ".golden_ratio.R")), eval = FALSE
 //end.rcode
 
 
