@@ -1213,8 +1213,11 @@ covr::package_coverage(package_dir)
 
 Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  
 fragen (wobei https://CRAN.R-project.org/package=lintr[lintr] hier die vorhandene Funktion
-        +.golden_ratio()+ _nicht_ erkennt und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
-        ebenfalls nicht und daher keine +cyclomatic complexity+ f&uuml;r sie berechnet:
+        +.golden_ratio()+ _nicht_ erkennt 
+        footnote::[Das ist ein altes Problem, siehe https://github.com/jimhester/lintr/issues/27. Wenn Du mit +devtools::install(".")+ das Paket installierst, verschwindet die falsch positive Warnung.] und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
+        ebenfalls nicht 
+        footnote::[In Version 1.1.0 des Pakets ruft +cyclocomp::cyclocomp_package_dir+ die Funktion +cyclocomp::cyclocomp_package+ und diese +ls(asNamespace(package))+, wobei +package+ das aktuelle Paket, hier also "mytools", ist und +ls+ mit der Voreinstellung +all.names = FALSE+ Objekte mit einem f&uuml;hrenden Punkt nicht auflistet.]
+        und daher keine +cyclomatic complexity+ f&uuml;r sie berechnet:
 
 //begin.rcode
 print(lintr::lint_package(package_dir))
@@ -1230,7 +1233,7 @@ package_path <- paste0(package_dir, "_0.1.0.tar.gz")
 if (file.exists(package_path)) print(package_path)
 //end.rcode
 
-Paket fertig.
+Paket fertig. Die Metadaten sind nat&uuml;rlich gelogen (Du solltest die Datei +DESCRIPTION+ anpassen, Du solltest eine Datei +NEWS.md+ pflegen, Du solltest ein https://de.wikipedia.org/wiki/Versionsverwaltung[version control system] benutzten), aber es funktional ist es korrekt.
 
 == Bibliographie
 [bibliography]

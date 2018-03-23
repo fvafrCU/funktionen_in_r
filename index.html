@@ -1570,7 +1570,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] -0.09339851</code></pre>
+<pre><code>## [1] -0.1519912</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1853,7 +1853,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Thu Mar 22 15:16:29 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Fri Mar 23 16:10:49 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -3844,8 +3844,11 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 <div class="paragraph"><p>Und Du solltest immer auch die Deine <a href="#_weniger_schlecht_programmieren">drei Freunde</a>
 fragen (wobei <a href="https://CRAN.R-project.org/package=lintr">lintr</a> hier die vorhandene Funktion
-        <code>.golden_ratio()</code> <em>nicht</em> erkennt und <a href="https://CRAN.R-project.org/package=cyclocomp">cyclocomp</a>
-        ebenfalls nicht und daher keine <code>cyclomatic complexity</code> f&uuml;r sie berechnet:</p></div>
+        <code>.golden_ratio()</code> <em>nicht</em> erkennt
+        <span class="footnote"><br />[Das ist ein altes Problem, siehe <a href="https://github.com/jimhester/lintr/issues/27">https://github.com/jimhester/lintr/issues/27</a>. Wenn Du mit <code>devtools::install(".")</code> das Paket installierst, verschwindet die falsch positive Warnung.]<br /></span> und <a href="https://CRAN.R-project.org/package=cyclocomp">cyclocomp</a>
+        ebenfalls nicht
+        <span class="footnote"><br />[In Version 1.1.0 des Pakets ruft <code>cyclocomp::cyclocomp_package_dir</code> die Funktion <code>cyclocomp::cyclocomp_package</code> und diese <code>ls(asNamespace(package))</code>, wobei <code>package</code> das aktuelle Paket, hier also "mytools", ist und <code>ls</code> mit der Voreinstellung <code>all.names = FALSE</code> Objekte mit einem f&uuml;hrenden Punkt nicht auflistet.]<br /></span>
+        und daher keine <code>cyclomatic complexity</code> f&uuml;r sie berechnet:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3909,7 +3912,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] "/tmp/mytools_0.1.0.tar.gz"</code></pre>
 </div></div>
-<div class="paragraph"><p>Paket fertig.</p></div>
+<div class="paragraph"><p>Paket fertig. Die Metadaten sind nat&uuml;rlich gelogen (Du solltest die Datei <code>DESCRIPTION</code> anpassen, Du solltest eine Datei <code>NEWS.md</code> pflegen, Du solltest ein <a href="https://de.wikipedia.org/wiki/Versionsverwaltung">version control system</a> benutzten), aber es funktional ist es korrekt.</p></div>
 </div>
 </div>
 </div>
@@ -3938,7 +3941,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-22 15:16:58 CET
+ 2018-03-23 16:11:20 CET
 </div>
 </div>
 </body>
