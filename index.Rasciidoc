@@ -1214,7 +1214,7 @@ covr::package_coverage(package_dir)
 Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  
 fragen (wobei https://CRAN.R-project.org/package=lintr[lintr] hier die vorhandene Funktion
         +.golden_ratio()+ _nicht_ erkennt 
-        footnote::[Das ist ein altes Problem, siehe https://github.com/jimhester/lintr/issues/27. Wenn Du mit +devtools::install(".")+ das Paket installierst, verschwindet die falsch positive Warnung.] und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
+        footnote::[Das ist ein altes Problem, siehe https://github.com/jimhester/lintr/issues/27. Wenn Du mit +devtools::install(package_dir)+ das Paket installierst, verschwindet die falsch positive Warnung.] und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
         ebenfalls nicht 
         footnote::[In Version 1.1.0 des Pakets ruft +cyclocomp::cyclocomp_package_dir+ die Funktion +cyclocomp::cyclocomp_package+ und diese +ls(asNamespace(package))+, wobei +package+ das aktuelle Paket, hier also "mytools", ist und +ls+ mit der Voreinstellung +all.names = FALSE+ Objekte mit einem f&uuml;hrenden Punkt nicht auflistet.]
         und daher keine +cyclomatic complexity+ f&uuml;r sie berechnet:
