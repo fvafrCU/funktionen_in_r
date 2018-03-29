@@ -880,8 +880,8 @@ codetools::checkUsage(foo, all = TRUE)
 
 ==== Entflusen mit  https://CRAN.R-project.org/package=lintr[lintr]  
 
-Das Paket https://CRAN.R-project.org/package=lintr[lintr] prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
-zur übersichtlichen Formatierung. 
+Das Paket https://CRAN.R-project.org/package=lintr[lintr] prüft Code auf Fussel, 
+das sind Abweichungen des Codes von Richtlinien zur übersichtlichen Formatierung. 
 Die Richtlinien (gegen die https://CRAN.R-project.org/package=lintr[lintr] prüft, und die sind gut, halte Dich an sie;
                  zu mehr über Progammierrichtlinien findest Du im https://fvafrcu.github.io/programmierleitfaden.ps[Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg]) 
 sehen unter anderem vor, 
@@ -894,6 +894,12 @@ lintr::lint(file.path("src", "code.R"))
 //end.rcode
 
 Das Paket kennt viele Optionen, lies Dir die Hilfe durch!
+
+Seit Ende 2017 gibt es auch das Paket https://CRAN.R-project.org/package=styler[styler], 
+welches Code (auch in Dateien) umformatiert und in meinen Augen deutlich bessere 
+Ergebnisse bringt als https://CRAN.R-project.org/package=formatR[formatR]. 
+Ich nutze https://CRAN.R-project.org/package=styler[styler], wenn 
+ich richtig schlecht geschriebenen Code lesen muss.
 
 ==== Code säubern mit  https://CRAN.R-project.org/package=cleanr[cleanr]  
 Das Paket https://CRAN.R-project.org/package=cleanr[cleanr] prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und

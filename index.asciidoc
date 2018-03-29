@@ -217,7 +217,7 @@ print(my_sum_broken(1:3))
 
 [source,r]
 ----
-## Error: object 'value' not found
+## Error in my_sum_broken(1:3): object 'value' not found
 
 ----
 
@@ -311,7 +311,7 @@ ls()
 
 ----
 ## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"
+## [5] "my_sum_safer"  "value"         "wipe_clean"
 ----
 
 [source,r]
@@ -362,7 +362,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##        7576        4232     3432720     6864720      343920
+##        7896        4424     3520824     7040824      352824
 ----
 
 
@@ -390,7 +390,7 @@ memory_hogs()
 
 ----
 ##          va memory_hogs          vd          vb          vc 
-##        4232        9576      343920     3432720     6864720
+##        4424        9952      352824     3520824     7040824
 ----
 
 
@@ -422,7 +422,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vb          vc          vd 
-##       13080        4232     3432720     6864720      343920
+##       13624        4424     3520824     7040824      352824
 ----
 
 [source,r]
@@ -432,7 +432,7 @@ memory_hogs(decreasing = TRUE)
 
 ----
 ##          vc          vb          vd memory_hogs          va 
-##     6864720     3432720      343920       13080        4232
+##     7040824     3520824      352824       50120        4424
 ----
 
 
@@ -447,7 +447,7 @@ memory_hogs()
 
 ----
 ## memory_hogs          va          vd 
-##       13080        4232      343920
+##       50120        4424      352824
 ----
 
 
@@ -791,7 +791,7 @@ center(rnorm(100), "med")
 ----
 
 ----
-## [1] -0.1519912
+## [1] 0.01407822
 ----
 
 [source,r]
@@ -1071,7 +1071,16 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ... Timing stopped at: 0 0 0.001 
+## Executing test function test_sum  ...
+----
+
+[source,r]
+----
+## Timing stopped at: 0 0 0
+
+----
+
+----
 ##  done successfully.
 ----
 
@@ -1081,7 +1090,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Fri Mar 23 16:10:49 2018 
+## RUNIT TEST PROTOCOL -- Thu Mar 29 19:41:32 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -1101,9 +1110,9 @@ RUnit::printTextProtocol(runit)
 ## Test function regexp: ^test.+ 
 ## Test file regexp: ^runit_my_sum.R$ 
 ## Involved directory: 
-## /home/nik/git/cs/fvafrcu/funktionen_in_r/src 
+## /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src 
 ## --------------------------- 
-## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
+## Test file: /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
 ## test_sum: FAILURE !! (check number 1)
 ## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
 ## 
@@ -1281,7 +1290,7 @@ covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
 ----
 ## Error: Test failed: 'Test return value and side effects.'
 ## * ls() not identical to character(0).
-## Lengths differ: 1 vs 0
+## Lengths differ: 1 is not 0
 
 ----
 
@@ -1680,8 +1689,8 @@ codetools::checkUsage(foo, all = TRUE)
 
 ==== Entflusen mit  https://CRAN.R-project.org/package=lintr[lintr]  
 
-Das Paket https://CRAN.R-project.org/package=lintr[lintr] prüft Code auf Fussel, das sind Abweichungen des Codes von Richtlinien 
-zur übersichtlichen Formatierung. 
+Das Paket https://CRAN.R-project.org/package=lintr[lintr] prüft Code auf Fussel, 
+das sind Abweichungen des Codes von Richtlinien zur übersichtlichen Formatierung. 
 Die Richtlinien (gegen die https://CRAN.R-project.org/package=lintr[lintr] prüft, und die sind gut, halte Dich an sie;
                  zu mehr über Progammierrichtlinien findest Du im https://fvafrcu.github.io/programmierleitfaden.ps[Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg]) 
 sehen unter anderem vor, 
@@ -1712,6 +1721,12 @@ lintr::lint(file.path("src", "code.R"))
 
 
 Das Paket kennt viele Optionen, lies Dir die Hilfe durch!
+
+Seit Ende 2017 gibt es auch das Paket https://CRAN.R-project.org/package=styler[styler], 
+welches Code (auch in Dateien) umformatiert und in meinen Augen deutlich bessere 
+Ergebnisse bringt als https://CRAN.R-project.org/package=formatR[formatR]. 
+Ich nutze https://CRAN.R-project.org/package=styler[styler], wenn 
+ich richtig schlecht geschriebenen Code lesen muss.
 
 ==== Code säubern mit  https://CRAN.R-project.org/package=cleanr[cleanr]  
 Das Paket https://CRAN.R-project.org/package=cleanr[cleanr] prüft die Länge und (Zeilen-) Breite von Funktionen und Codedateien und
@@ -2107,7 +2122,8 @@ list.files(pattern = "^golden.*", full.names = TRUE)
 ----
 
 ----
-## [1] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"
+## [1] "./golden_ratio.html"  "./golden_ratio.pdf"   "./golden_ratios.html"
+## [4] "./golden_ratios.pdf"  "./golden_ratios.txt"  "./golden_ratio.txt"
 ----
 
 
@@ -2304,7 +2320,12 @@ print(check)
 ## 
 ## ── R CMD check results ───────────────────────────────── mytools 0.1.0 ────
 ## 
-## ── 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+## ❯ checking CRAN incoming feasibility ... NOTE
+##   Maintainer: ‘Your Name <your.name@somewhe.re>’
+##   
+##   New submission
+## 
+## ── 0 errors ✔ | 0 warnings ✔ | 1 note ✖
 ----
 
 Nun ja, Du hast die Metadaten noch nicht angepa&szlig;t. Solltest Du noch tun.
@@ -2339,7 +2360,7 @@ covr::package_coverage(package_dir)
 Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  
 fragen (wobei https://CRAN.R-project.org/package=lintr[lintr] hier die vorhandene Funktion
         +.golden_ratio()+ _nicht_ erkennt 
-        footnote::[Das ist ein altes Problem, siehe https://github.com/jimhester/lintr/issues/27. Wenn Du mit +devtools::install(".")+ das Paket installierst, verschwindet die falsch positive Warnung.] und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
+        footnote::[Das ist ein altes Problem, siehe https://github.com/jimhester/lintr/issues/27. Wenn Du mit +devtools::install(package_dir)+ das Paket installierst, verschwindet die falsch positive Warnung.] und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
         ebenfalls nicht 
         footnote::[In Version 1.1.0 des Pakets ruft +cyclocomp::cyclocomp_package_dir+ die Funktion +cyclocomp::cyclocomp_package+ und diese +ls(asNamespace(package))+, wobei +package+ das aktuelle Paket, hier also "mytools", ist und +ls+ mit der Voreinstellung +all.names = FALSE+ Objekte mit einem f&uuml;hrenden Punkt nicht auflistet.]
         und daher keine +cyclomatic complexity+ f&uuml;r sie berechnet:
@@ -2385,14 +2406,23 @@ withr::with_dir(dirname(package_dir),
 ----
 
 ----
+## $status
+## [1] 0
+## 
 ## $stdout
-## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
+## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files and shell scripts\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
 ## 
 ## $stderr
 ## [1] "\n"
 ## 
-## $status
-## [1] 0
+## $timeout
+## [1] FALSE
+## 
+## $command
+## [1] "/home/qwer/svn/R/r-devel/build/bin/R"
+## [2] "CMD"                                 
+## [3] "build"                               
+## [4] "mytools"
 ----
 
 [source,r]
