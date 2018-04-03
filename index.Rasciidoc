@@ -1,5 +1,5 @@
 = Funktionen Schreiben in **R**
-Dominik Cullmann 
+Anne-Sophie Stelzer, Dominik Cullmann 
 :toc2:
 :toclevels: 5
 :numbered:
@@ -22,8 +22,8 @@ Naja, ums Schreiben von Funktionen in der Programmiersprache **R**.
 * Funktionen sind Programmkonstrukte, mit denen Du Teile des von Dir 
   geschriebenen Codes wiederverwenden kannst
   (siehe https://de.wikipedia.org/wiki/Funktion_(Programmierung)[Wikipedia]).
-* Funktionen sind in den Standardbiliotheken jeder Programmiersprache vorhanden, 
-  viele R-Funktionen kennst Du wahrscheinlich schon: `sum()`, `mean()` 
+* Funktionen sind in den Standardbibliotheken jeder Programmiersprache vorhanden, 
+  viele **R**-Funktionen kennst Du wahrscheinlich schon: `sum()`, `mean()` 
   oder `summary()`.
 
 === Warum Funktionen?
@@ -72,9 +72,9 @@ Dabei siehst Du:
 
 Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
 der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
-der Funktion. Ich wähle als Namen für das Argument jetzt +x+, das könnte aber
-auch +a+ bleiben, es ist eine Frage der Konvention, und unter +x+ verstehen wir
-meist eine Unbekannte. Und als Ausgabe verwenden wir keine Druck- sondern eine
+der Funktion. Ich wähle als Namen für das Argument jetzt +x+ (das könnte aber
+auch +a+ bleiben, das ist eine Frage der Konvention, und unter +x+ verstehen wir
+meist eine Unbekannte). Und als Ausgabe verwenden wir keine Druck- sondern eine
 Rückgabefunktion (+return()+ statt +print()+). 
 Das Ergebnis sieht dann so aus:
 
@@ -121,7 +121,7 @@ Du _kannst_ auch aus einer Funktion in einen <<_arbeiten_mit_gültigkeitsbereich
 ==== Lesezugriffe
 
 .Lesen ist unsicher
-Mit dem Namen eines Objektes wird dieses gelesen, innerhalb einer Funktion sucht
+Mit dem Namen eines Objektes wird dieses gelesen. Innerhalb einer Funktion sucht
 **R** zunächst nach einem lokalen Objekt des gesuchten Namens, dann in den der
 Funktion übergeordneten Gültigkeitsbereichen, also außerhalb der Funktion.
 
@@ -131,7 +131,7 @@ Elementes aus Versehen aus:
 //begin.rcode, code = readLines(file.path("src", "my_sum_scope_broken.R"))
 //end.rcode
 
-Du führst die Funktion aus und erhälst:
+Du führst die Funktion aus und erhältst:
 //begin.rcode
 print(my_sum_broken(1:3))
 //end.rcode
@@ -168,7 +168,7 @@ Fehler aus:
 value <- 42
 my_sum_safer(1:10)
 //end.rcode
-Ich finde es aber praktiabler, beim Schreiben einer Funktion darauf zu achten,
+Ich finde es aber praktikabler, beim Schreiben einer Funktion darauf zu achten,
 welche Objekte ich lese. + 
 Und wenn Du Funktionen <<_funktionen_testen,testest>>, findest Du Fehler, die auf Scoping beruhen,
 sehr schnell. 
@@ -180,7 +180,7 @@ Ein Befehl, mit dem Du alle Objekte Deines aktuellen Arbeitsbereiches löschen
 kannst (entsprechend dem RStudio-Knopf mit dem Besensymbol footnote:[Im https://github.com/rstudio/rstudio/releases/tag/v1.1.426[Code von RStudio v1.1.426] findet sich die Funktion hinter dem Knopf  in der Datei src/cpp/session/modules/SessionEnvironment.R, sie besteht im wesentlichen aus der Zeile +
 rm(list=ls(envir=env, all.names=includeHidden), envir=env) +
 Sie wird in src/cpp/session/modules/environment/SessionEnvironment.cpp in der C++-Funktion  removeAllObjects aufgerufen.
-]) lautet:
+]), lautet:
 
 //begin.rcode, eval = FALSE
 rm(list = ls(all.names = TRUE))
@@ -189,7 +189,7 @@ Nun  bin ich
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich 
-(in **R** heissen die Gültigkeitsbereiche "environments", in **S** hießen sie "frames") ist und die 
+(in **R** hei&szlig;en die Gültigkeitsbereiche "environments", in **S** hießen sie "frames") ist und die 
 Funktionen  `ls` und `rm` nur in _einem_ Gültigkeitsbereich arbeiten, funktioniert das naheliegende
 //begin.rcode, eval = FALSE
 wipe_clean <- function() {
@@ -216,7 +216,7 @@ ls()
 
 === Argumente
 
-Funktionen kennen Argmumente, am besten nicht zu viele (siehe zum Beispiel <<cc>>). 
+Funktionen kennen Argumente, am besten nicht zu viele (siehe zum Beispiel <<cc>>). 
 Unsere Summenfunktion kennt beispielsweise eines, nämlich den Vektor, den sie summieren soll. Der ist also ein obligatorisches Element, er sollte keine Voreinstellung haben (und hat auch keine).
 
 
@@ -238,7 +238,7 @@ memory_hogs()
 
 Bei so wenigen Objekten erkenne ich leicht, dass `vc` der größte Speicherfresser ist und ich, falls mir der Speicher platzt und ich `vc` nicht mehr unbedingt brauche, `vc` löschen sollte.
 
-Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, dass in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:
+Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, das in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:
 
 //begin.rcode, code = readLines(file.path("src", "memhogs_arg.R"))
 //end.rcode
@@ -270,8 +270,8 @@ memory_hogs()
 
 Wir können also, wenn wir wollen, drei Arten von Argumenten unterscheiden:
 
-- Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen.
-- Optionale. Sie sollten Voreinstellungen kennen und dienen üblicherweise der Steuerung der Funktion.
+- Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen. Der zu summierende Vektor `x` in `my_sum` ist ein klassisches Beispiel: ein Voreinstellung f&uuml;r die zu summiernden Zahlen (etwa `x = c(40, 2)` ist unsinnig.
+- Optionale. Sie sollten Voreinstellungen kennen und dienen üblicherweise der Steuerung der Funktion. Das Argument `order` in `memory_hogs` ist ein klassisches Beispiel: 
 - Die _Ellipsis_, um Argumente an andere Funktionen weiterzureichen.
 
 === Return Value und Side Effects
@@ -293,7 +293,9 @@ Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offensichtl
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?
 
 Komplexere Funktionen haben oft Nebenwirkungen (side effects).
-Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist Rückgabewert sogar belanglos. Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt), das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:
+Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist der Rückgabewert sogar belanglos. 
+Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt). 
+Das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:
 //begin.rcode
 a <- "This is a string"
 print(rm(a))
@@ -302,7 +304,7 @@ print(rm())
 
 Das heißt also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`).
 
-Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gütigkeitsbereich, indem die Funktion l&ouml;scht, in ein Steuerargument mit Voreinstellung um):
+Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gültigkeitsbereich, indem die Funktion l&ouml;scht, in ein Steuerargument mit Voreinstellung um):
 
 //begin.rcode, code = grep("#'", readLines(file.path("src", "wipe_clean.R")), value = TRUE, invert = TRUE)
 //end.rcode
@@ -321,26 +323,32 @@ im jeweiligen Auswertungsskript. Manchmal sammele ich sie an dessen Beginn, meis
 sie aber gleich <<_lokal, lokal>> ab.
 
 ==== Lokal
-Viele meiner wissenschaftlichen Projekte haben im R-Skript-Verzeichnis ein Unterverzeichnis mit dem Namen +./functions+.
+Viele meiner wissenschaftlichen Projekte haben im **R**-Skript-Verzeichnis ein Unterverzeichnis mit dem Namen +./functions+.
 Darin lege ich die Funktionen, die ich <<_im_jeweiligen_skript, in den Skripten des Projektes>> schreibe, ab.
 Wichtige Funktionen kommen in eigene Dateien, die nach ihnen benannt sind, andere sammele ich, beispielsweise in 
 +./functions/utils.R+ oder +./functions/misc.R+.
 
-Jedes Auswertungsskript hat dann am Beginn die Zeile
+Jedes Auswertungsskript hat dann am Beginn die Zeilen
 //begin.rcode, eval = FALSE
-for (f in dir("./functions/", full.names = TRUE, pattern = ".*\\.[rR]")) source(f)
+for (f in dir("./functions/", full.names = TRUE, pattern = ".*\\.[rR]")) {
+    source(f)
+}
 //end.rcode
 
 ====  Global 
-Funktionen, die Du nicht nur in einem Projekt nutzen willst, kannst Du zentral verwalten, 
-in dem Du Dateien wie <<_lokal, lokal>>, aber in einem zentralen Verzeichnis ablegst, 
-und in eine Deiner R-Startup-Dateien die Anweisung
+Funktionen, die Du nicht nur in einem Projekt nutzen willst, 
+kannst Du zentral verwalten, 
+in dem Du Dateien wie im Abschnitt <<_lokal, lokal>> beschrieben ablegst, 
+nur mit dem Unterschied, dass Du ein zentrales Verzeichnis benutzt.
+Dann f&uuml;gst Du ineine Deiner **R**-Startup-Dateien die Anweisung
 //begin.rcode, eval = FALSE
 for (f in dir("/full/path/to/functions_directory/", 
-              full.names = TRUE, pattern = ".*\\.[rR]")) source(f)
+              full.names = TRUE, pattern = ".*\\.[rR]")) {
+    source(f)
+}
 //end.rcode
-einfügst und den  "/full/path/to/functions_directory/" anpasst.
-Geeignte R-Startup-Dateien verrät Dir die R-Hilfe +?Startup+ oder der Code:
+ein und den  passt "/full/path/to/functions_directory/" an.
+Geeignte **R**-Startup-Dateien verrät Dir die **R**-Hilfe +?Startup+ oder der Code:
 //begin.rcode, results = "hide"
 candidates <- c( Sys.getenv("R_PROFILE"),
                  Sys.getenv("R_PROFILE_USER"),
@@ -367,7 +375,7 @@ Wir haben verschiedene Möglichkeiten, die Objekte, die wir den Argumenten einer
 
 Wir können Objekte darauf testen, ob sie einem bestimmten Typ (einer Klasse) angehören; 
 bei Objekten, die einer Funktion als Argument übergeben werden ist dies besonders ratsam.
-Das geht mir reinen +base R+, ist aber eher umständlich,
+Das geht in reinen +base R+, ist aber eher umständlich,
 die https://cran.r-project.org/web/packages/checkmate/vignettes/checkmate.html#intro[Vignette zu +checkmate+] 
 bietet ein anschauliches Bespiel.
 
@@ -589,7 +597,8 @@ RUnit::printTextProtocol(runit)
 //end.rcode
 
 ==== Code Coverage
-Um zu sehen, ob Deine Unit Tests die Funktion gut testen, kannst Du ihre  (https://en.wikipedia.org/wiki/Code_coverage[Überdeckung]) berechnen.
+Um zu sehen, ob Deine Unit Tests die Funktion gut testen, 
+kannst Du ihre  https://en.wikipedia.org/wiki/Code_coverage[Überdeckung] berechnen.
 https://CRAN.R-project.org/package=covr[covr] ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass https://CRAN.R-project.org/package=covr[covr] die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
 berechnet. 
 Prinzipiell ist eine hohe Überdeckung gut.
@@ -861,7 +870,8 @@ die Dir helfen können, gut lesbare Funktionen zu schreiben.
 
 _Ich nutze alle drei standardmäßig bei der Entwicklung von Paketen._
 
-Aber vorweg stelle ich Dir noch https://CRAN.R-project.org/package=codetools[codetools] vor, es gehört zur Gruppe der "_recommended_ Packages" von **R** und kann Programmfehler finden, die drei anderen Pakete gibt es nur, weil https://CRAN.R-project.org/package=codetools[codetools] schon da war.
+Aber vorweg stelle ich Dir noch https://CRAN.R-project.org/package=codetools[codetools] vor, es gehört zur Gruppe der "_recommended_ Packages" von **R** und kann Programmfehler finden.
+Die drei anderen Pakete gibt es nur, weil https://CRAN.R-project.org/package=codetools[codetools] schon da war.
 
 Stell Dir vor, Du hättest in der Datei "src/code.R" folgende unschöne 
 und kaputte Funktion geschrieben:
@@ -921,7 +931,7 @@ Mit ihr kannst Du prüfen, ob Deine Funktionen einfach genug sind.
 Insbesondere gibt Dir die "cyclomatic complexity" eine Idee davon, wie viele Testfälle Du 
 für eine Funktion schreiben solltest
 (genau genommen ist sie eine obere Grenze für die Anzahl der für vollständige https://en.wikipedia.org/wiki/Code_coverage[branch coverage] benötigten Testfälle).
-Für Deine häßliche Funktion bräuchtest Du also 
+Für Deine hässliche Funktion bräuchtest Du also 
 +r cyclocomp::cyclocomp(parse(text = readLines(file.path("src", "code.R"))))+ Testfälle:
 
 //begin.rcode
@@ -977,7 +987,7 @@ ja aber ganz allgemein den Goldenen Schnitt ausrechnet.
 Du entschlie&szlig;t Dich daher, die interne Funktion in 
 +.golden_ratio+ (der f&uuml;hrende Punkt ist eine Konvention, die aus der UNIX-Welt stammt, 
                  dort werden (vorwiegend Konfigurations-) Dateien mit einem f&uuml;hrenden Punkt 
-                 aus dem directory listing ausgeschlossen (unter Windows heissen diese Dateien "versteckt")
+                 aus dem directory listing ausgeschlossen (unter Windows hei&szlig;en diese Dateien "versteckt")
                  -- in **R** kennzeichnet die Konvention interne Funktionen, die gew&ouml;hnlich
                  nicht direkt aufgerufen werden (sollten))
                  und +golden_rectangle+ in +golden_ratio+ umzubenennen.
@@ -1069,7 +1079,7 @@ writeLines(text = code,
 //begin.rcode, code = readLines(file.path("src", "golden_ratio.R")), eval = FALSE
 //end.rcode
 
-und weil dokumentieren Dir soviel Spa&szlig; bereit, dokumentierst Du gleich auch
+und weil dokumentieren Dir so viel Spa&szlig; bereit, dokumentierst Du gleich auch
 die interne Funktion (interne Funktionen zu dokumentieren ist ein wenig umstritten,
                       ich finde es gut).
 
@@ -1129,10 +1139,10 @@ Schnittstellen beschrieben. Sie sind jetzt <<_paketieren,paketierungsreif>>.
 === Paketieren
 
 Zum Paketieren nimmst Du wieder die getrennten Funktionsdateien, 
-+src/golden_ratio.R+ und und +src/.golden_ratio.R+ und ihre zugeh&ouml;rigen Testdateien.
++src/golden_ratio.R+ und +src/.golden_ratio.R+ und ihre zugeh&ouml;rigen Testdateien.
 
-Damit sie den Paketanforderungen gen&uuml;gen, mu&szlig;t Du noch zwei kleine
-&Auml;derungen vornehmen: +golden_ratio.R+ braucht noch einen
+Damit sie den Paketanforderungen gen&uuml;gen, musst Du noch zwei kleine
+&Auml;nderungen vornehmen: +golden_ratio.R+ braucht noch einen
 Verweis darauf, dass interne Funktionen in +golden_ratio_internals.R+ stehen
 
 //begin.rcode
@@ -1209,7 +1219,7 @@ check <- rcmdcheck::rcmdcheck(package_dir, args = "--as-cran")
 //begin.rcode
 print(check)
 //end.rcode
-Nun ja, Du hast die Metadaten noch nicht angepa&szlig;t. Solltest Du noch tun.
+Nun ja, Du hast die Metadaten noch nicht angepasst. Solltest Du noch tun.
 
 Du kannst Dein Paket auch testen:
 
@@ -1217,13 +1227,13 @@ Du kannst Dein Paket auch testen:
 covr::package_coverage(package_dir)
 //end.rcode
 
-Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  
+Und Du solltest immer auch die Deine <<_weniger_schlecht_programmieren,drei Freunde>>  https://CRAN.R-project.org/package=lintr[lintr], https://CRAN.R-project.org/package=cleanr[cleanr] und https://CRAN.R-project.org/package=cyclocomp[cyclocomp]
 fragen (wobei https://CRAN.R-project.org/package=lintr[lintr] hier die vorhandene Funktion
         +.golden_ratio()+ _nicht_ erkennt 
         footnote::[Das ist ein altes Problem, siehe https://github.com/jimhester/lintr/issues/27. Wenn Du mit +devtools::install(package_dir)+ das Paket installierst, verschwindet die falsch positive Warnung.] und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
         ebenfalls nicht 
         footnote::[In Version 1.1.0 des Pakets ruft +cyclocomp::cyclocomp_package_dir+ die Funktion +cyclocomp::cyclocomp_package+ und diese +ls(asNamespace(package))+, wobei +package+ das aktuelle Paket, hier also "mytools", ist und +ls+ mit der Voreinstellung +all.names = FALSE+ Objekte mit einem f&uuml;hrenden Punkt nicht auflistet.]
-        und daher keine +cyclomatic complexity+ f&uuml;r sie berechnet:
+        und daher keine +cyclomatic complexity+ f&uuml;r sie berechnet):
 
 //begin.rcode
 print(lintr::lint_package(package_dir))
@@ -1239,7 +1249,7 @@ package_path <- paste0(package_dir, "_0.1.0.tar.gz")
 if (file.exists(package_path)) print(package_path)
 //end.rcode
 
-Paket fertig. Die Metadaten sind nat&uuml;rlich gelogen (Du solltest die Datei +DESCRIPTION+ anpassen, Du solltest eine Datei +NEWS.md+ pflegen, Du solltest ein https://de.wikipedia.org/wiki/Versionsverwaltung[version control system] benutzten), aber es funktional ist es korrekt.
+Paket fertig. Die Metadaten sind nat&uuml;rlich gelogen (Du solltest die Datei +DESCRIPTION+ anpassen, Du solltest eine Datei +NEWS.md+ pflegen, Du solltest ein https://de.wikipedia.org/wiki/Versionsverwaltung[version control system] benutzten), aber funktional ist es korrekt.
 
 == Bibliographie
 [bibliography]
