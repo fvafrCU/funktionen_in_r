@@ -1149,7 +1149,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>memory_hogs &lt;- function(order = TRUE) {
     z &lt;- sapply(ls(envir = parent.frame()),
                 function(x) object.size(get(x, envir = parent.frame())))
-    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (order) z &lt;- z[order(z)]
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (isTRUE(order)) z &lt;- z[order(z)]
     return(z)
 }</tt></pre></div></div>
 <div class="listingblock">
@@ -1161,7 +1161,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          va memory_hogs          vd          vb          vc
-##        4232        9576      343920     3432720     6864720</code></pre>
+##        4232        9744      343920     3432720     6864720</code></pre>
 </div></div>
 <div class="paragraph"><p>Das ist ein klassisches (optionales) Steuerargument, das das Verhalten einer Funktion steuert.
 Steuerargumente sollten eine sinnvolle Voreinstellung haben.</p></div>
@@ -1253,7 +1253,7 @@ http://www.gnu.org/software/src-highlite -->
 }</tt></pre></div></div>
 <div class="paragraph"><p>Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offensichtlich. Und damit weniger gut lesbar.
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?</p></div>
-<div class="paragraph"><p>Komplexere Funktionen haben oft Nebenwirkungen (side effects).
+<div class="paragraph"><p>Komplexere Funktionen haben oft Nebenwirkungen (<a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">side effects</a>).
 Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist der Rückgabewert sogar belanglos.
 Die Funktion <code>rm</code> gibt beispielsweise unsichtbar <code>NULL</code> zurück (und das selbst dann, wenn es gar nichts zu löschen gibt).
 Das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:</p></div>
@@ -1578,7 +1578,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.1162313</code></pre>
+<pre><code>## [1] -0.05851631</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1869,7 +1869,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Tue Apr  3 13:40:52 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Tue Apr  3 14:43:22 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -3319,7 +3319,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (yesno(<span style="color: #FF0000">"Were devtool's checks successful?"</span>))
   return(invisible())</tt></pre></div></div>
 <div class="paragraph"><p>Diese treiben die "cyclomatic complexity" in die Höhe (weil die <code>return</code>-Anweisungen
-                                                        viele verschiedene mögliche Endpunkte der Funktion definieren. Eine gut strukturierte Funktion hat <em>genau einen</em> "exit node"):</p></div>
+                                                        viele verschiedene mögliche Endpunkte der Funktion definieren. Eine wohlstrukturierte Funktion hat <em>genau einen</em> <a href="https://en.wikipedia.org/wiki/Structured_programming#Early_exit">"exit node"</a>):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3964,7 +3964,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-04-03 13:41:23 CEST
+ 2018-04-03 14:43:52 CEST
 </div>
 </div>
 </body>

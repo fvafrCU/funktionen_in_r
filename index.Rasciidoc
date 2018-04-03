@@ -302,7 +302,7 @@ my_sum <- function(x) {
 Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offensichtlich. Und damit weniger gut lesbar.
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?
 
-Komplexere Funktionen haben oft Nebenwirkungen (side effects).
+Komplexere Funktionen haben oft Nebenwirkungen (https://en.wikipedia.org/wiki/Side_effect_(computer_science)[side effects]).
 Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist der Rückgabewert sogar belanglos. 
 Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt). 
 Das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:
@@ -958,7 +958,7 @@ hat eine ganze Reihe von interaktiven Abfragen des Typs
     return(invisible())
 //end.rcode
 Diese treiben die "cyclomatic complexity" in die Höhe (weil die `return`-Anweisungen 
-                                                        viele verschiedene mögliche Endpunkte der Funktion definieren. Eine gut strukturierte Funktion hat _genau einen_ "exit node"):
+                                                        viele verschiedene mögliche Endpunkte der Funktion definieren. Eine wohlstrukturierte Funktion hat _genau einen_ https://en.wikipedia.org/wiki/Structured_programming#Early_exit["exit node"]):
 
 //begin.rcode
 source(file.path("src", "release.R"))
