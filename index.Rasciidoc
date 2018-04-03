@@ -340,7 +340,7 @@ Wichtige Funktionen kommen in eigene Dateien, die nach ihnen benannt sind, ander
 
 Jedes Auswertungsskript hat dann am Beginn die Zeilen
 //begin.rcode, eval = FALSE
-for (f in dir("./functions/", full.names = TRUE, pattern = ".*\\.[rR]")) {
+for (f in dir("./functions/", full.names = TRUE, pattern = ".*\\.[rR]$")) {
     source(f)
 }
 //end.rcode
@@ -353,7 +353,7 @@ nur mit dem Unterschied, dass Du ein zentrales Verzeichnis benutzt.
 Dann f&uuml;gst Du ineine Deiner **R**-Startup-Dateien die Anweisung
 //begin.rcode, eval = FALSE
 for (f in dir("/full/path/to/functions_directory/", 
-              full.names = TRUE, pattern = ".*\\.[rR]")) {
+              full.names = TRUE, pattern = ".*\\.[rR]$")) {
     source(f)
 }
 //end.rcode
