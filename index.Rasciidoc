@@ -6,18 +6,21 @@ Anne-Sophie Stelzer, Dominik Cullmann
 :data-uri:
 :duration: 120
 
-// //begin_only_slide
-// == Skript
-// https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
-// //end_only_slide
+//begin_only_slide
+== Skript
+https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+//end_only_slide
 
 == Worum geht es?
 
 Naja, ums Schreiben von Funktionen in der Programmiersprache **R**.
 
 
+=== Was sind Funktionen? //no_slide
+== Was sind Funktionen? // slide_only
+//begin_no_slide
+//end_no_slide
 
-=== Was sind Funktionen?
 
 * Funktionen sind Programmkonstrukte, mit denen Du Teile des von Dir 
   geschriebenen Codes wiederverwenden kannst
@@ -26,13 +29,15 @@ Naja, ums Schreiben von Funktionen in der Programmiersprache **R**.
   viele **R**-Funktionen kennst Du wahrscheinlich schon: `sum()`, `mean()` 
   oder `summary()`.
 
-=== Warum Funktionen?
+=== Warum Funktionen? //no_slide
+== Warum Funktionen? // slide_only
 
 * Damit Du Teile des von Dir geschriebenen Codes wiederverwenden kannst.
 * Damit Du, wenn Du Fehler im Code entdeckst, diese auch nur an einer 
   Stelle korrigieren musst.
 
-=== Wann Funktionen?
+=== Wann Funktionen? //no_slide
+== Wann Funktionen? // slide_only
 
 Immer wenn Du merkst, dass Du (alten) Code mehrfach kopierst und an anderer
 Stelle einfügst ohne ihn stark zu verändern, solltest Du darüber nachdenken, 
@@ -40,6 +45,7 @@ eine (oder mehrere) Funktion(en)  aus ihm  zu machen.
 
 
 == Eine Funktion schreiben
+//begin_no_slide
 === Eine neue Summenfunktion
 
 .Warum wir diese Funktion nicht schreiben sollten
@@ -57,9 +63,11 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
 
 
 ==== Vom Code ... 
+//end_no_slide
 //begin.rcode, code = readLines(file.path("src", "sum.R"))
 //end.rcode
 
+//begin_no_slide
 Dabei siehst Du:
 
 <1> Definition des zu summierenden Vektors
@@ -78,6 +86,7 @@ meist eine Unbekannte). Und als Ausgabe verwenden wir keine Druck- sondern eine
 Rückgabefunktion (+return()+ statt +print()+). 
 Das Ergebnis sieht dann so aus:
 
+//end_no_slide
 
 
 
@@ -85,6 +94,7 @@ Das Ergebnis sieht dann so aus:
 //end.rcode
 
 
+//begin_no_slide
 === Scoping 
 Programmiersprachen kennen für Objekte unterschiedliche Gültigkeitsbereiche 
 (englisch "scope"), wir sehen uns das am Beispiel an:

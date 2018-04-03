@@ -1513,7 +1513,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render("index.Rasciidoc"): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc", clean = TRUE): Assertion on 'x' failed. Must be of length &gt;= 2, but has length 1.</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p><em>Ich nutze Typentests oft in Funktionen. Da <a href="https://CRAN.R-project.org/package=checkmate">checkmate</a> deutlich mehr Funktionalität bietet, nutzte ich <a href="https://CRAN.R-project.org/package=assertthat">assertthat</a> eher selten.</em></p></div>
 </div>
@@ -1578,7 +1578,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 0.1120251</code></pre>
+<pre><code>## [1] 0.007921872</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1606,7 +1606,7 @@ checkmate::assertChoice(x = note, choices = noten)</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render("index.Rasciidoc"): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in rasciidoc::render_slides("index.Rasciidoc", clean = TRUE): Assertion on 'note' failed: Must be element of set {'sehr gut','gut','nicht soo gut','das kann auf jeden Fall noch besser werden'}, but is 'das'.</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Außerdem gibt <a href="https://CRAN.R-project.org/package=checkmate">checkmate</a> die gefundene Rückgabe unsichtbar zurück, weshalb ich hier ein explizites <code>print</code> benötige:</p></div>
 <div class="listingblock">
@@ -1869,7 +1869,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Tue Apr  3 10:29:53 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Tue Apr  3 12:54:15 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -3964,7 +3964,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-04-03 10:30:22 CEST
+ 2018-04-03 12:54:44 CEST
 </div>
 </div>
 </body>
