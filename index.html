@@ -1063,7 +1063,7 @@ http://www.gnu.org/software/src-highlite -->
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich
-(in <strong>R</strong> hei&szlig;en die Gültigkeitsbereiche "environments", in <strong>S</strong> hießen sie "frames") ist und die
+(in <strong>R</strong> heißen die Gültigkeitsbereiche "environments", in <strong>S</strong> hießen sie "frames") ist und die
 Funktionen  <code>ls</code> und <code>rm</code> nur in <em>einem</em> Gültigkeitsbereich arbeiten, funktioniert das naheliegende</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1219,7 +1219,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen. Der zu summierende Vektor <code>x</code> in <code>my_sum</code> ist ein klassisches Beispiel: ein Voreinstellung f&uuml;r die zu summiernden Zahlen (etwa <code>x = c(40, 2)</code> ist unsinnig.
+Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen. Der zu summierende Vektor <code>x</code> in <code>my_sum</code> ist ein klassisches Beispiel: ein Voreinstellung für die zu summiernden Zahlen (etwa <code>x = c(40, 2)</code> ist unsinnig.
 </p>
 </li>
 <li>
@@ -1279,7 +1279,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>## NULL</code></pre>
 </div></div>
 <div class="paragraph"><p>Das heißt also, dass unsere Funktion <code>wipe_clean</code> den Wert <code>invisible(NULL)</code>, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion <code>rm</code>).</p></div>
-<div class="paragraph"><p>Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gültigkeitsbereich, indem die Funktion l&ouml;scht, in ein Steuerargument mit Voreinstellung um):</p></div>
+<div class="paragraph"><p>Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gültigkeitsbereich, indem die Funktion löscht, in ein Steuerargument mit Voreinstellung um):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1311,6 +1311,65 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>## character(0)</code></pre>
 </div></div>
 <div class="paragraph"><p>Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Funktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Exkurs: Komplexe Rückgabewerte</div>
+<div class="literalblock">
+<div class="content">
+<pre><code>Rückgabewerte können auch komplex sein. Stell Dir vor, Du wolltest für einen Vektor verschiedene statistische Kennwerte berechen. Eine Funktion könnte so aussehen:</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>stats &lt;- function(x) {
+    m &lt;- mean(x)
+    v &lt;- var(x)
+    r &lt;- range(x)
+    value &lt;- list(date = Sys.time(), data = x, mean = m, variance = v, range = r)
+    return(value)
+}
+stats(rnorm(100))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## $date
+## [1] "2018-04-04 11:55:46 CEST"
+##
+## $data
+##   [1] -0.53246869 -1.32291132 -0.75920530  0.75664384 -2.16461568
+##   [6]  0.69826450  0.59091656 -1.03651779 -0.01949726  0.90397875
+##  [11] -1.44811485  1.34572634  0.22671433  0.97126017  0.20792217
+##  [16] -0.06195184  0.54032691 -0.06322612  0.80646084 -1.16258740
+##  [21]  0.64507695  0.22100791  0.61252400 -0.14516994  0.34413148
+##  [26] -0.09496738  1.51361203  0.16851036  1.48135682  0.11739921
+##  [31] -0.47373073 -0.48796390  2.76123322 -0.62348636  1.08023956
+##  [36]  1.33551721 -0.10394260  0.17494863  1.26637392 -0.87126113
+##  [41] -0.13779315 -0.82636605 -0.83147713  2.50524989 -0.25479223
+##  [46] -0.38702333  1.25388687  2.11412650  0.74920283  1.01763242
+##  [51] -0.19107591 -0.85508424 -1.12157854  1.52452458  0.66879605
+##  [56]  1.49738852 -1.56712754  0.17862004 -0.33668158 -1.73052636
+##  [61] -0.25186814  1.42777435  0.98148800 -1.52402543 -1.42198105
+##  [66] -0.83435859 -0.49740403 -0.67764915  1.12618162 -0.89708035
+##  [71]  1.23339291  0.44127526 -0.14457694 -0.77516629  0.94862448
+##  [76] -0.42899295 -0.89100691 -0.11995170 -0.45876310 -0.15077717
+##  [81] -0.96279799  0.35302621 -0.30985442  0.21987801 -1.09923330
+##  [86]  0.70347746  0.23908624 -0.77005023 -0.14080341  0.28297391
+##  [91] -1.26466542 -0.09909091  1.34400436 -0.77966435  0.33129884
+##  [96]  0.60020469 -0.95965800 -0.07081304 -0.15647427 -0.29906701
+##
+## $mean
+## [1] 0.04915341
+##
+## $variance
+## [1] 0.9054451
+##
+## $range
+## [1] -2.164616  2.761233</code></pre>
+</div></div>
+<div class="paragraph"><p>Die Rückgabe einer Liste ist unter statistischen Funktionen (<code>stats::lm</code>, <code>stats::glm</code>, <code>mgcv::gam</code>, &#8230;)
+verbreitet.</p></div>
+</div></div>
 </div>
 <div class="sect2">
 <h3 id="_funktionen_verwalten">2.5. Funktionen verwalten</h3>
@@ -1342,7 +1401,7 @@ http://www.gnu.org/software/src-highlite -->
 kannst Du zentral verwalten,
 in dem Du Dateien wie im Abschnitt <a href="#_lokal">lokal</a> beschrieben ablegst,
 nur mit dem Unterschied, dass Du ein zentrales Verzeichnis benutzt.
-Dann f&uuml;gst Du ineine Deiner <strong>R</strong>-Startup-Dateien die Anweisung</p></div>
+Dann fügst Du ineine Deiner <strong>R</strong>-Startup-Dateien die Anweisung</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -1578,7 +1637,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] -0.007374935</code></pre>
+<pre><code>## [1] -0.02120425</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1858,7 +1917,7 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ... Timing stopped at: 0 0 0.001
+## Executing test function test_sum  ... Timing stopped at: 0 0 0
 ##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
@@ -1869,7 +1928,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Tue Apr  3 15:30:25 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Wed Apr  4 11:55:47 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -3078,7 +3137,7 @@ die Funktion so ändern, dass der Test weiterhin funktioniert.
 </li>
 </ul></div>
 <div class="paragraph"><p>Du entscheidest Dich, die Funktion zu ändern
-(und erweiterst bei der Gelegenheit gleich den R&uuml;ckgabewert):</p></div>
+(und erweiterst bei der Gelegenheit gleich den Rückgabewert):</p></div>
 <div class="listingblock">
 <div class="title">src/golden_rectangle.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3401,42 +3460,42 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Wenn Du Hilfe zu einer Funktion in <strong>R</strong> suchst, kannst Du unter anderem die
 <strong>R</strong>-Hilfe mit <code>help(topic)</code> oder der Kurzform <code>?topic</code> aufrufen, bei Paketen findest Du
 die selbe Information auch immer als pdf beigelegt.</p></div>
-<div class="paragraph"><p>Solche Hilfeformate kannst Du f&uuml;r Deine Funktionen auch schreiben.</p></div>
+<div class="paragraph"><p>Solche Hilfeformate kannst Du für Deine Funktionen auch schreiben.</p></div>
 <div class="sect3">
 <h4 id="_warum_solltest_du_deine_funktionen_dokumentieren">3.4.1. Warum solltest Du Deine Funktionen dokumentieren?</h4>
-<div class="paragraph"><p>Wenn Du Funktionen dokumentierst, erkl&auml;rst Du einer anderen Person, was die Funktion
-tun sollte. Wenn Du das schaffst, kannst Du Dir einigerma&szlig;en sicher sein,
-dass Du wei&szlig;t, was die Funktion tut und dass es richtig war,
+<div class="paragraph"><p>Wenn Du Funktionen dokumentierst, erklärst Du einer anderen Person, was die Funktion
+tun sollte. Wenn Du das schaffst, kannst Du Dir einigermaßen sicher sein,
+dass Du weißt, was die Funktion tut und dass es richtig war,
 sie (und nicht eine etwas andere) zu schreiben.</p></div>
-<div class="paragraph"><p>Au&szlig;erdem ist es von dokumentierten Funktionen zu Paketen nicht mehr weit,
+<div class="paragraph"><p>Außerdem ist es von dokumentierten Funktionen zu Paketen nicht mehr weit,
 was ihre <a href="#_als_paket">Verwaltung</a> deutlich erleichtert.</p></div>
 <div class="paragraph"><p>Nehmen wir unser <a href="#_was_soll_die_ganze_testerei">Beispiel zum Goldenen Schnitt</a>:</p></div>
 <div class="paragraph"><p>Du merkst, dass Du die Funktion <code>golden_ratio</code> eigentlich nur innerhalb
-von <code>golden_rectangle</code> benutzt und letzteres kein gl&uuml;cklicher Name ist, weil
-Du die Funktion zwar zum Errechnen von Seitenl&auml;ngen von Graphiken nutzt, sie
+von <code>golden_rectangle</code> benutzt und letzteres kein glücklicher Name ist, weil
+Du die Funktion zwar zum Errechnen von Seitenlängen von Graphiken nutzt, sie
 ja aber ganz allgemein den Goldenen Schnitt ausrechnet.
-Du entschlie&szlig;t Dich daher, die interne Funktion in
-<code>.golden_ratio</code> (der f&uuml;hrende Punkt ist eine Konvention, die aus der UNIX-Welt stammt,
-                 dort werden (vorwiegend Konfigurations-) Dateien mit einem f&uuml;hrenden Punkt
-                 aus dem directory listing ausgeschlossen (unter Windows hei&szlig;en diese Dateien "versteckt")
-                &#8201;&#8212;&#8201;in <strong>R</strong> kennzeichnet die Konvention interne Funktionen, die gew&ouml;hnlich
+Du entschließt Dich daher, die interne Funktion in
+<code>.golden_ratio</code> (der führende Punkt ist eine Konvention, die aus der UNIX-Welt stammt,
+                 dort werden (vorwiegend Konfigurations-) Dateien mit einem führenden Punkt
+                 aus dem directory listing ausgeschlossen (unter Windows heißen diese Dateien "versteckt")
+                &#8201;&#8212;&#8201;in <strong>R</strong> kennzeichnet die Konvention interne Funktionen, die gewöhnlich
                  nicht direkt aufgerufen werden (sollten))
                  und <code>golden_rectangle</code> in <code>golden_ratio</code> umzubenennen.
 Dazu musst Du</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-die Funktionsdateien und die zugeh&ouml;rigen Testdateien umbenennen,
+die Funktionsdateien und die zugehörigen Testdateien umbenennen,
 </p>
 </li>
 <li>
 <p>
-die Namen in den Funktionsdefinitionen &auml;ndern und
+die Namen in den Funktionsdefinitionen ändern und
 </p>
 </li>
 <li>
 <p>
-die Namen in den Funktionsaufrufen &auml;ndern.
+die Namen in den Funktionsaufrufen ändern.
 </p>
 </li>
 </ul></div>
@@ -3502,7 +3561,7 @@ rename_function(from = <span style="color: #FF0000">"golden_rectangle"</span>, t
 <div class="content">
 <pre><code>## [1] "src/golden_ratio.R"      "src/test_golden_ratio.R"</code></pre>
 </div></div>
-<div class="paragraph"><p>Du testest nat&uuml;rlich Deine neuen Dateien:</p></div>
+<div class="paragraph"><p>Du testest natürlich Deine neuen Dateien:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3532,15 +3591,15 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">## src/golden_ratio.R: 100.00%</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>Scheint geklappt zu haben.</p></div>
-<div class="paragraph"><p>Du siehst also, dass Du Deine Funktionen ver&auml;ndert hast, <em>weil</em> Du sie dokumentieren
+<div class="paragraph"><p>Du siehst also, dass Du Deine Funktionen verändert hast, <em>weil</em> Du sie dokumentieren
 willst.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_wie_kannst_du_funktionen_dokumentieren">3.4.2. Wie kannst Du Funktionen dokumentieren?</h4>
 <div class="paragraph"><p>Das <strong>R</strong>-Hilfeformat wird <a href="https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-R-documentation-files">hier</a>
 beschrieben, ich rate Dir aber, <a href="https://cran.r-project.org/web/packages/roxygen2/index.html">roxygen2</a> zu
-benutzen (<a href="http://r-pkgs.had.co.nz/man.html">hier</a> gibt Hadley Wickham eine druckreife Einf&uuml;hrung).</p></div>
-<div class="paragraph"><p>Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einf&uuml;gst:</p></div>
+benutzen (<a href="http://r-pkgs.had.co.nz/man.html">hier</a> gibt Hadley Wickham eine druckreife Einführung).</p></div>
+<div class="paragraph"><p>Du veränderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einfügst:</p></div>
 <div class="listingblock">
 <div class="title">src/golden_ratio.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3571,7 +3630,7 @@ golden_ratio  &lt;- function(value, landscape = FALSE) {
     }
     return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
 }</tt></pre></div></div>
-<div class="paragraph"><p>und weil dokumentieren Dir so viel Spa&szlig; bereit, dokumentierst Du gleich auch
+<div class="paragraph"><p>und weil dokumentieren Dir so viel Spaß bereit, dokumentierst Du gleich auch
 die interne Funktion (interne Funktionen zu dokumentieren ist ein wenig umstritten,
                       ich finde es gut).</p></div>
 <div class="listingblock">
@@ -3591,7 +3650,7 @@ http://www.gnu.org/software/src-highlite -->
     phi &lt;- (1 + sqrt(5)) / 2
     return(phi)
 }</tt></pre></div></div>
-<div class="paragraph"><p>Was hast Du davon, au&szlig;er Arbeit?</p></div>
+<div class="paragraph"><p>Was hast Du davon, außer Arbeit?</p></div>
 <div class="paragraph"><p>Wenn Du Deine beiden Funktionen in eine Datei schreibst</p></div>
 <div class="listingblock">
 <div class="title">src/golden_ratios.R</div>
@@ -3653,7 +3712,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"</code></pre>
 </div></div>
-<div class="paragraph"><p>Au&szlig;erdem kannst Du mit <a href="https://CRAN.R-project.org/package=document">document</a> nach der Erstellung der Hilfe-Dateien
+<div class="paragraph"><p>Außerdem kannst Du mit <a href="https://CRAN.R-project.org/package=document">document</a> nach der Erstellung der Hilfe-Dateien
 in einer laufenden <strong>R</strong>-Sitzung die Hilfe zu Deiner Funktion ansehen:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3700,9 +3759,9 @@ Schnittstellen beschrieben. Sie sind jetzt <a href="#_paketieren">paketierungsre
 <div class="sect2">
 <h3 id="_paketieren">3.5. Paketieren</h3>
 <div class="paragraph"><p>Zum Paketieren nimmst Du wieder die getrennten Funktionsdateien,
-<code>src/golden_ratio.R</code> und <code>src/.golden_ratio.R</code> und ihre zugeh&ouml;rigen Testdateien.</p></div>
-<div class="paragraph"><p>Damit sie den Paketanforderungen gen&uuml;gen, musst Du noch zwei kleine
-&Auml;nderungen vornehmen: <code>golden_ratio.R</code> braucht noch einen
+<code>src/golden_ratio.R</code> und <code>src/.golden_ratio.R</code> und ihre zugehörigen Testdateien.</p></div>
+<div class="paragraph"><p>Damit sie den Paketanforderungen genügen, musst Du noch zwei kleine
+Änderungen vornehmen: <code>golden_ratio.R</code> braucht noch einen
 Verweis darauf, dass interne Funktionen in <code>golden_ratio_internals.R</code> stehen</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3745,7 +3804,7 @@ golden_ratio  &lt;- function(value, landscape = FALSE) {
     }
     return(c(<span style="color: #FF0000">"a"</span> = a, <span style="color: #FF0000">"b"</span> = b))
 }</tt></pre></div></div>
-<div class="paragraph"><p>und die Dokumentation f&uuml;r <code>.golden_ratio</code> sollte in eine Datei geschrieben
+<div class="paragraph"><p>und die Dokumentation für <code>.golden_ratio</code> sollte in eine Datei geschrieben
 werden, deren Name nicht mit einem Punkt beginnt
 (der Name der Hilfedatei wird, wenn Du ihn nicht explizit angibst, aus dem der
 dokumentierten Funktion abgeleitet)</p></div>
@@ -3816,7 +3875,7 @@ d$set(Title = tools::toTitleCase(d$get(<span style="color: #FF0000">"Title"</spa
 <span style="font-style: italic"><span style="color: #9A1900">### Set package License</span></span>
 d$set(License = <span style="color: #FF0000">"GPL"</span>)
 d$write()</tt></pre></div></div>
-<div class="paragraph"><p>Nun kannst Du das Paket pr&uuml;fen:</p></div>
+<div class="paragraph"><p>Nun kannst Du das Paket prüfen:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3870,8 +3929,8 @@ fragen (wobei <a href="https://CRAN.R-project.org/package=lintr">lintr</a> hier 
         <code>.golden_ratio()</code> <em>nicht</em> erkennt
         <span class="footnote"><br />[Das ist ein altes Problem, siehe <a href="https://github.com/jimhester/lintr/issues/27">https://github.com/jimhester/lintr/issues/27</a>. Wenn Du mit <code>devtools::install(package_dir)</code> das Paket installierst, verschwindet die falsch positive Warnung.]<br /></span> und <a href="https://CRAN.R-project.org/package=cyclocomp">cyclocomp</a>
         ebenfalls nicht
-        <span class="footnote"><br />[In Version 1.1.0 des Pakets ruft <code>cyclocomp::cyclocomp_package_dir</code> die Funktion <code>cyclocomp::cyclocomp_package</code> und diese <code>ls(asNamespace(package))</code>, wobei <code>package</code> das aktuelle Paket, hier also "mytools", ist und <code>ls</code> mit der Voreinstellung <code>all.names = FALSE</code> Objekte mit einem f&uuml;hrenden Punkt nicht auflistet.]<br /></span>
-        und daher keine <code>cyclomatic complexity</code> f&uuml;r sie berechnet):</p></div>
+        <span class="footnote"><br />[In Version 1.1.0 des Pakets ruft <code>cyclocomp::cyclocomp_package_dir</code> die Funktion <code>cyclocomp::cyclocomp_package</code> und diese <code>ls(asNamespace(package))</code>, wobei <code>package</code> das aktuelle Paket, hier also "mytools", ist und <code>ls</code> mit der Voreinstellung <code>all.names = FALSE</code> Objekte mit einem führenden Punkt nicht auflistet.]<br /></span>
+        und daher keine <code>cyclomatic complexity</code> für sie berechnet):</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -3935,7 +3994,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] "/tmp/mytools_0.1.0.tar.gz"</code></pre>
 </div></div>
-<div class="paragraph"><p>Paket fertig. Die Metadaten sind nat&uuml;rlich gelogen (Du solltest die Datei <code>DESCRIPTION</code> anpassen, Du solltest eine Datei <code>NEWS.md</code> pflegen, Du solltest ein <a href="https://de.wikipedia.org/wiki/Versionsverwaltung">version control system</a> benutzten), aber funktional ist es korrekt.</p></div>
+<div class="paragraph"><p>Paket fertig. Die Metadaten sind natürlich gelogen (Du solltest die Datei <code>DESCRIPTION</code> anpassen, Du solltest eine Datei <code>NEWS.md</code> pflegen, Du solltest ein <a href="https://de.wikipedia.org/wiki/Versionsverwaltung">version control system</a> benutzten), aber funktional ist es korrekt.</p></div>
 </div>
 </div>
 </div>
@@ -3964,7 +4023,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-04-03 15:30:54 CEST
+ 2018-04-04 11:56:16 CEST
 </div>
 </div>
 </body>

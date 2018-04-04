@@ -218,7 +218,7 @@ Nun  bin ich
 vergesslich, weshalb ich mir die Syntax schlecht merken kann und lieber eine
 Funktion (aber keinen Knopf) hätte.
 Da "der aktuelle Arbeitsbereich" ein Gültigkeitsbereich 
-(in **R** hei&szlig;en die Gültigkeitsbereiche "environments", in **S** hießen sie "frames") ist und die 
+(in **R** heißen die Gültigkeitsbereiche "environments", in **S** hießen sie "frames") ist und die 
 Funktionen  `ls` und `rm` nur in _einem_ Gültigkeitsbereich arbeiten, funktioniert das naheliegende
 //begin.rcode, eval = FALSE
 wipe_clean <- function() {
@@ -300,7 +300,7 @@ memory_hogs()
 
 Wir können also, wenn wir wollen, drei Arten von Argumenten unterscheiden:
 
-- Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen. Der zu summierende Vektor `x` in `my_sum` ist ein klassisches Beispiel: ein Voreinstellung f&uuml;r die zu summiernden Zahlen (etwa `x = c(40, 2)` ist unsinnig.
+- Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen. Der zu summierende Vektor `x` in `my_sum` ist ein klassisches Beispiel: ein Voreinstellung für die zu summiernden Zahlen (etwa `x = c(40, 2)` ist unsinnig.
 - Optionale. Sie sollten Voreinstellungen kennen und dienen üblicherweise der Steuerung der Funktion. Das Argument `order` in `memory_hogs` ist ein klassisches Beispiel: 
 - Die _Ellipsis_, um Argumente an andere Funktionen weiterzureichen.
 
@@ -334,7 +334,7 @@ print(rm())
 
 Das heißt also, dass unsere Funktion `wipe_clean` den Wert `invisible(NULL)`, zurückgibt, denn das war der Wert des letzten in ihr ausgewerteten Ausdrucks (der Aufruf der Funktion `rm`).
 
-Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gültigkeitsbereich, indem die Funktion l&ouml;scht, in ein Steuerargument mit Voreinstellung um):
+Das können wir ändern, indem wir einen expliziten Rückgabewert einbauen (bei der Gelegenheit wandeln wir gleich noch den Gültigkeitsbereich, indem die Funktion löscht, in ein Steuerargument mit Voreinstellung um):
 
 //begin.rcode, code = grep("#'", readLines(file.path("src", "wipe_clean.R")), value = TRUE, invert = TRUE)
 //end.rcode
@@ -343,6 +343,24 @@ print(wipe_clean())
 ls()
 //end.rcode
 Jetzt gibt die Funktion die Namen der von ihr gelöschten Objekte zurück. Wir wissen also, wie hieß, was wir gelöscht haben. Damit können wir zwar nichts mehr anfangen, aber die Funktion hat nun genau einen expliziten Endpunkt. Das ist immerhin schön übersichtlich.
+
+.Exkurs: Komplexe Rückgabewerte
+****
+    Rückgabewerte können auch komplex sein. Stell Dir vor, Du wolltest für einen Vektor verschiedene statistische Kennwerte berechen. Eine Funktion könnte so aussehen:
+//begin.rcode
+stats <- function(x) {
+    m <- mean(x)
+    v <- var(x)
+    r <- range(x)
+    value <- list(date = Sys.time(), data = x, mean = m, variance = v, range = r)
+    return(value)
+}
+stats(rnorm(100))
+//end.rcode
+
+Die Rückgabe einer Liste ist unter statistischen Funktionen (+stats::lm+, +stats::glm+, +mgcv::gam+, ...)
+verbreitet.
+****
 
 
 === Funktionen verwalten
@@ -370,7 +388,7 @@ Funktionen, die Du nicht nur in einem Projekt nutzen willst,
 kannst Du zentral verwalten, 
 in dem Du Dateien wie im Abschnitt <<_lokal, lokal>> beschrieben ablegst, 
 nur mit dem Unterschied, dass Du ein zentrales Verzeichnis benutzt.
-Dann f&uuml;gst Du ineine Deiner **R**-Startup-Dateien die Anweisung
+Dann fügst Du ineine Deiner **R**-Startup-Dateien die Anweisung
 //begin.rcode, eval = FALSE
 for (f in dir("/full/path/to/functions_directory/", 
               full.names = TRUE, pattern = ".*\\.[rR]$")) {
@@ -852,7 +870,7 @@ Du musst entweder
 - die Funktion so ändern, dass der Test weiterhin funktioniert.
 
 Du entscheidest Dich, die Funktion zu ändern 
-(und erweiterst bei der Gelegenheit gleich den R&uuml;ckgabewert):
+(und erweiterst bei der Gelegenheit gleich den Rückgabewert):
 
 
 //begin.rcode, echo = FALSE, results = "hide"
@@ -997,35 +1015,35 @@ Wenn Du Hilfe zu einer Funktion in **R** suchst, kannst Du unter anderem die
 **R**-Hilfe mit +help(topic)+ oder der Kurzform +?topic+ aufrufen, bei Paketen findest Du
 die selbe Information auch immer als pdf beigelegt.
 
-Solche Hilfeformate kannst Du f&uuml;r Deine Funktionen auch schreiben.
+Solche Hilfeformate kannst Du für Deine Funktionen auch schreiben.
 
 ==== Warum solltest Du Deine Funktionen dokumentieren?
-Wenn Du Funktionen dokumentierst, erkl&auml;rst Du einer anderen Person, was die Funktion
-tun sollte. Wenn Du das schaffst, kannst Du Dir einigerma&szlig;en sicher sein, 
-dass Du wei&szlig;t, was die Funktion tut und dass es richtig war, 
+Wenn Du Funktionen dokumentierst, erklärst Du einer anderen Person, was die Funktion
+tun sollte. Wenn Du das schaffst, kannst Du Dir einigermaßen sicher sein, 
+dass Du weißt, was die Funktion tut und dass es richtig war, 
 sie (und nicht eine etwas andere) zu schreiben.
 
-Au&szlig;erdem ist es von dokumentierten Funktionen zu Paketen nicht mehr weit, 
+Außerdem ist es von dokumentierten Funktionen zu Paketen nicht mehr weit, 
 was ihre <<_als_paket, Verwaltung>> deutlich erleichtert.
 
 Nehmen wir unser <<_was_soll_die_ganze_testerei, Beispiel zum Goldenen Schnitt>>:
 
 Du merkst, dass Du die Funktion +golden_ratio+ eigentlich nur innerhalb 
-von +golden_rectangle+ benutzt und letzteres kein gl&uuml;cklicher Name ist, weil 
-Du die Funktion zwar zum Errechnen von Seitenl&auml;ngen von Graphiken nutzt, sie
+von +golden_rectangle+ benutzt und letzteres kein glücklicher Name ist, weil 
+Du die Funktion zwar zum Errechnen von Seitenlängen von Graphiken nutzt, sie
 ja aber ganz allgemein den Goldenen Schnitt ausrechnet.
-Du entschlie&szlig;t Dich daher, die interne Funktion in 
-+.golden_ratio+ (der f&uuml;hrende Punkt ist eine Konvention, die aus der UNIX-Welt stammt, 
-                 dort werden (vorwiegend Konfigurations-) Dateien mit einem f&uuml;hrenden Punkt 
-                 aus dem directory listing ausgeschlossen (unter Windows hei&szlig;en diese Dateien "versteckt")
-                 -- in **R** kennzeichnet die Konvention interne Funktionen, die gew&ouml;hnlich
+Du entschließt Dich daher, die interne Funktion in 
++.golden_ratio+ (der führende Punkt ist eine Konvention, die aus der UNIX-Welt stammt, 
+                 dort werden (vorwiegend Konfigurations-) Dateien mit einem führenden Punkt 
+                 aus dem directory listing ausgeschlossen (unter Windows heißen diese Dateien "versteckt")
+                 -- in **R** kennzeichnet die Konvention interne Funktionen, die gewöhnlich
                  nicht direkt aufgerufen werden (sollten))
                  und +golden_rectangle+ in +golden_ratio+ umzubenennen.
 Dazu musst Du 
 
-- die Funktionsdateien und die zugeh&ouml;rigen Testdateien umbenennen,
-- die Namen in den Funktionsdefinitionen &auml;ndern und
-- die Namen in den Funktionsaufrufen &auml;ndern.
+- die Funktionsdateien und die zugehörigen Testdateien umbenennen,
+- die Namen in den Funktionsdefinitionen ändern und
+- die Namen in den Funktionsaufrufen ändern.
 
 Das kannst Du von Hand machen, oder Du schreibst folgende Funktionen:
 
@@ -1076,7 +1094,7 @@ rename_function(from = "golden_rectangle", to = "golden_ratio",
 
 
 //end.rcode
-Du testest nat&uuml;rlich Deine neuen Dateien:
+Du testest natürlich Deine neuen Dateien:
 //begin.rcode
 covr::file_coverage(file.path("src", ".golden_ratio.R"), 
                     file.path("src", "test_.golden_ratio.R"))
@@ -1086,7 +1104,7 @@ covr::file_coverage(file.path("src", c("golden_ratio.R", ".golden_ratio.R")),
 
 Scheint geklappt zu haben.
 
-Du siehst also, dass Du Deine Funktionen ver&auml;ndert hast, _weil_ Du sie dokumentieren 
+Du siehst also, dass Du Deine Funktionen verändert hast, _weil_ Du sie dokumentieren 
 willst.
 
 
@@ -1094,9 +1112,9 @@ willst.
 
 Das **R**-Hilfeformat wird https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-R-documentation-files[hier] 
 beschrieben, ich rate Dir aber, https://cran.r-project.org/web/packages/roxygen2/index.html[roxygen2] zu
-benutzen (http://r-pkgs.had.co.nz/man.html[hier] gibt Hadley Wickham eine druckreife Einf&uuml;hrung).
+benutzen (http://r-pkgs.had.co.nz/man.html[hier] gibt Hadley Wickham eine druckreife Einführung).
 
-Du ver&auml;nderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einf&uuml;gst:
+Du veränderst also Deine Funktionsdatei, in dem Du Dokumentationskommentare einfügst:
 
 //begin.rcode, echo = FALSE, results = "hide"
 code <- c(readLines(file.path("src", "golden_ratio_doc.R")), 
@@ -1109,7 +1127,7 @@ writeLines(text = code,
 //begin.rcode, code = readLines(file.path("src", "golden_ratio.R")), eval = FALSE
 //end.rcode
 
-und weil dokumentieren Dir so viel Spa&szlig; bereit, dokumentierst Du gleich auch
+und weil dokumentieren Dir so viel Spaß bereit, dokumentierst Du gleich auch
 die interne Funktion (interne Funktionen zu dokumentieren ist ein wenig umstritten,
                       ich finde es gut).
 
@@ -1124,7 +1142,7 @@ writeLines(text = code,
 //begin.rcode, code = readLines(file.path("src", ".golden_ratio.R")), eval = FALSE
 //end.rcode
 
-Was hast Du davon, au&szlig;er Arbeit?
+Was hast Du davon, außer Arbeit?
 
 Wenn Du Deine beiden Funktionen in eine Datei schreibst
 
@@ -1150,7 +1168,7 @@ document::document(file.path("src", "golden_ratios.R"), output_directory = ".")
 list.files(pattern = "^golden.*", full.names = TRUE)
 //end.rcode
 
-Au&szlig;erdem kannst Du mit https://CRAN.R-project.org/package=document[document] nach der Erstellung der Hilfe-Dateien 
+Außerdem kannst Du mit https://CRAN.R-project.org/package=document[document] nach der Erstellung der Hilfe-Dateien 
 in einer laufenden **R**-Sitzung die Hilfe zu Deiner Funktion ansehen:
 //begin.rcode, echo = FALSE
 pager_function <- function(x, ...){
@@ -1169,10 +1187,10 @@ Schnittstellen beschrieben. Sie sind jetzt <<_paketieren,paketierungsreif>>.
 === Paketieren
 
 Zum Paketieren nimmst Du wieder die getrennten Funktionsdateien, 
-+src/golden_ratio.R+ und +src/.golden_ratio.R+ und ihre zugeh&ouml;rigen Testdateien.
++src/golden_ratio.R+ und +src/.golden_ratio.R+ und ihre zugehörigen Testdateien.
 
-Damit sie den Paketanforderungen gen&uuml;gen, musst Du noch zwei kleine
-&Auml;nderungen vornehmen: +golden_ratio.R+ braucht noch einen
+Damit sie den Paketanforderungen genügen, musst Du noch zwei kleine
+Änderungen vornehmen: +golden_ratio.R+ braucht noch einen
 Verweis darauf, dass interne Funktionen in +golden_ratio_internals.R+ stehen
 
 //begin.rcode
@@ -1184,7 +1202,7 @@ writeLines(code, file.path("src", "golden_ratio.R"))
 //begin.rcode, code = readLines(file.path("src", "golden_ratio.R")), eval = FALSE
 //end.rcode
 
-und die Dokumentation f&uuml;r +.golden_ratio+ sollte in eine Datei geschrieben
+und die Dokumentation für +.golden_ratio+ sollte in eine Datei geschrieben
 werden, deren Name nicht mit einem Punkt beginnt
 (der Name der Hilfedatei wird, wenn Du ihn nicht explizit angibst, aus dem der
 dokumentierten Funktion abgeleitet)
@@ -1241,7 +1259,7 @@ d$write()
 
 //end.rcode
 
-Nun kannst Du das Paket pr&uuml;fen:
+Nun kannst Du das Paket prüfen:
 
 //begin.rcode, results = "hide", message = FALSE
 check <- rcmdcheck::rcmdcheck(package_dir, args = "--as-cran")
@@ -1262,8 +1280,8 @@ fragen (wobei https://CRAN.R-project.org/package=lintr[lintr] hier die vorhanden
         +.golden_ratio()+ _nicht_ erkennt 
         footnote::[Das ist ein altes Problem, siehe https://github.com/jimhester/lintr/issues/27. Wenn Du mit +devtools::install(package_dir)+ das Paket installierst, verschwindet die falsch positive Warnung.] und https://CRAN.R-project.org/package=cyclocomp[cyclocomp] 
         ebenfalls nicht 
-        footnote::[In Version 1.1.0 des Pakets ruft +cyclocomp::cyclocomp_package_dir+ die Funktion +cyclocomp::cyclocomp_package+ und diese +ls(asNamespace(package))+, wobei +package+ das aktuelle Paket, hier also "mytools", ist und +ls+ mit der Voreinstellung +all.names = FALSE+ Objekte mit einem f&uuml;hrenden Punkt nicht auflistet.]
-        und daher keine +cyclomatic complexity+ f&uuml;r sie berechnet):
+        footnote::[In Version 1.1.0 des Pakets ruft +cyclocomp::cyclocomp_package_dir+ die Funktion +cyclocomp::cyclocomp_package+ und diese +ls(asNamespace(package))+, wobei +package+ das aktuelle Paket, hier also "mytools", ist und +ls+ mit der Voreinstellung +all.names = FALSE+ Objekte mit einem führenden Punkt nicht auflistet.]
+        und daher keine +cyclomatic complexity+ für sie berechnet):
 
 //begin.rcode
 print(lintr::lint_package(package_dir))
@@ -1279,7 +1297,7 @@ package_path <- paste0(package_dir, "_0.1.0.tar.gz")
 if (file.exists(package_path)) print(package_path)
 //end.rcode
 
-Paket fertig. Die Metadaten sind nat&uuml;rlich gelogen (Du solltest die Datei +DESCRIPTION+ anpassen, Du solltest eine Datei +NEWS.md+ pflegen, Du solltest ein https://de.wikipedia.org/wiki/Versionsverwaltung[version control system] benutzten), aber funktional ist es korrekt.
+Paket fertig. Die Metadaten sind natürlich gelogen (Du solltest die Datei +DESCRIPTION+ anpassen, Du solltest eine Datei +NEWS.md+ pflegen, Du solltest ein https://de.wikipedia.org/wiki/Versionsverwaltung[version control system] benutzten), aber funktional ist es korrekt.
 
 == Bibliographie
 [bibliography]
