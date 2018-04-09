@@ -1142,6 +1142,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="paragraph"><p>Bei so wenigen Objekten erkenne ich leicht, dass <code>vc</code> der größte Speicherfresser ist und ich, falls mir der Speicher platzt und ich <code>vc</code> nicht mehr unbedingt brauche, <code>vc</code> löschen sollte.</p></div>
 <div class="paragraph"><p>Aber wenn ich viele Objekte habe, wäre es doch schön, ein optionales Funktionsargument zu haben, das in seiner Voreinstellung die Ausgabe nach Größe des Speicherbedarfs sortiert:</p></div>
 <div class="listingblock">
+<div class="title">Ein Steuerargument</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -1168,6 +1169,7 @@ Steuerargumente sollten eine sinnvolle Voreinstellung haben.</p></div>
 <div class="paragraph"><p>Da die <code>memory_hogs</code> intern nun die Funktion <code>order</code> aufruft, könnten wir ja auf die Idee kommen, dieser Funktion Argumente weiterreichen zu wollen.
 Das können wir entweder explizit tun, oder wir benutzen ein spezielles, <em>Ellipsis</em> genanntes Argument, das durch drei Punkte (<code>...</code>) aufgerufen wird:</p></div>
 <div class="listingblock">
+<div class="title">Ellipsis I</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -1219,7 +1221,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen. Der zu summierende Vektor <code>x</code> in <code>my_sum</code> ist ein klassisches Beispiel: ein Voreinstellung für die zu summiernden Zahlen (etwa <code>x = c(40, 2)</code> ist unsinnig.
+Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen. Der zu summierende Vektor <code>x</code> in <code>my_sum</code> ist ein klassisches Beispiel: ein Voreinstellung für die zu summiernden Zahlen (etwa <code>x = c(40, 2)</code>) ist unsinnig.
 </p>
 </li>
 <li>
@@ -1237,24 +1239,13 @@ Die <em>Ellipsis</em>, um Argumente an andere Funktionen weiterzureichen.
 <div class="sect2">
 <h3 id="_return_value_und_side_effects">2.4. Return Value und Side Effects</h3>
 <div class="paragraph"><p>Jede Funktion in <strong>R</strong> gibt einen Wert zurück, falls sie nicht mit einem Fehler abbricht.
-Wenn wir keinen Rückgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks, also der letzte Wert, der wie auch immer berechnet oder zurückgegeben wurde.
-Es ist daher sicher nicht schlecht, wenn Du versucht, den Rückgabewert explizit anzugeben.
-Unsere Summenfunktion könnte auch so aussehen:</p></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>my_sum &lt;- function(x) {
-    value &lt;- 0
-    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
-        value &lt;- value + x_i
-    }
-}</tt></pre></div></div>
-<div class="paragraph"><p>Das ist zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger offensichtlich. Und damit weniger gut lesbar.
+Wenn wir keinen Rückgabewert (return value) explizit angeben, ist er automatisch der Wert des letzten in der Funktion ausgewerteten Ausdrucks (siehe <code>?expression</code>), oder, falls die Funktion keinen Ausdruck hat, <code>NULL</code> (siehe <code>?return</code>), compris?
+Es ist daher sicher nicht schlecht, wenn Du versucht, den Rückgabewert jeder Funktion explizit anzugeben.
+Wenn Du die auf die explizite Rückgabe verzichtest ist Deine Funktion zwar (um eine Zeile) kürzer und inhaltsgleich, aber weniger sprechend. Und damit weniger gut lesbar.
 Und damit mehr schlechter als eine Zeile kürzer mehr besser ist, capisce?</p></div>
 <div class="paragraph"><p>Komplexere Funktionen haben oft Nebenwirkungen (<a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">side effects</a>).
-Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion, manchmal ist der Rückgabewert sogar belanglos.
+Bei vielen dieser Funktionen sind die Nebenwirkungen der eigentliche Zweck der Funktion,
+manchmal ist der Rückgabewert sogar belanglos.
 Die Funktion <code>rm</code> gibt beispielsweise unsichtbar <code>NULL</code> zurück (und das selbst dann, wenn es gar nichts zu löschen gibt).
 Das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:</p></div>
 <div class="listingblock">
@@ -1298,7 +1289,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>print(wipe_clean())</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "memory_hogs" "my_sum"      "va"          "vd"          "wipe_clean"</code></pre>
+<pre><code>## [1] "memory_hogs" "va"          "vd"          "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1334,38 +1325,38 @@ stats(rnorm(100))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## $date
-## [1] "2018-04-04 11:55:46 CEST"
+## [1] "2018-04-09 12:42:50 CEST"
 ##
 ## $data
-##   [1] -0.53246869 -1.32291132 -0.75920530  0.75664384 -2.16461568
-##   [6]  0.69826450  0.59091656 -1.03651779 -0.01949726  0.90397875
-##  [11] -1.44811485  1.34572634  0.22671433  0.97126017  0.20792217
-##  [16] -0.06195184  0.54032691 -0.06322612  0.80646084 -1.16258740
-##  [21]  0.64507695  0.22100791  0.61252400 -0.14516994  0.34413148
-##  [26] -0.09496738  1.51361203  0.16851036  1.48135682  0.11739921
-##  [31] -0.47373073 -0.48796390  2.76123322 -0.62348636  1.08023956
-##  [36]  1.33551721 -0.10394260  0.17494863  1.26637392 -0.87126113
-##  [41] -0.13779315 -0.82636605 -0.83147713  2.50524989 -0.25479223
-##  [46] -0.38702333  1.25388687  2.11412650  0.74920283  1.01763242
-##  [51] -0.19107591 -0.85508424 -1.12157854  1.52452458  0.66879605
-##  [56]  1.49738852 -1.56712754  0.17862004 -0.33668158 -1.73052636
-##  [61] -0.25186814  1.42777435  0.98148800 -1.52402543 -1.42198105
-##  [66] -0.83435859 -0.49740403 -0.67764915  1.12618162 -0.89708035
-##  [71]  1.23339291  0.44127526 -0.14457694 -0.77516629  0.94862448
-##  [76] -0.42899295 -0.89100691 -0.11995170 -0.45876310 -0.15077717
-##  [81] -0.96279799  0.35302621 -0.30985442  0.21987801 -1.09923330
-##  [86]  0.70347746  0.23908624 -0.77005023 -0.14080341  0.28297391
-##  [91] -1.26466542 -0.09909091  1.34400436 -0.77966435  0.33129884
-##  [96]  0.60020469 -0.95965800 -0.07081304 -0.15647427 -0.29906701
+##   [1]  0.239130863 -0.412017891 -0.617199297  0.501278978  0.590754983
+##   [6]  0.406478934  0.690571681 -0.674253330  0.658375356  0.343466249
+##  [11] -0.896611793 -0.157698738 -0.740164462 -0.566163447  1.240866493
+##  [16] -1.243992792  0.160020171  0.281996612  1.796717008 -1.604324108
+##  [21]  0.710909595  0.005244540 -0.314100908  0.415097947  1.054971390
+##  [26]  0.293723872  0.990768081  0.345736969  0.432417823 -1.037286776
+##  [31]  1.181397476  0.473133975  0.815275107  0.796492174  0.144975614
+##  [36] -1.002842546  0.033195055  0.714060264 -0.464003076  0.719653115
+##  [41]  1.031392511 -1.121818276  0.698712549  2.652609183 -0.405847549
+##  [46] -1.338788258  1.191755458 -1.513784292 -0.835028754  0.712619550
+##  [51] -0.353017000 -2.140783105  0.505158967 -0.699824825  0.321658870
+##  [56] -1.360358876 -0.831353697  0.178854644 -2.352005685  0.071103058
+##  [61] -1.081153478  1.966836758 -2.468508631 -0.823455105 -1.229807902
+##  [66] -0.406000359  0.664194174 -0.355838982 -1.142928280  1.680050810
+##  [71]  0.308709217 -0.701861948 -0.882795980  1.163784901  2.511472512
+##  [76] -0.560418359 -0.556018068 -0.009132707 -0.636804461 -0.240121420
+##  [81]  1.421677913  0.926818203  0.818434469  1.249839803  0.651306577
+##  [86] -1.774351908  0.063735227 -0.462390050  0.855799829 -0.467217235
+##  [91]  0.459466645 -0.215011834  0.902813440  0.567413450  0.127220934
+##  [96] -0.034911251 -0.078541621  0.860398225 -0.207433665 -0.440061058
 ##
 ## $mean
-## [1] 0.04915341
+## [1] 0.03142514
 ##
 ## $variance
-## [1] 0.9054451
+## [1] 0.9486102
 ##
 ## $range
-## [1] -2.164616  2.761233</code></pre>
+## [1] -2.468509  2.652609</code></pre>
 </div></div>
 <div class="paragraph"><p>Die Rückgabe einer Liste ist unter statistischen Funktionen (<code>stats::lm</code>, <code>stats::glm</code>, <code>mgcv::gam</code>, &#8230;)
 verbreitet.</p></div>
@@ -1637,7 +1628,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] -0.02120425</code></pre>
+<pre><code>## [1] -0.1191734</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1917,7 +1908,7 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ... Timing stopped at: 0 0 0
+## Executing test function test_sum  ... Timing stopped at: 0 0 0.001
 ##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
@@ -1928,7 +1919,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Wed Apr  4 11:55:47 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Mon Apr  9 12:42:51 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -2063,8 +2054,9 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>##                filename functions line value
 ## 2 src/my_sum_coverage.R    my_sum    3     0</code></pre>
 </div></div>
-<div class="sect4">
-<h5 id="_nebenwirkungen_testen">Nebenwirkungen testen</h5>
+</div>
+<div class="sect3">
+<h4 id="_nebenwirkungen_testen">3.2.3. Nebenwirkungen testen</h4>
 <div class="paragraph"><p>Funktionen sind relativ einfach zu testen, wenn ihr Rückgabewert ihr Zweck ist.
 Wenn sie aber Nebenwirkungen bezwecken, finde ich Tests schwieriger zu schreiben.</p></div>
 <div class="paragraph"><p>Stell Dir vor, Du hättest die fehlerhafte Löschfunktion aus
@@ -2146,9 +2138,8 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-style: italic"><span style="color: #9A1900">## Lengths differ: 1 is not 0</span></span>
 </tt></pre></div></div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_was_soll_die_ganze_testerei">3.2.3. Was soll die ganze Testerei?</h4>
+<h4 id="_was_soll_die_ganze_testerei">3.2.4. Was soll die ganze Testerei?</h4>
 <div class="paragraph"><p>Stell Dir vor, Du erstelltest öfter Abbildungen.
 Jetzt bist Du ein Mensch mit einem Gefühl für Harmonien,
 daher willst Du gerne, wenn möglich, den
@@ -4023,7 +4014,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-04-04 11:56:16 CEST
+ 2018-04-09 12:43:36 CEST
 </div>
 </div>
 </body>

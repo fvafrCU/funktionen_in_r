@@ -4006,5 +4006,232 @@ http://www.gnu.org/software/src-highlite -->
 </tt></pre></div></div>
 </div>
 </div>
+<div class="sect1 slide">
+<h1 id="_scoping_iii">Scoping III</h1>
+<div class="sectionbody">
+<div class="paragraph"><div class="title">Lesen au&szlig;erhalb unterbrechen:</div><p><code>value &lt;- get("value", inherits = FALSE) + x_i</code></p></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_gültigkeitsbereiche_i">Gültigkeitsbereiche I</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>rm(list = ls(all.names = TRUE))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>wipe_clean &lt;- function() {
+    rm(list = ls(all.names = TRUE))
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>wipe_clean &lt;- function() {
+    rm(list = ls(name = parent.frame(), all.names = TRUE), envir = parent.frame())
+}</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_gültigkeitsbereiche_ii">Gültigkeitsbereiche II</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ls()</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
+## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>wipe_clean()
+ls()</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## character(0)</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_argumente_i">Argumente I</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Ohne Argumente</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>memory_hogs &lt;- function() {
+    z &lt;- sapply(ls(envir = parent.frame()),
+                function(x) object.size(get(x, envir = parent.frame())))
+    return(z)
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>va &lt;- rep(mtcars, 1)
+vb &lt;- rep(mtcars, 1000)
+vc &lt;- rep(mtcars, 2000)
+vd &lt;- rep(mtcars, 100)
+memory_hogs()</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## memory_hogs          va          vb          vc          vd
+##        7576        4232     3432720     6864720      343920</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_argumente_ii">Argumente II</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Ein Steuerargument</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>memory_hogs &lt;- function(order = TRUE) {
+    z &lt;- sapply(ls(envir = parent.frame()),
+                function(x) object.size(get(x, envir = parent.frame())))
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (isTRUE(order)) z &lt;- z[order(z)]
+    return(z)
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>memory_hogs()</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##          va memory_hogs          vd          vb          vc
+##        4232        9744      343920     3432720     6864720</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_argumente_iii">Argumente III</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Ellipsis I</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>memory_hogs &lt;- function(...) {
+    z &lt;- sapply(ls(envir = parent.frame()),
+                function(x) object.size(get(x, envir = parent.frame())))
+    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (! missing(...)) {
+      z &lt;- z[order(z, ...)]
+    }
+    return(z)
+}</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>memory_hogs()</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## memory_hogs          va          vb          vc          vd
+##       13080        4232     3432720     6864720      343920</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_argumente_iv">Argumente IV</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Ellipsis II</div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>memory_hogs(decreasing = TRUE)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##          vc          vb          vd memory_hogs          va
+##     6864720     3432720      343920       13080        4232</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_argumente_v">Argumente V</h1>
+<div class="sectionbody">
+<div class="paragraph"><p>Die einzig wahre Argumentenklassifikation:</p></div>
+<ul class="">
+<li>
+<span>
+Obligatorische. Sie sollten keine Voreinstellungen kennen und übergeben üblicherweise Objekte, die von der Funktion verarbeitet werden sollen. Der zu summierende Vektor <code>x</code> in <code>my_sum</code> ist ein klassisches Beispiel: ein Voreinstellung für die zu summiernden Zahlen (etwa <code>x = c(40, 2)</code>) ist unsinnig.
+</span>
+</li>
+<li>
+<span>
+Optionale. Sie sollten Voreinstellungen kennen und dienen üblicherweise der Steuerung der Funktion. Das Argument <code>order</code> in <code>memory_hogs</code> ist ein klassisches Beispiel:
+</span>
+</li>
+<li>
+<span>
+Die <em>Ellipsis</em>, um Argumente an andere Funktionen weiterzureichen.
+</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect1 slide incremental">
+<h1 id="_return_value_und_side_effects">Return Value und Side Effects</h1>
+<div class="sectionbody">
+<ul class="">
+<li>
+<span>
+Jede Funktion gibt einen Wert zur&uuml;ck.
+</span>
+</li>
+<li>
+<span>
+Viele Funktionen werden ihrer Nebenwirkungen wegen benutzt.
+</span>
+</li>
+</ul>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>a &lt;- <span style="color: #FF0000">"This is a string"</span>
+print(rm(a))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## NULL</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>print(rm())</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## NULL</code></pre>
+</div></div>
+</div>
+</div>
 </body>
 </html>
