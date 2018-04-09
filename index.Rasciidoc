@@ -341,7 +341,6 @@ Die einzig wahre Argumentenklassifikation: //slide_only
 - Optionale. Sie sollten Voreinstellungen kennen und dienen üblicherweise der Steuerung der Funktion. Das Argument `order` in `memory_hogs` ist ein klassisches Beispiel: 
 - Die _Ellipsis_, um Argumente an andere Funktionen weiterzureichen.
 
-[role="incremental"]  //slide_only
 == Return Value und Side Effects //slide_only
 //begin_no_slide
 === Return Value und Side Effects
@@ -359,8 +358,10 @@ manchmal ist der Rückgabewert sogar belanglos.
 Die Funktion `rm` gibt beispielsweise unsichtbar `NULL` zurück (und das selbst dann, wenn es gar nichts zu löschen gibt). 
 Das erkennen wir, wenn wir ihren Rückgabewert explizit drucken:
 //end_no_slide
+ 
 * Jede Funktion gibt einen Wert zur&uuml;ck.//slide_only
 * Viele Funktionen werden ihrer Nebenwirkungen wegen benutzt.//slide_only
+
 //begin.rcode
 a <- "This is a string"
 print(rm(a))
