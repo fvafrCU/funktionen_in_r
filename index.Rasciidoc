@@ -425,7 +425,7 @@ Funktionen, die Du nicht nur in einem Projekt nutzen willst,
 kannst Du zentral verwalten, 
 in dem Du Dateien wie im Abschnitt <<_lokal, lokal>> beschrieben ablegst, 
 nur mit dem Unterschied, dass Du ein zentrales Verzeichnis benutzt.
-Dann fügst Du ineine Deiner **R**-Startup-Dateien die Anweisung
+Dann fügst Du in eine Deiner **R**-Startup-Dateien die Anweisung
 //begin.rcode, eval = FALSE
 for (f in dir("/full/path/to/functions_directory/", 
               full.names = TRUE, pattern = ".*\\.[rR]$")) {
