@@ -419,6 +419,29 @@ for (f in dir("./functions/", full.names = TRUE, pattern = ".*\\.[rR]$")) {
     source(f)
 }
 //end.rcode
+//end_no_slide
+//begin_only_slide
+== Funktionen verwalten
+
+[role="outline"]
+- im jeweiligen Skript
+- lokal
+  * Zu Beginn jedes lokalen Skriptes:
++
+//begin.rcode, eval = FALSE
+for (f in dir("./functions/", full.names = TRUE, pattern = ".*\\.[rR]$")) {
+    source(f)
+}
+//end.rcode
+//end_only_slide
+//begin_only_slide
+[role="outline"]
+- global 
+  * wie oben mit absolutem Pfad in Startup-Datei
+  * Liste der Startup-Dateien im https://fvafrcu.github.io/funktionen_in_r/#_global[Skript]
+- als Paket
+//end_only_slide
+//begin_no_slide
 
 ====  Global 
 Funktionen, die Du nicht nur in einem Projekt nutzen willst, 

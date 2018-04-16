@@ -4051,7 +4051,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
-## [5] "my_sum_safer"  "tmp"           "value"         "wipe_clean"</code></pre>
+## [5] "my_sum_safer"  "value"         "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4231,6 +4231,62 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## NULL</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_funktionen_verwalten">Funktionen verwalten</h1>
+<div class="sectionbody">
+<ul class=" outline">
+<li>
+<span>
+im jeweiligen Skript
+</span>
+</li>
+<li>
+<span>
+lokal
+</span>
+<ul class="">
+<li>
+<span>
+Zu Beginn jedes lokalen Skriptes:
+</span>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (f in dir(<span style="color: #FF0000">"./functions/"</span>, full.names = TRUE, pattern = <span style="color: #FF0000">".*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.[rR]$"</span>)) {
+    source(f)
+}</tt></pre></div></div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class=" outline">
+<li>
+<span>
+global
+</span>
+<ul class="">
+<li>
+<span>
+wie oben mit absolutem Pfad in Startup-Datei
+</span>
+</li>
+<li>
+<span>
+Liste der Startup-Dateien im <a href="https://fvafrcu.github.io/funktionen_in_r/#_global">Skript</a>
+</span>
+</li>
+</ul>
+</li>
+<li>
+<span>
+als Paket
+</span>
+</li>
+</ul>
 </div>
 </div>
 </body>
