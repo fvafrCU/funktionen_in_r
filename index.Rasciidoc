@@ -4,7 +4,7 @@ Anne-Sophie Stelzer, Dominik Cullmann
 :toclevels: 5
 :numbered:
 :data-uri:
-:duration: 120
+:duration: 60
 
 //begin_only_slide
 == Skript
@@ -45,6 +45,20 @@ eine (oder mehrere) Funktion(en)  aus ihm  zu machen.
 
 
 == Eine Funktion schreiben
+
+// begin_only_slide
+- Vom Code
++
+//begin.rcode, code = readLines(file.path("src", "sum.R"))
+//end.rcode
+[role="outline"]
+- Zur Funktion
+  * Summenfunktion:
++
+//begin.rcode, code = readLines(file.path("src", "my_sum.R"))
+//end.rcode
+// end_only_slide
+
 //begin_no_slide
 === Eine neue Summenfunktion
 
@@ -63,11 +77,9 @@ https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R]
 
 
 ==== Vom Code ... 
-//end_no_slide
 //begin.rcode, code = readLines(file.path("src", "sum.R"))
 //end.rcode
 
-//begin_no_slide
 Dabei siehst Du:
 
 <1> Definition des zu summierenden Vektors
@@ -86,14 +98,10 @@ meist eine Unbekannte). Und als Ausgabe verwenden wir keine Druck- sondern eine
 Rückgabefunktion (+return()+ statt +print()+). 
 Das Ergebnis sieht dann so aus:
 
-//end_no_slide
-
-
-
 //begin.rcode, code = readLines(file.path("src", "my_sum.R"))
 //end.rcode
 
-
+//end_no_slide
 === Scoping  //no_slide
 == Scoping  //slide_only
 //begin_no_slide
