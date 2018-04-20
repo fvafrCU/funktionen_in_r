@@ -448,6 +448,9 @@ for (f in dir("./functions/", full.names = TRUE, pattern = ".*\\.[rR]$")) {
   * wie oben mit absolutem Pfad in Startup-Datei
   * Liste der Startup-Dateien im https://fvafrcu.github.io/funktionen_in_r/#_global[Skript]
 - als Paket
+
+== Skript
+https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
 //end_only_slide
 //begin_no_slide
 
@@ -480,10 +483,6 @@ Wenn Du Dir die Mühe machst, Deine Funktionen zu <<_funktionen_dokumentieren, d
 Du sie eigentlich auch gleich in einem oder mehreren Paketen verwalten. 
 Das ist am elegantesten.
 
-//begin_only_slide
-== Skript
-https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
-//end_only_slide
 
 == Schöner Programmieren
 
