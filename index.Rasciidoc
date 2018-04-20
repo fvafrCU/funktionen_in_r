@@ -11,15 +11,15 @@ Anne-Sophie Stelzer, Dominik Cullmann
 https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
 //end_only_slide
 
+//begin_no_slide
 == Worum geht es?
 
 Naja, ums Schreiben von Funktionen in der Programmiersprache **R**.
+//end_no_slide
 
 
 === Was sind Funktionen? //no_slide
 == Was sind Funktionen? // slide_only
-//begin_no_slide
-//end_no_slide
 
 
 * Funktionen sind Programmkonstrukte, mit denen Du Teile des von Dir 
@@ -480,6 +480,10 @@ Wenn Du Dir die Mühe machst, Deine Funktionen zu <<_funktionen_dokumentieren, d
 Du sie eigentlich auch gleich in einem oder mehreren Paketen verwalten. 
 Das ist am elegantesten.
 
+//begin_only_slide
+== Skript
+https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+//end_only_slide
 
 == Schöner Programmieren
 
