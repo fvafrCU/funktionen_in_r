@@ -4005,6 +4005,11 @@ http://www.gnu.org/software/src-highlite -->
 <div class="content">
 <pre><code>## [1] 25</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_scoping_iii">Scoping III</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4017,12 +4022,12 @@ print(my_sum_broken(1:3))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in my_sum_broken(1:3): object 'value' not found</span></span>
 </tt></pre></div></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_scoping_iii">Scoping III</h1>
+<h1 id="_scoping_iv">Scoping IV</h1>
 <div class="sectionbody">
 <div class="paragraph"><div class="title">Lesen au&szlig;erhalb unterbrechen:</div><p><code>value &lt;- get("value", inherits = FALSE) + x_i</code></p></div>
 </div>
@@ -4183,7 +4188,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       13080        4232</code></pre>
+##     6864720     3432720      343920       48048        4232</code></pre>
 </div></div>
 </div>
 </div>

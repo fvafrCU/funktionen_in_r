@@ -90,16 +90,25 @@ Dabei siehst Du:
 
 ==== ... zur Funktion 
 
-Für unsere Summenfunktion soll die Definition des zu summierenden Vektors
-der Anwenderin überlassen werden, daher wird der Vektor zu einem Argument
-der Funktion. Ich wähle als Namen für das Argument jetzt +x+ (das könnte aber
+Für meine Summenfunktion will die Definition des zu summierenden Vektors
+der Anwenderin überlassen (alles andere wäre auch sehr seltsam, wer braucht eine Funktion, 
+                            die immer die Summe von 19 berechnet?), 
+daher wird der Vektor zu einem Argument der Funktion. 
+Ich wähle als Namen für das Argument jetzt +x+ (das könnte aber
 auch +a+ bleiben, das ist eine Frage der Konvention, und unter +x+ verstehen wir
-meist eine Unbekannte). Und als Ausgabe verwenden wir keine Druck- sondern eine
+meist eine Unbekannte). Und als Ausgabe verwende ich keine Druck- sondern eine
 Rückgabefunktion (+return()+ statt +print()+). 
 Das Ergebnis sieht dann so aus:
 
 //begin.rcode, code = readLines(file.path("src", "my_sum.R"))
 //end.rcode
+
+Dabei habe ich mehrere Dinge getan, beispielsweise einen ziemlich miesen Namen für meine Funktion gewählt. 
+Im Wesentlichen aber habe ich:
+
+- entschieden, welchen Code die Funktion <<_scoping,enthält>>, 
+- welche Zuweisung zu einem <<_argumente,Funktionsargument>> wird und
+- was die Funktion <<_return_value_und_side_effects,zurückgibt>>.
 
 //end_no_slide
 === Scoping  //no_slide
@@ -181,13 +190,14 @@ Wenn Du diese Funktion verwendest, ohne vorher das Objekt +value+ zu definieren,
 oder das Objekt +value+ entfernst und dann die Funktion ausführst
 
 //end_no_slide
+== Scoping III //slide_only
 //begin.rcode
 rm(value)
 print(my_sum_broken(1:3))
 //end.rcode
 
 //begin_only_slide 
-== Scoping III //slide_only
+== Scoping IV //slide_only
 .Lesen au&szlig;erhalb unterbrechen:
 `value <- get("value", inherits = FALSE) + x_i`
 
