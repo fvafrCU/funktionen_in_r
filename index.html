@@ -1026,7 +1026,7 @@ print(my_sum_broken(1:3))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in my_sum_broken(1:3): object 'value' not found</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
 </tt></pre></div></div>
 <div class="paragraph"><p>erhälst Du einen Fehler, weil <strong>R</strong> auch außerhalb der Funktion kein Objekt
 names <code>value</code> finden kann. Und diesen Fehler erwarten wir ja eigentlich, wenn
@@ -1223,7 +1223,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       48048        4232</code></pre>
+##     6864720     3432720      343920       13080        4232</code></pre>
 </div></div>
 <div class="paragraph"><p>Jetzt können wir die Rückgabe unserer Funktion nutzen, um die beiden größten Speicherfresser zu löschen:</p></div>
 <div class="listingblock">
@@ -1236,7 +1236,7 @@ memory_hogs()</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## memory_hogs          va          vd
-##       48048        4232      343920</code></pre>
+##       13080        4232      343920</code></pre>
 </div></div>
 <div class="paragraph"><p>Wir können also, wenn wir wollen, drei Arten von Argumenten unterscheiden:</p></div>
 <div class="ulist"><ul>
@@ -1346,38 +1346,38 @@ stats(rnorm(100))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## $date
-## [1] "2018-04-23 22:07:27 CEST"
+## [1] "2018-04-24 09:37:20 CEST"
 ##
 ## $data
-##   [1] -1.16756897 -0.98284145 -0.81613043  0.30750676  0.60135567
-##   [6]  0.12159568  0.45622403  0.49351133 -0.35014229 -1.43599276
-##  [11]  1.31496768  0.41405596 -0.01452129  1.02145916 -0.97033463
-##  [16]  2.25619457 -1.27622127  1.60427155 -0.05746466 -1.41887875
-##  [21]  1.97195239  0.59166494 -0.54992467 -0.37785326  1.44337267
-##  [26] -0.56751014  1.09814744 -1.12443373 -0.72461873 -0.51143152
-##  [31]  1.97083102  0.30173098  0.31440659  0.49745022 -0.88726170
-##  [36]  0.46085624 -0.03368746 -0.27534025 -0.34424251  1.04430424
-##  [41] -0.38939553  2.10114103 -1.41545537 -1.19032475  1.88143684
-##  [46]  1.00318176  0.92438388 -1.28431451  0.96409933 -0.06088617
-##  [51] -0.44825960  0.81608982  0.30233361  0.57504517 -0.41697946
-##  [56]  1.47753071  1.69905092  0.68973552 -0.83944760  0.31344647
-##  [61]  0.17949485 -1.14400150  0.25124548  0.35852317  0.88591669
-##  [66]  0.72522605  1.13436377  0.48745200  1.72679768 -0.52060328
-##  [71] -0.24235769  1.13357941 -0.87334982 -0.38472760 -0.59450512
-##  [76] -0.78779630  0.65019197 -0.52626391  0.44329302 -0.12084176
-##  [81]  0.03340360  0.98847248 -0.04911127 -0.37982791 -0.63174607
-##  [86] -0.73250434  1.75828097  2.03934804 -2.49032409 -0.65090965
-##  [91]  0.05292157  1.34322614 -0.75485873  0.27554278  0.11759283
-##  [96] -0.59231974 -1.52184637  1.08826689 -0.29942331 -1.11206704
+##   [1]  0.3182479201  1.6329060401  1.4681575390 -1.1240470836 -0.3754824027
+##   [6]  2.1330728176 -1.4500811593  0.5099343332 -1.1680310931 -1.2529466489
+##  [11] -0.3889181653  1.2827963514 -0.4831021212 -0.1426905141  1.0072254822
+##  [16] -1.8177321025 -1.2182319971  0.2625025107 -0.9840851798  1.7985402347
+##  [21]  1.5175044513 -1.4671885912  2.1448994302  0.0689059380  0.3904039009
+##  [26]  0.4486764173  0.4478399455  0.0703705533 -1.9020391936  0.2874512846
+##  [31] -0.3025977610  1.0828501278 -0.6333779735  1.0284668762 -2.1120584182
+##  [36]  0.0057853230 -0.5705097805 -0.2447834055  0.8245656578  1.0236498838
+##  [41]  1.2095625456  1.1002654536  0.3642652825  1.6201023857 -0.7709285636
+##  [46] -0.9980260085  0.1510867982  0.5523593181  1.0110884718 -0.3623153397
+##  [51]  0.7854060542 -0.6142085789  0.3549506954  1.0329506803  0.5218330433
+##  [56] -1.0871163245  0.0026006276  0.1810110393 -0.2108634679  1.4894014651
+##  [61] -1.6011096449  2.3638680608  0.1204188284  0.0003294813  1.2502878471
+##  [66] -0.6280729962 -1.0367731449 -0.4227733551  1.2361913342  0.8426080690
+##  [71]  0.1407923588 -0.7953678823 -0.6866527829 -1.1719510833  0.0564897009
+##  [76]  0.8725812795 -0.5623821205 -2.1947354936  1.4907274880 -1.0097370437
+##  [81]  0.2608586266 -0.0480154005 -1.1896629219  0.9397080240 -0.2327661623
+##  [86]  0.3434481424 -0.0391225824  0.0166643011 -0.1776364597 -0.6658431225
+##  [91] -0.1793236508  0.4677160601  0.3186433307 -0.1683952050  1.5345940692
+##  [96]  1.7371682594  1.8848973282  0.1685743639 -1.3938905880 -0.9621576032
 ##
 ## $mean
-## [1] 0.1236562
+## [1] 0.09330473
 ##
 ## $variance
-## [1] 0.9681223
+## [1] 1.060201
 ##
 ## $range
-## [1] -2.490324  2.256195</code></pre>
+## [1] -2.194735  2.363868</code></pre>
 </div></div>
 <div class="paragraph"><p>Die Rückgabe einer Liste ist unter statistischen Funktionen (<code>stats::lm</code>, <code>stats::glm</code>, <code>mgcv::gam</code>, &#8230;)
 verbreitet.</p></div>
@@ -1649,7 +1649,7 @@ http://www.gnu.org/software/src-highlite -->
 center(rnorm(100), <span style="color: #FF0000">"med"</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] -0.06011529</code></pre>
+<pre><code>## [1] -0.03312517</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1827,7 +1827,8 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>, {
+<pre><tt>testthat::context(<span style="color: #FF0000">"My first test."</span>)
+testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>, {
                         testthat::expect_identical(not_my_sum(c(2, 7)), 9,
                                                    info = <span style="color: #FF0000">"Not my sum."</span>)
                         testthat::expect_identical(my_sum(c(2, 7)), 9,
@@ -1850,7 +1851,8 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>, {
+<pre><tt>testthat::context(<span style="color: #FF0000">"My first test."</span>)
+testthat::test_that(<span style="color: #FF0000">"Simple test on summation."</span>, {
                         testthat::expect_identical(not_my_sum(c(2, 7)), 9,
                                                    info = <span style="color: #FF0000">"Not my sum."</span>)
                         testthat::expect_identical(my_sum(c(2, 7)), 9,
@@ -1866,23 +1868,23 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>testthat::test_file(file.path(<span style="color: #FF0000">"src"</span>, <span style="color: #FF0000">"test_my_sum.R"</span>))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## ✔ | OK F W S | Context</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error in x[[method]](...): attempt to apply non-function</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>##
-## ══ Results ════════════════════════════════════════════════════════════════
-## Duration: 1.8 s
+<pre><code>## ✔ | OK F W S | Context
 ##
-## OK:       0
-## Failed:   5
+⠏ |  0       | My first test.
+⠋ |  0 1     | My first test.
+⠙ |  1 1     | My first test.
+✖ |  1 1     | My first test.
+## ───────────────────────────────────────────────────────────────────────────
+## test_my_sum.R:3: failure: Simple test on summation.
+## not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+## Not my sum.
+## ───────────────────────────────────────────────────────────────────────────
+##
+## ══ Results ════════════════════════════════════════════════════════════════
+## OK:       1
+## Failed:   1
 ## Warnings: 0
 ## Skipped:  0</code></pre>
 </div></div>
@@ -1931,18 +1933,8 @@ runit &lt;- RUnit::runTestFile(test_file)</tt></pre></div></div>
 <div class="content">
 <pre><code>##
 ##
-## Executing test function test_sum  ...</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Timing stopped at: 0 0 0.002</span></span>
-</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>##  done successfully.</code></pre>
+## Executing test function test_sum  ... Timing stopped at: 0 0 0
+##  done successfully.</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -1952,7 +1944,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>RUnit::printTextProtocol(runit)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Mon Apr 23 22:07:31 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Tue Apr 24 09:37:20 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -1972,9 +1964,9 @@ http://www.gnu.org/software/src-highlite -->
 ## Test function regexp: ^test.+
 ## Test file regexp: ^runit_my_sum.R$
 ## Involved directory:
-## /home/nik/git/cyclops/fvafrcu/funktionen_in_r/src
+## /home/nik/git/cs/fvafrcu/funktionen_in_r/src
 ## ---------------------------
-## Test file: /home/nik/git/cyclops/fvafrcu/funktionen_in_r/src/runit_my_sum.R
+## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R
 ## test_sum: FAILURE !! (check number 1)
 ## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE
 ##</code></pre>
@@ -3734,7 +3726,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>list.files(pattern = <span style="color: #FF0000">"^golden.*"</span>, full.names = TRUE)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "./golden_ratios.html" "./golden_ratios.txt"</code></pre>
+<pre><code>## [1] "./golden_ratios.html" "./golden_ratios.pdf"  "./golden_ratios.txt"</code></pre>
 </div></div>
 <div class="paragraph"><p>Außerdem kannst Du mit <a href="https://CRAN.R-project.org/package=document">document</a> nach der Erstellung der Hilfe-Dateien
 in einer laufenden <strong>R</strong>-Sitzung die Hilfe zu Deiner Funktion ansehen:</p></div>
@@ -3917,12 +3909,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><code>##
 ## ── R CMD check results ───────────────────────────────── mytools 0.1.0 ────
 ##
-## ❯ checking CRAN incoming feasibility ... NOTE
-##   Maintainer: ‘Your Name &lt;your.name@somewhe.re&gt;’
-##
-##   New submission
-##
-## ── 0 errors ✔ | 0 warnings ✔ | 1 note ✖</code></pre>
+## ── 0 errors ✔ | 0 warnings ✔ | 0 notes ✔</code></pre>
 </div></div>
 <div class="paragraph"><p>Nun ja, Du hast die Metadaten noch nicht angepasst. Solltest Du noch tun.</p></div>
 <div class="paragraph"><p>Du kannst Dein Paket auch testen:</p></div>
@@ -4003,23 +3990,14 @@ http://www.gnu.org/software/src-highlite -->
                 callr::rcmd_safe(<span style="color: #FF0000">"build"</span>, basename(package_dir)))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## $status
-## [1] 0
-##
-## $stdout
-## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files and shell scripts\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
+<pre><code>## $stdout
+## [1] "* checking for file ‘mytools/DESCRIPTION’ ... OK\n* preparing ‘mytools’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files\n* checking for empty or unneeded directories\n* building ‘mytools_0.1.0.tar.gz’\n"
 ##
 ## $stderr
 ## [1] "\n"
 ##
-## $timeout
-## [1] FALSE
-##
-## $command
-## [1] "/home/nik/svn/R/r-devel/build/bin/R"
-## [2] "CMD"
-## [3] "build"
-## [4] "mytools"</code></pre>
+## $status
+## [1] 0</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4061,7 +4039,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-04-23 22:11:07 CEST
+ 2018-04-24 09:37:49 CEST
 </div>
 </div>
 </body>
