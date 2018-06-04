@@ -697,7 +697,7 @@ relativ wenig:
 //begin.rcode
 testthat::test_file(file.path("src", "test_my_sum.R"))
 //end.rcode
-Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 2 auftrat.
+Du erhälst aber die Information, dass der Fehler im ersten Test in Zeile 3 auftrat.
 
 .https://CRAN.R-project.org/package=RUnit[RUnit]
 Größer sind die Unterschiede bei https://CRAN.R-project.org/package=RUnit[RUnit], 
