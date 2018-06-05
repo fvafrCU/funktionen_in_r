@@ -887,7 +887,7 @@ Du benutzt die Funtktion ...
 
 //begin.rcode cars, fig.show = "hide"
 source(file.path("src", "golden_ratio.R"))
-width <- 4
+width <- 2
 png("p1.png", units = "cm", res = 400,
     width = width, 
     height = golden_rectangle(width)[["a"]])
