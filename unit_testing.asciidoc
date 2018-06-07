@@ -1,0 +1,766 @@
+= Unit Testing in **R**
+Anne-Sophie Stelzer, Dominik Cullmann 
+:toc2:
+:toclevels: 5
+:data-uri:
+:duration: 60
+
+//begin_only_slide
+== Skript
+https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+//end_only_slide
+
+
+//end_no_slide
+
+== Unit Testing
+Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
+Also im Zweifel ihren Rückgabewert.
+
+== Zwei Funktionen
+
+- Richtige Funktion
+
+[source,r]
+----
+my_sum <- function(x) {
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
+- Falsche Funktion
+
+[source,r]
+----
+not_my_sum <- function(x) {
+    value <- 0
+    for (x_i in x) {
+        value <- value - x_i 
+    }
+    return(value)
+}
+----
+
+
+== Erwartungen 
+Die kleinste Testeinheit ist immer ein Vergleich. 
+
+In base **R**:
+
+
+[source,r]
+----
+my_sum(c(2, 7)) == 9
+----
+
+----
+## [1] TRUE
+----
+
+[source,r]
+----
+# better use identical(), see ?Comparison 
+identical(not_my_sum(c(2, 7)), 9)
+----
+
+----
+## [1] FALSE
+----
+
+ 
+== Pakete
+
+- Wozu
+  * Formalisieren
+  * Berichten
+
+
+
+- Pakete 
+  * https://CRAN.R-project.org/package=RUnit[RUnit] gibt es schon seit 2004, es ist sehr formal
+   und hat wenige Abhängigkeiten (daher bevorzuge ich es beim Testen von Paketen).
+  * https://CRAN.R-project.org/package=testthat[testthat] finde ich interaktiv einfacher anzuwenden.
+
+
+
+== Wieder Erwartungen
+.https://CRAN.R-project.org/package=RUnit[RUnit]
+
+[source,r]
+----
+RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
+----
+
+[source,r]
+----
+## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE 
+## 
+
+----
+
+
+.https://CRAN.R-project.org/package=testthat[testthat]
+
+[source,r]
+----
+testthat::expect_identical(not_my_sum(c(2, 7)), 9)
+----
+
+
+----
+## not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+----
+
+
+== Tests 
+Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<_code_coverage, Coverage>> auszuwerten,
+    werden in beiden Paketen Erwartungen zu Tests zusammenfasst 
+(eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):
+
+
+
+== Funktionsobjekte testen -- https://CRAN.R-project.org/package=testthat[testthat]
+
+
+[source,r]
+----
+testthat::context("My first test.")
+testthat::test_that("Simple test on summation.", {
+                        testthat::expect_identical(not_my_sum(c(2, 7)), 9,
+                                                   info = "Not my sum.")
+                        testthat::expect_identical(my_sum(c(2, 7)), 9, 
+                                                   info = "My sum.")
+})
+----
+
+[source,r]
+----
+## Error: Test failed: 'Simple test on summation.'
+## * not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+## Not my sum.
+
+----
+
+== Funktionsobjekte testen -- https://CRAN.R-project.org/package=RUnit[RUnit]
+
+
+[source,r]
+----
+test_sum <- function() {
+    RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
+    RUnit::checkIdentical(my_sum(c(2, 7)), 9)
+}
+test_sum()
+----
+
+[source,r]
+----
+## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9): FALSE 
+## 
+
+----
+
+
+== Funktionsdateien testen -- testthat
+
+
+[small]
+
+[source,r]
+----
+testthat::test_file(file.path("src", "test_my_sum.R"))
+----
+
+----
+## ✔ | OK F W S | Context
+## ⠏ |  0       | My first test.⠋ |  0 1     | My first test.⠙ |  1 1     | My first test.✖ |  1 1     | My first test.
+## ───────────────────────────────────────────────────────────────────────────
+## test_my_sum.R:3: failure: Simple test on summation.
+## not_my_sum(c(2, 7)) not identical to 9.
+## 1/1 mismatches
+## [1] -9 - 9 == -18
+## Not my sum.
+## ───────────────────────────────────────────────────────────────────────────
+## 
+## ══ Results ════════════════════════════════════════════════════════════════
+## Duration: 0.3 s
+## 
+## OK:       1
+## Failed:   1
+## Warnings: 0
+## Skipped:  0
+----
+
+
+== Funktionsdateien testen -- RUnit
+
+[source,r]
+----
+test_file <- normalizePath(file.path("src", "runit_my_sum.R"))
+runit <- RUnit::runTestFile(test_file)
+----
+
+----
+## 
+## 
+## Executing test function test_sum  ...
+----
+
+[source,r]
+----
+## Timing stopped at: 0 0 0
+
+----
+
+----
+##  done successfully.
+----
+
+[source,r]
+----
+RUnit::printTextProtocol(runit)
+----
+
+----
+## RUNIT TEST PROTOCOL -- Thu Jun  7 12:35:31 2018 
+## *********************************************** 
+## Number of test functions: 1 
+## Number of errors: 0 
+## Number of failures: 1 
+## 
+##  
+## 1 Test Suite : 
+## runit_my_sum - 1 test function, 0 errors, 1 failure
+## FAILURE in test_sum: Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
+##  
+## 
+## 
+## 
+## Details 
+## *************************** 
+## Test Suite: runit_my_sum 
+## Test function regexp: ^test.+ 
+## Test file regexp: ^runit_my_sum.R$ 
+## Involved directory: 
+## /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src 
+## --------------------------- 
+## Test file: /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
+## test_sum: FAILURE !! (check number 1)
+## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
+## 
+----
+
+
+== Code Coverage
+Um zu sehen, ob Deine Unit Tests die Funktion gut testen, 
+kannst Du ihre  https://en.wikipedia.org/wiki/Code_coverage[Überdeckung] berechnen.
+https://CRAN.R-project.org/package=covr[covr] ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass https://CRAN.R-project.org/package=covr[covr] die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
+berechnet. 
+Prinzipiell ist eine hohe Überdeckung gut.
+
+Wenn Du eine Datei mit einer Funktionsdefinition
+
+.src/my_sum_assertion.R
+
+[source,r]
+----
+my_sum <- function(x) {
+    assertthat::assert_that(is.numeric(x))
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
+
+und eine mit dem Test
+
+.src/test_my_sum_assertion.R
+
+[source,r]
+----
+testthat::test_that("Simple test on summation.",
+                    testthat::expect_identical(my_sum(c(2, 7)), 9)
+                    )
+----
+
+
+hast, kannst Du die Überdeckung berechnen.
+
+
+[source,r]
+----
+cov <- covr::file_coverage(file.path("src", "my_sum_assertion.R"), 
+                           file.path("src", "test_my_sum_assertion.R"))
+print(cov)
+----
+
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/my_sum_assertion.R: 100.00%
+
+----
+
+
+Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test nicht
+erreicht, weist Dich https://CRAN.R-project.org/package=covr[covr] darauf hin:
+
+.src/my_sum_assertion.R
+
+[source,r]
+----
+my_sum <- function(x) {
+    assertthat::assert_that(is.numeric(x))
+    if (! is.numeric(x)) message("You'll never get here!")
+    value <- 0
+    for (x_i in x) {
+        value <- value + x_i 
+    }
+    return(value)
+}
+----
+
+
+
+[source,r]
+----
+cov <- covr::file_coverage(file.path("src", "my_sum_coverage.R"), 
+                           file.path("src", "test_my_sum_assertion.R"))
+print(cov)
+----
+
+[source,r]
+----
+## Coverage: 83.33%
+
+----
+
+[source,r]
+----
+## src/my_sum_coverage.R: 83.33%
+
+----
+
+
+https://CRAN.R-project.org/package=covr[covr] sagt Dir sogar, dass es die dritte Zeile ist:
+
+[source,r]
+----
+covr::zero_coverage(cov)
+----
+
+----
+##                filename functions line value
+## 2 src/my_sum_coverage.R    my_sum    3     0
+----
+
+
+== Nebenwirkungen testen
+
+Funktionen sind relativ einfach zu testen, wenn ihr Rückgabewert ihr Zweck ist.
+Wenn sie aber Nebenwirkungen bezwecken, finde ich Tests schwieriger zu schreiben.
+
+Stell Dir vor, Du hättest die fehlerhafte Löschfunktion aus 
+<<_arbeiten_mit_gültigkeitsbereichen, Arbeiten mit Gültigkeitsbereichen>> 
+in eine Datei geschrieben:
+
+.src/wipe_clean_broken.R
+[source,r]
+include::src/wipe_clean_broken.R[]
+
+Nun schreibst Du eine Testdatei:
+
+.src/test_wipe_clean_broken.R
+[source,r]
+include::src/test_wipe_clean_broken.R[]
+
+Und erhälst vollständige Überdeckung:
+
+
+[source,r]
+----
+cov <- covr::file_coverage(file.path("src", "wipe_clean_broken.R"), 
+                           file.path("src", "test_wipe_clean_broken.R"))
+print(cov)
+----
+
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/wipe_clean_broken.R: 100.00%
+
+----
+
+
+Alles gut? Nein, die Funktion ist kaputt und die Testdatei, die dies zeigt müsste 
+auf die Nebenwirkung testen:
+
+.src/test_wipe_clean.R
+[source,r]
+include::src/test_wipe_clean.R[]
+
+
+[source,r]
+----
+covr::file_coverage(file.path("src", "wipe_clean_broken.R"), 
+                    file.path("src", "test_wipe_clean.R"))
+----
+
+[source,r]
+----
+## Error: Test failed: 'Test return value and side effects.'
+## * ls() not identical to character(0).
+## Lengths differ: 1 is not 0
+
+----
+
+
+== Was soll die ganze Testerei?
+
+
+Stell Dir vor, Du erstelltest öfter Abbildungen. 
+Jetzt bist Du ein Mensch mit einem Gefühl für Harmonien,
+daher willst Du gerne, wenn möglich, den 
+https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldenen Schnitt] bei der 
+Wahl der Zuschnitte berücksichtigen.
+
+Da Du Dir den Goldenen Schnitt nicht gut merken kannst, schreibst Du folgende Funktion:
+
+
+.src/golden_ratio.R
+// WARNING: Do not use
+//     [source,r]
+//     include::src/golden_ratio.R[]
+// here as does not evaluate _now_ whereas knitr does!
+
+[source,r]
+----
+golden_ratio  <- function() {
+    phi <- (1 + sqrt(5)) / 2
+    return(phi)
+}
+----
+
+
+Das ginge auch als Einzeiler: 
+
+[source,r]
+----
+golden_ratio  <- function() return((1 + sqrt(5)) / 2)  
+----
+
+aber den findest Du auch nicht viel eleganter, dafür aber schlechter lesbar.
+
+Du schreibst auch einen Test, obwohl der ziemlich trivial ist:
+
+.src/test_golden_ratio.R
+
+[source,r]
+----
+testthat::test_that("Test on Golden Ratio", {
+                        expectation <- (1 + sqrt(5)) / 2
+                        result <- golden_ratio()
+                        testthat::expect_identical(result, expectation)
+})
+----
+
+[source,r]
+
+[source,r]
+----
+covr::file_coverage(file.path("src", "golden_ratio.R"), 
+                    file.path("src", "test_golden_ratio.R"))
+----
+
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_ratio.R: 100.00%
+
+----
+
+
+Wenn Du Graphiken nach dem Goldenen Schnitt proportionieren willst, musst Du bei 
+gegebener Länge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren 
+um die Länge der langen Seite zu erhalten. 
+
+Das ist eigentlich nicht allzu kompliziert, dennoch kommst Du manchmal durcheinander, 
+also schreibst Du die folgende Funktion:
+
+.src/golden_rectangle.R
+
+[source,r]
+----
+golden_rectangle  <- function(b) {
+    a <- b * golden_ratio()
+    return(c("a" = a, "b" = b))
+}
+----
+
+
+Auch für diese Funktion schreibst Du einen Test:
+
+
+.src/test_golden_rectangle.R
+
+[source,r]
+----
+testthat::test_that("Test on golden rectangle", {
+                        b <- 2
+                        expectation <- c(a = b * golden_ratio(), b = b)
+                        result <- golden_rectangle(b)
+                        testthat::expect_identical(result, expectation)
+})
+----
+
+
+[source,r]
+----
+covr::file_coverage(file.path("src", c("golden_ratio.R", "golden_rectangle.R")), 
+                    file.path("src", "test_golden_rectangle.R"))
+----
+
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_ratio.R: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_rectangle.R: 100.00%
+
+----
+
+
+Du benutzt die Funtktion ...
+
+
+[source,r]
+----
+source(file.path("src", "golden_ratio.R"))
+width <- 2
+png("p1.png", units = "cm", res = 400,
+    width = width, 
+    height = golden_rectangle(width)[["a"]])
+par(mar=c(1,1,1,1))
+plot(cars)
+dev.off()
+----
+
+----
+## pdf 
+##   2
+----
+
+
+ und bist begeistert:
+
+.Oh, wie schön!
+image::p1.png[]
+[caption=""]
+
+
+Du benutzt die Funktion eine Weile weiter, merkst dann aber, dass Du ja auch querformatige
+Abbildungen erstellen willst und daher 
+bei gegebener Länge der 
+langen Seite diese durch den Goldenen Schnitt dividieren musst, um die Länge 
+der kurzen Seite zu erhalten.
+
+Jetzt kannst Du entweder eine neue Funktion schreiben oder die alte erweitern.
+Da die Funktionalitäten zum selben Thema passen und +golden_rectangle+ bislang
+recht simpel ist, schreibst Du Deine Funktion also um:
+
+
+.src/golden_rectangle.R
+
+[source,r]
+----
+golden_rectangle  <- function(value, landscape = TRUE) {
+    phi <- golden_ratio()
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
+}
+----
+
+
+[source,r]
+----
+width <- 4
+png("p2.png", units = "cm", res = 400,
+    width = width, 
+    height = golden_rectangle(width)[["b"]])
+par(mar=c(1,1,1,1))
+plot(cars)
+dev.off()
+----
+
+----
+## pdf 
+##   2
+----
+
+
+.Auch sehr schön!
+image::p2.png[]
+[caption=""]
+
+Herzlichen Glückwunsch, Du hast gerade die https://en.wikipedia.org/wiki/Application_programming_interface[Schnittstelle] Deiner Funktion zerschossen, indem Du ihr voreingestelltes Verhalten geändert hast. 
+Glücklicherweise hast Du einen Test, der Dir jetzt um die Ohren fliegt:
+
+
+[source,r]
+----
+covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+                    file.path("src", "test_golden_rectangle.R"))
+----
+
+[source,r]
+----
+## Error: Test failed: 'Test on golden rectangle'
+## * `result` not identical to `expectation`.
+## 2/2 mismatches (average diff: 1)
+## [1] 2.00 - 3.24 == -1.236
+## [2] 1.24 - 2.00 == -0.764
+
+----
+
+
+Was bedeutet das? 
+Du musst entweder
+
+- *alle* Aufrufe der Funktion, die Du vor der Veränderung ihrer Schnittstelle progammiert hast, 
+  anpassen (indem Du +, landscape = FALSE+ einfügst) oder
+- die Funktion so ändern, dass der Test weiterhin funktioniert.
+
+Du entscheidest Dich, die Funktion zu ändern 
+(und erweiterst bei der Gelegenheit gleich den Rückgabewert):
+
+
+
+.src/golden_rectangle.R
+
+[source,r]
+----
+golden_rectangle  <- function(value, landscape = FALSE) {
+    phi <- golden_ratio()
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
+}
+----
+
+
+Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
++golden_rectangle(width, landscape = TRUE)+
+
+Der Test funktioniert wieder, da Du aber die Funktion geändert hast, überdeckt
+er sie nicht mehr vollständig:
+
+
+[source,r]
+----
+covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+                    file.path("src", "test_golden_rectangle.R"))
+----
+
+[source,r]
+----
+## Coverage: 71.43%
+
+----
+
+[source,r]
+----
+## src/golden_rectangle.R: 71.43%
+
+----
+
+
+Du erweiterst also Deine Testdatei an:
+
+
+.src/test_golden_rectangle.R
+
+[source,r]
+----
+golden_rectangle  <- function(value, landscape = FALSE) {
+    phi <- golden_ratio()
+    if (isTRUE(landscape)) {
+        a  <- value
+        b <- a / phi
+    } else {
+        b <- value
+        a <- b * phi
+    }
+    return(c("a" = a, "b" = b))
+}
+----
+
+
+[source,r]
+----
+covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+                    file.path("src", "test_golden_rectangle.R"))
+----
+
+[source,r]
+----
+## Coverage: 100.00%
+
+----
+
+[source,r]
+----
+## src/golden_rectangle.R: 100.00%
+
+----
+
+
++golden_rectangle+ habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen. Aber:
+
+_Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
+wenn ich sie in ein Paket verpacke._
