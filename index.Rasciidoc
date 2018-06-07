@@ -990,7 +990,7 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 
 +golden_rectangle+ habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen. Aber:
 
- _Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
+_Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
 wenn ich sie in ein Paket verpacke._
 
 === Weniger schlecht programmieren

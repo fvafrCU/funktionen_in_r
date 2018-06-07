@@ -3900,16 +3900,16 @@ eine (oder mehrere) Funktion(en)  aus ihm  zu machen.</p></div>
 Vom Code
 </span>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>a  &lt;- c(2, 3, 4, 10) <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;1&gt;</b></span></span>
-value &lt;- 0 <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;2&gt;</b></span></span>
-<span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (a_i in a) { <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;3&gt;</b></span></span>
-    value &lt;- value + a_i  <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;4&gt;</b></span></span>
+<pre><tt>a  <span style="color: #990000">&lt;-</span> c<span style="color: #990000">(</span><span style="color: #993399">2</span><span style="color: #990000">,</span> <span style="color: #993399">3</span><span style="color: #990000">,</span> <span style="color: #993399">4</span><span style="color: #990000">,</span> <span style="color: #993399">10</span><span style="color: #990000">)</span> # <span style="color: #990000">&lt;</span><span style="color: #993399">1</span><span style="color: #990000">&gt;</span>
+value <span style="color: #990000">&lt;-</span> <span style="color: #993399">0</span> # <span style="color: #990000">&lt;</span><span style="color: #993399">2</span><span style="color: #990000">&gt;</span>
+for <span style="color: #990000">(</span>a_i <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> a<span style="color: #990000">)</span> { # <span style="color: #990000">&lt;</span><span style="color: #993399">3</span><span style="color: #990000">&gt;</span>
+    value <span style="color: #990000">&lt;-</span> value <span style="color: #990000">+</span> a_i  # <span style="color: #990000">&lt;</span><span style="color: #993399">4</span><span style="color: #990000">&gt;</span>
 }
-print(value) <span style="font-style: italic"><span style="color: #9A1900"># <b>&lt;5&gt;</b></span></span></tt></pre></div></div>
+print<span style="color: #990000">(</span>value<span style="color: #990000">)</span> # <span style="color: #990000">&lt;</span><span style="color: #993399">5</span><span style="color: #990000">&gt;</span></tt></pre></div></div>
 </li>
 </ul>
 <div class="listingblock">
@@ -3927,16 +3927,16 @@ Zur Funktion
 Summenfunktion:
 </span>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>my_sum &lt;- function(x) {
-    value &lt;- 0
-    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
-        value &lt;- value + x_i
+<pre><tt>my_sum <span style="color: #990000">&lt;-</span> function<span style="color: #990000">(</span>x<span style="color: #990000">)</span> {
+    value <span style="color: #990000">&lt;-</span> <span style="color: #993399">0</span>
+    for <span style="color: #990000">(</span>x_i <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> x<span style="color: #990000">)</span> {
+        value <span style="color: #990000">&lt;-</span> value <span style="color: #990000">+</span> x_i
     }
-    return(value)
+    return<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
 }</tt></pre></div></div>
 </li>
 </ul>
@@ -3948,31 +3948,31 @@ http://www.gnu.org/software/src-highlite -->
 <h1 id="_scoping">Scoping</h1>
 <div class="sectionbody">
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>print(value)</tt></pre></div></div>
+<pre><tt>print<span style="color: #990000">(</span>value<span style="color: #990000">)</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] 19</code></pre>
 </div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>print(my_sum(1:3))</tt></pre></div></div>
+<pre><tt>print<span style="color: #990000">(</span>my_sum<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] 6</code></pre>
 </div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>print(value)</tt></pre></div></div>
+<pre><tt>print<span style="color: #990000">(</span>value<span style="color: #990000">)</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] 19</code></pre>
@@ -3983,24 +3983,24 @@ http://www.gnu.org/software/src-highlite -->
 <h1 id="_scoping_ii">Scoping II</h1>
 <div class="sectionbody">
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>my_sum_broken &lt;- function(x) {
-    <span style="font-style: italic"><span style="color: #9A1900"># FIXME: this is accidentally commented out:</span></span>
-    <span style="font-style: italic"><span style="color: #9A1900"># value &lt;- 0</span></span>
-    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (x_i in x) {
-        value &lt;- value + x_i
+<pre><tt>my_sum_broken <span style="color: #990000">&lt;-</span> function<span style="color: #990000">(</span>x<span style="color: #990000">)</span> {
+    # FIXME<span style="color: #990000">:</span> <span style="font-weight: bold"><span style="color: #0000FF">this</span></span> is accidentally commented <span style="font-weight: bold"><span style="color: #0000FF">out</span></span><span style="color: #990000">:</span>
+    # value <span style="color: #990000">&lt;-</span> <span style="color: #993399">0</span>
+    for <span style="color: #990000">(</span>x_i <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> x<span style="color: #990000">)</span> {
+        value <span style="color: #990000">&lt;-</span> value <span style="color: #990000">+</span> x_i
     }
-    return(value)
+    return<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
 }</tt></pre></div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>print(my_sum_broken(1:3))</tt></pre></div></div>
+<pre><tt>print<span style="color: #990000">(</span>my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] 25</code></pre>
@@ -4011,18 +4011,18 @@ http://www.gnu.org/software/src-highlite -->
 <h1 id="_scoping_iii">Scoping III</h1>
 <div class="sectionbody">
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>rm(value)
-print(my_sum_broken(1:3))</tt></pre></div></div>
+<pre><tt>rm<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
+print<span style="color: #990000">(</span>my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">))</span></tt></pre></div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: object 'value' not found</span></span>
+<pre><tt>## Error <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> my_sum_broken<span style="color: #990000">(</span><span style="color: #993399">1</span><span style="color: #990000">:</span><span style="color: #993399">3</span><span style="color: #990000">):</span> object <span style="color: #FF0000">'value'</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> found
 </tt></pre></div></div>
 </div>
 </div>
@@ -4036,26 +4036,26 @@ http://www.gnu.org/software/src-highlite -->
 <h1 id="_gültigkeitsbereiche_i">Gültigkeitsbereiche I</h1>
 <div class="sectionbody">
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>rm(list = ls(all.names = TRUE))</tt></pre></div></div>
+<pre><tt>rm<span style="color: #990000">(</span>list <span style="color: #990000">=</span> ls<span style="color: #990000">(</span>all<span style="color: #990000">.</span>names <span style="color: #990000">=</span> TRUE<span style="color: #990000">))</span></tt></pre></div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>wipe_clean &lt;- function() {
-    rm(list = ls(all.names = TRUE))
+<pre><tt>wipe_clean <span style="color: #990000">&lt;-</span> function<span style="color: #990000">()</span> {
+    rm<span style="color: #990000">(</span>list <span style="color: #990000">=</span> ls<span style="color: #990000">(</span>all<span style="color: #990000">.</span>names <span style="color: #990000">=</span> TRUE<span style="color: #990000">))</span>
 }</tt></pre></div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>wipe_clean &lt;- function() {
-    rm(list = ls(name = parent.frame(), all.names = TRUE), envir = parent.frame())
+<pre><tt>wipe_clean <span style="color: #990000">&lt;-</span> function<span style="color: #990000">()</span> {
+    rm<span style="color: #990000">(</span>list <span style="color: #990000">=</span> ls<span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">name</span></span> <span style="color: #990000">=</span> parent<span style="color: #990000">.</span>frame<span style="color: #990000">(),</span> all<span style="color: #990000">.</span>names <span style="color: #990000">=</span> TRUE<span style="color: #990000">),</span> envir <span style="color: #990000">=</span> parent<span style="color: #990000">.</span>frame<span style="color: #990000">())</span>
 }</tt></pre></div></div>
 </div>
 </div>
@@ -4063,23 +4063,23 @@ http://www.gnu.org/software/src-highlite -->
 <h1 id="_gültigkeitsbereiche_ii">Gültigkeitsbereiche II</h1>
 <div class="sectionbody">
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>ls()</tt></pre></div></div>
+<pre><tt>ls<span style="color: #990000">()</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "a"             "a_i"           "my_sum"        "my_sum_broken"
 ## [5] "my_sum_safer"  "value"         "wipe_clean"</code></pre>
 </div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>wipe_clean()
-ls()</tt></pre></div></div>
+<pre><tt>wipe_clean<span style="color: #990000">()</span>
+ls<span style="color: #990000">()</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## character(0)</code></pre>
@@ -4091,29 +4091,29 @@ ls()</tt></pre></div></div>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">Ohne Argumente</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>memory_hogs &lt;- function() {
-    z &lt;- sapply(ls(envir = parent.frame()),
-                function(x) object.size(get(x, envir = parent.frame())))
-    return(z)
+<pre><tt>memory_hogs <span style="color: #990000">&lt;-</span> function<span style="color: #990000">()</span> {
+    z <span style="color: #990000">&lt;-</span> sapply<span style="color: #990000">(</span>ls<span style="color: #990000">(</span>envir <span style="color: #990000">=</span> parent<span style="color: #990000">.</span>frame<span style="color: #990000">()),</span>
+                function<span style="color: #990000">(</span>x<span style="color: #990000">)</span> object<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">size</span></span><span style="color: #990000">(</span>get<span style="color: #990000">(</span>x<span style="color: #990000">,</span> envir <span style="color: #990000">=</span> parent<span style="color: #990000">.</span>frame<span style="color: #990000">())))</span>
+    return<span style="color: #990000">(</span>z<span style="color: #990000">)</span>
 }</tt></pre></div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>va &lt;- rep(mtcars, 1)
-vb &lt;- rep(mtcars, 1000)
-vc &lt;- rep(mtcars, 2000)
-vd &lt;- rep(mtcars, 100)
-memory_hogs()</tt></pre></div></div>
+<pre><tt>va <span style="color: #990000">&lt;-</span> <span style="font-weight: bold"><span style="color: #0000FF">rep</span></span><span style="color: #990000">(</span>mtcars<span style="color: #990000">,</span> <span style="color: #993399">1</span><span style="color: #990000">)</span>
+vb <span style="color: #990000">&lt;-</span> <span style="font-weight: bold"><span style="color: #0000FF">rep</span></span><span style="color: #990000">(</span>mtcars<span style="color: #990000">,</span> <span style="color: #993399">1000</span><span style="color: #990000">)</span>
+vc <span style="color: #990000">&lt;-</span> <span style="font-weight: bold"><span style="color: #0000FF">rep</span></span><span style="color: #990000">(</span>mtcars<span style="color: #990000">,</span> <span style="color: #993399">2000</span><span style="color: #990000">)</span>
+vd <span style="color: #990000">&lt;-</span> <span style="font-weight: bold"><span style="color: #0000FF">rep</span></span><span style="color: #990000">(</span>mtcars<span style="color: #990000">,</span> <span style="color: #993399">100</span><span style="color: #990000">)</span>
+memory_hogs<span style="color: #990000">()</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## memory_hogs          va          vb          vc          vd
-##        7576        4232     3432720     6864720      343920</code></pre>
+##        7896        4424     3520824     7040824      352824</code></pre>
 </div></div>
 </div>
 </div>
@@ -4122,26 +4122,26 @@ memory_hogs()</tt></pre></div></div>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">Ein Steuerargument</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>memory_hogs &lt;- function(order = TRUE) {
-    z &lt;- sapply(ls(envir = parent.frame()),
-                function(x) object.size(get(x, envir = parent.frame())))
-    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (isTRUE(order)) z &lt;- z[order(z)]
-    return(z)
+<pre><tt>memory_hogs <span style="color: #990000">&lt;-</span> function<span style="color: #990000">(</span>order <span style="color: #990000">=</span> TRUE<span style="color: #990000">)</span> {
+    z <span style="color: #990000">&lt;-</span> sapply<span style="color: #990000">(</span>ls<span style="color: #990000">(</span>envir <span style="color: #990000">=</span> parent<span style="color: #990000">.</span>frame<span style="color: #990000">()),</span>
+                function<span style="color: #990000">(</span>x<span style="color: #990000">)</span> object<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">size</span></span><span style="color: #990000">(</span>get<span style="color: #990000">(</span>x<span style="color: #990000">,</span> envir <span style="color: #990000">=</span> parent<span style="color: #990000">.</span>frame<span style="color: #990000">())))</span>
+    if <span style="color: #990000">(</span>isTRUE<span style="color: #990000">(</span>order<span style="color: #990000">))</span> z <span style="color: #990000">&lt;-</span> z<span style="color: #990000">[</span>order<span style="color: #990000">(</span>z<span style="color: #990000">)]</span>
+    return<span style="color: #990000">(</span>z<span style="color: #990000">)</span>
 }</tt></pre></div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>memory_hogs()</tt></pre></div></div>
+<pre><tt>memory_hogs<span style="color: #990000">()</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>##          va memory_hogs          vd          vb          vc
-##        4232        9744      343920     3432720     6864720</code></pre>
+##        4424       10120      352824     3520824     7040824</code></pre>
 </div></div>
 </div>
 </div>
@@ -4150,28 +4150,28 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">Ellipsis I</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>memory_hogs &lt;- function(...) {
-    z &lt;- sapply(ls(envir = parent.frame()),
-                function(x) object.size(get(x, envir = parent.frame())))
-    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (! missing(...)) {
-      z &lt;- z[order(z, ...)]
+<pre><tt>memory_hogs <span style="color: #990000">&lt;-</span> function<span style="color: #990000">(...)</span> {
+    z <span style="color: #990000">&lt;-</span> sapply<span style="color: #990000">(</span>ls<span style="color: #990000">(</span>envir <span style="color: #990000">=</span> parent<span style="color: #990000">.</span>frame<span style="color: #990000">()),</span>
+                function<span style="color: #990000">(</span>x<span style="color: #990000">)</span> object<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #0000FF">size</span></span><span style="color: #990000">(</span>get<span style="color: #990000">(</span>x<span style="color: #990000">,</span> envir <span style="color: #990000">=</span> parent<span style="color: #990000">.</span>frame<span style="color: #990000">())))</span>
+    if <span style="color: #990000">(!</span> missing<span style="color: #990000">(...))</span> {
+      z <span style="color: #990000">&lt;-</span> z<span style="color: #990000">[</span>order<span style="color: #990000">(</span>z<span style="color: #990000">,</span> <span style="color: #990000">...)]</span>
     }
-    return(z)
+    return<span style="color: #990000">(</span>z<span style="color: #990000">)</span>
 }</tt></pre></div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>memory_hogs()</tt></pre></div></div>
+<pre><tt>memory_hogs<span style="color: #990000">()</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## memory_hogs          va          vb          vc          vd
-##       13080        4232     3432720     6864720      343920</code></pre>
+##       13624        4424     3520824     7040824      352824</code></pre>
 </div></div>
 </div>
 </div>
@@ -4180,15 +4180,15 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">Ellipsis II</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>memory_hogs(decreasing = TRUE)</tt></pre></div></div>
+<pre><tt>memory_hogs<span style="color: #990000">(</span>decreasing <span style="color: #990000">=</span> TRUE<span style="color: #990000">)</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>##          vc          vb          vd memory_hogs          va
-##     6864720     3432720      343920       13080        4232</code></pre>
+##     7040824     3520824      352824       50120        4424</code></pre>
 </div></div>
 </div>
 </div>
@@ -4231,22 +4231,22 @@ Viele Funktionen werden ihrer Nebenwirkungen wegen benutzt.
 </li>
 </ul>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>a &lt;- <span style="color: #FF0000">"This is a string"</span>
-print(rm(a))</tt></pre></div></div>
+<pre><tt>a <span style="color: #990000">&lt;-</span> <span style="color: #FF0000">"This is a string"</span>
+print<span style="color: #990000">(</span>rm<span style="color: #990000">(</span>a<span style="color: #990000">))</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## NULL</code></pre>
 </div></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>print(rm())</tt></pre></div></div>
+<pre><tt>print<span style="color: #990000">(</span>rm<span style="color: #990000">())</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## NULL</code></pre>
@@ -4272,12 +4272,12 @@ lokal
 Zu Beginn jedes lokalen Skriptes:
 </span>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+<div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (f in dir(<span style="color: #FF0000">"./functions/"</span>, full.names = TRUE, pattern = <span style="color: #FF0000">".*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.[rR]$"</span>)) {
-    source(f)
+<pre><tt>for <span style="color: #990000">(</span>f <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> dir<span style="color: #990000">(</span><span style="color: #FF0000">"./functions/"</span><span style="color: #990000">,</span> full<span style="color: #990000">.</span>names <span style="color: #990000">=</span> TRUE<span style="color: #990000">,</span> pattern <span style="color: #990000">=</span> <span style="color: #FF0000">".*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.[rR]$"</span><span style="color: #990000">))</span> {
+    source<span style="color: #990000">(</span>f<span style="color: #990000">)</span>
 }</tt></pre></div></div>
 </li>
 </ul>
