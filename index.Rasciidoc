@@ -896,7 +896,7 @@ plot(cars)
 dev.off()
 //end.rcode
 
- und bist begeistert:
+und bist begeistert:
 
 .Oh, wie schön!
 image::p1.png[]
@@ -948,10 +948,9 @@ Du musst entweder
 
 - *alle* Aufrufe der Funktion, die Du vor der Veränderung ihrer Schnittstelle progammiert hast, 
   anpassen (indem Du +, landscape = FALSE+ einfügst) oder
-- die Funktion so ändern, dass der Test weiterhin funktioniert.
+- die Funktion so ändern, dass die Schnittstelle stabil bleibt (und der Test weiterhin funktioniert).
 
-Du entscheidest Dich, die Funktion zu ändern 
-(und erweiterst bei der Gelegenheit gleich den Rückgabewert):
+Du entscheidest Dich, die Funktion zu ändern:
 
 
 //begin.rcode, echo = FALSE, results = "hide"
