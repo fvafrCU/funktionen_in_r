@@ -72,7 +72,7 @@ tryCatch(testthat::expect_identical(not_my_sum(c(2, 7)), 9), expectation_failure
 
 == Tests 
 
-Zusammenfassung meherer Erwartungen (f&uuml;r eine Funktion).
+Zusammenfassung mehrer Erwartungen (gew&ouml;hnlich f&uuml;r eine Funktion).
 
 Strukturierte Berichte bei mehreren Funktionen (z.B. in Paketen).
 //begin.rcode, echo = FALSE
