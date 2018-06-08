@@ -191,18 +191,16 @@ covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
 //end.rcode
 
 == Was soll die ganze Testerei?
+
+_Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Beispiel spätestens, 
+wenn ich sie in ein Paket verpacke._
+
+== https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldener Schnitt] 
 //begin.rcode, echo = FALSE, results = "hide"
 source(file.path("src", "wipe_clean.R"))
 wipe_clean()
 //end.rcode
 
-Stell Dir vor, Du erstelltest öfter Abbildungen. 
-Jetzt bist Du ein Mensch mit einem Gefühl für Harmonien,
-daher willst Du gerne, wenn möglich, den 
-https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldenen Schnitt] bei der 
-Wahl der Zuschnitte berücksichtigen.
-
-Da Du Dir den Goldenen Schnitt nicht gut merken kannst, schreibst Du folgende Funktion:
 
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "golden_ratio_bare.R"
@@ -218,13 +216,7 @@ withr::with_dir("src", file.copy(src, "test_golden_ratio.R", overwrite = TRUE))
 //begin.rcode, code = readLines(file.path("src", "golden_ratio.R")), eval = FALSE
 //end.rcode
 
-Das ginge auch als Einzeiler: 
-//begin.rcode, eval = FALSE
-golden_ratio  <- function() return((1 + sqrt(5)) / 2)  
-//end.rcode
-aber den findest Du auch nicht viel eleganter, dafür aber schlechter lesbar.
-
-Du schreibst auch einen Test, obwohl der ziemlich trivial ist:
+== https://de.wikipedia.org/wiki/Goldener_Schnitt[Goldener Schnitt] -- Trivialer Test
 
 .src/test_golden_ratio.R
 //begin.rcode, code = readLines(file.path("src", "test_golden_ratio.R")), eval = FALSE
@@ -235,12 +227,7 @@ covr::file_coverage(file.path("src", "golden_ratio.R"),
                     file.path("src", "test_golden_ratio.R"))
 //end.rcode
 
-Wenn Du Graphiken nach dem Goldenen Schnitt proportionieren willst, musst Du bei 
-gegebener Länge der kurzen Seite diese mit dem Goldenen Schnitt multipizieren 
-um die Länge der langen Seite zu erhalten. 
-
-Das ist eigentlich nicht allzu kompliziert, dennoch kommst Du manchmal durcheinander, 
-also schreibst Du die folgende Funktion:
+== https://de.wikipedia.org/wiki/Goldener_Schnitt#Goldenes_Rechteck_und_Goldenes_Dreieck[Goldenes Rechteck] 
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "golden_rectangle_a.R"
 withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
@@ -250,7 +237,7 @@ source(file.path("src", "golden_rectangle.R"))
 //begin.rcode, code = readLines(file.path("src", "golden_rectangle.R")), eval = FALSE
 //end.rcode
 
-Auch für diese Funktion schreibst Du einen Test:
+== https://de.wikipedia.org/wiki/Goldener_Schnitt#Goldenes_Rechteck_und_Goldenes_Dreieck[Goldenes Rechteck]  -- Test
 
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "test_golden_rectangle_a.R"
@@ -264,36 +251,22 @@ covr::file_coverage(file.path("src", c("golden_ratio.R", "golden_rectangle.R")),
                     file.path("src", "test_golden_rectangle.R"))
 //end.rcode
 
-Du benutzt die Funtktion ...
-
+== Anwendung
 //begin.rcode cars, fig.show = "hide"
 source(file.path("src", "golden_ratio.R"))
 width <- 2
-png("p1.png", units = "cm", res = 400,
-    width = width, 
-    height = golden_rectangle(width)[["a"]])
-par(mar=c(1,1,1,1))
+png("p1.png", units = "cm", res = 200, width = width, height = golden_rectangle(width)[["a"]])
+par(mar=c(1, 1, 1, 1))
 plot(cars)
 dev.off()
 //end.rcode
-
- und bist begeistert:
 
 .Oh, wie schön!
 image::p1.png[]
 [caption=""]
 
 
-Du benutzt die Funktion eine Weile weiter, merkst dann aber, dass Du ja auch querformatige
-Abbildungen erstellen willst und daher 
-bei gegebener Länge der 
-langen Seite diese durch den Goldenen Schnitt dividieren musst, um die Länge 
-der kurzen Seite zu erhalten.
-
-Jetzt kannst Du entweder eine neue Funktion schreiben oder die alte erweitern.
-Da die Funktionalitäten zum selben Thema passen und +golden_rectangle+ bislang
-recht simpel ist, schreibst Du Deine Funktion also um:
-
+== Querformat
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "golden_rectangle_ab.R"
 withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
@@ -302,12 +275,12 @@ source(file.path("src", "golden_rectangle.R"))
 .src/golden_rectangle.R
 //begin.rcode, code = readLines(file.path("src", "golden_rectangle.R")), eval = FALSE
 //end.rcode
+
+== Anwendung
 //begin.rcode
 width <- 4
-png("p2.png", units = "cm", res = 400,
-    width = width, 
-    height = golden_rectangle(width)[["b"]])
-par(mar=c(1,1,1,1))
+png("p2.png", units = "cm", res = 200, width = width, height = golden_rectangle(width)[["b"]])
+par(mar=c(1, 1, 1, 1))
 plot(cars)
 dev.off()
 //end.rcode
@@ -316,25 +289,20 @@ dev.off()
 image::p2.png[]
 [caption=""]
 
-Herzlichen Glückwunsch, Du hast gerade die https://en.wikipedia.org/wiki/Application_programming_interface[Schnittstelle] Deiner Funktion zerschossen, indem Du ihr voreingestelltes Verhalten geändert hast. 
-Glücklicherweise hast Du einen Test, der Dir jetzt um die Ohren fliegt:
-
+== Herzlichen Glückwunsch!
 //begin.rcode
 covr::file_coverage(file.path("src", "golden_rectangle.R"), 
                     file.path("src", "test_golden_rectangle.R"))
 //end.rcode
 
-Was bedeutet das? 
-Du musst entweder
+Was bedeutet das?  
+Du hast die Schnittstelle zerschossen und musst entweder
 
 - *alle* Aufrufe der Funktion, die Du vor der Veränderung ihrer Schnittstelle progammiert hast, 
   anpassen (indem Du +, landscape = FALSE+ einfügst) oder
-- die Funktion so ändern, dass der Test weiterhin funktioniert.
+- die Funktion so ändern, dass die Schnittstelle stabil bleibt (und der Test weiterhin funktioniert).
 
-Du entscheidest Dich, die Funktion zu ändern 
-(und erweiterst bei der Gelegenheit gleich den Rückgabewert):
-
-
+== Korrektur
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "golden_rectangle_ba.R"
 withr::with_dir("src", file.copy(src, "golden_rectangle.R", overwrite = TRUE))
@@ -344,35 +312,32 @@ source(file.path("src", "golden_rectangle.R"))
 //begin.rcode, code = readLines(file.path("src", "golden_rectangle.R")), eval = FALSE
 //end.rcode
 
-Um Querformatige Proportionen zu erhalten musst Du nun aktiv Querformat einstellen:
+Querformat erstellen: 
 +golden_rectangle(width, landscape = TRUE)+
 
-Der Test funktioniert wieder, da Du aber die Funktion geändert hast, überdeckt
-er sie nicht mehr vollständig:
+== Coverage der Korrektur
 
 //begin.rcode
-covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+cov <- covr::file_coverage(file.path("src", "golden_rectangle.R"), 
                     file.path("src", "test_golden_rectangle.R"))
+print(cov)
+print(covr::zero_coverage(cov))
 //end.rcode
 
-Du erweiterst also Deine Testdatei an:
+== Erweiterung des Tests:
 
 //begin.rcode, echo = FALSE, results = "hide"
 src <- "test_golden_rectangle_ba.R"
 withr::with_dir("src", file.copy(src, "test_golden_rectangle.R", overwrite = TRUE))
 //end.rcode
 .src/test_golden_rectangle.R
-//begin.rcode, code = readLines(file.path("src", "golden_rectangle.R")), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "test_golden_rectangle.R")), eval = FALSE
 //end.rcode
 //begin.rcode
 covr::file_coverage(file.path("src", "golden_rectangle.R"), 
                     file.path("src", "test_golden_rectangle.R"))
 //end.rcode
 
-+golden_rectangle+ habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen. Aber:
-
-_Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
-wenn ich sie in ein Paket verpacke._
 
 == Skript
 https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
