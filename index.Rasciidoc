@@ -969,8 +969,10 @@ Der Test funktioniert wieder, da Du aber die Funktion geändert hast, überdeckt
 er sie nicht mehr vollständig:
 
 //begin.rcode
-covr::file_coverage(file.path("src", "golden_rectangle.R"), 
+cov <- covr::file_coverage(file.path("src", "golden_rectangle.R"), 
                     file.path("src", "test_golden_rectangle.R"))
+print(cov)
+print(covr::zero_coverage(cov))
 //end.rcode
 
 Du erweiterst also Deine Testdatei an:
@@ -980,7 +982,7 @@ src <- "test_golden_rectangle_ba.R"
 withr::with_dir("src", file.copy(src, "test_golden_rectangle.R", overwrite = TRUE))
 //end.rcode
 .src/test_golden_rectangle.R
-//begin.rcode, code = readLines(file.path("src", "golden_rectangle.R")), eval = FALSE
+//begin.rcode, code = readLines(file.path("src", "test_golden_rectangle.R")), eval = FALSE
 //end.rcode
 //begin.rcode
 covr::file_coverage(file.path("src", "golden_rectangle.R"), 
