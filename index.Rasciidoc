@@ -755,7 +755,7 @@ print(cov)
 Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test nicht
 erreicht, weist Dich https://CRAN.R-project.org/package=covr[covr] darauf hin:
 
-.src/my_sum_assertion.R
+.src/my_sum_coverage.R
 //begin.rcode, code = readLines(file.path("src", "my_sum_coverage.R")), eval = FALSE
 //end.rcode
 
