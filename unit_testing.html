@@ -3842,13 +3842,29 @@ setTimeout(w3c_slidy.hide_slides, 50);
 <h1 id="_skript">Skript</h1>
 <div class="sectionbody">
 <div class="paragraph"><p><a href="https://fvafrcu.github.io/funktionen_in_r/">https://fvafrcu.github.io/funktionen_in_r/</a></p></div>
+<div class="paragraph"><p><a href="https://fvafrcu.github.io/funktionen_in_r/unit_testing.html">https://fvafrcu.github.io/funktionen_in_r/unit_testing.html</a></p></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_unit_testing">Unit Testing</h1>
+<h1 id="_worum_geht_es">Worum geht es?</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
-Also im Zweifel ihren Rückgabewert.</p></div>
+<ul class="">
+<li>
+<span>
+Was soll meine Funktion tun?
+</span>
+</li>
+<li>
+<span>
+Tut sie es auch?
+</span>
+</li>
+<li>
+<span>
+Tut sie es auch noch, wenn ich sie ver&auml;ndert/verbessert habe?
+</span>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4000,13 +4016,12 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect1 slide">
 <h1 id="_tests">Tests</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <a href="#_code_coverage">Coverage</a> auszuwerten,
-    werden in beiden Paketen Erwartungen zu Tests zusammenfasst
-(eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):</p></div>
+<div class="paragraph"><p>Zusammenfassung meherer Erwartungen (f&uuml;r eine Funktion).</p></div>
+<div class="paragraph"><p>Strukturierte Berichte bei mehreren Funktionen (z.B. in Paketen).</p></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_funktionsobjekte_testen_8201_8212_8201_a_href_https_cran_r_project_org_package_testthat_testthat_a">Funktionsobjekte testen&#8201;&#8212;&#8201;<a href="https://CRAN.R-project.org/package=testthat">testthat</a></h1>
+<h1 id="_funktionen_testen_8201_8212_8201_a_href_https_cran_r_project_org_package_testthat_testthat_a">Funktionen testen&#8201;&#8212;&#8201;<a href="https://CRAN.R-project.org/package=testthat">testthat</a></h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -4034,7 +4049,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_funktionsobjekte_testen_8201_8212_8201_a_href_https_cran_r_project_org_package_runit_runit_a">Funktionsobjekte testen&#8201;&#8212;&#8201;<a href="https://CRAN.R-project.org/package=RUnit">RUnit</a></h1>
+<h1 id="_funktionen_testen_8201_8212_8201_a_href_https_cran_r_project_org_package_runit_runit_a">Funktionen testen&#8201;&#8212;&#8201;<a href="https://CRAN.R-project.org/package=RUnit">RUnit</a></h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -4042,8 +4057,8 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>test_sum <span style="color: #990000">&lt;-</span> function<span style="color: #990000">()</span> {
-<span style="font-weight: bold"><span style="color: #000080">    RUnit:</span></span><span style="color: #990000">:</span>checkIdentical<span style="color: #990000">(</span>not_my_sum<span style="color: #990000">(</span>c<span style="color: #990000">(</span><span style="color: #993399">2</span><span style="color: #990000">,</span> <span style="color: #993399">7</span><span style="color: #990000">)),</span> <span style="color: #993399">9</span><span style="color: #990000">)</span>
-<span style="font-weight: bold"><span style="color: #000080">    RUnit:</span></span><span style="color: #990000">:</span>checkIdentical<span style="color: #990000">(</span>my_sum<span style="color: #990000">(</span>c<span style="color: #990000">(</span><span style="color: #993399">2</span><span style="color: #990000">,</span> <span style="color: #993399">7</span><span style="color: #990000">)),</span> <span style="color: #993399">9</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #000080">    RUnit:</span></span><span style="color: #990000">:</span>checkIdentical<span style="color: #990000">(</span>not_my_sum<span style="color: #990000">(</span>c<span style="color: #990000">(</span><span style="color: #993399">2</span><span style="color: #990000">,</span> <span style="color: #993399">7</span><span style="color: #990000">)),</span> <span style="color: #993399">9</span><span style="color: #990000">,</span> msg <span style="color: #990000">=</span> <span style="color: #FF0000">"Not my sum"</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #000080">    RUnit:</span></span><span style="color: #990000">:</span>checkIdentical<span style="color: #990000">(</span>my_sum<span style="color: #990000">(</span>c<span style="color: #990000">(</span><span style="color: #993399">2</span><span style="color: #990000">,</span> <span style="color: #993399">7</span><span style="color: #990000">)),</span> <span style="color: #993399">9</span><span style="color: #990000">,</span> msg <span style="color: #990000">=</span> <span style="color: #FF0000">"My sum"</span><span style="color: #990000">)</span>
 }
 test_sum<span style="color: #990000">()</span></tt></pre></div></div>
 <div class="listingblock">
@@ -4051,13 +4066,13 @@ test_sum<span style="color: #990000">()</span></tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>## Error <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> RUnit<span style="color: #990000">::</span>checkIdentical<span style="color: #990000">(</span>not_my_sum<span style="color: #990000">(</span>c<span style="color: #990000">(</span><span style="color: #993399">2</span><span style="color: #990000">,</span> <span style="color: #993399">7</span><span style="color: #990000">)),</span> <span style="color: #993399">9</span><span style="color: #990000">):</span> FALSE
-##
+<pre><tt>## Error <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> RUnit<span style="color: #990000">::</span>checkIdentical<span style="color: #990000">(</span>not_my_sum<span style="color: #990000">(</span>c<span style="color: #990000">(</span><span style="color: #993399">2</span><span style="color: #990000">,</span> <span style="color: #993399">7</span><span style="color: #990000">)),</span> <span style="color: #993399">9</span><span style="color: #990000">,</span> msg <span style="color: #990000">=</span> <span style="color: #FF0000">"Not my sum"</span><span style="color: #990000">):</span> FALSE
+##  <span style="font-weight: bold"><span style="color: #0000FF">Not</span></span> my sum
 </tt></pre></div></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_funktionsdateien_testen_8201_8212_8201_testthat">Funktionsdateien testen&#8201;&#8212;&#8201;testthat</h1>
+<h1 id="_testdateien_8201_8212_8201_testthat">Testdateien&#8201;&#8212;&#8201;testthat</h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -4092,7 +4107,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_funktionsdateien_testen_8201_8212_8201_runit">Funktionsdateien testen&#8201;&#8212;&#8201;RUnit</h1>
+<h1 id="_testdateien_8201_8212_8201_runit">Testdateien&#8201;&#8212;&#8201;RUnit</h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -4112,12 +4127,17 @@ runit <span style="color: #990000">&lt;-</span> RUnit<span style="color: #990000
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>## Timing stopped at<span style="color: #990000">:</span> <span style="color: #993399">0</span> <span style="color: #993399">0</span> <span style="color: #993399">0</span>
+<pre><tt>## Timing stopped at<span style="color: #990000">:</span> <span style="color: #993399">0.004</span> <span style="color: #993399">0</span> <span style="color: #993399">0</span>
 </tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>##  done successfully.</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_testdateien_8201_8212_8201_runit_ii">Testdateien&#8201;&#8212;&#8201;RUnit II</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -4126,7 +4146,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-weight: bold"><span style="color: #000080">RUnit:</span></span><span style="color: #990000">:</span>printTextProtocol<span style="color: #990000">(</span>runit<span style="color: #990000">)</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## RUNIT TEST PROTOCOL -- Thu Jun  7 12:35:31 2018
+<pre><code>## RUNIT TEST PROTOCOL -- Fri Jun  8 09:51:56 2018
 ## ***********************************************
 ## Number of test functions: 1
 ## Number of errors: 0
@@ -4158,12 +4178,29 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect1 slide">
 <h1 id="_code_coverage">Code Coverage</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>Um zu sehen, ob Deine Unit Tests die Funktion gut testen,
-kannst Du ihre  <a href="https://en.wikipedia.org/wiki/Code_coverage">Überdeckung</a> berechnen.
-<a href="https://CRAN.R-project.org/package=covr">covr</a> ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass <a href="https://CRAN.R-project.org/package=covr">covr</a> die <a href="https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria"><em>branch coverage</em></a>
-berechnet.
-Prinzipiell ist eine hohe Überdeckung gut.</p></div>
-<div class="paragraph"><p>Wenn Du eine Datei mit einer Funktionsdefinition</p></div>
+<ul class="">
+<li>
+<span>
+<a href="https://en.wikipedia.org/wiki/Code_coverage">Überdeckung</a>
+</span>
+</li>
+<li>
+<span>
+Pakte <a href="https://CRAN.R-project.org/package=covr">covr</a> <br />
+  (Ich glaube: <a href="https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria"><em>branch coverage</em></a>)
+</span>
+</li>
+<li>
+<span>
+Prinzipiell: Hohe Überdeckung ist gut.
+</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_code_coverage_8201_8212_8201_funktionen_und_tests_in_dateien">Code Coverage&#8201;&#8212;&#8201;Funktionen und Tests in Dateien</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="title">src/my_sum_assertion.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -4178,17 +4215,22 @@ http://www.gnu.org/software/src-highlite -->
     }
     return<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
 }</tt></pre></div></div>
-<div class="paragraph"><p>und eine mit dem Test</p></div>
 <div class="listingblock">
 <div class="title">src/test_my_sum_assertion.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">testthat:</span></span><span style="color: #990000">:</span>test_that<span style="color: #990000">(</span><span style="color: #FF0000">"Simple test on summation."</span><span style="color: #990000">,</span>
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">testthat:</span></span><span style="color: #990000">:</span>context<span style="color: #990000">(</span><span style="color: #FF0000">"Tests for summation with argument assertion."</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #000080">testthat:</span></span><span style="color: #990000">:</span>test_that<span style="color: #990000">(</span><span style="color: #FF0000">"Testing summation"</span><span style="color: #990000">,</span> {
 <span style="font-weight: bold"><span style="color: #000080">                    testthat:</span></span><span style="color: #990000">:</span>expect_identical<span style="color: #990000">(</span>my_sum<span style="color: #990000">(</span>c<span style="color: #990000">(</span><span style="color: #993399">2</span><span style="color: #990000">,</span> <span style="color: #993399">7</span><span style="color: #990000">)),</span> <span style="color: #993399">9</span><span style="color: #990000">)</span>
-                    <span style="color: #990000">)</span></tt></pre></div></div>
-<div class="paragraph"><p>hast, kannst Du die Überdeckung berechnen.</p></div>
+<span style="font-weight: bold"><span style="color: #000080">                    testthat:</span></span><span style="color: #990000">:</span>expect_error<span style="color: #990000">(</span>my_sum<span style="color: #990000">(</span>c<span style="color: #990000">(</span><span style="color: #FF0000">"2"</span> <span style="color: #990000">+</span> <span style="color: #FF0000">"7"</span><span style="color: #990000">)))</span>
+}<span style="color: #990000">)</span></tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_code_coverage_8201_8212_8201_dateien">Code Coverage&#8201;&#8212;&#8201;Dateien</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -4211,10 +4253,13 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>## src<span style="color: #990000">/</span>my_sum_assertion<span style="color: #990000">.</span>R<span style="color: #990000">:</span> <span style="color: #993399">100.00</span><span style="color: #990000">%</span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test nicht
-erreicht, weist Dich <a href="https://CRAN.R-project.org/package=covr">covr</a> darauf hin:</p></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_code_coverage_8201_8212_8201_ungetesteter_code">Code Coverage&#8201;&#8212;&#8201;Ungetesteter Code</h1>
+<div class="sectionbody">
 <div class="listingblock">
-<div class="title">src/my_sum_assertion.R</div>
+<div class="title">src/my_sum_coverage.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
@@ -4228,6 +4273,11 @@ http://www.gnu.org/software/src-highlite -->
     }
     return<span style="color: #990000">(</span>value<span style="color: #990000">)</span>
 }</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_code_coverage_8201_8212_8201_analyse">Code Coverage&#8201;&#8212;&#8201;Analyse</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -4250,13 +4300,12 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>## src<span style="color: #990000">/</span>my_sum_coverage<span style="color: #990000">.</span>R<span style="color: #990000">:</span> <span style="color: #993399">83.33</span><span style="color: #990000">%</span>
 </tt></pre></div></div>
-<div class="paragraph"><p><a href="https://CRAN.R-project.org/package=covr">covr</a> sagt Dir sogar, dass es die dritte Zeile ist:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">covr:</span></span><span style="color: #990000">:</span>zero_coverage<span style="color: #990000">(</span>cov<span style="color: #990000">)</span></tt></pre></div></div>
+<pre><tt>print<span style="color: #990000">(</span>covr<span style="color: #990000">::</span>zero_coverage<span style="color: #990000">(</span>cov<span style="color: #990000">))</span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>##                filename functions line value
@@ -4265,13 +4314,10 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_nebenwirkungen_testen">Nebenwirkungen testen</h1>
+<h1 id="_nebenwirkungen_statt_r_uuml_ckgabewerte_testen">Nebenwirkungen statt R&uuml;ckgabewerte testen</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>Funktionen sind relativ einfach zu testen, wenn ihr Rückgabewert ihr Zweck ist.
-Wenn sie aber Nebenwirkungen bezwecken, finde ich Tests schwieriger zu schreiben.</p></div>
-<div class="paragraph"><p>Stell Dir vor, Du hättest die fehlerhafte Löschfunktion aus
-<a href="#_arbeiten_mit_gültigkeitsbereichen">Arbeiten mit Gültigkeitsbereichen</a>
-in eine Datei geschrieben:</p></div>
+<div class="paragraph"><p>Fehlerhafte Löschfunktion (vergleiche
+<a href="https://fvafrcu.github.io/funktionen_in_r/#_arbeiten_mit_g%C3%BCltigkeitsbereichen">https://fvafrcu.github.io/funktionen_in_r/#_arbeiten_mit_g%C3%BCltigkeitsbereichen</a>):</p></div>
 <div class="listingblock">
 <div class="title">src/wipe_clean_broken.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -4280,10 +4326,12 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>wipe_clean <span style="color: #990000">&lt;-</span> function<span style="color: #990000">(</span>environment <span style="color: #990000">=</span> parent<span style="color: #990000">.</span>frame<span style="color: #990000">())</span> {
     objects <span style="color: #990000">&lt;-</span> ls<span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #0000FF">name</span></span> <span style="color: #990000">=</span> environment<span style="color: #990000">,</span> all<span style="color: #990000">.</span>names <span style="color: #990000">=</span> TRUE<span style="color: #990000">)</span>
+    # FIXME<span style="color: #990000">:</span> rm<span style="color: #990000">()</span> by default removes objects from
+    # the current frame<span style="color: #990000">,</span> which is <span style="font-weight: bold"><span style="color: #0000FF">this</span></span> function<span style="color: #990000">,</span> <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> the parent frame<span style="color: #990000">!</span>
     rm<span style="color: #990000">(</span>list <span style="color: #990000">=</span> objects<span style="color: #990000">)</span>
     return<span style="color: #990000">(</span>invisible<span style="color: #990000">(</span>objects<span style="color: #990000">))</span>
 }</tt></pre></div></div>
-<div class="paragraph"><p>Nun schreibst Du eine Testdatei:</p></div>
+<div class="paragraph"><p>Testdatei:</p></div>
 <div class="listingblock">
 <div class="title">src/test_wipe_clean_broken.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -4295,7 +4343,11 @@ http://www.gnu.org/software/src-highlite -->
 <span style="font-weight: bold"><span style="color: #000080">                    testthat:</span></span><span style="color: #990000">:</span>expect_identical<span style="color: #990000">(</span>wipe_clean<span style="color: #990000">(),</span>
                                                c<span style="color: #990000">(</span><span style="color: #FF0000">"a"</span><span style="color: #990000">))</span>}
                     <span style="color: #990000">)</span></tt></pre></div></div>
-<div class="paragraph"><p>Und erhälst vollständige Überdeckung:</p></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_code_coverage_8201_8212_8201_analyse_nebenwirkungen">Code Coverage&#8201;&#8212;&#8201;Analyse Nebenwirkungen</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
 by Lorenzo Bettini
@@ -4318,8 +4370,14 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>## src<span style="color: #990000">/</span>wipe_clean_broken<span style="color: #990000">.</span>R<span style="color: #990000">:</span> <span style="color: #993399">100.00</span><span style="color: #990000">%</span>
 </tt></pre></div></div>
-<div class="paragraph"><p>Alles gut? Nein, die Funktion ist kaputt und die Testdatei, die dies zeigt müsste
-auf die Nebenwirkung testen:</p></div>
+<div class="paragraph"><p>Alles gut?<br />
+Nein, die Funktion ist kaputt und die Testdatei, die dies zeigt müsste
+auf die Nebenwirkung testen!</p></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_code_coverage_8201_8212_8201_test_der_nebenwirkungen">Code Coverage&#8201;&#8212;&#8201;Test der Nebenwirkungen</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="title">src/test_wipe_clean.R</div>
 <div class="content"><!-- Generator: GNU source-highlight 3.1.7
@@ -5171,6 +5229,13 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p><code>golden_rectangle</code> habe ich mir nur ausgedacht, um Dir mein Vorgehen zu verdeutlichen. Aber:</p></div>
 <div class="paragraph"><p><em>Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens,
 wenn ich sie in ein Paket verpacke.</em></p></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_skript_2">Skript</h1>
+<div class="sectionbody">
+<div class="paragraph"><p><a href="https://fvafrcu.github.io/funktionen_in_r/">https://fvafrcu.github.io/funktionen_in_r/</a></p></div>
+<div class="paragraph"><p><a href="https://fvafrcu.github.io/funktionen_in_r/unit_testing.html">https://fvafrcu.github.io/funktionen_in_r/unit_testing.html</a></p></div>
 </div>
 </div>
 </body>

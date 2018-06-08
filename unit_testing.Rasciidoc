@@ -5,17 +5,19 @@ Anne-Sophie Stelzer, Dominik Cullmann
 :data-uri:
 :duration: 60
 
-//begin_only_slide
+
 == Skript
 https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
-//end_only_slide
+
+https://fvafrcu.github.io/funktionen_in_r/unit_testing.html[https://fvafrcu.github.io/funktionen_in_r/unit_testing.html]
 
 
-//end_no_slide
 
-== Unit Testing
-Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
-Also im Zweifel ihren Rückgabewert.
+== Worum geht es?
+
+- Was soll meine Funktion tun?
+- Tut sie es auch?
+- Tut sie es auch noch, wenn ich sie ver&auml;ndert/verbessert habe?
 
 == Zwei Funktionen
 
@@ -53,6 +55,7 @@ identical(not_my_sum(c(2, 7)), 9)
 
 
 == Wieder Erwartungen
+
 .https://CRAN.R-project.org/package=RUnit[RUnit]
 //begin.rcode
 RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
@@ -68,64 +71,64 @@ tryCatch(testthat::expect_identical(not_my_sum(c(2, 7)), 9), expectation_failure
 //end.rcode
 
 == Tests 
-Um Erwartungen bei der Paketentwicklung oder in Bezug auf ihre <<_code_coverage, Coverage>> auszuwerten,
-    werden in beiden Paketen Erwartungen zu Tests zusammenfasst 
-(eigentlich sollten Tests immer nur Erwartungen zu einer Funktion enthalten, aber wir wollen ja auch Fehler sehen):
 
+Zusammenfassung meherer Erwartungen (f&uuml;r eine Funktion).
+
+Strukturierte Berichte bei mehreren Funktionen (z.B. in Paketen).
 //begin.rcode, echo = FALSE
 source(file.path("src", "my_sum.R"))
 source(file.path("src", "not_my_sum.R"))
 //end.rcode
 
-== Funktionsobjekte testen -- https://CRAN.R-project.org/package=testthat[testthat]
-
+== Funktionen testen -- https://CRAN.R-project.org/package=testthat[testthat]
 //begin.rcode, code = readLines(file.path("src", "test_my_sum.R"))
 //end.rcode
-== Funktionsobjekte testen -- https://CRAN.R-project.org/package=RUnit[RUnit]
 
+== Funktionen testen -- https://CRAN.R-project.org/package=RUnit[RUnit]
 //begin.rcode
 test_sum <- function() {
-    RUnit::checkIdentical(not_my_sum(c(2, 7)), 9)
-    RUnit::checkIdentical(my_sum(c(2, 7)), 9)
+    RUnit::checkIdentical(not_my_sum(c(2, 7)), 9, msg = "Not my sum")
+    RUnit::checkIdentical(my_sum(c(2, 7)), 9, msg = "My sum")
 }
 test_sum()
 //end.rcode
 
-== Funktionsdateien testen -- testthat
-
-
-[small]
+== Testdateien -- testthat
 //begin.rcode
 testthat::test_file(file.path("src", "test_my_sum.R"))
 //end.rcode
 
-== Funktionsdateien testen -- RUnit
+== Testdateien -- RUnit
 //begin.rcode
 test_file <- normalizePath(file.path("src", "runit_my_sum.R"))
 runit <- RUnit::runTestFile(test_file)
+//end.rcode
+
+== Testdateien -- RUnit II
+//begin.rcode
 RUnit::printTextProtocol(runit)
 //end.rcode
 
 == Code Coverage
-Um zu sehen, ob Deine Unit Tests die Funktion gut testen, 
-kannst Du ihre  https://en.wikipedia.org/wiki/Code_coverage[Überdeckung] berechnen.
-https://CRAN.R-project.org/package=covr[covr] ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass https://CRAN.R-project.org/package=covr[covr] die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
-berechnet. 
-Prinzipiell ist eine hohe Überdeckung gut.
 
-Wenn Du eine Datei mit einer Funktionsdefinition
+- https://en.wikipedia.org/wiki/Code_coverage[Überdeckung]
+- Pakte https://CRAN.R-project.org/package=covr[covr]  +
+  (Ich glaube: https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_])
+- Prinzipiell: Hohe Überdeckung ist gut.
+
+== Code Coverage -- Funktionen und Tests in Dateien
+
 
 .src/my_sum_assertion.R
 //begin.rcode, code = readLines(file.path("src", "my_sum_assertion.R")), eval = FALSE
 //end.rcode
 
-und eine mit dem Test
 
 .src/test_my_sum_assertion.R
 //begin.rcode, code = readLines(file.path("src", "test_my_sum_assertion.R")), eval = FALSE
 //end.rcode
 
-hast, kannst Du die Überdeckung berechnen.
+== Code Coverage -- Dateien
 
 //begin.rcode
 cov <- covr::file_coverage(file.path("src", "my_sum_assertion.R"), 
@@ -133,44 +136,39 @@ cov <- covr::file_coverage(file.path("src", "my_sum_assertion.R"),
 print(cov)
 //end.rcode
 
-Wenn Du eine Funktion schreibst, in der eine Zeile eingebaut ist, die der Test nicht
-erreicht, weist Dich https://CRAN.R-project.org/package=covr[covr] darauf hin:
+== Code Coverage -- Ungetesteter Code
 
-.src/my_sum_assertion.R
+.src/my_sum_coverage.R
 //begin.rcode, code = readLines(file.path("src", "my_sum_coverage.R")), eval = FALSE
 //end.rcode
+
+
+== Code Coverage -- Analyse
 
 //begin.rcode
 cov <- covr::file_coverage(file.path("src", "my_sum_coverage.R"), 
                            file.path("src", "test_my_sum_assertion.R"))
 print(cov)
+print(covr::zero_coverage(cov))
 //end.rcode
 
-https://CRAN.R-project.org/package=covr[covr] sagt Dir sogar, dass es die dritte Zeile ist:
-//begin.rcode
-covr::zero_coverage(cov)
-//end.rcode
+== Nebenwirkungen statt R&uuml;ckgabewerte testen
 
-== Nebenwirkungen testen
 
-Funktionen sind relativ einfach zu testen, wenn ihr Rückgabewert ihr Zweck ist.
-Wenn sie aber Nebenwirkungen bezwecken, finde ich Tests schwieriger zu schreiben.
-
-Stell Dir vor, Du hättest die fehlerhafte Löschfunktion aus 
-<<_arbeiten_mit_gültigkeitsbereichen, Arbeiten mit Gültigkeitsbereichen>> 
-in eine Datei geschrieben:
+Fehlerhafte Löschfunktion (vergleiche  
+https://fvafrcu.github.io/funktionen_in_r/#_arbeiten_mit_g%C3%BCltigkeitsbereichen):
 
 .src/wipe_clean_broken.R
 [source,r]
 include::src/wipe_clean_broken.R[]
 
-Nun schreibst Du eine Testdatei:
+Testdatei:
 
 .src/test_wipe_clean_broken.R
 [source,r]
 include::src/test_wipe_clean_broken.R[]
 
-Und erhälst vollständige Überdeckung:
+== Code Coverage -- Analyse Nebenwirkungen
 
 //begin.rcode
 cov <- covr::file_coverage(file.path("src", "wipe_clean_broken.R"), 
@@ -178,9 +176,11 @@ cov <- covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
 print(cov)
 //end.rcode
 
-Alles gut? Nein, die Funktion ist kaputt und die Testdatei, die dies zeigt müsste 
-auf die Nebenwirkung testen:
+Alles gut? +
+Nein, die Funktion ist kaputt und die Testdatei, die dies zeigt müsste 
+auf die Nebenwirkung testen!
 
+== Code Coverage -- Test der Nebenwirkungen
 .src/test_wipe_clean.R
 [source,r]
 include::src/test_wipe_clean.R[]
@@ -373,3 +373,8 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 
 _Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
 wenn ich sie in ein Paket verpacke._
+
+== Skript
+https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+
+https://fvafrcu.github.io/funktionen_in_r/unit_testing.html[https://fvafrcu.github.io/funktionen_in_r/unit_testing.html]
