@@ -112,7 +112,7 @@ RUnit::printTextProtocol(runit)
 == Code Coverage
 
 - https://en.wikipedia.org/wiki/Code_coverage[Überdeckung]
-- Pakte https://CRAN.R-project.org/package=covr[covr]  +
+- Paket https://CRAN.R-project.org/package=covr[covr]  +
   (Ich glaube: https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_])
 - Prinzipiell: Hohe Überdeckung ist gut.
 
