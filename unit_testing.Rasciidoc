@@ -19,6 +19,10 @@ https://fvafrcu.github.io/funktionen_in_r/unit_testing.html[https://fvafrcu.gith
 - Tut sie es auch?
 - Tut sie es auch noch, wenn ich sie ver&auml;ndert/verbessert habe?
 
+**R** +
+    (Python: Module _unittest_ und _coverage_, C: https://en.wikipedia.org/wiki/List_of_unit_testing_frameworks#C[mehrere Dutzend] und _Gcov_, ...) 
+
+
 == Zwei Funktionen
 
 - Richtige Funktion

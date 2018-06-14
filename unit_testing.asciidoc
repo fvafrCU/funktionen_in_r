@@ -19,6 +19,10 @@ https://fvafrcu.github.io/funktionen_in_r/unit_testing.html[https://fvafrcu.gith
 - Tut sie es auch?
 - Tut sie es auch noch, wenn ich sie ver&auml;ndert/verbessert habe?
 
+**R** +
+    (Python: Module _unittest_ und _coverage_, C: https://en.wikipedia.org/wiki/List_of_unit_testing_frameworks#C[mehrere Dutzend] und _Gcov_, ...) 
+
+
 == Zwei Funktionen
 
 - Richtige Funktion
@@ -208,7 +212,7 @@ runit <- RUnit::runTestFile(test_file)
 ----
 ## 
 ## 
-## Executing test function test_sum  ... Timing stopped at: 0 0 0 
+## Executing test function test_sum  ... Timing stopped at: 0 0 0.001 
 ##  done successfully.
 ----
 
@@ -221,7 +225,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Wed Jun 13 12:42:46 2018 
+## RUNIT TEST PROTOCOL -- Thu Jun 14 16:44:18 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
