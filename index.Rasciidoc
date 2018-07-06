@@ -621,7 +621,8 @@ _Ich nutze Auswahllisten eher selten, da ich selten Steuerargumente mit mehreren
 
 === Funktionen testen
 ==== Unit Testing
-Beim Unit Testing wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
+
+Beim https://en.wikipedia.org/wiki/Unit_testing[Unit Testing] wollen wir nicht die einer Funktion übergebenen Argumente, sondern die Funktion selbst testen.
 Also im Zweifel ihren Rückgabewert.
 
 Ich kenne zwei Pakete, die Unit Testing in R formalisieren 
@@ -725,12 +726,16 @@ runit <- RUnit::runTestFile(test_file)
 RUnit::printTextProtocol(runit)
 //end.rcode
 
-==== Code Coverage
+====  Code Coverage
 Um zu sehen, ob Deine Unit Tests die Funktion gut testen, 
 kannst Du ihre  https://en.wikipedia.org/wiki/Code_coverage[Überdeckung] berechnen.
 https://CRAN.R-project.org/package=covr[covr] ist eines der Pakete, die Code Coverage implentieren und das einzige, das ich nutze. Ich weiß es nicht, glaube aber, dass https://CRAN.R-project.org/package=covr[covr] die https://en.wikipedia.org/wiki/Code_coverage#Coverage_criteria[_branch coverage_]
 berechnet. 
-Prinzipiell ist eine hohe Überdeckung gut.
+
+Du kannst auch mit einer hohen Überdeckung unzureichend testen, wie wir 
+<<_nebenwirkungen_testen, sp&auml;ter>> sehen werden. 
+Versuche daher nicht, sie unbedingt zu maximieren und lasse Dich von einer hohen 
+Überdeckung einlullen. Aber prinzipiell ist eine hohe Überdeckung gut.
 
 Wenn Du eine Datei mit einer Funktionsdefinition
 
@@ -796,6 +801,7 @@ cov <- covr::file_coverage(file.path("src", "wipe_clean_broken.R"),
                            file.path("src", "test_wipe_clean_broken.R"))
 print(cov)
 //end.rcode
+
 
 Alles gut? Nein, die Funktion ist kaputt und die Testdatei, die dies zeigt müsste 
 auf die Nebenwirkung testen:
@@ -993,6 +999,12 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 
 _Ich teste fast alle meine Funktion nach genau dem Ablauf in diesem Abschnitt spätestens, 
 wenn ich sie in ein Paket verpacke._
+
+_Du testest Deinen Code so oder so (zur Not auf die harte Tour, also bei der produktiven Anwendung), 
+das <<_unit_testing, Unit Testing>> ist nur eine hilfreiche Formalisierung, 
+nutze sie!
+Und mit der <<_code_coverage, Code Coverage>> hast Du sogar eine M&ouml;glichkeit, 
+die G&uuml;te Deines Testens abzusch&auml;tzen._
 
 === Weniger schlecht programmieren
 Ich möchte Dir gerne noch drei Funktionen aus drei verschiedenen Paketen vorstellen, 
