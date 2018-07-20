@@ -7,9 +7,9 @@ Anne-Sophie Stelzer, Dominik Cullmann
 
 
 == Skript
-https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+https://fvafrcu.gitlab.io/funktionen_in_r/[https://fvafrcu.gitlab.io/funktionen_in_r/]
 
-https://fvafrcu.github.io/funktionen_in_r/unit_testing.html[https://fvafrcu.github.io/funktionen_in_r/unit_testing.html]
+https://fvafrcu.gitlab.io/funktionen_in_r/unit_testing.html[https://fvafrcu.gitlab.io/funktionen_in_r/unit_testing.html]
 
 
 
@@ -225,7 +225,7 @@ RUnit::printTextProtocol(runit)
 ----
 
 ----
-## RUNIT TEST PROTOCOL -- Thu Jun 14 16:44:18 2018 
+## RUNIT TEST PROTOCOL -- Fri Jul 20 08:33:58 2018 
 ## *********************************************** 
 ## Number of test functions: 1 
 ## Number of errors: 0 
@@ -245,9 +245,9 @@ RUnit::printTextProtocol(runit)
 ## Test function regexp: ^test.+ 
 ## Test file regexp: ^runit_my_sum.R$ 
 ## Involved directory: 
-## /home/nik/git/cs/fvafrcu/funktionen_in_r/src 
+## /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src 
 ## --------------------------- 
-## Test file: /home/nik/git/cs/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
+## Test file: /home/qwer/git/cyclops/fvafrcu/funktionen_in_r/src/runit_my_sum.R 
 ## test_sum: FAILURE !! (check number 1)
 ## Error in RUnit::checkIdentical(not_my_sum(c(2, 7)), 9) : FALSE 
 ## 
@@ -371,7 +371,7 @@ print(covr::zero_coverage(cov))
 
 
 Fehlerhafte Löschfunktion (vergleiche  
-https://fvafrcu.github.io/funktionen_in_r/#_arbeiten_mit_g%C3%BCltigkeitsbereichen):
+https://fvafrcu.gitlab.io/funktionen_in_r/#_arbeiten_mit_g%C3%BCltigkeitsbereichen):
 
 .src/wipe_clean_broken.R
 [source,r]
@@ -730,6 +730,6 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 
 
 == Skript
-https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+https://fvafrcu.gitlab.io/funktionen_in_r/[https://fvafrcu.gitlab.io/funktionen_in_r/]
 
-https://fvafrcu.github.io/funktionen_in_r/unit_testing.html[https://fvafrcu.github.io/funktionen_in_r/unit_testing.html]
+https://fvafrcu.gitlab.io/funktionen_in_r/unit_testing.html[https://fvafrcu.gitlab.io/funktionen_in_r/unit_testing.html]

@@ -7,9 +7,9 @@ Anne-Sophie Stelzer, Dominik Cullmann
 
 
 == Skript
-https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+https://fvafrcu.gitlab.io/funktionen_in_r/[https://fvafrcu.gitlab.io/funktionen_in_r/]
 
-https://fvafrcu.github.io/funktionen_in_r/unit_testing.html[https://fvafrcu.github.io/funktionen_in_r/unit_testing.html]
+https://fvafrcu.gitlab.io/funktionen_in_r/unit_testing.html[https://fvafrcu.gitlab.io/funktionen_in_r/unit_testing.html]
 
 
 
@@ -160,7 +160,7 @@ print(covr::zero_coverage(cov))
 
 
 Fehlerhafte Löschfunktion (vergleiche  
-https://fvafrcu.github.io/funktionen_in_r/#_arbeiten_mit_g%C3%BCltigkeitsbereichen):
+https://fvafrcu.gitlab.io/funktionen_in_r/#_arbeiten_mit_g%C3%BCltigkeitsbereichen):
 
 .src/wipe_clean_broken.R
 [source,r]
@@ -344,6 +344,6 @@ covr::file_coverage(file.path("src", "golden_rectangle.R"),
 
 
 == Skript
-https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+https://fvafrcu.gitlab.io/funktionen_in_r/[https://fvafrcu.gitlab.io/funktionen_in_r/]
 
-https://fvafrcu.github.io/funktionen_in_r/unit_testing.html[https://fvafrcu.github.io/funktionen_in_r/unit_testing.html]
+https://fvafrcu.gitlab.io/funktionen_in_r/unit_testing.html[https://fvafrcu.gitlab.io/funktionen_in_r/unit_testing.html]

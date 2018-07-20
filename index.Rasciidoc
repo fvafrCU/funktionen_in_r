@@ -8,7 +8,7 @@ Anne-Sophie Stelzer, Dominik Cullmann
 
 //begin_only_slide
 == Skript
-https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+https://fvafrcu.gitlab.io/funktionen_in_r/[https://fvafrcu.gitlab.io/funktionen_in_r/]
 //end_only_slide
 
 //begin_no_slide
@@ -72,7 +72,7 @@ alles, das wir selbst programmieren können.
 
 Nunja, irgendwelchen Code müssen wir ja nehmen.  
 Ich habe die Summenberechnung ausführlich als Beispiel zur Schleifenprogrammierung in 
-https://fvafrcu.github.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt, 
+https://fvafrcu.gitlab.io/programmieren_in_r/#gute-schleifen[Programmieren in R] benutzt, 
     und eine Wiederholung schadet sicher nicht.
 
 
@@ -456,11 +456,11 @@ for (f in dir("./functions/", full.names = TRUE, pattern = ".*\\.[rR]$")) {
 [role="outline"]
 - global 
   * wie oben mit absolutem Pfad in Startup-Datei
-  * Liste der Startup-Dateien im https://fvafrcu.github.io/funktionen_in_r/#_global[Skript]
+  * Liste der Startup-Dateien im https://fvafrcu.gitlab.io/funktionen_in_r/#_global[Skript]
 - als Paket
 
 == Skript
-https://fvafrcu.github.io/funktionen_in_r/[https://fvafrcu.github.io/funktionen_in_r/]
+https://fvafrcu.gitlab.io/funktionen_in_r/[https://fvafrcu.gitlab.io/funktionen_in_r/]
 //end_only_slide
 //begin_no_slide
 
@@ -1035,7 +1035,7 @@ codetools::checkUsage(foo, all = TRUE)
 Das Paket https://CRAN.R-project.org/package=lintr[lintr] prüft Code auf Fussel, 
 das sind Abweichungen des Codes von Richtlinien zur übersichtlichen Formatierung. 
 Die Richtlinien (gegen die https://CRAN.R-project.org/package=lintr[lintr] prüft, und die sind gut, halte Dich an sie;
-                 zu mehr über Progammierrichtlinien findest Du im https://fvafrcu.github.io/programmierleitfaden.ps[Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg]) 
+                 zu mehr über Progammierrichtlinien findest Du im https://gitlab.com/fvafrcu/programmierleitfaden/raw/master/programmierleitfaden.ps[Programmierleitfaden an der Forstlichen Versuchs- und Forschungsanstalt Baden-Württemberg]) 
 sehen unter anderem vor, 
 dass auf Kommas immer ein Leerzeichen folgen sollte, 
 dass auf öffnende geschweifte Klammern immer ein Zeilenumbruch folgen sollte und 
