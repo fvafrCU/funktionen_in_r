@@ -1,0 +1,594 @@
+= Unit Testing in **R**
+Dominik Cullmann 
+:toc2:
+:toclevels: 5
+:data-uri:
+:duration: 60
+
+== Regular Expressions
+POSIX 1003.2 standard
+http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
+
+
+== Email und Passwort
+
+== Email
+
+[source,r]
+----
+tries <- c("dominik.cullmann@forst.bwlde", 
+           "@2.de", 
+           "dominik.cullmann@forst.bwl.de")
+
+res <- NULL
+for (try in tries) {
+    res <- rbind(res, c(try, is_probably_valid_email(try)))
+}
+print(res)
+----
+
+----
+##      [,1]                            [,2]   
+## [1,] "dominik.cullmann@forst.bwlde"  "FALSE"
+## [2,] "@2.de"                         "FALSE"
+## [3,] "dominik.cullmann@forst.bwl.de" "TRUE"
+----
+
+
+==  Passwort
+
+[source,r]
+----
+tries <- c("Aa$4567",
+           "aa$45678",
+           "AA$45678",
+           "Aa345678",
+           "Aa$45678"
+           )
+
+res <- NULL
+for (try in tries) {
+    res <- rbind(res, c(try, is_valid_password(try)))
+}
+print(res)
+----
+
+----
+##      [,1]       [,2]   
+## [1,] "Aa$4567"  "FALSE"
+## [2,] "aa$45678" "FALSE"
+## [3,] "AA$45678" "FALSE"
+## [4,] "Aa345678" "FALSE"
+## [5,] "Aa$45678" "TRUE"
+----
+
+
+== is_valid_password
+
+[source,r]
+----
+# min. 8 Zeichen, Klein-, Grossbuchstabe, Zahl, Sonderzeichen
+is_valid_password <- function(string) {
+    minimum_length <- 8
+    is_long_enough <- nchar(string) >= minimum_length
+    has_uppercase <- grepl("[[:upper:]]", string)
+    has_lowercase <- grepl("[[:lower:]]", string)
+    has_punctation <- grepl("[[:punct:]]", string)
+    is_valid <- is_long_enough && has_uppercase && has_lowercase && 
+        has_punctation
+    return(is_valid)
+}
+----
+
+
+== is_probably_valid_email
+
+[source,r]
+----
+is_probably_valid_email <- function(string) {
+    pattern <- "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
+    is_valid <- grepl(pattern, string)
+    return(is_valid)
+}
+----
+
+
+== FIXME
+
+[source,r]
+----
+string <- c("This is a (not too) long sentence, stored in a (character) string.",
+            "Well, it is (actually) stored in a vector of class character.", 
+            "And this is not a single sentence.")
+is.vector(string)
+----
+
+----
+## [1] TRUE
+----
+
+[source,r]
+----
+is.character(string)
+----
+
+----
+## [1] TRUE
+----
+
+[source,r]
+----
+class(string)
+----
+
+----
+## [1] "character"
+----
+
+[source,r]
+----
+length(string)
+----
+
+----
+## [1] 3
+----
+
+[source,r]
+----
+nchar(string)
+----
+
+----
+## [1] 66 61 34
+----
+
+[source,r]
+----
+pattern <- "\\(.*\\)"
+
+regexpr(pattern, string) # a vector giving start and length of matches.
+----
+
+----
+## [1] 11 13 -1
+## attr(,"match.length")
+## [1] 48 10 -1
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+regexec(pattern, string) # the same, as a list.
+----
+
+----
+## [[1]]
+## [1] 11
+## attr(,"match.length")
+## [1] 48
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[2]]
+## [1] 13
+## attr(,"match.length")
+## [1] 10
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[3]]
+## [1] -1
+## attr(,"match.length")
+## [1] -1
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+grep(pattern, string)
+----
+
+----
+## [1] 1 2
+----
+
+[source,r]
+----
+grepl(pattern, string)
+----
+
+----
+## [1]  TRUE  TRUE FALSE
+----
+
+[source,r]
+----
+grep(pattern, string, value = TRUE)
+----
+
+----
+## [1] "This is a (not too) long sentence, stored in a (character) string."
+## [2] "Well, it is (actually) stored in a vector of class character."
+----
+
+[source,r]
+----
+substition <- "[FOO]"
+print(new_string <- sub(pattern, substition, string))
+----
+
+----
+## [1] "This is a [FOO] string."                                 
+## [2] "Well, it is [FOO] stored in a vector of class character."
+## [3] "And this is not a single sentence."
+----
+
+[source,r]
+----
+nchar(string)
+----
+
+----
+## [1] 66 61 34
+----
+
+[source,r]
+----
+nchar(new_string)
+----
+
+----
+## [1] 23 56 34
+----
+
+[source,r]
+----
+pattern <- "\\(.*?\\)" ## non-greedy quantifier
+print(new_string <- sub(pattern, substition, string))
+----
+
+----
+## [1] "This is a [FOO] long sentence, stored in a (character) string."
+## [2] "Well, it is [FOO] stored in a vector of class character."      
+## [3] "And this is not a single sentence."
+----
+
+[source,r]
+----
+nchar(string)
+----
+
+----
+## [1] 66 61 34
+----
+
+[source,r]
+----
+nchar(new_string)
+----
+
+----
+## [1] 62 56 34
+----
+
+[source,r]
+----
+pattern <- "\\([^\\)]+\\)" ## lazy quantifier using negation
+print(new_string <- sub(pattern, substition, string))
+----
+
+----
+## [1] "This is a [FOO] long sentence, stored in a (character) string."
+## [2] "Well, it is [FOO] stored in a vector of class character."      
+## [3] "And this is not a single sentence."
+----
+
+[source,r]
+----
+nchar(string)
+----
+
+----
+## [1] 66 61 34
+----
+
+[source,r]
+----
+nchar(new_string)
+----
+
+----
+## [1] 62 56 34
+----
+
+[source,r]
+----
+pattern <- "\\<[[:alnum:]]*\\>"
+substition <- "[HERE WAS THE FIRST WORD]"
+regexpr(pattern, string) 
+----
+
+----
+## [1] 1 1 1
+## attr(,"match.length")
+## [1] 4 4 3
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+sub(pattern, substition, string)
+----
+
+----
+## [1] "[HERE WAS THE FIRST WORD] is a (not too) long sentence, stored in a (character) string."
+## [2] "[HERE WAS THE FIRST WORD], it is (actually) stored in a vector of class character."     
+## [3] "[HERE WAS THE FIRST WORD] this is not a single sentence."
+----
+
+[source,r]
+----
+pattern <- "(\\<a\\>)"
+substition <- "\\1[INJECTED TEXT]"
+regexpr(pattern, string) 
+----
+
+----
+## [1]  9 34 17
+## attr(,"match.length")
+## [1] 1 1 1
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+sub(pattern, substition, string)
+----
+
+----
+## [1] "This is a[INJECTED TEXT] (not too) long sentence, stored in a (character) string."
+## [2] "Well, it is (actually) stored in a[INJECTED TEXT] vector of class character."     
+## [3] "And this is not a[INJECTED TEXT] single sentence."
+----
+
+[source,r]
+----
+gregexpr(pattern, string) 
+----
+
+----
+## [[1]]
+## [1]  9 46
+## attr(,"match.length")
+## [1] 1 1
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[2]]
+## [1] 34
+## attr(,"match.length")
+## [1] 1
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[3]]
+## [1] 17
+## attr(,"match.length")
+## [1] 1
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+gsub(pattern, substition, string)
+----
+
+----
+## [1] "This is a[INJECTED TEXT] (not too) long sentence, stored in a[INJECTED TEXT] (character) string."
+## [2] "Well, it is (actually) stored in a[INJECTED TEXT] vector of class character."                    
+## [3] "And this is not a[INJECTED TEXT] single sentence."
+----
+
+[source,r]
+----
+pattern <- "^([[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?)\\<[[:alnum:]_]*\\>"
+substition <- "\\1[HERE WAS THE SECOND WORD]"
+regexpr(pattern, string) 
+----
+
+----
+## [1] 1 1 1
+## attr(,"match.length")
+## [1] 7 8 8
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+sub(pattern, substition, string)
+----
+
+----
+## [1] "This [HERE WAS THE SECOND WORD] a (not too) long sentence, stored in a (character) string."
+## [2] "Well, [HERE WAS THE SECOND WORD] is (actually) stored in a vector of class character."     
+## [3] "And [HERE WAS THE SECOND WORD] is not a single sentence."
+----
+
+[source,r]
+----
+pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>"
+substition <- "\\1[HERE WAS THE FOURTH WORD]"
+regexpr(pattern, string) 
+----
+
+----
+## [1] 1 1 1
+## attr(,"match.length")
+## [1] 14 21 15
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+sub(pattern, substition, string)
+----
+
+----
+## [1] "This is a ([HERE WAS THE FOURTH WORD] too) long sentence, stored in a (character) string."
+## [2] "Well, it is ([HERE WAS THE FOURTH WORD]) stored in a vector of class character."          
+## [3] "And this is [HERE WAS THE FOURTH WORD] a single sentence."
+----
+
+[source,r]
+----
+pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>(.*)$"
+substition <- "\\1[HERE WAS THE FOURTH WORD]\\2"
+regexpr(pattern, string) 
+----
+
+----
+## [1] 1 1 1
+## attr(,"match.length")
+## [1] 66 61 34
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+sub(pattern, substition, string)
+----
+
+----
+## [1] "This is a ([HERE WAS THE FOURTH WORD] too) long sentence, stored in a (character) string."
+## [2] "Well, it is ([HERE WAS THE FOURTH WORD]) stored in a vector of class character."          
+## [3] "And this is [HERE WAS THE FOURTH WORD] a single sentence."
+----
+
+[source,r]
+----
+gsub("(?:\\(.*?\\)|long)[[:space:]]", "", string)
+----
+
+----
+## [1] "This is a sentence, stored in a string."           
+## [2] "Well, it is stored in a vector of class character."
+## [3] "And this is not a single sentence."
+----
+
+[source,r]
+----
+gsub("(?:\\(.*?\\)|long)\\  *", "", string)
+----
+
+----
+## [1] "This is a sentence, stored in a string."           
+## [2] "Well, it is stored in a vector of class character."
+## [3] "And this is not a single sentence."
+----
+
+[source,r]
+----
+# Anwendung mit Dateipfaden
+
+## Dateien bereitstellen
+rm(list= ls())
+path <- file.path(tempdir(), "foo")
+unlink(path, recursive = TRUE)
+dir.create(path)
+for (name in c("mtcars", "iris")) {
+    file_name <- paste0(name, ".csv")
+    write.csv(get(name), file = file.path(path, file_name))
+}
+
+
+
+## Dateien lesen und wieder schreiben als deutsches CSV
+print(files <- list.files(path, full.names = TRUE))
+----
+
+----
+## [1] "/tmp/RtmpRQr7BQ/foo/iris.csv"   "/tmp/RtmpRQr7BQ/foo/mtcars.csv"
+----
+
+[source,r]
+----
+for (file in files) {
+    file_name <- basename(file)
+    new_file <- sub("(.*)(\\.csv)", "\\1_german\\2", file)
+    write.csv2(read.csv(file), file = new_file)
+}
+print(list.files(path, full.names = TRUE))
+----
+
+----
+## [1] "/tmp/RtmpRQr7BQ/foo/iris_german.csv"  
+## [2] "/tmp/RtmpRQr7BQ/foo/iris.csv"         
+## [3] "/tmp/RtmpRQr7BQ/foo/mtcars_german.csv"
+## [4] "/tmp/RtmpRQr7BQ/foo/mtcars.csv"
+----
+
+[source,r]
+----
+## Dateien in noch nicht existente Verzeichnisse verschieben
+# Das hat aber nichts mit regex zu tun.
+path <- file.path(tempdir(), "bar", "foobar")
+unlink(path, recursive = TRUE)
+file_rename <- function(from, to) {
+    root <- dirname(to)
+    if (! dir.exists(root)) dir.create(root, recursive = TRUE)
+    return(file.rename(from, to))
+}
+file_rename(file, file.path(path, basename(file)))
+----
+
+----
+## [1] TRUE
+----
+
+[source,r]
+----
+# Anwendung camelCase -- mit Perl regex
+code_file <- file.path(tempdir(), "code.R")
+code <- "fileRename <- function(from, to) {
+root <- dirname(to)
+if (! dir.exists(root)) dir.create(root, recursive = TRUE)
+return(file.rename(from, to))
+}
+"
+cat(code, file = code_file)
+print(readLines(code_file))
+----
+
+----
+## [1] "fileRename <- function(from, to) {"                        
+## [2] "root <- dirname(to)"                                       
+## [3] "if (! dir.exists(root)) dir.create(root, recursive = TRUE)"
+## [4] "return(file.rename(from, to))"                             
+## [5] "}"
+----
+
+[source,r]
+----
+code <- readLines(code_file)
+code <- gsub("([A-Z])[a-z]", "_\\L\\1", code, perl = TRUE)
+writeLines(code, code_file)
+print(readLines(code_file))
+----
+
+----
+## [1] "file_rname <- function(from, to) {"                        
+## [2] "root <- dirname(to)"                                       
+## [3] "if (! dir.exists(root)) dir.create(root, recursive = TRUE)"
+## [4] "return(file.rename(from, to))"                             
+## [5] "}"
+----
+

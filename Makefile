@@ -1,3 +1,5 @@
+regex.html: regex.Rasciidoc
+	Rscript -e 'rasciidoc::render("regex.Rasciidoc",  asciidoc_args = "-b slidy")'
 unit_testing.html: unit_testing.Rasciidoc
 	Rscript -e 'rasciidoc::render("unit_testing.Rasciidoc",  asciidoc_args = "-b slidy")'
 index_shiny.html: index.Rasciidoc
