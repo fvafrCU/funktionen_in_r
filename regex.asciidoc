@@ -16,19 +16,15 @@ http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
 
 [source,r]
 ----
-tries <- c("dominik.cullmann@forst.bwlde", 
+mails <- c("dominik.cullmann@forst.bwlde", 
            "@2.de", 
            "dominik.cullmann@forst.bwl.de")
 
-res <- NULL
-for (try in tries) {
-    res <- rbind(res, c(try, is_probably_valid_email(try)))
-}
-print(res)
+print(cbind(mails, is_probably_valid_email(mails)))
 ----
 
 ----
-##      [,1]                            [,2]   
+##      mails                                  
 ## [1,] "dominik.cullmann@forst.bwlde"  "FALSE"
 ## [2,] "@2.de"                         "FALSE"
 ## [3,] "dominik.cullmann@forst.bwl.de" "TRUE"
@@ -39,22 +35,17 @@ print(res)
 
 [source,r]
 ----
-tries <- c("Aa$4567",
-           "aa$45678",
-           "AA$45678",
-           "Aa345678",
-           "Aa$45678"
-           )
-
-res <- NULL
-for (try in tries) {
-    res <- rbind(res, c(try, is_valid_password(try)))
-}
-print(res)
+passwords <- c("Aa$4567",
+               "aa$45678",
+               "AA$45678",
+               "Aa345678",
+               "Aa$45678"
+               )
+print(cbind(passwords, is_valid_password(passwords)))
 ----
 
 ----
-##      [,1]       [,2]   
+##      passwords         
 ## [1,] "Aa$4567"  "FALSE"
 ## [2,] "aa$45678" "FALSE"
 ## [3,] "AA$45678" "FALSE"
@@ -74,7 +65,7 @@ is_valid_password <- function(string) {
     has_uppercase <- grepl("[[:upper:]]", string)
     has_lowercase <- grepl("[[:lower:]]", string)
     has_punctation <- grepl("[[:punct:]]", string)
-    is_valid <- is_long_enough && has_uppercase && has_lowercase && 
+    is_valid <- is_long_enough & has_uppercase & has_lowercase & 
         has_punctation
     return(is_valid)
 }
@@ -93,61 +84,276 @@ is_probably_valid_email <- function(string) {
 ----
 
 
-== FIXME
+== A Simple String
+
+[source,r]
+----
+string <- "This is a (character) string."
+paste(is.vector(string), is.character(string), class(string), sep = " ## ")
+----
+
+----
+## [1] "TRUE ## TRUE ## character"
+----
+
+[source,r]
+----
+paste(length(string), nchar(string), sep = " ## ")
+----
+
+----
+## [1] "1 ## 29"
+----
+
+
+== Regular Expressions for a Simple String
+
+[source,r]
+----
+pattern <- "is"
+regexpr(pattern, string) # a vector giving start and length of the first match
+----
+
+----
+## [1] 3
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+regexec(pattern, string) # the same, as a list, better for groups.
+----
+
+----
+## [[1]]
+## [1] 3
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+grep(pattern, string) # indices of elements of "string" matching "pattern"
+----
+
+----
+## [1] 1
+----
+
+[source,r]
+----
+grep(pattern, string, value = TRUE) # the elements of "string" matching "pattern"
+----
+
+----
+## [1] "This is a (character) string."
+----
+
+[source,r]
+----
+grepl(pattern, string) # Do elements of "string" contain "pattern"?
+----
+
+----
+## [1] TRUE
+----
+
+[source,r]
+----
+gregexpr(pattern, string) # a vector giving start and length of matches
+----
+
+----
+## [[1]]
+## [1] 3 6
+## attr(,"match.length")
+## [1] 2 2
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+sub(pattern, "##", string) # replace first match of pattern in string
+----
+
+----
+## [1] "Th## is a (character) string."
+----
+
+[source,r]
+----
+gsub(pattern, "##", string) # replace all matches of pattern in string
+----
+
+----
+## [1] "Th## ## a (character) string."
+----
+
+
+== A Character Vector
 
 [source,r]
 ----
 string <- c("This is a (not too) long sentence, stored in a (character) string.",
             "Well, it is (actually) stored in a vector of class character.", 
             "And this is not a single sentence.")
-is.vector(string)
+
+paste(is.vector(string), is.character(string), class(string), sep = " ## ")
 ----
 
 ----
+## [1] "TRUE ## TRUE ## character"
+----
+
+[source,r]
+----
+paste(length(string), nchar(string), sep = " ## ")
+----
+
+----
+## [1] "3 ## 66" "3 ## 61" "3 ## 34"
+----
+
+
+== Regular Expressions for a Character Vector
+
+[source,r]
+----
+pattern <- "is"
+regexpr(pattern, string) # a vector giving start and length of the first match
+----
+
+----
+## [1]  3 10  7
+## attr(,"match.length")
+## [1] 2 2 2
+## attr(,"useBytes")
 ## [1] TRUE
 ----
 
 [source,r]
 ----
-is.character(string)
+regexec(pattern, string) # the same, as a list, better for groups.
 ----
 
 ----
-## [1] TRUE
-----
-
-[source,r]
-----
-class(string)
-----
-
-----
-## [1] "character"
-----
-
-[source,r]
-----
-length(string)
-----
-
-----
+## [[1]]
 ## [1] 3
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[2]]
+## [1] 10
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[3]]
+## [1] 7
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
 ----
 
 [source,r]
 ----
-nchar(string)
+grep(pattern, string) # indices of elements of "string" matching "pattern"
 ----
 
 ----
-## [1] 66 61 34
+## [1] 1 2 3
 ----
+
+[source,r]
+----
+grep(pattern, string, value = TRUE) # the elements of "string" matching "pattern"
+----
+
+----
+## [1] "This is a (not too) long sentence, stored in a (character) string."
+## [2] "Well, it is (actually) stored in a vector of class character."     
+## [3] "And this is not a single sentence."
+----
+
+[source,r]
+----
+grepl(pattern, string) # Do elements of "string" contain "pattern"?
+----
+
+----
+## [1] TRUE TRUE TRUE
+----
+
+[source,r]
+----
+gregexpr(pattern, string) # a vector giving start and length of matches
+----
+
+----
+## [[1]]
+## [1] 3 6
+## attr(,"match.length")
+## [1] 2 2
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[2]]
+## [1] 10
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[3]]
+## [1]  7 10
+## attr(,"match.length")
+## [1] 2 2
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+sub(pattern, "##", string) # replace first match of pattern in string
+----
+
+----
+## [1] "Th## is a (not too) long sentence, stored in a (character) string."
+## [2] "Well, it ## (actually) stored in a vector of class character."     
+## [3] "And th## is not a single sentence."
+----
+
+[source,r]
+----
+gsub(pattern, "##", string) # replace all matches of pattern in string
+----
+
+----
+## [1] "Th## ## a (not too) long sentence, stored in a (character) string."
+## [2] "Well, it ## (actually) stored in a vector of class character."     
+## [3] "And th## ## not a single sentence."
+----
+
+
+
+
+== FIXME
 
 [source,r]
 ----
 pattern <- "\\(.*\\)"
 
-regexpr(pattern, string) # a vector giving start and length of matches.
+regexpr(pattern, string) 
 ----
 
 ----
@@ -160,7 +366,7 @@ regexpr(pattern, string) # a vector giving start and length of matches.
 
 [source,r]
 ----
-regexec(pattern, string) # the same, as a list.
+regexec(pattern, string) 
 ----
 
 ----
@@ -516,7 +722,7 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpRQr7BQ/foo/iris.csv"   "/tmp/RtmpRQr7BQ/foo/mtcars.csv"
+## [1] "/tmp/RtmpaRcZ8I/foo/iris.csv"   "/tmp/RtmpaRcZ8I/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -530,10 +736,10 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpRQr7BQ/foo/iris_german.csv"  
-## [2] "/tmp/RtmpRQr7BQ/foo/iris.csv"         
-## [3] "/tmp/RtmpRQr7BQ/foo/mtcars_german.csv"
-## [4] "/tmp/RtmpRQr7BQ/foo/mtcars.csv"
+## [1] "/tmp/RtmpaRcZ8I/foo/iris_german.csv"  
+## [2] "/tmp/RtmpaRcZ8I/foo/iris.csv"         
+## [3] "/tmp/RtmpaRcZ8I/foo/mtcars_german.csv"
+## [4] "/tmp/RtmpaRcZ8I/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -590,5 +796,38 @@ print(readLines(code_file))
 ## [3] "if (! dir.exists(root)) dir.create(root, recursive = TRUE)"
 ## [4] "return(file.rename(from, to))"                             
 ## [5] "}"
+----
+
+== Sonst noch
+Es gibt no base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
+Beispiel aus der Hilfe:
+
+[source,r]
+----
+ ## Consider
+ x <- "John (fishing, hunting), Paul (hiking, biking)"
+ ## Suppose we want to split at the comma (plus spaces) between the
+ ## persons, but not at the commas in the parenthesized hobby lists.
+ ## One idea is to "blank out" the parenthesized parts to match the
+ ## parts to be used for splitting, and extract the persons as the
+ ## non-matched parts.
+ ## First, match the parenthesized hobby lists.
+ m <- gregexpr("\\([^)]*\\)", x)
+ ## Write a little utility for creating blank strings with given numbers
+ ## of characters.
+ blanks <- function(n) strrep(" ", n)
+ ## Create a copy of x with the parenthesized parts blanked out.
+ s <- x
+ regmatches(s, m) <- Map(blanks, lapply(regmatches(s, m), nchar))
+ ## Compute the positions of the split matches (note that we cannot call
+ ## strsplit() on x with match data from s).
+ m <- gregexpr(", *", s)
+ ## And finally extract the non-matched parts.
+ regmatches(x, m, invert = TRUE)
+----
+
+----
+## [[1]]
+## [1] "John (fishing, hunting)" "Paul (hiking, biking)"
 ----
 

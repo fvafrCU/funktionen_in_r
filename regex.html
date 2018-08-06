@@ -3858,18 +3858,14 @@ setTimeout(w3c_slidy.hide_slides, 50);
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>tries &lt;- c(<span style="color: #FF0000">"dominik.cullmann@forst.bwlde"</span>,
+<pre><tt>mails &lt;- c(<span style="color: #FF0000">"dominik.cullmann@forst.bwlde"</span>,
            <span style="color: #FF0000">"@2.de"</span>,
            <span style="color: #FF0000">"dominik.cullmann@forst.bwl.de"</span>)
 
-res &lt;- NULL
-<span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (try in tries) {
-    res &lt;- rbind(res, c(try, is_probably_valid_email(try)))
-}
-print(res)</tt></pre></div></div>
+print(cbind(mails, is_probably_valid_email(mails)))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>##      [,1]                            [,2]
+<pre><code>##      mails
 ## [1,] "dominik.cullmann@forst.bwlde"  "FALSE"
 ## [2,] "@2.de"                         "FALSE"
 ## [3,] "dominik.cullmann@forst.bwl.de" "TRUE"</code></pre>
@@ -3884,21 +3880,16 @@ print(res)</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>tries &lt;- c(<span style="color: #FF0000">"Aa$4567"</span>,
-           <span style="color: #FF0000">"aa$45678"</span>,
-           <span style="color: #FF0000">"AA$45678"</span>,
-           <span style="color: #FF0000">"Aa345678"</span>,
-           <span style="color: #FF0000">"Aa$45678"</span>
-           )
-
-res &lt;- NULL
-<span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (try in tries) {
-    res &lt;- rbind(res, c(try, is_valid_password(try)))
-}
-print(res)</tt></pre></div></div>
+<pre><tt>passwords &lt;- c(<span style="color: #FF0000">"Aa$4567"</span>,
+               <span style="color: #FF0000">"aa$45678"</span>,
+               <span style="color: #FF0000">"AA$45678"</span>,
+               <span style="color: #FF0000">"Aa345678"</span>,
+               <span style="color: #FF0000">"Aa$45678"</span>
+               )
+print(cbind(passwords, is_valid_password(passwords)))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>##      [,1]       [,2]
+<pre><code>##      passwords
 ## [1,] "Aa$4567"  "FALSE"
 ## [2,] "aa$45678" "FALSE"
 ## [3,] "AA$45678" "FALSE"
@@ -3922,7 +3913,7 @@ is_valid_password &lt;- function(string) {
     has_uppercase &lt;- grepl(<span style="color: #FF0000">"[[:upper:]]"</span>, string)
     has_lowercase &lt;- grepl(<span style="color: #FF0000">"[[:lower:]]"</span>, string)
     has_punctation &lt;- grepl(<span style="color: #FF0000">"[[:punct:]]"</span>, string)
-    is_valid &lt;- is_long_enough &amp;&amp; has_uppercase &amp;&amp; has_lowercase &amp;&amp;
+    is_valid &lt;- is_long_enough &amp; has_uppercase &amp; has_lowercase &amp;
         has_punctation
     return(is_valid)
 }</tt></pre></div></div>
@@ -3944,7 +3935,133 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_fixme">FIXME</h1>
+<h1 id="_a_simple_string">A Simple String</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>string &lt;- <span style="color: #FF0000">"This is a (character) string."</span>
+paste(is.vector(string), is.character(string), class(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "TRUE ## TRUE ## character"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>paste(length(string), nchar(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "1 ## 29"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_regular_expressions_for_a_simple_string">Regular Expressions for a Simple String</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>pattern &lt;- <span style="color: #FF0000">"is"</span>
+regexpr(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># a vector giving start and length of the first match</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 3
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>regexec(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># the same, as a list, better for groups.</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [[1]]
+## [1] 3
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>grep(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># indices of elements of "string" matching "pattern"</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] 1</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>grep(pattern, string, value = TRUE) <span style="font-style: italic"><span style="color: #9A1900"># the elements of "string" matching "pattern"</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "This is a (character) string."</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>grepl(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># Do elements of "string" contain "pattern"?</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] TRUE</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gregexpr(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># a vector giving start and length of matches</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [[1]]
+## [1] 3 6
+## attr(,"match.length")
+## [1] 2 2
+## attr(,"useBytes")
+## [1] TRUE</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>sub(pattern, <span style="color: #FF0000">"##"</span>, string) <span style="font-style: italic"><span style="color: #9A1900"># replace first match of pattern in string</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "Th## is a (character) string."</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern, <span style="color: #FF0000">"##"</span>, string) <span style="font-style: italic"><span style="color: #9A1900"># replace all matches of pattern in string</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "Th## ## a (character) string."</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_a_character_vector">A Character Vector</h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -3954,51 +4071,161 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>string &lt;- c(<span style="color: #FF0000">"This is a (not too) long sentence, stored in a (character) string."</span>,
             <span style="color: #FF0000">"Well, it is (actually) stored in a vector of class character."</span>,
             <span style="color: #FF0000">"And this is not a single sentence."</span>)
-is.vector(string)</tt></pre></div></div>
+
+paste(is.vector(string), is.character(string), class(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] TRUE</code></pre>
+<pre><code>## [1] "TRUE ## TRUE ## character"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>is.character(string)</tt></pre></div></div>
+<pre><tt>paste(length(string), nchar(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] TRUE</code></pre>
+<pre><code>## [1] "3 ## 66" "3 ## 61" "3 ## 34"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_regular_expressions_for_a_character_vector">Regular Expressions for a Character Vector</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>pattern &lt;- <span style="color: #FF0000">"is"</span>
+regexpr(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># a vector giving start and length of the first match</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1]  3 10  7
+## attr(,"match.length")
+## [1] 2 2 2
+## attr(,"useBytes")
+## [1] TRUE</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>class(string)</tt></pre></div></div>
+<pre><tt>regexec(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># the same, as a list, better for groups.</span></span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "character"</code></pre>
+<pre><code>## [[1]]
+## [1] 3
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
+##
+## [[2]]
+## [1] 10
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
+##
+## [[3]]
+## [1] 7
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>length(string)</tt></pre></div></div>
+<pre><tt>grep(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># indices of elements of "string" matching "pattern"</span></span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 3</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>nchar(string)</tt></pre></div></div>
+<pre><tt>grep(pattern, string, value = TRUE) <span style="font-style: italic"><span style="color: #9A1900"># the elements of "string" matching "pattern"</span></span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] 66 61 34</code></pre>
+<pre><code>## [1] "This is a (not too) long sentence, stored in a (character) string."
+## [2] "Well, it is (actually) stored in a vector of class character."
+## [3] "And this is not a single sentence."</code></pre>
 </div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>grepl(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># Do elements of "string" contain "pattern"?</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] TRUE TRUE TRUE</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gregexpr(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># a vector giving start and length of matches</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [[1]]
+## [1] 3 6
+## attr(,"match.length")
+## [1] 2 2
+## attr(,"useBytes")
+## [1] TRUE
+##
+## [[2]]
+## [1] 10
+## attr(,"match.length")
+## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
+##
+## [[3]]
+## [1]  7 10
+## attr(,"match.length")
+## [1] 2 2
+## attr(,"useBytes")
+## [1] TRUE</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>sub(pattern, <span style="color: #FF0000">"##"</span>, string) <span style="font-style: italic"><span style="color: #9A1900"># replace first match of pattern in string</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "Th## is a (not too) long sentence, stored in a (character) string."
+## [2] "Well, it ## (actually) stored in a vector of class character."
+## [3] "And th## is not a single sentence."</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern, <span style="color: #FF0000">"##"</span>, string) <span style="font-style: italic"><span style="color: #9A1900"># replace all matches of pattern in string</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "Th## ## a (not too) long sentence, stored in a (character) string."
+## [2] "Well, it ## (actually) stored in a vector of class character."
+## [3] "And th## ## not a single sentence."</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_fixme">FIXME</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4006,7 +4233,7 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>pattern &lt;- <span style="color: #FF0000">"</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">(.*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)"</span>
 
-regexpr(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># a vector giving start and length of matches.</span></span></tt></pre></div></div>
+regexpr(pattern, string)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] 11 13 -1
@@ -4020,7 +4247,7 @@ regexpr(pattern, string) <span style="font-style: italic"><span style="color: #9
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>regexec(pattern, string) <span style="font-style: italic"><span style="color: #9A1900"># the same, as a list.</span></span></tt></pre></div></div>
+<pre><tt>regexec(pattern, string)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [[1]]
@@ -4402,7 +4629,7 @@ dir.create(path)
 print(files &lt;- list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpRQr7BQ/foo/iris.csv"   "/tmp/RtmpRQr7BQ/foo/mtcars.csv"</code></pre>
+<pre><code>## [1] "/tmp/RtmpaRcZ8I/foo/iris.csv"   "/tmp/RtmpaRcZ8I/foo/mtcars.csv"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4417,10 +4644,10 @@ http://www.gnu.org/software/src-highlite -->
 print(list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpRQr7BQ/foo/iris_german.csv"
-## [2] "/tmp/RtmpRQr7BQ/foo/iris.csv"
-## [3] "/tmp/RtmpRQr7BQ/foo/mtcars_german.csv"
-## [4] "/tmp/RtmpRQr7BQ/foo/mtcars.csv"</code></pre>
+<pre><code>## [1] "/tmp/RtmpaRcZ8I/foo/iris_german.csv"
+## [2] "/tmp/RtmpaRcZ8I/foo/iris.csv"
+## [3] "/tmp/RtmpaRcZ8I/foo/mtcars_german.csv"
+## [4] "/tmp/RtmpaRcZ8I/foo/mtcars.csv"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4480,6 +4707,43 @@ print(readLines(code_file))</tt></pre></div></div>
 ## [3] "if (! dir.exists(root)) dir.create(root, recursive = TRUE)"
 ## [4] "return(file.rename(from, to))"
 ## [5] "}"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_sonst_noch">Sonst noch</h1>
+<div class="sectionbody">
+<div class="paragraph"><p>Es gibt no base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
+Beispiel aus der Hilfe:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt> <span style="font-style: italic"><span style="color: #9A1900">## Consider</span></span>
+ x &lt;- <span style="color: #FF0000">"John (fishing, hunting), Paul (hiking, biking)"</span>
+ <span style="font-style: italic"><span style="color: #9A1900">## Suppose we want to split at the comma (plus spaces) between the</span></span>
+ <span style="font-style: italic"><span style="color: #9A1900">## persons, but not at the commas in the parenthesized hobby lists.</span></span>
+ <span style="font-style: italic"><span style="color: #9A1900">## One idea is to "blank out" the parenthesized parts to match the</span></span>
+ <span style="font-style: italic"><span style="color: #9A1900">## parts to be used for splitting, and extract the persons as the</span></span>
+ <span style="font-style: italic"><span style="color: #9A1900">## non-matched parts.</span></span>
+ <span style="font-style: italic"><span style="color: #9A1900">## First, match the parenthesized hobby lists.</span></span>
+ m &lt;- gregexpr(<span style="color: #FF0000">"</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">([^)]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)"</span>, x)
+ <span style="font-style: italic"><span style="color: #9A1900">## Write a little utility for creating blank strings with given numbers</span></span>
+ <span style="font-style: italic"><span style="color: #9A1900">## of characters.</span></span>
+ blanks &lt;- function(n) strrep(<span style="color: #FF0000">" "</span>, n)
+ <span style="font-style: italic"><span style="color: #9A1900">## Create a copy of x with the parenthesized parts blanked out.</span></span>
+ s &lt;- x
+ regmatches(s, m) &lt;- Map(blanks, lapply(regmatches(s, m), nchar))
+ <span style="font-style: italic"><span style="color: #9A1900">## Compute the positions of the split matches (note that we cannot call</span></span>
+ <span style="font-style: italic"><span style="color: #9A1900">## strsplit() on x with match data from s).</span></span>
+ m &lt;- gregexpr(<span style="color: #FF0000">", *"</span>, s)
+ <span style="font-style: italic"><span style="color: #9A1900">## And finally extract the non-matched parts.</span></span>
+ regmatches(x, m, invert = TRUE)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [[1]]
+## [1] "John (fishing, hunting)" "Paul (hiking, biking)"</code></pre>
 </div></div>
 </div>
 </div>
