@@ -1,4 +1,4 @@
-= Unit Testing in **R**
+= Regular Expressions in **R**
 Dominik Cullmann 
 :toc2:
 :toclevels: 5
@@ -6,8 +6,14 @@ Dominik Cullmann
 :duration: 60
 
 == Regular Expressions
-POSIX 1003.2 standard
-http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
+
+- Ausdruck: etwas, das nicht buchst&auml;blich gemeint ist.
+
+- POSIX 1003.2 standard
+  http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
+
+- https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines
+
 
 
 == Email und Passwort
@@ -82,6 +88,209 @@ is_probably_valid_email <- function(string) {
     return(is_valid)
 }
 ----
+
+
+== Wiederholungen
+
+[source,r]
+----
+replacement  <- "##"
+x <- "B BA BAA BAAA CA"
+gsub(pattern = "BA", replacement, x)
+----
+
+----
+## [1] "B ## ##A ##AA CA"
+----
+
+[source,r]
+----
+gsub(pattern = "BA{2,3}", replacement, x)
+----
+
+----
+## [1] "B BA ## ## CA"
+----
+
+[source,r]
+----
+gsub(pattern = "BA{1,}", replacement, x)
+----
+
+----
+## [1] "B ## ## ## CA"
+----
+
+[source,r]
+----
+gsub(pattern = "BA+", replacement, x)
+----
+
+----
+## [1] "B ## ## ## CA"
+----
+
+[source,r]
+----
+gsub(pattern = "BA{0,}", replacement, x)
+----
+
+----
+## [1] "## ## ## ## CA"
+----
+
+[source,r]
+----
+gsub(pattern = "BA*", replacement, x)
+----
+
+----
+## [1] "## ## ## ## CA"
+----
+
+
+== Gruppen
+
+[source,r]
+----
+replacement  <- "##"
+x <- "BA BABA BABABA BABABABA"
+gsub(pattern = "(BA)", replacement, x)
+----
+
+----
+## [1] "## #### ###### ########"
+----
+
+[source,r]
+----
+gsub(pattern = "(BA){2,3}", replacement, x)
+----
+
+----
+## [1] "BA ## ## ##BA"
+----
+
+== Anker
+
+[source,r]
+----
+replacement  <- "##"
+x <- "Ha Ha HaHa Ha"
+gsub(pattern = "^Ha", replacement, x)
+----
+
+----
+## [1] "## Ha HaHa Ha"
+----
+
+[source,r]
+----
+gsub(pattern = "Ha$", replacement, x)
+----
+
+----
+## [1] "Ha Ha HaHa ##"
+----
+
+[source,r]
+----
+gsub(pattern = "\\<Ha\\>", replacement, x)
+----
+
+----
+## [1] "## ## HaHa ##"
+----
+
+
+== Character Sets
+
+[source,r]
+----
+replacement  <- ""
+x <-  paste(c(letters, LETTERS," ", pi), collapse = "")
+print(x)
+----
+
+----
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 3.14159265358979"
+----
+
+[source,r]
+----
+gsub(pattern = "[ .]", replacement, x)
+----
+
+----
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ314159265358979"
+----
+
+[source,r]
+----
+gsub(pattern = "[1-3]", replacement, x)
+----
+
+----
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .4596558979"
+----
+
+[source,r]
+----
+gsub(pattern = "[^1-3]", replacement, x) ## Negative Set
+----
+
+----
+## [1] "31123"
+----
+
+[source,r]
+----
+gsub(pattern = "[[:upper:]]", replacement, x)
+----
+
+----
+## [1] "abcdefghijklmnopqrstuvwxyz 3.14159265358979"
+----
+
+[source,r]
+----
+gsub(pattern = "[[:digit:]]", replacement, x)
+----
+
+----
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ."
+----
+
+[source,r]
+----
+gsub(pattern = "[[:digit:][:space:]]", replacement, x)
+----
+
+----
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
+----
+
+
+[source,r]
+----
+
+Der Punkt
+----
+
+[source,r]
+----
+## Error: <text>:2:5: unexpected symbol
+## 1: 
+## 2: Der Punkt
+##        ^
+
+----
+
+replacement  <- "##"
+gsub(pattern = "1.", replacement, x)
+sub(pattern = "1.*", replacement, x)
+sub(pattern = ".*", replacement, x)
+//end.rcode
 
 
 == A Simple String
@@ -722,7 +931,7 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpaRcZ8I/foo/iris.csv"   "/tmp/RtmpaRcZ8I/foo/mtcars.csv"
+## [1] "/tmp/RtmpJz7HRf/foo/iris.csv"   "/tmp/RtmpJz7HRf/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -736,10 +945,10 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpaRcZ8I/foo/iris_german.csv"  
-## [2] "/tmp/RtmpaRcZ8I/foo/iris.csv"         
-## [3] "/tmp/RtmpaRcZ8I/foo/mtcars_german.csv"
-## [4] "/tmp/RtmpaRcZ8I/foo/mtcars.csv"
+## [1] "/tmp/RtmpJz7HRf/foo/iris_german.csv"  
+## [2] "/tmp/RtmpJz7HRf/foo/iris.csv"         
+## [3] "/tmp/RtmpJz7HRf/foo/mtcars_german.csv"
+## [4] "/tmp/RtmpJz7HRf/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -799,6 +1008,13 @@ print(readLines(code_file))
 ----
 
 == Sonst noch
+
+- ?base::regex
+- ?base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
+- ?base::regmatches
+- install.packages(c("stringi")) ## (ICU regex engine)
+
+== regmatches
 Es gibt no base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
 Beispiel aus der Hilfe:
 

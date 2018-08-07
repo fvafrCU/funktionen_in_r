@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Unit Testing in <strong>R</strong></title>
+<title>Regular Expressions in <strong>R</strong></title>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="copyright" content="Copyright &#169; Dominik Cullmann" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
@@ -3835,14 +3835,30 @@ setTimeout(w3c_slidy.hide_slides, 50);
 </head>
 <body class="article">
 <div id="header" class="slide">
-<h1>Unit Testing in <strong>R</strong></h1>
+<h1>Regular Expressions in <strong>R</strong></h1>
 <span id="author">Dominik Cullmann</span><br />
 </div>
 <div class="sect1 slide">
 <h1 id="_regular_expressions">Regular Expressions</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>POSIX 1003.2 standard
-<a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html">http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html</a></p></div>
+<ul class="">
+<li>
+<span>
+Ausdruck: etwas, das nicht buchst&auml;blich gemeint ist.
+</span>
+</li>
+<li>
+<span>
+POSIX 1003.2 standard
+  <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html">http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html</a>
+</span>
+</li>
+<li>
+<span>
+<a href="https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines">https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines</a>
+</span>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect1 slide">
@@ -3932,6 +3948,235 @@ http://www.gnu.org/software/src-highlite -->
     is_valid &lt;- grepl(pattern, string)
     return(is_valid)
 }</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_wiederholungen">Wiederholungen</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>replacement  &lt;- <span style="color: #FF0000">"##"</span>
+x &lt;- <span style="color: #FF0000">"B BA BAA BAAA CA"</span>
+gsub(pattern = <span style="color: #FF0000">"BA"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "B ## ##A ##AA CA"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"BA{2,3}"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "B BA ## ## CA"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"BA{1,}"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "B ## ## ## CA"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"BA+"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "B ## ## ## CA"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"BA{0,}"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "## ## ## ## CA"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"BA*"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "## ## ## ## CA"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_gruppen">Gruppen</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>replacement  &lt;- <span style="color: #FF0000">"##"</span>
+x &lt;- <span style="color: #FF0000">"BA BABA BABABA BABABABA"</span>
+gsub(pattern = <span style="color: #FF0000">"(BA)"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "## #### ###### ########"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"(BA){2,3}"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "BA ## ## ##BA"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_anker">Anker</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>replacement  &lt;- <span style="color: #FF0000">"##"</span>
+x &lt;- <span style="color: #FF0000">"Ha Ha HaHa Ha"</span>
+gsub(pattern = <span style="color: #FF0000">"^Ha"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "## Ha HaHa Ha"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"Ha$"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "Ha Ha HaHa ##"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;Ha</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "## ## HaHa ##"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_character_sets">Character Sets</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>replacement  &lt;- <span style="color: #FF0000">""</span>
+x &lt;-  paste(c(letters, LETTERS,<span style="color: #FF0000">" "</span>, pi), collapse = <span style="color: #FF0000">""</span>)
+print(x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 3.14159265358979"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[ .]"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ314159265358979"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[1-3]"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .4596558979"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[^1-3]"</span>, replacement, x) <span style="font-style: italic"><span style="color: #9A1900">## Negative Set</span></span></tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "31123"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[[:upper:]]"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "abcdefghijklmnopqrstuvwxyz 3.14159265358979"</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[[:digit:]]"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ."</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[[:digit:][:space:]]"</span>, replacement, x)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>
+Der Punkt</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Error: &lt;text&gt;:2:5: unexpected symbol</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## 1:</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## 2: Der Punkt</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">##        ^</span></span>
+</tt></pre></div></div>
+<div class="paragraph"><p>replacement  &#8592; "##"
+gsub(pattern = "1.", replacement, x)
+sub(pattern = "1.<strong>", replacement, x)
+sub(pattern = ".</strong>", replacement, x)</p></div>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4629,7 +4874,7 @@ dir.create(path)
 print(files &lt;- list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpaRcZ8I/foo/iris.csv"   "/tmp/RtmpaRcZ8I/foo/mtcars.csv"</code></pre>
+<pre><code>## [1] "/tmp/RtmpJz7HRf/foo/iris.csv"   "/tmp/RtmpJz7HRf/foo/mtcars.csv"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4644,10 +4889,10 @@ http://www.gnu.org/software/src-highlite -->
 print(list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpaRcZ8I/foo/iris_german.csv"
-## [2] "/tmp/RtmpaRcZ8I/foo/iris.csv"
-## [3] "/tmp/RtmpaRcZ8I/foo/mtcars_german.csv"
-## [4] "/tmp/RtmpaRcZ8I/foo/mtcars.csv"</code></pre>
+<pre><code>## [1] "/tmp/RtmpJz7HRf/foo/iris_german.csv"
+## [2] "/tmp/RtmpJz7HRf/foo/iris.csv"
+## [3] "/tmp/RtmpJz7HRf/foo/mtcars_german.csv"
+## [4] "/tmp/RtmpJz7HRf/foo/mtcars.csv"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4712,6 +4957,33 @@ print(readLines(code_file))</tt></pre></div></div>
 </div>
 <div class="sect1 slide">
 <h1 id="_sonst_noch">Sonst noch</h1>
+<div class="sectionbody">
+<ul class="">
+<li>
+<span>
+?base::regex
+</span>
+</li>
+<li>
+<span>
+?base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
+</span>
+</li>
+<li>
+<span>
+?base::regmatches
+</span>
+</li>
+<li>
+<span>
+install.packages(c("stringi")) ## (ICU regex engine)
+</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_regmatches">regmatches</h1>
 <div class="sectionbody">
 <div class="paragraph"><p>Es gibt no base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
 Beispiel aus der Hilfe:</p></div>

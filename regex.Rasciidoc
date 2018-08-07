@@ -1,4 +1,4 @@
-= Unit Testing in **R**
+= Regular Expressions in **R**
 Dominik Cullmann 
 :toc2:
 :toclevels: 5
@@ -6,8 +6,14 @@ Dominik Cullmann
 :duration: 60
 
 == Regular Expressions
-POSIX 1003.2 standard
-http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
+
+- Ausdruck: etwas, das nicht buchst&auml;blich gemeint ist.
+
+- POSIX 1003.2 standard
+  http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
+
+- https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines
+
 //begin.rcode, echo  = FALSE
 is_probably_valid_email <- function(string) {
     pattern <- "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
@@ -74,6 +80,57 @@ is_probably_valid_email <- function(string) {
     return(is_valid)
 }
 //end.rcode
+
+== Wiederholungen
+//begin.rcode
+replacement  <- "##"
+x <- "B BA BAA BAAA CA"
+gsub(pattern = "BA", replacement, x)
+gsub(pattern = "BA{2,3}", replacement, x)
+gsub(pattern = "BA{1,}", replacement, x)
+gsub(pattern = "BA+", replacement, x)
+gsub(pattern = "BA{0,}", replacement, x)
+gsub(pattern = "BA*", replacement, x)
+//end.rcode
+
+== Gruppen
+//begin.rcode
+replacement  <- "##"
+x <- "BA BABA BABABA BABABABA"
+gsub(pattern = "(BA)", replacement, x)
+gsub(pattern = "(BA){2,3}", replacement, x)
+//end.rcode
+== Anker
+//begin.rcode
+replacement  <- "##"
+x <- "Ha Ha HaHa Ha"
+gsub(pattern = "^Ha", replacement, x)
+gsub(pattern = "Ha$", replacement, x)
+gsub(pattern = "\\<Ha\\>", replacement, x)
+//end.rcode
+
+== Character Sets
+//begin.rcode
+replacement  <- ""
+x <-  paste(c(letters, LETTERS," ", pi), collapse = "")
+print(x)
+gsub(pattern = "[ .]", replacement, x)
+gsub(pattern = "[1-3]", replacement, x)
+gsub(pattern = "[^1-3]", replacement, x) ## Negative Set
+
+gsub(pattern = "[[:upper:]]", replacement, x)
+gsub(pattern = "[[:digit:]]", replacement, x)
+gsub(pattern = "[[:digit:][:space:]]", replacement, x)
+//begin.rcode
+
+Der Punkt
+//end.rcode
+replacement  <- "##"
+gsub(pattern = "1.", replacement, x)
+sub(pattern = "1.*", replacement, x)
+sub(pattern = ".*", replacement, x)
+//end.rcode
+
 
 == A Simple String
 //begin.rcode
@@ -232,6 +289,13 @@ print(readLines(code_file))
 
 //end.rcode
 == Sonst noch
+
+- ?base::regex
+- ?base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
+- ?base::regmatches
+- install.packages(c("stringi")) ## (ICU regex engine)
+
+== regmatches
 Es gibt no base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
 Beispiel aus der Hilfe:
 //begin.rcode
