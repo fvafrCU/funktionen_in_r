@@ -3849,14 +3849,34 @@ Ausdruck: etwas, das nicht buchst&auml;blich gemeint ist.
 </li>
 <li>
 <span>
-POSIX 1003.2 standard
-  <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html">http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html</a>
+<a href="https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines">https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines</a>
 </span>
 </li>
 <li>
 <span>
-<a href="https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines">https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines</a>
+R (?base::regex)
 </span>
+<ul class="">
+<li>
+<span>
+The TRE documentation at &lt;URL:
+          <a href="http://laurikari.net/tre/documentation/regex-syntax/&gt">http://laurikari.net/tre/documentation/regex-syntax/&gt</a>;).
+</span>
+</li>
+<li>
+<span>
+The POSIX 1003.2 standard at &lt;URL:
+          <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html&gt">http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html&gt</a>;
+</span>
+</li>
+<li>
+<span>
+The ‘pcrepattern’ ‘man’ page (found as part of &lt;URL:
+          <a href="http://www.pcre.org/original/pcre.txt&gt">http://www.pcre.org/original/pcre.txt&gt</a>;), and details of Perl’s own
+          implementation at &lt;URL: <a href="http://perldoc.perl.org/perlre.html&gt">http://perldoc.perl.org/perlre.html&gt</a>;.
+</span>
+</li>
+</ul>
 </li>
 </ul>
 </div>
@@ -4489,7 +4509,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_fixme">FIXME</h1>
+<h1 id="_gefr_auml_szlig_igkeit">Gefr&auml;&szlig;igkeit</h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4694,6 +4714,12 @@ http://www.gnu.org/software/src-highlite -->
 ## [2] "[HERE WAS THE FIRST WORD], it is (actually) stored in a vector of class character."
 ## [3] "[HERE WAS THE FIRST WORD] this is not a single sentence."</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_r_uuml_ckverweise">R&uuml;ckverweise</h1>
+<div class="sectionbody">
+<div class="paragraph"><p>!FIXME</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4796,7 +4822,8 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>pattern &lt;- <span style="color: #FF0000">"^((?:[[:punct:]]?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;[[:alnum:]_]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;[[:punct:]]?[[:space:]]?[[:punct:]]?){3})</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;[[:alnum:]_]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;"</span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># grouping without backreference</span></span>
+pattern &lt;- <span style="color: #FF0000">"^((?:[[:punct:]]?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;[[:alnum:]_]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;[[:punct:]]?[[:space:]]?[[:punct:]]?){3})</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;[[:alnum:]_]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;"</span>
 substition &lt;- <span style="color: #FF0000">"</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">1[HERE WAS THE FOURTH WORD]"</span>
 regexpr(pattern, string)</tt></pre></div></div>
 <div class="listingblock">
@@ -4871,6 +4898,12 @@ http://www.gnu.org/software/src-highlite -->
 ## [2] "Well, it is stored in a vector of class character."
 ## [3] "And this is not a single sentence."</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_dateipfade">Dateipfade</h1>
+<div class="sectionbody">
+<div class="paragraph"><p>!FIXME</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4894,7 +4927,7 @@ dir.create(path)
 print(files &lt;- list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpVzvFvP/foo/iris.csv"   "/tmp/RtmpVzvFvP/foo/mtcars.csv"</code></pre>
+<pre><code>## [1] "/tmp/Rtmp3Edt3k/foo/iris.csv"   "/tmp/Rtmp3Edt3k/foo/mtcars.csv"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4909,10 +4942,10 @@ http://www.gnu.org/software/src-highlite -->
 print(list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpVzvFvP/foo/iris_german.csv"
-## [2] "/tmp/RtmpVzvFvP/foo/iris.csv"
-## [3] "/tmp/RtmpVzvFvP/foo/mtcars_german.csv"
-## [4] "/tmp/RtmpVzvFvP/foo/mtcars.csv"</code></pre>
+<pre><code>## [1] "/tmp/Rtmp3Edt3k/foo/iris_german.csv"
+## [2] "/tmp/Rtmp3Edt3k/foo/iris.csv"
+## [3] "/tmp/Rtmp3Edt3k/foo/mtcars_german.csv"
+## [4] "/tmp/Rtmp3Edt3k/foo/mtcars.csv"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4976,27 +5009,66 @@ print(readLines(code_file))</tt></pre></div></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_sonst_noch">Sonst noch</h1>
+<h1 id="_regex_in_r">Regex in R</h1>
 <div class="sectionbody">
+<div class="paragraph"><p>Meine Lieblinge</p></div>
 <ul class="">
 <li>
 <span>
-?base::regex
+base::regex
 </span>
 </li>
 <li>
 <span>
-?base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
+base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
 </span>
 </li>
 <li>
 <span>
-?base::regmatches
+base::list.files
 </span>
 </li>
+<li>
+<span>
+base::ls
+</span>
+</li>
+</ul>
+<div class="paragraph"><p>Sonst noch:</p></div>
+<ul class="">
 <li>
 <span>
 install.packages(c("stringi")) ## (ICU regex engine)
+</span>
+</li>
+<li>
+<span>
+utils::apropos # (find)
+</span>
+</li>
+<li>
+<span>
+utils::browseEnv
+</span>
+</li>
+<li>
+<span>
+utils::glob2rx
+</span>
+</li>
+<li>
+<span>
+utils::help.search
+</span>
+</li>
+<li>
+<span>
+base::strsplit
+</span>
+</li>
+<li>
+<span>
+base::regmatches
 </span>
 </li>
 </ul>

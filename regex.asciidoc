@@ -9,10 +9,20 @@ Dominik Cullmann
 
 - Ausdruck: etwas, das nicht buchst&auml;blich gemeint ist.
 
-- POSIX 1003.2 standard
-  http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
-
 - https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines
+
+-  R (?base::regex)
+
+    *     The TRE documentation at <URL:
+          http://laurikari.net/tre/documentation/regex-syntax/>).
+    
+    *     The POSIX 1003.2 standard at <URL:
+          http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html>
+   
+    *     The ‘pcrepattern’ ‘man’ page (found as part of <URL:
+          http://www.pcre.org/original/pcre.txt>), and details of Perl’s own
+          implementation at <URL: http://perldoc.perl.org/perlre.html>.
+
 
 
 
@@ -574,7 +584,7 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 
 
 
-== FIXME
+== Gefr&auml;&szlig;igkeit
 
 [source,r]
 ----
@@ -763,6 +773,11 @@ sub(pattern, substition, string)
 ## [3] "[HERE WAS THE FIRST WORD] this is not a single sentence."
 ----
 
+
+== R&uuml;ckverweise
+
+!FIXME
+
 [source,r]
 ----
 pattern <- "(\\<a\\>)"
@@ -856,6 +871,7 @@ sub(pattern, substition, string)
 
 [source,r]
 ----
+# grouping without backreference
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>"
 substition <- "\\1[HERE WAS THE FOURTH WORD]"
 regexpr(pattern, string) 
@@ -928,6 +944,11 @@ gsub("(?:\\(.*?\\)|long)\\  *", "", string)
 ## [3] "And this is not a single sentence."
 ----
 
+
+== Dateipfade
+
+!FIXME
+
 [source,r]
 ----
 # Anwendung mit Dateipfaden
@@ -949,7 +970,7 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpVzvFvP/foo/iris.csv"   "/tmp/RtmpVzvFvP/foo/mtcars.csv"
+## [1] "/tmp/Rtmp3Edt3k/foo/iris.csv"   "/tmp/Rtmp3Edt3k/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -963,10 +984,10 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpVzvFvP/foo/iris_german.csv"  
-## [2] "/tmp/RtmpVzvFvP/foo/iris.csv"         
-## [3] "/tmp/RtmpVzvFvP/foo/mtcars_german.csv"
-## [4] "/tmp/RtmpVzvFvP/foo/mtcars.csv"
+## [1] "/tmp/Rtmp3Edt3k/foo/iris_german.csv"  
+## [2] "/tmp/Rtmp3Edt3k/foo/iris.csv"         
+## [3] "/tmp/Rtmp3Edt3k/foo/mtcars_german.csv"
+## [4] "/tmp/Rtmp3Edt3k/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -1025,12 +1046,24 @@ print(readLines(code_file))
 ## [5] "}"
 ----
 
-== Sonst noch
+== Regex in R
 
-- ?base::regex
-- ?base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
-- ?base::regmatches
+Meine Lieblinge
+
+- base::regex
+- base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
+- base::list.files
+- base::ls 
+
+Sonst noch:
+
 - install.packages(c("stringi")) ## (ICU regex engine)
+- utils::apropos # (find)
+- utils::browseEnv
+- utils::glob2rx
+- utils::help.search
+- base::strsplit
+- base::regmatches
 
 == regmatches
 Es gibt no base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.

@@ -9,10 +9,20 @@ Dominik Cullmann
 
 - Ausdruck: etwas, das nicht buchst&auml;blich gemeint ist.
 
-- POSIX 1003.2 standard
-  http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
-
 - https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines
+
+-  R (?base::regex)
+
+    *     The TRE documentation at <URL:
+          http://laurikari.net/tre/documentation/regex-syntax/>).
+    
+    *     The POSIX 1003.2 standard at <URL:
+          http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html>
+   
+    *     The ‘pcrepattern’ ‘man’ page (found as part of <URL:
+          http://www.pcre.org/original/pcre.txt>), and details of Perl’s own
+          implementation at <URL: http://perldoc.perl.org/perlre.html>.
+
 
 //begin.rcode, echo  = FALSE
 is_probably_valid_email <- function(string) {
@@ -179,7 +189,7 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 
 
 
-== FIXME
+== Gefr&auml;&szlig;igkeit
 //begin.rcode
 pattern <- "\\(.*\\)"
 
@@ -209,7 +219,12 @@ pattern <- "\\<[[:alnum:]]*\\>"
 substition <- "[HERE WAS THE FIRST WORD]"
 regexpr(pattern, string) 
 sub(pattern, substition, string)
+//end.rcode
 
+== R&uuml;ckverweise
+
+!FIXME
+//begin.rcode
 pattern <- "(\\<a\\>)"
 substition <- "\\1[INJECTED TEXT]"
 regexpr(pattern, string) 
@@ -223,6 +238,7 @@ regexpr(pattern, string)
 sub(pattern, substition, string)
 
 
+# grouping without backreference
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>"
 substition <- "\\1[HERE WAS THE FOURTH WORD]"
 regexpr(pattern, string) 
@@ -236,6 +252,12 @@ sub(pattern, substition, string)
 gsub("(?:\\(.*?\\)|long)[[:space:]]", "", string)
 gsub("(?:\\(.*?\\)|long)\\  *", "", string)
 
+//end.rcode
+
+== Dateipfade
+
+!FIXME
+//begin.rcode
 
 # Anwendung mit Dateipfaden
 
@@ -290,12 +312,24 @@ print(readLines(code_file))
 
 
 //end.rcode
-== Sonst noch
+== Regex in R
 
-- ?base::regex
-- ?base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
-- ?base::regmatches
+Meine Lieblinge
+
+- base::regex
+- base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
+- base::list.files
+- base::ls 
+
+Sonst noch:
+
 - install.packages(c("stringi")) ## (ICU regex engine)
+- utils::apropos # (find)
+- utils::browseEnv
+- utils::glob2rx
+- utils::help.search
+- base::strsplit
+- base::regmatches
 
 == regmatches
 Es gibt no base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
