@@ -91,6 +91,8 @@ gsub(pattern = "BA{1,}", replacement, x)
 gsub(pattern = "BA+", replacement, x)
 gsub(pattern = "BA{0,}", replacement, x)
 gsub(pattern = "BA*", replacement, x)
+gsub(pattern = "BA{0,1}", replacement, x)
+gsub(pattern = "BA?", replacement, x)
 //end.rcode
 
 == Gruppen

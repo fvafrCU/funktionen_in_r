@@ -148,6 +148,24 @@ gsub(pattern = "BA*", replacement, x)
 ## [1] "## ## ## ## CA"
 ----
 
+[source,r]
+----
+gsub(pattern = "BA{0,1}", replacement, x)
+----
+
+----
+## [1] "## ## ##A ##AA CA"
+----
+
+[source,r]
+----
+gsub(pattern = "BA?", replacement, x)
+----
+
+----
+## [1] "## ## ##A ##AA CA"
+----
+
 
 == Gruppen
 
@@ -931,7 +949,7 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpJz7HRf/foo/iris.csv"   "/tmp/RtmpJz7HRf/foo/mtcars.csv"
+## [1] "/tmp/RtmpVzvFvP/foo/iris.csv"   "/tmp/RtmpVzvFvP/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -945,10 +963,10 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpJz7HRf/foo/iris_german.csv"  
-## [2] "/tmp/RtmpJz7HRf/foo/iris.csv"         
-## [3] "/tmp/RtmpJz7HRf/foo/mtcars_german.csv"
-## [4] "/tmp/RtmpJz7HRf/foo/mtcars.csv"
+## [1] "/tmp/RtmpVzvFvP/foo/iris_german.csv"  
+## [2] "/tmp/RtmpVzvFvP/foo/iris.csv"         
+## [3] "/tmp/RtmpVzvFvP/foo/mtcars_german.csv"
+## [4] "/tmp/RtmpVzvFvP/foo/mtcars.csv"
 ----
 
 [source,r]
