@@ -1,0 +1,117 @@
+From stefan.widgren@gmail.com  Thu Jun 28 22:56:18 2018
+>From qwer  Thu Jun 28 22:56:18 2018
+Received: from pop3.arcor.de
+	by h6.fooboz (mpop-1.2.6) with POP3
+	for <qwer>; Thu, 28 Jun 2018 22:56:18 +0200
+Return-Path: <stefan.widgren@gmail.com>
+Delivered-To: 3@1541256
+Received: from imap-director-2.dovecot.xion.oxcs.net ([10.10.2.20])
+	by imap-backend-10.novalocal with LMTP id UGdEE9/AKltZLAAAGZ0Mmg
+	for <3@1541256>; Wed, 20 Jun 2018 21:02:23 +0000
+Received: from mx020l.vodafonemail.xion.oxcs.net ([10.10.2.20])
+	by imap-director-2.dovecot.xion.oxcs.net with LMTP id MCgDE9/AKlvcagAAfYLqbQ
+	; Wed, 20 Jun 2018 21:02:23 +0000
+Received: from vsmx001.vodafonemail.xion.oxcs.net (mta-5.mta.xion.oxcs.net [10.10.2.5])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx020l.vodafonemail.xion.oxcs.net (Postfix) with ESMTPS id 419y2R27Zbz1j3G3
+	for <adc-r@arcor.de>; Wed, 20 Jun 2018 21:02:23 +0000 (UTC)
+Received: from mta-p1.oxcloud-vadesecure.net (mta-p1.oxcloud-vadesecure.net [157.97.76.185])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by vsmx001.vodafonemail.xion.oxcs.net (Postfix) with ESMTPS id 419y2R1y0Rz9sZT
+	for <adc-r@arcor.de>; Wed, 20 Jun 2018 21:02:23 +0000 (UTC)
+Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com [74.125.82.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mta-p1.oxcloud-vadesecure.net (ox1mtai64p) with ESMTPS id 08791234ED6
+	for <adc-r@arcor.de>; Wed, 20 Jun 2018 21:02:23 +0000 (UTC)
+Received: by mail-ot0-f195.google.com with SMTP id 92-v6so1088455otw.9
+        for <adc-r@arcor.de>; Wed, 20 Jun 2018 14:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=Mz9m4SpM3D0CrmVvscXnss4YgKad7VFC0AjKa3VLgB0=;
+        b=DKHME04W7pIBcnOtP0g1pGEVl5hSWq7iYArbRHinbkrvJRIxUrPoiF9MKO4BQ1mGZP
+         Oyc4zAL+xCS7vAlUaPlhfKZD6Yc+MnpRawIZyjy/uaQwbhNVikcsrWaY8IJEX72RiOZb
+         ImtKTyJ3v3Acy1Qogt4ucRcwO6aPDI0miGAIrDkuMbtk11UeiGDCrp5t1/BtVmU8gs4X
+         jI4eczqmPYL65PPMgSIJ/V+s83jAkLCLUIfLdJprT89crmt6sMmD97wa1o6MKG8Dwfjz
+         dO9gpWj2aEYrYiRxckjgVClNZgY3w4lXMNbOcGSkjgzeCsmRS5QWhkFDgvFqgWUfdryZ
+         4c0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=Mz9m4SpM3D0CrmVvscXnss4YgKad7VFC0AjKa3VLgB0=;
+        b=L3oVssBiD5oMapF+zCgip8r1y6GDaC6prEGR4XzgIQmA0ire52cX6cZPb2CokzmeoF
+         LQvMjZIaYBqFIPaupCCgsjoAVfjWvumIV1skCGgGuajxNThqS1BF4tX7y5P30C1D3/l9
+         MQTNsJp0n95Xt5QWtTl491gHCOlm6RV8pfpwcu/t687Rapa8hiw1t/sv2PMrCKsWjvB0
+         3MEQ78TIAoFdBdQc9b71KTtvT8tY2l3BwZIaPx6zGQk3QqSpKVL+nwU1fYYKWzNtgrmm
+         UO7UyEgyNX0ExtrOs8CkZhd39f5YLp17VMIsZ4dgGWJxIxFeDguNcnGkJnuLSXwJnp7U
+         gC1w==
+X-Gm-Message-State: APt69E2IDIjmjXgMj5Tw98ud5vi3n1NKgqc+p0jfvHnQuYTJIsIXzqdS
+	nBf7KIMeUYO2GQMUGjgnz82N+F/WLEOvwvrPsj1T/Lzv
+X-Google-Smtp-Source: ADUXVKLE+4ofvc8kwz+elaLQsViXCAj1+heewRMzU+vIx2AfJJoJZ5aoTM6+QPIfeROhwB+c/qlp103d61RyNqwCWiY=
+X-Received: by 2002:a9d:368a:: with SMTP id h10-v6mr13135341otc.19.1529528541515;
+ Wed, 20 Jun 2018 14:02:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:5ac2:0:0:0:0:0 with HTTP; Wed, 20 Jun 2018 14:02:21
+ -0700 (PDT)
+From: Stefan Widgren <stefan.widgren@gmail.com>
+Date: Wed, 20 Jun 2018 23:02:21 +0200
+Message-ID: <CAAi4p2mE5THaK3OWGZGxjw52fQu6K-KvA9B61iEc3EPg+1BSHw@mail.gmail.com>
+Subject: Next git2r release
+To: gelfondjal@uthscsa.edu, m.p.kosinski@gmail.com, lee_jianfeng@sjtu.edu.cn, 
+	cboettig@gmail.com, james.hester@rstudio.com, 
+	Dirk Eddelbuettel <edd@debian.org>, donald.jackson@bms.com, adc-r@arcor.de, 
+	Scott Chamberlain <myrmecocystus@gmail.com>, muschellij2@gmail.com, 
+	Gregory Jefferis <jefferis@gmail.com>, hanming.tu@gmail.com, lwjohnst@gmail.com, 
+	wush978@gmail.com, =?UTF-8?B?R8OhYm9yIENzw6FyZGk=?= <csardi.gabor@gmail.com>, 
+	packages@jaredlander.com, eliot.mcintire@canada.ca, 
+	Hadley Wickham <hadley@rstudio.com>, jdblischak@uchicago.edu
+Content-Type: multipart/alternative; boundary="000000000000641329056f191d5e"
+X-VRC-SPAM-STATUS: 0,-100,gggruggvucftvghtrhhoucdtuddrgedtiedrtddvgddugeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfgigfgfnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffkuffvtgesrgdtreertddtjeenucfhrhhomhepufhtvghfrghnucghihgughhrvghnuceoshhtvghfrghnrdifihgughhrvghnsehgmhgrihhlrdgtohhmqeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeejgedruddvhedrkedvrdduleehnecurfgrrhgrmhepmhgrgihmshhgshhiiigvpedutdegkeehjeeipdhhvghlohepmhgrihhlqdhothdtqdhfudelhedrghhoohhglhgvrdgtohhmpdhinhgvthepjeegrdduvdehrdekvddrudelhedpmhgrihhlfhhrohhmpehsthgvfhgrnhdrfihiughgrhgvnhesghhmrghilhdrtghomhdprhgtphhtthhopegruggtqdhrsegrrhgtohhrrdguvgenucevlhhushhtvghrufhiiigvpedt
+X-VRSPAM-STATE: legit
+X-VR-SPAM-STATE: 0
+X-VR-SPAM-SCORE: -100
+X-VR-SPF-RESULT: nil
+X-Virus-Status-VR: clean
+X-Virus-Status-CA: clean
+X-VRC-SPAM-STATUS: 0,-100,gggruggvucftvghtrhhoucdtuddrgedtiedrtddvgddugeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfgigfgfnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffkuffvtgesrgdtreertddtjeenucfhrhhomhepufhtvghfrghnucghihgughhrvghnuceoshhtvghfrghnrdifihgughhrvghnsehgmhgrihhlrdgtohhmqeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeejgedruddvhedrkedvrdduleehnecurfgrrhgrmhepmhgrgihmshhgshhiiigvpedutdegkeehjeeipdhhvghlohepmhgrihhlqdhothdtqdhfudelhedrghhoohhglhgvrdgtohhmpdhinhgvthepjeegrdduvdehrdekvddrudelhedpmhgrihhlfhhrohhmpehsthgvfhgrnhdrfihiughgrhgvnhesghhmrghilhdrtghomhdprhgtphhtthhopegruggtqdhrsegrrhgtohhrrdguvgenucevlhhushhtvghrufhiiigvpedt
+X-VRSPAM-STATE: legit
+X-VRC-POLICY-STATUS: t=1,a=1,l=0
+Status: RO
+Content-Length: 1279
+Lines: 32
+
+--000000000000641329056f191d5e
+Content-Type: text/plain; charset="UTF-8"
+
+Dear maintainers,
+
+I have changed git2r to use S3 classes instead of S4 to simplify
+the design and facilitate future development. If your package is
+using, for example, commit@sha, then you must change to
+commit$sha or sha(commit). A pre-release is available at
+https://github.com/ropensci/git2r/releases/tag/v0.22.0-RC1
+
+I will submit git2r to CRAN on Monday 8 July.
+
+Please send me a mail if you have any questions.
+
+Best regards
+Stefan Widgren
+
+--000000000000641329056f191d5e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Dear maintainers,<br><br>I have changed git2r to use S3 cl=
+asses instead of S4 to simplify<br>the design and facilitate future develop=
+ment. If your package is<br>using, for example, commit@sha, then you must c=
+hange to<br>commit$sha or sha(commit). A pre-release is available at<br><a =
+href=3D"https://github.com/ropensci/git2r/releases/tag/v0.22.0-RC1">https:/=
+/github.com/ropensci/git2r/releases/tag/v0.22.0-RC1</a><br><br>I will submi=
+t git2r to CRAN on Monday 8 July.<br><br>Please send me a mail if you have =
+any questions.<br><br>Best regards<br>Stefan Widgren<br><br></div>
+
+--000000000000641329056f191d5e--
