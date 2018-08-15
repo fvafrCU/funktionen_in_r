@@ -90,25 +90,41 @@ is_probably_valid_email <- function(string) {
     return(is_valid)
 }
 //end.rcode
+ 
+== Wiederholungen 
 
-== Wiederholungen
+. {m,n}
+. +
+. *
+. ?
+
+== Wiederholungen I 
 //begin.rcode
 replacement  <- "##"
 x <- "B BA BAA BAAA CA"
 gsub(pattern = "BA", replacement, x)
 gsub(pattern = "BA{2,3}", replacement, x)
-gsub(pattern = "BA{1,}", replacement, x)
-gsub(pattern = "BA+", replacement, x)
-gsub(pattern = "BA{0,}", replacement, x)
-gsub(pattern = "BA*", replacement, x)
+//end.rcode
+== Wiederholungen II
+//begin.rcode
 gsub(pattern = "BA{0,1}", replacement, x)
 gsub(pattern = "BA?", replacement, x)
+//end.rcode
+== Wiederholungen III
+//begin.rcode
+gsub(pattern = "BA{1,}", replacement, x)
+gsub(pattern = "BA+", replacement, x)
+//end.rcode
+== Wiederholungen IV
+//begin.rcode
+gsub(pattern = "BA{0,}", replacement, x)
+gsub(pattern = "BA*", replacement, x)
 //end.rcode
 
 == Gruppen
 //begin.rcode
 replacement  <- "##"
-x <- "BA BABA BABABA BABABABA"
+x <- "ABA ABABA ABABABA ABABABABA"
 gsub(pattern = "(BA)", replacement, x)
 gsub(pattern = "(BA){2,3}", replacement, x)
 //end.rcode
@@ -122,26 +138,47 @@ gsub(pattern = "\\<Ha\\>", replacement, x)
 //end.rcode
 
 == Character Sets
+
+. Eigene Definitionen
+. Vorgefertigte Definitionen
+. Der Punkt
+
 //begin.rcode
-replacement  <- ""
 x <-  paste(c(letters, LETTERS," ", pi), collapse = "")
 print(x)
+replacement  <- "#"
+//end.rcode
+== Character Sets I
+//begin.rcode
 gsub(pattern = "[ .]", replacement, x)
 gsub(pattern = "[1-3]", replacement, x)
 gsub(pattern = "[^1-3]", replacement, x) ## Negative Set
+//end.rcode
 
+== Character Sets II
+//begin.rcode
 gsub(pattern = "[[:upper:]]", replacement, x)
 gsub(pattern = "[[:digit:]]", replacement, x)
 gsub(pattern = "[[:digit:][:space:]]", replacement, x)
-//begin.rcode
-
-Der Punkt
 //end.rcode
+
+== Character Sets III
+//begin.rcode
 replacement  <- "##"
 gsub(pattern = "1.", replacement, x)
 sub(pattern = "1.*", replacement, x)
 sub(pattern = ".*", replacement, x)
 //end.rcode
+
+== OR
+//begin.rcode
+mail <- readLines(file.path(".", "src", "mail.txt"))
+grep(pattern = "^From:", mail, value = TRUE)
+grep(pattern = "^Subject:", mail, value = TRUE)
+grep(pattern = "^[FS][[:alnum:]]*\\>:", mail, value = TRUE)
+grep(pattern = "^(From|Subject):", mail, value = TRUE)
+//end.rcode
+
 
 
 == A Simple String
@@ -149,17 +186,17 @@ sub(pattern = ".*", replacement, x)
 string <- "This is a (character) string."
 paste(is.vector(string), is.character(string), class(string), sep = " ## ")
 paste(length(string), nchar(string), sep = " ## ")
+pattern <- "is"
 //end.rcode
 
 == Regular Expressions for a Simple String
 //begin.rcode
-pattern <- "is"
 regexpr(pattern, string) # a vector giving start and length of the first match
-regexec(pattern, string) # the same, as a list, better for groups.
+regexec(pattern, string) # a list giving start and length of first match and groupings
+gregexpr(pattern, string) # a vector giving start and length of matches
 grep(pattern, string) # indices of elements of "string" matching "pattern"
 grep(pattern, string, value = TRUE) # the elements of "string" matching "pattern"
 grepl(pattern, string) # Do elements of "string" contain "pattern"?
-gregexpr(pattern, string) # a vector giving start and length of matches
 sub(pattern, "##", string) # replace first match of pattern in string
 gsub(pattern, "##", string) # replace all matches of pattern in string
 //end.rcode
@@ -172,17 +209,18 @@ string <- c("This is a (not too) long sentence, stored in a (character) string."
 
 paste(is.vector(string), is.character(string), class(string), sep = " ## ")
 paste(length(string), nchar(string), sep = " ## ")
+pattern <- "[[:punct:]]?\\<[[:alnum:]]*\\>[[:punct:]]?\\s\\<(th|st)[[:alnum:]]*\\>" 
+## \\s is the space class, see ?regex
 //end.rcode
 
 == Regular Expressions for a Character Vector
 //begin.rcode
-pattern <- "is"
 regexpr(pattern, string) # a vector giving start and length of the first match
-regexec(pattern, string) # the same, as a list, better for groups.
+regexec(pattern, string) # a list giving start and length of first match and groupings
+gregexpr(pattern, string) # a vector giving start and length of matches
 grep(pattern, string) # indices of elements of "string" matching "pattern"
 grep(pattern, string, value = TRUE) # the elements of "string" matching "pattern"
 grepl(pattern, string) # Do elements of "string" contain "pattern"?
-gregexpr(pattern, string) # a vector giving start and length of matches
 sub(pattern, "##", string) # replace first match of pattern in string
 gsub(pattern, "##", string) # replace all matches of pattern in string
 //end.rcode
@@ -200,25 +238,25 @@ grep(pattern, string)
 grepl(pattern, string)
 grep(pattern, string, value = TRUE)
 
-substition <- "[FOO]"
-print(new_string <- sub(pattern, substition, string))
+substitution <- "[FOO]"
+print(new_string <- sub(pattern, substitution, string))
 nchar(string)
 nchar(new_string)
 
 pattern <- "\\(.*?\\)" ## non-greedy quantifier
-print(new_string <- sub(pattern, substition, string))
+print(new_string <- sub(pattern, substitution, string))
 nchar(string)
 nchar(new_string)
 
 pattern <- "\\([^\\)]+\\)" ## lazy quantifier using negation
-print(new_string <- sub(pattern, substition, string))
+print(new_string <- sub(pattern, substitution, string))
 nchar(string)
 nchar(new_string)
 
 pattern <- "\\<[[:alnum:]]*\\>"
-substition <- "[HERE WAS THE FIRST WORD]"
+substitution <- "[HERE WAS THE FIRST WORD]"
 regexpr(pattern, string) 
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 //end.rcode
 
 == R&uuml;ckverweise
@@ -226,28 +264,28 @@ sub(pattern, substition, string)
 !FIXME
 //begin.rcode
 pattern <- "(\\<a\\>)"
-substition <- "\\1[INJECTED TEXT]"
+substitution <- "\\1[INJECTED TEXT]"
 regexpr(pattern, string) 
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 gregexpr(pattern, string) 
-gsub(pattern, substition, string)
+gsub(pattern, substitution, string)
 
 pattern <- "^([[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?)\\<[[:alnum:]_]*\\>"
-substition <- "\\1[HERE WAS THE SECOND WORD]"
+substitution <- "\\1[HERE WAS THE SECOND WORD]"
 regexpr(pattern, string) 
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 
 
 # grouping without backreference
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>"
-substition <- "\\1[HERE WAS THE FOURTH WORD]"
+substitution <- "\\1[HERE WAS THE FOURTH WORD]"
 regexpr(pattern, string) 
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>(.*)$"
-substition <- "\\1[HERE WAS THE FOURTH WORD]\\2"
+substitution <- "\\1[HERE WAS THE FOURTH WORD]\\2"
 regexpr(pattern, string) 
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 
 gsub("(?:\\(.*?\\)|long)[[:space:]]", "", string)
 gsub("(?:\\(.*?\\)|long)\\  *", "", string)

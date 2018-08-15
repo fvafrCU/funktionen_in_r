@@ -99,8 +99,15 @@ is_probably_valid_email <- function(string) {
 }
 ----
 
+ 
+== Wiederholungen 
 
-== Wiederholungen
+. {m,n}
+. +
+. *
+. ?
+
+== Wiederholungen I 
 
 [source,r]
 ----
@@ -122,41 +129,7 @@ gsub(pattern = "BA{2,3}", replacement, x)
 ## [1] "B BA ## ## CA"
 ----
 
-[source,r]
-----
-gsub(pattern = "BA{1,}", replacement, x)
-----
-
-----
-## [1] "B ## ## ## CA"
-----
-
-[source,r]
-----
-gsub(pattern = "BA+", replacement, x)
-----
-
-----
-## [1] "B ## ## ## CA"
-----
-
-[source,r]
-----
-gsub(pattern = "BA{0,}", replacement, x)
-----
-
-----
-## [1] "## ## ## ## CA"
-----
-
-[source,r]
-----
-gsub(pattern = "BA*", replacement, x)
-----
-
-----
-## [1] "## ## ## ## CA"
-----
+== Wiederholungen II
 
 [source,r]
 ----
@@ -176,18 +149,58 @@ gsub(pattern = "BA?", replacement, x)
 ## [1] "## ## ##A ##AA CA"
 ----
 
+== Wiederholungen III
+
+[source,r]
+----
+gsub(pattern = "BA{1,}", replacement, x)
+----
+
+----
+## [1] "B ## ## ## CA"
+----
+
+[source,r]
+----
+gsub(pattern = "BA+", replacement, x)
+----
+
+----
+## [1] "B ## ## ## CA"
+----
+
+== Wiederholungen IV
+
+[source,r]
+----
+gsub(pattern = "BA{0,}", replacement, x)
+----
+
+----
+## [1] "## ## ## ## CA"
+----
+
+[source,r]
+----
+gsub(pattern = "BA*", replacement, x)
+----
+
+----
+## [1] "## ## ## ## CA"
+----
+
 
 == Gruppen
 
 [source,r]
 ----
 replacement  <- "##"
-x <- "BA BABA BABABA BABABABA"
+x <- "ABA ABABA ABABABA ABABABABA"
 gsub(pattern = "(BA)", replacement, x)
 ----
 
 ----
-## [1] "## #### ###### ########"
+## [1] "A## A#### A###### A########"
 ----
 
 [source,r]
@@ -196,7 +209,7 @@ gsub(pattern = "(BA){2,3}", replacement, x)
 ----
 
 ----
-## [1] "BA ## ## ##BA"
+## [1] "ABA A## A## A##BA"
 ----
 
 == Anker
@@ -233,9 +246,13 @@ gsub(pattern = "\\<Ha\\>", replacement, x)
 
 == Character Sets
 
+. Eigene Definitionen
+. Vorgefertigte Definitionen
+. Der Punkt
+
+
 [source,r]
 ----
-replacement  <- ""
 x <-  paste(c(letters, LETTERS," ", pi), collapse = "")
 print(x)
 ----
@@ -246,11 +263,18 @@ print(x)
 
 [source,r]
 ----
+replacement  <- "#"
+----
+
+== Character Sets I
+
+[source,r]
+----
 gsub(pattern = "[ .]", replacement, x)
 ----
 
 ----
-## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ314159265358979"
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#3#14159265358979"
 ----
 
 [source,r]
@@ -259,7 +283,7 @@ gsub(pattern = "[1-3]", replacement, x)
 ----
 
 ----
-## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .4596558979"
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ #.#4#59#65#58979"
 ----
 
 [source,r]
@@ -268,8 +292,11 @@ gsub(pattern = "[^1-3]", replacement, x) ## Negative Set
 ----
 
 ----
-## [1] "31123"
+## [1] "#####################################################3#1#1##2##3#####"
 ----
+
+
+== Character Sets II
 
 [source,r]
 ----
@@ -277,7 +304,7 @@ gsub(pattern = "[[:upper:]]", replacement, x)
 ----
 
 ----
-## [1] "abcdefghijklmnopqrstuvwxyz 3.14159265358979"
+## [1] "abcdefghijklmnopqrstuvwxyz########################## 3.14159265358979"
 ----
 
 [source,r]
@@ -286,7 +313,7 @@ gsub(pattern = "[[:digit:]]", replacement, x)
 ----
 
 ----
-## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ."
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ #.##############"
 ----
 
 [source,r]
@@ -295,30 +322,84 @@ gsub(pattern = "[[:digit:][:space:]]", replacement, x)
 ----
 
 ----
-## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ##.##############"
 ----
 
+
+== Character Sets III
 
 [source,r]
 ----
-
-Der Punkt
-----
-
-[source,r]
-----
-## Error: <text>:2:5: unexpected symbol
-## 1: 
-## 2: Der Punkt
-##        ^
-
-----
-
 replacement  <- "##"
 gsub(pattern = "1.", replacement, x)
+----
+
+----
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 3.####9265358979"
+----
+
+[source,r]
+----
 sub(pattern = "1.*", replacement, x)
+----
+
+----
+## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 3.##"
+----
+
+[source,r]
+----
 sub(pattern = ".*", replacement, x)
-//end.rcode
+----
+
+----
+## [1] "##"
+----
+
+
+== OR
+
+[source,r]
+----
+mail <- readLines(file.path(".", "src", "mail.txt"))
+grep(pattern = "^From:", mail, value = TRUE)
+----
+
+----
+## [1] "From: Stefan Widgren <stefan.widgren@gmail.com>"
+----
+
+[source,r]
+----
+grep(pattern = "^Subject:", mail, value = TRUE)
+----
+
+----
+## [1] "Subject: Next git2r release"
+----
+
+[source,r]
+----
+grep(pattern = "^[FS][[:alnum:]]*\\>:", mail, value = TRUE)
+----
+
+----
+## [1] "From: Stefan Widgren <stefan.widgren@gmail.com>"
+## [2] "Subject: Next git2r release"                    
+## [3] "Status: RO"
+----
+
+[source,r]
+----
+grep(pattern = "^(From|Subject):", mail, value = TRUE)
+----
+
+----
+## [1] "From: Stefan Widgren <stefan.widgren@gmail.com>"
+## [2] "Subject: Next git2r release"
+----
+
+
 
 
 == A Simple String
@@ -342,12 +423,16 @@ paste(length(string), nchar(string), sep = " ## ")
 ## [1] "1 ## 29"
 ----
 
+[source,r]
+----
+pattern <- "is"
+----
+
 
 == Regular Expressions for a Simple String
 
 [source,r]
 ----
-pattern <- "is"
 regexpr(pattern, string) # a vector giving start and length of the first match
 ----
 
@@ -369,6 +454,20 @@ regexec(pattern, string) # the same, as a list, better for groups.
 ## [1] 3
 ## attr(,"match.length")
 ## [1] 2
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+gregexpr(pattern, string) # a vector giving start and length of matches
+----
+
+----
+## [[1]]
+## [1] 3 6
+## attr(,"match.length")
+## [1] 2 2
 ## attr(,"useBytes")
 ## [1] TRUE
 ----
@@ -397,20 +496,6 @@ grepl(pattern, string) # Do elements of "string" contain "pattern"?
 ----
 
 ----
-## [1] TRUE
-----
-
-[source,r]
-----
-gregexpr(pattern, string) # a vector giving start and length of matches
-----
-
-----
-## [[1]]
-## [1] 3 6
-## attr(,"match.length")
-## [1] 2 2
-## attr(,"useBytes")
 ## [1] TRUE
 ----
 
@@ -457,19 +542,24 @@ paste(length(string), nchar(string), sep = " ## ")
 ## [1] "3 ## 66" "3 ## 61" "3 ## 34"
 ----
 
+[source,r]
+----
+pattern <- "[[:punct:]]?\\<[[:alnum:]]*\\>[[:punct:]]?\\s\\<(th|st)[[:alnum:]]*\\>" 
+## \\s is the space class, see ?regex
+----
+
 
 == Regular Expressions for a Character Vector
 
 [source,r]
 ----
-pattern <- "is"
 regexpr(pattern, string) # a vector giving start and length of the first match
 ----
 
 ----
-## [1]  3 10  7
+## [1] 26 13  1
 ## attr(,"match.length")
-## [1] 2 2 2
+## [1] 16 17  8
 ## attr(,"useBytes")
 ## [1] TRUE
 ----
@@ -481,23 +571,51 @@ regexec(pattern, string) # the same, as a list, better for groups.
 
 ----
 ## [[1]]
-## [1] 3
+## [1] 26 36
 ## attr(,"match.length")
-## [1] 2
+## [1] 16  2
 ## attr(,"useBytes")
 ## [1] TRUE
 ## 
 ## [[2]]
-## [1] 10
+## [1] 13 24
 ## attr(,"match.length")
-## [1] 2
+## [1] 17  2
 ## attr(,"useBytes")
 ## [1] TRUE
 ## 
 ## [[3]]
-## [1] 7
+## [1] 1 5
 ## attr(,"match.length")
-## [1] 2
+## [1] 8 2
+## attr(,"useBytes")
+## [1] TRUE
+----
+
+[source,r]
+----
+gregexpr(pattern, string) # a vector giving start and length of matches
+----
+
+----
+## [[1]]
+## [1] 26 48
+## attr(,"match.length")
+## [1] 16 18
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[2]]
+## [1] 13
+## attr(,"match.length")
+## [1] 17
+## attr(,"useBytes")
+## [1] TRUE
+## 
+## [[3]]
+## [1] 1
+## attr(,"match.length")
+## [1] 8
 ## attr(,"useBytes")
 ## [1] TRUE
 ----
@@ -533,41 +651,13 @@ grepl(pattern, string) # Do elements of "string" contain "pattern"?
 
 [source,r]
 ----
-gregexpr(pattern, string) # a vector giving start and length of matches
-----
-
-----
-## [[1]]
-## [1] 3 6
-## attr(,"match.length")
-## [1] 2 2
-## attr(,"useBytes")
-## [1] TRUE
-## 
-## [[2]]
-## [1] 10
-## attr(,"match.length")
-## [1] 2
-## attr(,"useBytes")
-## [1] TRUE
-## 
-## [[3]]
-## [1]  7 10
-## attr(,"match.length")
-## [1] 2 2
-## attr(,"useBytes")
-## [1] TRUE
-----
-
-[source,r]
-----
 sub(pattern, "##", string) # replace first match of pattern in string
 ----
 
 ----
-## [1] "Th## is a (not too) long sentence, stored in a (character) string."
-## [2] "Well, it ## (actually) stored in a vector of class character."     
-## [3] "And th## is not a single sentence."
+## [1] "This is a (not too) long ## in a (character) string."
+## [2] "Well, it is ## in a vector of class character."      
+## [3] "## is not a single sentence."
 ----
 
 [source,r]
@@ -576,9 +666,9 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 ----
 
 ----
-## [1] "Th## ## a (not too) long sentence, stored in a (character) string."
-## [2] "Well, it ## (actually) stored in a vector of class character."     
-## [3] "And th## ## not a single sentence."
+## [1] "This is a (not too) long ## in a ##."          
+## [2] "Well, it is ## in a vector of class character."
+## [3] "## is not a single sentence."
 ----
 
 
@@ -659,8 +749,8 @@ grep(pattern, string, value = TRUE)
 
 [source,r]
 ----
-substition <- "[FOO]"
-print(new_string <- sub(pattern, substition, string))
+substitution <- "[FOO]"
+print(new_string <- sub(pattern, substitution, string))
 ----
 
 ----
@@ -690,7 +780,7 @@ nchar(new_string)
 [source,r]
 ----
 pattern <- "\\(.*?\\)" ## non-greedy quantifier
-print(new_string <- sub(pattern, substition, string))
+print(new_string <- sub(pattern, substitution, string))
 ----
 
 ----
@@ -720,7 +810,7 @@ nchar(new_string)
 [source,r]
 ----
 pattern <- "\\([^\\)]+\\)" ## lazy quantifier using negation
-print(new_string <- sub(pattern, substition, string))
+print(new_string <- sub(pattern, substitution, string))
 ----
 
 ----
@@ -750,7 +840,7 @@ nchar(new_string)
 [source,r]
 ----
 pattern <- "\\<[[:alnum:]]*\\>"
-substition <- "[HERE WAS THE FIRST WORD]"
+substitution <- "[HERE WAS THE FIRST WORD]"
 regexpr(pattern, string) 
 ----
 
@@ -764,7 +854,7 @@ regexpr(pattern, string)
 
 [source,r]
 ----
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 ----
 
 ----
@@ -781,7 +871,7 @@ sub(pattern, substition, string)
 [source,r]
 ----
 pattern <- "(\\<a\\>)"
-substition <- "\\1[INJECTED TEXT]"
+substitution <- "\\1[INJECTED TEXT]"
 regexpr(pattern, string) 
 ----
 
@@ -795,7 +885,7 @@ regexpr(pattern, string)
 
 [source,r]
 ----
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 ----
 
 ----
@@ -834,7 +924,7 @@ gregexpr(pattern, string)
 
 [source,r]
 ----
-gsub(pattern, substition, string)
+gsub(pattern, substitution, string)
 ----
 
 ----
@@ -846,7 +936,7 @@ gsub(pattern, substition, string)
 [source,r]
 ----
 pattern <- "^([[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?)\\<[[:alnum:]_]*\\>"
-substition <- "\\1[HERE WAS THE SECOND WORD]"
+substitution <- "\\1[HERE WAS THE SECOND WORD]"
 regexpr(pattern, string) 
 ----
 
@@ -860,7 +950,7 @@ regexpr(pattern, string)
 
 [source,r]
 ----
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 ----
 
 ----
@@ -873,7 +963,7 @@ sub(pattern, substition, string)
 ----
 # grouping without backreference
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>"
-substition <- "\\1[HERE WAS THE FOURTH WORD]"
+substitution <- "\\1[HERE WAS THE FOURTH WORD]"
 regexpr(pattern, string) 
 ----
 
@@ -887,7 +977,7 @@ regexpr(pattern, string)
 
 [source,r]
 ----
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 ----
 
 ----
@@ -899,7 +989,7 @@ sub(pattern, substition, string)
 [source,r]
 ----
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>(.*)$"
-substition <- "\\1[HERE WAS THE FOURTH WORD]\\2"
+substitution <- "\\1[HERE WAS THE FOURTH WORD]\\2"
 regexpr(pattern, string) 
 ----
 
@@ -913,7 +1003,7 @@ regexpr(pattern, string)
 
 [source,r]
 ----
-sub(pattern, substition, string)
+sub(pattern, substitution, string)
 ----
 
 ----
@@ -970,7 +1060,7 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/Rtmp3Edt3k/foo/iris.csv"   "/tmp/Rtmp3Edt3k/foo/mtcars.csv"
+## [1] "/tmp/Rtmp1g8fPO/foo/iris.csv"   "/tmp/Rtmp1g8fPO/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -984,10 +1074,10 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/Rtmp3Edt3k/foo/iris_german.csv"  
-## [2] "/tmp/Rtmp3Edt3k/foo/iris.csv"         
-## [3] "/tmp/Rtmp3Edt3k/foo/mtcars_german.csv"
-## [4] "/tmp/Rtmp3Edt3k/foo/mtcars.csv"
+## [1] "/tmp/Rtmp1g8fPO/foo/iris_german.csv"  
+## [2] "/tmp/Rtmp1g8fPO/foo/iris.csv"         
+## [3] "/tmp/Rtmp1g8fPO/foo/mtcars_german.csv"
+## [4] "/tmp/Rtmp1g8fPO/foo/mtcars.csv"
 ----
 
 [source,r]
