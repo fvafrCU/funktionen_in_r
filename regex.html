@@ -3859,21 +3859,21 @@ R (?base::regex)
 <ul class="">
 <li>
 <span>
-The TRE documentation at &lt;URL:
-          <a href="http://laurikari.net/tre/documentation/regex-syntax/&gt">http://laurikari.net/tre/documentation/regex-syntax/&gt</a>;).
+The TRE documentation at
+          <a href="http://laurikari.net/tre/documentation/regex-syntax/">http://laurikari.net/tre/documentation/regex-syntax/</a>
 </span>
 </li>
 <li>
 <span>
-The POSIX 1003.2 standard at &lt;URL:
-          <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html&gt">http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html&gt</a>;
+The POSIX 1003.2 standard at
+          <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html">http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html</a>
 </span>
 </li>
 <li>
 <span>
-The ‘pcrepattern’ ‘man’ page (found as part of &lt;URL:
-          <a href="http://www.pcre.org/original/pcre.txt&gt">http://www.pcre.org/original/pcre.txt&gt</a>;), and details of Perl’s own
-          implementation at &lt;URL: <a href="http://perldoc.perl.org/perlre.html&gt">http://perldoc.perl.org/perlre.html&gt</a>;.
+The ‘pcrepattern’ ‘man’ page (found as part of
+          <a href="http://www.pcre.org/original/pcre.txt">http://www.pcre.org/original/pcre.txt</a>), and details of Perl’s own
+          implementation at <a href="http://perldoc.perl.org/perlre.html">http://perldoc.perl.org/perlre.html</a>.
 </span>
 </li>
 </ul>
@@ -4704,7 +4704,6 @@ print(new_string &lt;- gsub(pattern, substitution, string))</tt></pre></div></di
 <div class="sect1 slide">
 <h1 id="_r_uuml_ckverweise">R&uuml;ckverweise</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>!FIXME</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4766,67 +4765,152 @@ sub(pattern, substitution, string)</tt></pre></div></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_dateipfade">Dateipfade</h1>
+<h1 id="_dateipfade_i">Dateipfade I</h1>
 <div class="sectionbody">
-<div class="paragraph"><p>!FIXME</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900"># Anwendung mit Dateipfaden</span></span>
-
 <span style="font-style: italic"><span style="color: #9A1900">## Dateien bereitstellen</span></span>
 rm(list= ls())
 path &lt;- file.path(tempdir(), <span style="color: #FF0000">"foo"</span>)
 unlink(path, recursive = TRUE)
 dir.create(path)
 <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (name in c(<span style="color: #FF0000">"mtcars"</span>, <span style="color: #FF0000">"iris"</span>)) {
-    file_name &lt;- paste0(name, <span style="color: #FF0000">".csv"</span>)
-    write.csv(get(name), file = file.path(path, file_name))
-}
-
-
-
-<span style="font-style: italic"><span style="color: #9A1900">## Dateien lesen und wieder schreiben als deutsches CSV</span></span>
-print(files &lt;- list.files(path, full.names = TRUE))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] "/tmp/RtmpS7dsOP/foo/iris.csv"   "/tmp/RtmpS7dsOP/foo/mtcars.csv"</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (file in files) {
-    file_name &lt;- basename(file)
-    new_file &lt;- sub(<span style="color: #FF0000">"(.*)(</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.csv)"</span>, <span style="color: #FF0000">"</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">1_german</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">2"</span>, file)
-    write.csv2(read.csv(file), file = new_file)
+    write.csv(get(name), file = file.path(path,  paste0(name, <span style="color: #FF0000">".csv"</span>)))
+    write.table(get(name), file = file.path(path, paste0(name, <span style="color: #FF0000">".txt"</span>)))
 }
 print(list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpS7dsOP/foo/iris_german.csv"
-## [2] "/tmp/RtmpS7dsOP/foo/iris.csv"
-## [3] "/tmp/RtmpS7dsOP/foo/mtcars_german.csv"
-## [4] "/tmp/RtmpS7dsOP/foo/mtcars.csv"</code></pre>
+<pre><code>## [1] "/tmp/RtmpIxnrFP/foo/iris.csv"   "/tmp/RtmpIxnrFP/foo/iris.txt"
+## [3] "/tmp/RtmpIxnrFP/foo/mtcars.csv" "/tmp/RtmpIxnrFP/foo/mtcars.txt"</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_dateipfade_ii">Dateipfade II</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Dateien in noch nicht existente Verzeichnisse verschieben</span></span>
-<span style="font-style: italic"><span style="color: #9A1900"># Das hat aber nichts mit regex zu tun.</span></span>
-path &lt;- file.path(tempdir(), <span style="color: #FF0000">"bar"</span>, <span style="color: #FF0000">"foobar"</span>)
-unlink(path, recursive = TRUE)
-file_rename &lt;- function(from, to) {
-    root &lt;- dirname(to)
-    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (! dir.exists(root)) dir.create(root, recursive = TRUE)
-    return(file.rename(from, to))
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Dateien lesen und wieder schreiben als deutsches CSV</span></span>
+csv_files &lt;- list.files(path, pattern = <span style="color: #FF0000">"^.*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.csv$"</span>, full.names = TRUE)
+<span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (file in csv_files) {
+    file_name &lt;- basename(file)
+    new_file &lt;- sub(<span style="color: #FF0000">"(.*)(</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.csv)"</span>, <span style="color: #FF0000">"</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">1_german</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">2"</span>, file)
+    write.csv2(read.csv(file), file = new_file)
 }
-file_rename(file, file.path(path, basename(file)))</tt></pre></div></div>
+print(files &lt;- list.files(path, full.names = TRUE))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "/tmp/RtmpIxnrFP/foo/iris_german.csv"
+## [2] "/tmp/RtmpIxnrFP/foo/iris.csv"
+## [3] "/tmp/RtmpIxnrFP/foo/iris.txt"
+## [4] "/tmp/RtmpIxnrFP/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpIxnrFP/foo/mtcars.csv"
+## [6] "/tmp/RtmpIxnrFP/foo/mtcars.txt"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_dateipfade_iii">Dateipfade III</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## i-te Zeile testweise lesen</span></span>
+i &lt;- 4
+print(rbind(readLines(grep(<span style="color: #FF0000">"iris.csv"</span>, files, value = TRUE))[i],
+            readLines(grep(<span style="color: #FF0000">"iris_german.csv"</span>, files, value = TRUE))[i]))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##      [,1]
+## [1,] "\"3\",4.7,3.2,1.3,0.2,\"setosa\""
+## [2,] "\"3\";3;4,7;3,2;1,3;0,2;\"setosa\""</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_camelcase_i">camelCase I</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>code_file &lt;- file.path(tempdir(), <span style="color: #FF0000">"code.R"</span>)
+code &lt;- <span style="color: #FF0000">"fileRename &lt;- function(from, to) {</span>
+<span style="color: #FF0000">rootDirectory &lt;- dirname(to)</span>
+<span style="color: #FF0000">if (! dir.exists(rootDirectory)) dir.create(rootDirectory, recursive = TRUE)</span>
+<span style="color: #FF0000">return(file.rename(from, to))</span>
+<span style="color: #FF0000">}</span>
+<span style="color: #FF0000">"</span>
+
+cat(code, file = code_file)
+print(readLines(code_file))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "fileRename &lt;- function(from, to) {"
+## [2] "rootDirectory &lt;- dirname(to)"
+## [3] "if (! dir.exists(rootDirectory)) dir.create(rootDirectory, recursive = TRUE)"
+## [4] "return(file.rename(from, to))"
+## [5] "}"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_camelcase_ii">camelCase II</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>code &lt;- readLines(code_file)
+warning(<span style="color: #FF0000">"This will blow calls to foreign camelCase such as utils::sessionInfo()!"</span>)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## Warning: This will blow calls to foreign camelCase such as</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">## utils::sessionInfo()!</span></span>
+</tt></pre></div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>code &lt;- gsub(<span style="color: #FF0000">"([A-Z][a-z])"</span>, <span style="color: #FF0000">"_</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">L</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">1"</span>, code, perl = TRUE)
+writeLines(code, code_file)
+print(readLines(code_file))</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>## [1] "file_rename &lt;- function(from, to) {"
+## [2] "root_directory &lt;- dirname(to)"
+## [3] "if (! dir.exists(root_directory)) dir.create(root_directory, recursive = TRUE)"
+## [4] "return(file.rename(from, to))"
+## [5] "}"</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_camelcase_iii">camelCase III</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>eval(parse(text = code))
+file_rename(from = files[1], to = file.path(tempdir(), <span style="color: #FF0000">"some_dir"</span>, basename(files[1])))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] TRUE</code></pre>
@@ -4836,40 +4920,10 @@ file_rename(file, file.path(path, basename(file)))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># Anwendung camelCase -- mit Perl regex</span></span>
-code_file &lt;- file.path(tempdir(), <span style="color: #FF0000">"code.R"</span>)
-code &lt;- <span style="color: #FF0000">"fileRename &lt;- function(from, to) {</span>
-<span style="color: #FF0000">root &lt;- dirname(to)</span>
-<span style="color: #FF0000">if (! dir.exists(root)) dir.create(root, recursive = TRUE)</span>
-<span style="color: #FF0000">return(file.rename(from, to))</span>
-<span style="color: #FF0000">}</span>
-<span style="color: #FF0000">"</span>
-cat(code, file = code_file)
-print(readLines(code_file))</tt></pre></div></div>
+<pre><tt>list.files(file.path(tempdir(), <span style="color: #FF0000">"some_dir"</span>))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "fileRename &lt;- function(from, to) {"
-## [2] "root &lt;- dirname(to)"
-## [3] "if (! dir.exists(root)) dir.create(root, recursive = TRUE)"
-## [4] "return(file.rename(from, to))"
-## [5] "}"</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>code &lt;- readLines(code_file)
-code &lt;- gsub(<span style="color: #FF0000">"([A-Z])[a-z]"</span>, <span style="color: #FF0000">"_</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">L</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">1"</span>, code, perl = TRUE)
-writeLines(code, code_file)
-print(readLines(code_file))</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] "file_rname &lt;- function(from, to) {"
-## [2] "root &lt;- dirname(to)"
-## [3] "if (! dir.exists(root)) dir.create(root, recursive = TRUE)"
-## [4] "return(file.rename(from, to))"
-## [5] "}"</code></pre>
+<pre><code>## [1] "iris_german.csv"</code></pre>
 </div></div>
 </div>
 </div>

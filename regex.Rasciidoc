@@ -13,15 +13,15 @@ Dominik Cullmann
 
 -  R (?base::regex)
 
-    *     The TRE documentation at <URL:
-          http://laurikari.net/tre/documentation/regex-syntax/>).
+    *     The TRE documentation at 
+          http://laurikari.net/tre/documentation/regex-syntax/
     
-    *     The POSIX 1003.2 standard at <URL:
-          http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html>
+    *     The POSIX 1003.2 standard at 
+          http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
    
-    *     The ‘pcrepattern’ ‘man’ page (found as part of <URL:
-          http://www.pcre.org/original/pcre.txt>), and details of Perl’s own
-          implementation at <URL: http://perldoc.perl.org/perlre.html>.
+    *     The ‘pcrepattern’ ‘man’ page (found as part of 
+          http://www.pcre.org/original/pcre.txt), and details of Perl’s own
+          implementation at http://perldoc.perl.org/perlre.html.
 
 
 //begin.rcode, echo  = FALSE
@@ -243,7 +243,6 @@ print(new_string <- gsub(pattern, substitution, string))
 
 == R&uuml;ckverweise
 
-!FIXME
 //begin.rcode
 pattern <- "(\\<a\\>)"
 substitution <- "\\1[INJECTED TEXT]"
@@ -267,62 +266,70 @@ sub(pattern, substitution, string)
 
 //end.rcode
 
-== Dateipfade
-
-!FIXME
+== Dateipfade I
 //begin.rcode
-
 # Anwendung mit Dateipfaden
-
 ## Dateien bereitstellen
 rm(list= ls())
 path <- file.path(tempdir(), "foo")
 unlink(path, recursive = TRUE)
 dir.create(path)
 for (name in c("mtcars", "iris")) {
-    file_name <- paste0(name, ".csv")
-    write.csv(get(name), file = file.path(path, file_name))
+    write.csv(get(name), file = file.path(path,  paste0(name, ".csv")))
+    write.table(get(name), file = file.path(path, paste0(name, ".txt")))
 }
+print(list.files(path, full.names = TRUE))
+//end.rcode
 
-
-
+== Dateipfade II
+//begin.rcode
 ## Dateien lesen und wieder schreiben als deutsches CSV
-print(files <- list.files(path, full.names = TRUE))
-
-for (file in files) {
+csv_files <- list.files(path, pattern = "^.*\\.csv$", full.names = TRUE)
+for (file in csv_files) {
     file_name <- basename(file)
     new_file <- sub("(.*)(\\.csv)", "\\1_german\\2", file)
     write.csv2(read.csv(file), file = new_file)
 }
-print(list.files(path, full.names = TRUE))
+print(files <- list.files(path, full.names = TRUE))
+//end.rcode
 
-## Dateien in noch nicht existente Verzeichnisse verschieben
-# Das hat aber nichts mit regex zu tun.
-path <- file.path(tempdir(), "bar", "foobar")
-unlink(path, recursive = TRUE)
-file_rename <- function(from, to) {
-    root <- dirname(to)
-    if (! dir.exists(root)) dir.create(root, recursive = TRUE)
-    return(file.rename(from, to))
-}
-file_rename(file, file.path(path, basename(file)))
+== Dateipfade III
+//begin.rcode
+## i-te Zeile testweise lesen
+i <- 4
+print(rbind(readLines(grep("iris.csv", files, value = TRUE))[i],
+            readLines(grep("iris_german.csv", files, value = TRUE))[i]))
+//end.rcode
 
-# Anwendung camelCase -- mit Perl regex
+== camelCase I
+//begin.rcode
 code_file <- file.path(tempdir(), "code.R")
 code <- "fileRename <- function(from, to) {
-root <- dirname(to)
-if (! dir.exists(root)) dir.create(root, recursive = TRUE)
+rootDirectory <- dirname(to)
+if (! dir.exists(rootDirectory)) dir.create(rootDirectory, recursive = TRUE)
 return(file.rename(from, to))
 }
 "
+
 cat(code, file = code_file)
 print(readLines(code_file))
+//end.rcode
 
+== camelCase II
+//begin.rcode
 code <- readLines(code_file)
-code <- gsub("([A-Z])[a-z]", "_\\L\\1", code, perl = TRUE)
+warning("This will blow calls to foreign camelCase such as utils::sessionInfo()!")
+code <- gsub("([A-Z][a-z])", "_\\L\\1", code, perl = TRUE)
 writeLines(code, code_file)
 print(readLines(code_file))
+//end.rcode
 
+== camelCase III
+//begin.rcode
+
+eval(parse(text = code))
+file_rename(from = files[1], to = file.path(tempdir(), "some_dir", basename(files[1])))
+list.files(file.path(tempdir(), "some_dir"))
 
 //end.rcode
 == Regex in R

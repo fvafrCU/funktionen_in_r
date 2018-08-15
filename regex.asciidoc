@@ -13,15 +13,15 @@ Dominik Cullmann
 
 -  R (?base::regex)
 
-    *     The TRE documentation at <URL:
-          http://laurikari.net/tre/documentation/regex-syntax/>).
+    *     The TRE documentation at 
+          http://laurikari.net/tre/documentation/regex-syntax/
     
-    *     The POSIX 1003.2 standard at <URL:
-          http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html>
+    *     The POSIX 1003.2 standard at 
+          http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
    
-    *     The ‘pcrepattern’ ‘man’ page (found as part of <URL:
-          http://www.pcre.org/original/pcre.txt>), and details of Perl’s own
-          implementation at <URL: http://perldoc.perl.org/perlre.html>.
+    *     The ‘pcrepattern’ ‘man’ page (found as part of 
+          http://www.pcre.org/original/pcre.txt), and details of Perl’s own
+          implementation at http://perldoc.perl.org/perlre.html.
 
 
 
@@ -715,7 +715,6 @@ print(new_string <- gsub(pattern, substitution, string))
 
 == R&uuml;ckverweise
 
-!FIXME
 
 [source,r]
 ----
@@ -772,63 +771,132 @@ sub(pattern, substitution, string)
 ----
 
 
-== Dateipfade
-
-!FIXME
+== Dateipfade I
 
 [source,r]
 ----
 # Anwendung mit Dateipfaden
-
 ## Dateien bereitstellen
 rm(list= ls())
 path <- file.path(tempdir(), "foo")
 unlink(path, recursive = TRUE)
 dir.create(path)
 for (name in c("mtcars", "iris")) {
-    file_name <- paste0(name, ".csv")
-    write.csv(get(name), file = file.path(path, file_name))
-}
-
-
-
-## Dateien lesen und wieder schreiben als deutsches CSV
-print(files <- list.files(path, full.names = TRUE))
-----
-
-----
-## [1] "/tmp/RtmpS7dsOP/foo/iris.csv"   "/tmp/RtmpS7dsOP/foo/mtcars.csv"
-----
-
-[source,r]
-----
-for (file in files) {
-    file_name <- basename(file)
-    new_file <- sub("(.*)(\\.csv)", "\\1_german\\2", file)
-    write.csv2(read.csv(file), file = new_file)
+    write.csv(get(name), file = file.path(path,  paste0(name, ".csv")))
+    write.table(get(name), file = file.path(path, paste0(name, ".txt")))
 }
 print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpS7dsOP/foo/iris_german.csv"  
-## [2] "/tmp/RtmpS7dsOP/foo/iris.csv"         
-## [3] "/tmp/RtmpS7dsOP/foo/mtcars_german.csv"
-## [4] "/tmp/RtmpS7dsOP/foo/mtcars.csv"
+## [1] "/tmp/RtmpIxnrFP/foo/iris.csv"   "/tmp/RtmpIxnrFP/foo/iris.txt"  
+## [3] "/tmp/RtmpIxnrFP/foo/mtcars.csv" "/tmp/RtmpIxnrFP/foo/mtcars.txt"
+----
+
+
+== Dateipfade II
+
+[source,r]
+----
+## Dateien lesen und wieder schreiben als deutsches CSV
+csv_files <- list.files(path, pattern = "^.*\\.csv$", full.names = TRUE)
+for (file in csv_files) {
+    file_name <- basename(file)
+    new_file <- sub("(.*)(\\.csv)", "\\1_german\\2", file)
+    write.csv2(read.csv(file), file = new_file)
+}
+print(files <- list.files(path, full.names = TRUE))
+----
+
+----
+## [1] "/tmp/RtmpIxnrFP/foo/iris_german.csv"  
+## [2] "/tmp/RtmpIxnrFP/foo/iris.csv"         
+## [3] "/tmp/RtmpIxnrFP/foo/iris.txt"         
+## [4] "/tmp/RtmpIxnrFP/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpIxnrFP/foo/mtcars.csv"       
+## [6] "/tmp/RtmpIxnrFP/foo/mtcars.txt"
+----
+
+
+== Dateipfade III
+
+[source,r]
+----
+## i-te Zeile testweise lesen
+i <- 4
+print(rbind(readLines(grep("iris.csv", files, value = TRUE))[i],
+            readLines(grep("iris_german.csv", files, value = TRUE))[i]))
+----
+
+----
+##      [,1]                                
+## [1,] "\"3\",4.7,3.2,1.3,0.2,\"setosa\""  
+## [2,] "\"3\";3;4,7;3,2;1,3;0,2;\"setosa\""
+----
+
+
+== camelCase I
+
+[source,r]
+----
+code_file <- file.path(tempdir(), "code.R")
+code <- "fileRename <- function(from, to) {
+rootDirectory <- dirname(to)
+if (! dir.exists(rootDirectory)) dir.create(rootDirectory, recursive = TRUE)
+return(file.rename(from, to))
+}
+"
+
+cat(code, file = code_file)
+print(readLines(code_file))
+----
+
+----
+## [1] "fileRename <- function(from, to) {"                                          
+## [2] "rootDirectory <- dirname(to)"                                                
+## [3] "if (! dir.exists(rootDirectory)) dir.create(rootDirectory, recursive = TRUE)"
+## [4] "return(file.rename(from, to))"                                               
+## [5] "}"
+----
+
+
+== camelCase II
+
+[source,r]
+----
+code <- readLines(code_file)
+warning("This will blow calls to foreign camelCase such as utils::sessionInfo()!")
 ----
 
 [source,r]
 ----
-## Dateien in noch nicht existente Verzeichnisse verschieben
-# Das hat aber nichts mit regex zu tun.
-path <- file.path(tempdir(), "bar", "foobar")
-unlink(path, recursive = TRUE)
-file_rename <- function(from, to) {
-    root <- dirname(to)
-    if (! dir.exists(root)) dir.create(root, recursive = TRUE)
-    return(file.rename(from, to))
-}
-file_rename(file, file.path(path, basename(file)))
+## Warning: This will blow calls to foreign camelCase such as
+## utils::sessionInfo()!
+
+----
+
+[source,r]
+----
+code <- gsub("([A-Z][a-z])", "_\\L\\1", code, perl = TRUE)
+writeLines(code, code_file)
+print(readLines(code_file))
+----
+
+----
+## [1] "file_rename <- function(from, to) {"                                           
+## [2] "root_directory <- dirname(to)"                                                 
+## [3] "if (! dir.exists(root_directory)) dir.create(root_directory, recursive = TRUE)"
+## [4] "return(file.rename(from, to))"                                                 
+## [5] "}"
+----
+
+
+== camelCase III
+
+[source,r]
+----
+eval(parse(text = code))
+file_rename(from = files[1], to = file.path(tempdir(), "some_dir", basename(files[1])))
 ----
 
 ----
@@ -837,40 +905,11 @@ file_rename(file, file.path(path, basename(file)))
 
 [source,r]
 ----
-# Anwendung camelCase -- mit Perl regex
-code_file <- file.path(tempdir(), "code.R")
-code <- "fileRename <- function(from, to) {
-root <- dirname(to)
-if (! dir.exists(root)) dir.create(root, recursive = TRUE)
-return(file.rename(from, to))
-}
-"
-cat(code, file = code_file)
-print(readLines(code_file))
+list.files(file.path(tempdir(), "some_dir"))
 ----
 
 ----
-## [1] "fileRename <- function(from, to) {"                        
-## [2] "root <- dirname(to)"                                       
-## [3] "if (! dir.exists(root)) dir.create(root, recursive = TRUE)"
-## [4] "return(file.rename(from, to))"                             
-## [5] "}"
-----
-
-[source,r]
-----
-code <- readLines(code_file)
-code <- gsub("([A-Z])[a-z]", "_\\L\\1", code, perl = TRUE)
-writeLines(code, code_file)
-print(readLines(code_file))
-----
-
-----
-## [1] "file_rname <- function(from, to) {"                        
-## [2] "root <- dirname(to)"                                       
-## [3] "if (! dir.exists(root)) dir.create(root, recursive = TRUE)"
-## [4] "return(file.rename(from, to))"                             
-## [5] "}"
+## [1] "iris_german.csv"
 ----
 
 == Regex in R
