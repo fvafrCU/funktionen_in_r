@@ -204,7 +204,7 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 == A Character Vector
 //begin.rcode
 string <- c("This is a (not too) long sentence, stored in a (character) string.",
-            "Well, it is (actually) stored in a vector of class character.", 
+            "Well, it is (actually) a vector of class character.", 
             "And this is not a single sentence.")
 
 paste(is.vector(string), is.character(string), class(string), sep = " ## ")
@@ -227,36 +227,18 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 
 
 
-== Gefr&auml;&szlig;igkeit
+== Gefr&auml;&szlig;igkeit (greediness)
 //begin.rcode
-pattern <- "\\(.*\\)"
+pattern <- " \\(.*\\)" 
+substitution <- "" 
+print(new_string <- gsub(pattern, substitution, string))
 
-regexpr(pattern, string) 
-regexec(pattern, string) 
+pattern <- " \\([^\\)]*\\)" ## lazy quantifier using negation
+print(new_string <- gsub(pattern, substitution, string))
 
-grep(pattern, string)
-grepl(pattern, string)
-grep(pattern, string, value = TRUE)
+pattern <- " \\(.*?\\)" ## non-greedy quantifier -- wtf?
+print(new_string <- gsub(pattern, substitution, string))
 
-substitution <- "[FOO]"
-print(new_string <- sub(pattern, substitution, string))
-nchar(string)
-nchar(new_string)
-
-pattern <- "\\(.*?\\)" ## non-greedy quantifier
-print(new_string <- sub(pattern, substitution, string))
-nchar(string)
-nchar(new_string)
-
-pattern <- "\\([^\\)]+\\)" ## lazy quantifier using negation
-print(new_string <- sub(pattern, substitution, string))
-nchar(string)
-nchar(new_string)
-
-pattern <- "\\<[[:alnum:]]*\\>"
-substitution <- "[HERE WAS THE FIRST WORD]"
-regexpr(pattern, string) 
-sub(pattern, substitution, string)
 //end.rcode
 
 == R&uuml;ckverweise
@@ -265,30 +247,23 @@ sub(pattern, substitution, string)
 //begin.rcode
 pattern <- "(\\<a\\>)"
 substitution <- "\\1[INJECTED TEXT]"
-regexpr(pattern, string) 
-sub(pattern, substitution, string)
-gregexpr(pattern, string) 
 gsub(pattern, substitution, string)
 
 pattern <- "^([[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?)\\<[[:alnum:]_]*\\>"
-substitution <- "\\1[HERE WAS THE SECOND WORD]"
-regexpr(pattern, string) 
+substitution <- "\\1[OVERWRITTEN]"
 sub(pattern, substitution, string)
 
 
-# grouping without backreference
+# inner grouping without backreference -- nth word, substitution stays constant
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>"
-substitution <- "\\1[HERE WAS THE FOURTH WORD]"
-regexpr(pattern, string) 
+substitution <- "\\1[OVERWRITTEN]"
 sub(pattern, substitution, string)
 
-pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>(.*)$"
-substitution <- "\\1[HERE WAS THE FOURTH WORD]\\2"
-regexpr(pattern, string) 
-sub(pattern, substitution, string)
 
-gsub("(?:\\(.*?\\)|long)[[:space:]]", "", string)
-gsub("(?:\\(.*?\\)|long)\\  *", "", string)
+# matching the rest of the line into a second group
+pattern <- paste0(pattern, "(.*)$")
+substitution <- paste0(substitution, "\\2")
+sub(pattern, substitution, string)
 
 //end.rcode
 
@@ -355,7 +330,7 @@ print(readLines(code_file))
 Meine Lieblinge
 
 - base::regex
-- base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
+- base::grep # (grepl, sub, gsub, regexec, regexpr, gregexpr)
 - base::list.files
 - base::ls 
 
@@ -395,3 +370,10 @@ Beispiel aus der Hilfe:
  regmatches(x, m, invert = TRUE)
 
 //end.rcode
+
+== Ende
+
+- regex sind toll
+- (vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind _sehr_ fehleranf&auml;llig.
+- Teste daher alle Deine regex sorgf&auml;ltig.
+

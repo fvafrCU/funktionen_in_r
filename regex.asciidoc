@@ -446,7 +446,7 @@ regexpr(pattern, string) # a vector giving start and length of the first match
 
 [source,r]
 ----
-regexec(pattern, string) # the same, as a list, better for groups.
+regexec(pattern, string) # a list giving start and length of first match and groupings
 ----
 
 ----
@@ -523,7 +523,7 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 [source,r]
 ----
 string <- c("This is a (not too) long sentence, stored in a (character) string.",
-            "Well, it is (actually) stored in a vector of class character.", 
+            "Well, it is (actually) a vector of class character.", 
             "And this is not a single sentence.")
 
 paste(is.vector(string), is.character(string), class(string), sep = " ## ")
@@ -539,7 +539,7 @@ paste(length(string), nchar(string), sep = " ## ")
 ----
 
 ----
-## [1] "3 ## 66" "3 ## 61" "3 ## 34"
+## [1] "3 ## 66" "3 ## 51" "3 ## 34"
 ----
 
 [source,r]
@@ -557,16 +557,16 @@ regexpr(pattern, string) # a vector giving start and length of the first match
 ----
 
 ----
-## [1] 26 13  1
+## [1] 26 -1  1
 ## attr(,"match.length")
-## [1] 16 17  8
+## [1] 16 -1  8
 ## attr(,"useBytes")
 ## [1] TRUE
 ----
 
 [source,r]
 ----
-regexec(pattern, string) # the same, as a list, better for groups.
+regexec(pattern, string) # a list giving start and length of first match and groupings
 ----
 
 ----
@@ -578,9 +578,9 @@ regexec(pattern, string) # the same, as a list, better for groups.
 ## [1] TRUE
 ## 
 ## [[2]]
-## [1] 13 24
+## [1] -1
 ## attr(,"match.length")
-## [1] 17  2
+## [1] -1
 ## attr(,"useBytes")
 ## [1] TRUE
 ## 
@@ -606,9 +606,9 @@ gregexpr(pattern, string) # a vector giving start and length of matches
 ## [1] TRUE
 ## 
 ## [[2]]
-## [1] 13
+## [1] -1
 ## attr(,"match.length")
-## [1] 17
+## [1] -1
 ## attr(,"useBytes")
 ## [1] TRUE
 ## 
@@ -626,7 +626,7 @@ grep(pattern, string) # indices of elements of "string" matching "pattern"
 ----
 
 ----
-## [1] 1 2 3
+## [1] 1 3
 ----
 
 [source,r]
@@ -636,8 +636,7 @@ grep(pattern, string, value = TRUE) # the elements of "string" matching "pattern
 
 ----
 ## [1] "This is a (not too) long sentence, stored in a (character) string."
-## [2] "Well, it is (actually) stored in a vector of class character."     
-## [3] "And this is not a single sentence."
+## [2] "And this is not a single sentence."
 ----
 
 [source,r]
@@ -646,7 +645,7 @@ grepl(pattern, string) # Do elements of "string" contain "pattern"?
 ----
 
 ----
-## [1] TRUE TRUE TRUE
+## [1]  TRUE FALSE  TRUE
 ----
 
 [source,r]
@@ -656,7 +655,7 @@ sub(pattern, "##", string) # replace first match of pattern in string
 
 ----
 ## [1] "This is a (not too) long ## in a (character) string."
-## [2] "Well, it is ## in a vector of class character."      
+## [2] "Well, it is (actually) a vector of class character." 
 ## [3] "## is not a single sentence."
 ----
 
@@ -666,201 +665,51 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 ----
 
 ----
-## [1] "This is a (not too) long ## in a ##."          
-## [2] "Well, it is ## in a vector of class character."
+## [1] "This is a (not too) long ## in a ##."               
+## [2] "Well, it is (actually) a vector of class character."
 ## [3] "## is not a single sentence."
 ----
 
 
 
 
-== Gefr&auml;&szlig;igkeit
+== Gefr&auml;&szlig;igkeit (greediness)
 
 [source,r]
 ----
-pattern <- "\\(.*\\)"
-
-regexpr(pattern, string) 
+pattern <- " \\(.*\\)" 
+substitution <- "" 
+print(new_string <- gsub(pattern, substitution, string))
 ----
 
 ----
-## [1] 11 13 -1
-## attr(,"match.length")
-## [1] 48 10 -1
-## attr(,"useBytes")
-## [1] TRUE
-----
-
-[source,r]
-----
-regexec(pattern, string) 
-----
-
-----
-## [[1]]
-## [1] 11
-## attr(,"match.length")
-## [1] 48
-## attr(,"useBytes")
-## [1] TRUE
-## 
-## [[2]]
-## [1] 13
-## attr(,"match.length")
-## [1] 10
-## attr(,"useBytes")
-## [1] TRUE
-## 
-## [[3]]
-## [1] -1
-## attr(,"match.length")
-## [1] -1
-## attr(,"useBytes")
-## [1] TRUE
-----
-
-[source,r]
-----
-grep(pattern, string)
-----
-
-----
-## [1] 1 2
-----
-
-[source,r]
-----
-grepl(pattern, string)
-----
-
-----
-## [1]  TRUE  TRUE FALSE
-----
-
-[source,r]
-----
-grep(pattern, string, value = TRUE)
-----
-
-----
-## [1] "This is a (not too) long sentence, stored in a (character) string."
-## [2] "Well, it is (actually) stored in a vector of class character."
-----
-
-[source,r]
-----
-substitution <- "[FOO]"
-print(new_string <- sub(pattern, substitution, string))
-----
-
-----
-## [1] "This is a [FOO] string."                                 
-## [2] "Well, it is [FOO] stored in a vector of class character."
+## [1] "This is a string."                       
+## [2] "Well, it is a vector of class character."
 ## [3] "And this is not a single sentence."
 ----
 
 [source,r]
 ----
-nchar(string)
+pattern <- " \\([^\\)]*\\)" ## lazy quantifier using negation
+print(new_string <- gsub(pattern, substitution, string))
 ----
 
 ----
-## [1] 66 61 34
-----
-
-[source,r]
-----
-nchar(new_string)
-----
-
-----
-## [1] 23 56 34
-----
-
-[source,r]
-----
-pattern <- "\\(.*?\\)" ## non-greedy quantifier
-print(new_string <- sub(pattern, substitution, string))
-----
-
-----
-## [1] "This is a [FOO] long sentence, stored in a (character) string."
-## [2] "Well, it is [FOO] stored in a vector of class character."      
+## [1] "This is a long sentence, stored in a string."
+## [2] "Well, it is a vector of class character."    
 ## [3] "And this is not a single sentence."
 ----
 
 [source,r]
 ----
-nchar(string)
+pattern <- " \\(.*?\\)" ## non-greedy quantifier -- wtf?
+print(new_string <- gsub(pattern, substitution, string))
 ----
 
 ----
-## [1] 66 61 34
-----
-
-[source,r]
-----
-nchar(new_string)
-----
-
-----
-## [1] 62 56 34
-----
-
-[source,r]
-----
-pattern <- "\\([^\\)]+\\)" ## lazy quantifier using negation
-print(new_string <- sub(pattern, substitution, string))
-----
-
-----
-## [1] "This is a [FOO] long sentence, stored in a (character) string."
-## [2] "Well, it is [FOO] stored in a vector of class character."      
+## [1] "This is a long sentence, stored in a string."
+## [2] "Well, it is a vector of class character."    
 ## [3] "And this is not a single sentence."
-----
-
-[source,r]
-----
-nchar(string)
-----
-
-----
-## [1] 66 61 34
-----
-
-[source,r]
-----
-nchar(new_string)
-----
-
-----
-## [1] 62 56 34
-----
-
-[source,r]
-----
-pattern <- "\\<[[:alnum:]]*\\>"
-substitution <- "[HERE WAS THE FIRST WORD]"
-regexpr(pattern, string) 
-----
-
-----
-## [1] 1 1 1
-## attr(,"match.length")
-## [1] 4 4 3
-## attr(,"useBytes")
-## [1] TRUE
-----
-
-[source,r]
-----
-sub(pattern, substitution, string)
-----
-
-----
-## [1] "[HERE WAS THE FIRST WORD] is a (not too) long sentence, stored in a (character) string."
-## [2] "[HERE WAS THE FIRST WORD], it is (actually) stored in a vector of class character."     
-## [3] "[HERE WAS THE FIRST WORD] this is not a single sentence."
 ----
 
 
@@ -872,166 +721,54 @@ sub(pattern, substitution, string)
 ----
 pattern <- "(\\<a\\>)"
 substitution <- "\\1[INJECTED TEXT]"
-regexpr(pattern, string) 
-----
-
-----
-## [1]  9 34 17
-## attr(,"match.length")
-## [1] 1 1 1
-## attr(,"useBytes")
-## [1] TRUE
-----
-
-[source,r]
-----
-sub(pattern, substitution, string)
-----
-
-----
-## [1] "This is a[INJECTED TEXT] (not too) long sentence, stored in a (character) string."
-## [2] "Well, it is (actually) stored in a[INJECTED TEXT] vector of class character."     
-## [3] "And this is not a[INJECTED TEXT] single sentence."
-----
-
-[source,r]
-----
-gregexpr(pattern, string) 
-----
-
-----
-## [[1]]
-## [1]  9 46
-## attr(,"match.length")
-## [1] 1 1
-## attr(,"useBytes")
-## [1] TRUE
-## 
-## [[2]]
-## [1] 34
-## attr(,"match.length")
-## [1] 1
-## attr(,"useBytes")
-## [1] TRUE
-## 
-## [[3]]
-## [1] 17
-## attr(,"match.length")
-## [1] 1
-## attr(,"useBytes")
-## [1] TRUE
-----
-
-[source,r]
-----
 gsub(pattern, substitution, string)
 ----
 
 ----
 ## [1] "This is a[INJECTED TEXT] (not too) long sentence, stored in a[INJECTED TEXT] (character) string."
-## [2] "Well, it is (actually) stored in a[INJECTED TEXT] vector of class character."                    
+## [2] "Well, it is (actually) a[INJECTED TEXT] vector of class character."                              
 ## [3] "And this is not a[INJECTED TEXT] single sentence."
 ----
 
 [source,r]
 ----
 pattern <- "^([[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?)\\<[[:alnum:]_]*\\>"
-substitution <- "\\1[HERE WAS THE SECOND WORD]"
-regexpr(pattern, string) 
-----
-
-----
-## [1] 1 1 1
-## attr(,"match.length")
-## [1] 7 8 8
-## attr(,"useBytes")
-## [1] TRUE
-----
-
-[source,r]
-----
+substitution <- "\\1[OVERWRITTEN]"
 sub(pattern, substitution, string)
 ----
 
 ----
-## [1] "This [HERE WAS THE SECOND WORD] a (not too) long sentence, stored in a (character) string."
-## [2] "Well, [HERE WAS THE SECOND WORD] is (actually) stored in a vector of class character."     
-## [3] "And [HERE WAS THE SECOND WORD] is not a single sentence."
+## [1] "This [OVERWRITTEN] a (not too) long sentence, stored in a (character) string."
+## [2] "Well, [OVERWRITTEN] is (actually) a vector of class character."               
+## [3] "And [OVERWRITTEN] is not a single sentence."
 ----
 
 [source,r]
 ----
-# grouping without backreference
+# inner grouping without backreference -- nth word, substitution stays constant
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>"
-substitution <- "\\1[HERE WAS THE FOURTH WORD]"
-regexpr(pattern, string) 
-----
-
-----
-## [1] 1 1 1
-## attr(,"match.length")
-## [1] 14 21 15
-## attr(,"useBytes")
-## [1] TRUE
-----
-
-[source,r]
-----
+substitution <- "\\1[OVERWRITTEN]"
 sub(pattern, substitution, string)
 ----
 
 ----
-## [1] "This is a ([HERE WAS THE FOURTH WORD] too) long sentence, stored in a (character) string."
-## [2] "Well, it is ([HERE WAS THE FOURTH WORD]) stored in a vector of class character."          
-## [3] "And this is [HERE WAS THE FOURTH WORD] a single sentence."
+## [1] "This is a ([OVERWRITTEN] too) long sentence, stored in a (character) string."
+## [2] "Well, it is ([OVERWRITTEN]) a vector of class character."                    
+## [3] "And this is [OVERWRITTEN] a single sentence."
 ----
 
 [source,r]
 ----
-pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>(.*)$"
-substitution <- "\\1[HERE WAS THE FOURTH WORD]\\2"
-regexpr(pattern, string) 
-----
-
-----
-## [1] 1 1 1
-## attr(,"match.length")
-## [1] 66 61 34
-## attr(,"useBytes")
-## [1] TRUE
-----
-
-[source,r]
-----
+# matching the rest of the line into a second group
+pattern <- paste0(pattern, "(.*)$")
+substitution <- paste0(substitution, "\\2")
 sub(pattern, substitution, string)
 ----
 
 ----
-## [1] "This is a ([HERE WAS THE FOURTH WORD] too) long sentence, stored in a (character) string."
-## [2] "Well, it is ([HERE WAS THE FOURTH WORD]) stored in a vector of class character."          
-## [3] "And this is [HERE WAS THE FOURTH WORD] a single sentence."
-----
-
-[source,r]
-----
-gsub("(?:\\(.*?\\)|long)[[:space:]]", "", string)
-----
-
-----
-## [1] "This is a sentence, stored in a string."           
-## [2] "Well, it is stored in a vector of class character."
-## [3] "And this is not a single sentence."
-----
-
-[source,r]
-----
-gsub("(?:\\(.*?\\)|long)\\  *", "", string)
-----
-
-----
-## [1] "This is a sentence, stored in a string."           
-## [2] "Well, it is stored in a vector of class character."
-## [3] "And this is not a single sentence."
+## [1] "This is a ([OVERWRITTEN] too) long sentence, stored in a (character) string."
+## [2] "Well, it is ([OVERWRITTEN]) a vector of class character."                    
+## [3] "And this is [OVERWRITTEN] a single sentence."
 ----
 
 
@@ -1060,7 +797,7 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/Rtmp1g8fPO/foo/iris.csv"   "/tmp/Rtmp1g8fPO/foo/mtcars.csv"
+## [1] "/tmp/RtmpS7dsOP/foo/iris.csv"   "/tmp/RtmpS7dsOP/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -1074,10 +811,10 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/Rtmp1g8fPO/foo/iris_german.csv"  
-## [2] "/tmp/Rtmp1g8fPO/foo/iris.csv"         
-## [3] "/tmp/Rtmp1g8fPO/foo/mtcars_german.csv"
-## [4] "/tmp/Rtmp1g8fPO/foo/mtcars.csv"
+## [1] "/tmp/RtmpS7dsOP/foo/iris_german.csv"  
+## [2] "/tmp/RtmpS7dsOP/foo/iris.csv"         
+## [3] "/tmp/RtmpS7dsOP/foo/mtcars_german.csv"
+## [4] "/tmp/RtmpS7dsOP/foo/mtcars.csv"
 ----
 
 [source,r]
@@ -1141,7 +878,7 @@ print(readLines(code_file))
 Meine Lieblinge
 
 - base::regex
-- base::grep ## (grepl, sub, gsub, regexec, regexpr, gregexpr)
+- base::grep # (grepl, sub, gsub, regexec, regexpr, gregexpr)
 - base::list.files
 - base::ls 
 
@@ -1187,4 +924,11 @@ Beispiel aus der Hilfe:
 ## [[1]]
 ## [1] "John (fishing, hunting)" "Paul (hiking, biking)"
 ----
+
+
+== Ende
+
+- regex sind toll
+- (vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind _sehr_ fehleranf&auml;llig.
+- Teste daher alle Deine regex sorgf&auml;ltig.
 
