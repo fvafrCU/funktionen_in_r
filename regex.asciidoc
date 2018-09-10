@@ -5,9 +5,9 @@ Dominik Cullmann
 :data-uri:
 :duration: 60
 
-== Regular Expressions
+== Regul&auml;re Ausdr&uuml;cke
 
-- Ausdruck: etwas, das nicht buchst&auml;blich gemeint ist.
+- Ausdruck (ugs.): etwas, das nicht buchst&auml;blich gemeint ist.
 
 - https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines
 
@@ -100,6 +100,13 @@ is_probably_valid_email <- function(string) {
 ----
 
  
+== Werkzeuge
+. Wiederholungen
+. Gruppen
+. Anker
+. Character Sets
+. OR
+
 == Wiederholungen 
 
 . {m,n}
@@ -402,6 +409,20 @@ grep(pattern = "^(From|Subject):", mail, value = TRUE)
 
 
 
+== R-Funktionen an Beispielen
+Zwei Beispielstrings, die Funktionen
+
+- Kernfunktionen
+. base::regexpr
+. base::regexec
+. base::gregexpr
+- Anwendungsfunktionen
+. base::grep
+. base::grepl
+. base::sub
+. base::gsub
+
+
 == A Simple String
 
 [source,r]
@@ -672,13 +693,26 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 
 
 
+== Fortgeschrittenes
+
 
 == Gefr&auml;&szlig;igkeit (greediness)
 
 [source,r]
 ----
-pattern <- " \\(.*\\)" 
+print(string)
+----
+
+----
+## [1] "This is a (not too) long sentence, stored in a (character) string."
+## [2] "Well, it is (actually) a vector of class character."               
+## [3] "And this is not a single sentence."
+----
+
+[source,r]
+----
 substitution <- "" 
+pattern <- " \\(.*\\)" ## greedy quantifier
 print(new_string <- gsub(pattern, substitution, string))
 ----
 
@@ -690,7 +724,7 @@ print(new_string <- gsub(pattern, substitution, string))
 
 [source,r]
 ----
-pattern <- " \\([^\\)]*\\)" ## lazy quantifier using negation
+pattern <- " \\([^\\)]*\\)" ## non-greedy quantifier using negation
 print(new_string <- gsub(pattern, substitution, string))
 ----
 
@@ -744,7 +778,7 @@ sub(pattern, substitution, string)
 
 [source,r]
 ----
-# inner grouping without backreference -- nth word, substitution stays constant
+# inner grouping without backreference -- n+1th word, substitution stays constant
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>"
 substitution <- "\\1[OVERWRITTEN]"
 sub(pattern, substitution, string)
@@ -758,6 +792,18 @@ sub(pattern, substitution, string)
 
 [source,r]
 ----
+pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){7})\\<[[:alnum:]_]*\\>"
+sub(pattern, substitution, string)
+----
+
+----
+## [1] "This is a (not too) long sentence, [OVERWRITTEN] in a (character) string."
+## [2] "Well, it is (actually) a vector of [OVERWRITTEN] character."              
+## [3] "And this is not a single sentence."
+----
+
+[source,r]
+----
 # matching the rest of the line into a second group
 pattern <- paste0(pattern, "(.*)$")
 substitution <- paste0(substitution, "\\2")
@@ -765,11 +811,13 @@ sub(pattern, substitution, string)
 ----
 
 ----
-## [1] "This is a ([OVERWRITTEN] too) long sentence, stored in a (character) string."
-## [2] "Well, it is ([OVERWRITTEN]) a vector of class character."                    
-## [3] "And this is [OVERWRITTEN] a single sentence."
+## [1] "This is a (not too) long sentence, [OVERWRITTEN] in a (character) string."
+## [2] "Well, it is (actually) a vector of [OVERWRITTEN] character."              
+## [3] "And this is not a single sentence."
 ----
 
+
+== Anwendungen
 
 == Dateipfade I
 
@@ -789,8 +837,8 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpIxnrFP/foo/iris.csv"   "/tmp/RtmpIxnrFP/foo/iris.txt"  
-## [3] "/tmp/RtmpIxnrFP/foo/mtcars.csv" "/tmp/RtmpIxnrFP/foo/mtcars.txt"
+## [1] "/tmp/RtmpZqLBF7/foo/iris.csv"   "/tmp/RtmpZqLBF7/foo/iris.txt"  
+## [3] "/tmp/RtmpZqLBF7/foo/mtcars.csv" "/tmp/RtmpZqLBF7/foo/mtcars.txt"
 ----
 
 
@@ -798,23 +846,24 @@ print(list.files(path, full.names = TRUE))
 
 [source,r]
 ----
-## Dateien lesen und wieder schreiben als deutsches CSV
+##  _Nur_ CSV-Dateien lesen und wieder schreiben als deutsches CSV
+## FIXME: Ich will eine Funktion sein!
 csv_files <- list.files(path, pattern = "^.*\\.csv$", full.names = TRUE)
 for (file in csv_files) {
     file_name <- basename(file)
     new_file <- sub("(.*)(\\.csv)", "\\1_german\\2", file)
     write.csv2(read.csv(file), file = new_file)
-}
+} 
 print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpIxnrFP/foo/iris_german.csv"  
-## [2] "/tmp/RtmpIxnrFP/foo/iris.csv"         
-## [3] "/tmp/RtmpIxnrFP/foo/iris.txt"         
-## [4] "/tmp/RtmpIxnrFP/foo/mtcars_german.csv"
-## [5] "/tmp/RtmpIxnrFP/foo/mtcars.csv"       
-## [6] "/tmp/RtmpIxnrFP/foo/mtcars.txt"
+## [1] "/tmp/RtmpZqLBF7/foo/iris_german.csv"  
+## [2] "/tmp/RtmpZqLBF7/foo/iris.csv"         
+## [3] "/tmp/RtmpZqLBF7/foo/iris.txt"         
+## [4] "/tmp/RtmpZqLBF7/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpZqLBF7/foo/mtcars.csv"       
+## [6] "/tmp/RtmpZqLBF7/foo/mtcars.txt"
 ----
 
 
@@ -896,7 +945,10 @@ print(readLines(code_file))
 [source,r]
 ----
 eval(parse(text = code))
-file_rename(from = files[1], to = file.path(tempdir(), "some_dir", basename(files[1])))
+from <- list.files(file.path(tempdir(), "foo"), pattern = "^.*iris.txt$", 
+                   full.names = TRUE)
+to <- file.path(tempdir(), "some_dir", basename(from))
+file_rename(from = from, to = to)
 ----
 
 ----
@@ -905,12 +957,28 @@ file_rename(from = files[1], to = file.path(tempdir(), "some_dir", basename(file
 
 [source,r]
 ----
-list.files(file.path(tempdir(), "some_dir"))
+list.files(file.path(tempdir(), "some_dir"), full.names = TRUE)
 ----
 
 ----
-## [1] "iris_german.csv"
+## [1] "/tmp/RtmpZqLBF7/some_dir/iris.txt"
 ----
+
+[source,r]
+----
+head(read.table(to))
+----
+
+----
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+----
+
 
 == Regex in R
 
@@ -932,7 +1000,7 @@ Sonst noch:
 - base::regmatches
 
 == regmatches
-Es gibt no base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
+Es gibt noch base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
 Beispiel aus der Hilfe:
 
 [source,r]
@@ -967,7 +1035,14 @@ Beispiel aus der Hilfe:
 
 == Ende
 
-- regex sind toll
+- Regex sind m&auml;chtig: is_probably_valid_email 
+
+[source,r]
+----
+pattern <- "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
+----
+
+- Mit anderen Zeichenkettenfunktionen wird das eine sehr lange Funktion, die miserabel zu warten ist, falls sich die Definition dessen, was als Email akzeptiert werden soll, &auml;ndert.
 - (vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind _sehr_ fehleranf&auml;llig.
-- Teste daher alle Deine regex sorgf&auml;ltig.
+- Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ein * beinhalten.
 

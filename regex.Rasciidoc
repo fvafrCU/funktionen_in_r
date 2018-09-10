@@ -5,9 +5,9 @@ Dominik Cullmann
 :data-uri:
 :duration: 60
 
-== Regular Expressions
+== Regul&auml;re Ausdr&uuml;cke
 
-- Ausdruck: etwas, das nicht buchst&auml;blich gemeint ist.
+- Ausdruck (ugs.): etwas, das nicht buchst&auml;blich gemeint ist.
 
 - https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines
 
@@ -91,6 +91,13 @@ is_probably_valid_email <- function(string) {
 }
 //end.rcode
  
+== Werkzeuge
+. Wiederholungen
+. Gruppen
+. Anker
+. Character Sets
+. OR
+
 == Wiederholungen 
 
 . {m,n}
@@ -181,6 +188,20 @@ grep(pattern = "^(From|Subject):", mail, value = TRUE)
 
 
 
+== R-Funktionen an Beispielen
+Zwei Beispielstrings, die Funktionen
+
+- Kernfunktionen
+. base::regexpr
+. base::regexec
+. base::gregexpr
+- Anwendungsfunktionen
+. base::grep
+. base::grepl
+. base::sub
+. base::gsub
+
+
 == A Simple String
 //begin.rcode
 string <- "This is a (character) string."
@@ -226,14 +247,17 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 //end.rcode
 
 
+== Fortgeschrittenes
+
 
 == Gefr&auml;&szlig;igkeit (greediness)
 //begin.rcode
-pattern <- " \\(.*\\)" 
+print(string)
 substitution <- "" 
+pattern <- " \\(.*\\)" ## greedy quantifier
 print(new_string <- gsub(pattern, substitution, string))
 
-pattern <- " \\([^\\)]*\\)" ## lazy quantifier using negation
+pattern <- " \\([^\\)]*\\)" ## non-greedy quantifier using negation
 print(new_string <- gsub(pattern, substitution, string))
 
 pattern <- " \\(.*?\\)" ## non-greedy quantifier -- wtf?
@@ -253,11 +277,13 @@ substitution <- "\\1[OVERWRITTEN]"
 sub(pattern, substitution, string)
 
 
-# inner grouping without backreference -- nth word, substitution stays constant
+# inner grouping without backreference -- n+1th word, substitution stays constant
 pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){3})\\<[[:alnum:]_]*\\>"
 substitution <- "\\1[OVERWRITTEN]"
 sub(pattern, substitution, string)
 
+pattern <- "^((?:[[:punct:]]?\\<[[:alnum:]_]*\\>[[:punct:]]?[[:space:]]?[[:punct:]]?){7})\\<[[:alnum:]_]*\\>"
+sub(pattern, substitution, string)
 
 # matching the rest of the line into a second group
 pattern <- paste0(pattern, "(.*)$")
@@ -265,6 +291,8 @@ substitution <- paste0(substitution, "\\2")
 sub(pattern, substitution, string)
 
 //end.rcode
+
+== Anwendungen
 
 == Dateipfade I
 //begin.rcode
@@ -283,13 +311,14 @@ print(list.files(path, full.names = TRUE))
 
 == Dateipfade II
 //begin.rcode
-## Dateien lesen und wieder schreiben als deutsches CSV
+##  _Nur_ CSV-Dateien lesen und wieder schreiben als deutsches CSV
+## FIXME: Ich will eine Funktion sein!
 csv_files <- list.files(path, pattern = "^.*\\.csv$", full.names = TRUE)
 for (file in csv_files) {
     file_name <- basename(file)
     new_file <- sub("(.*)(\\.csv)", "\\1_german\\2", file)
     write.csv2(read.csv(file), file = new_file)
-}
+} 
 print(files <- list.files(path, full.names = TRUE))
 //end.rcode
 
@@ -328,10 +357,15 @@ print(readLines(code_file))
 //begin.rcode
 
 eval(parse(text = code))
-file_rename(from = files[1], to = file.path(tempdir(), "some_dir", basename(files[1])))
-list.files(file.path(tempdir(), "some_dir"))
+from <- list.files(file.path(tempdir(), "foo"), pattern = "^.*iris.txt$", 
+                   full.names = TRUE)
+to <- file.path(tempdir(), "some_dir", basename(from))
+file_rename(from = from, to = to)
+list.files(file.path(tempdir(), "some_dir"), full.names = TRUE)
+head(read.table(to))
 
 //end.rcode
+
 == Regex in R
 
 Meine Lieblinge
@@ -352,7 +386,7 @@ Sonst noch:
 - base::regmatches
 
 == regmatches
-Es gibt no base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
+Es gibt noch base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
 Beispiel aus der Hilfe:
 //begin.rcode
  ## Consider
@@ -380,7 +414,11 @@ Beispiel aus der Hilfe:
 
 == Ende
 
-- regex sind toll
+- Regex sind m&auml;chtig: is_probably_valid_email 
+//begin.rcode
+    pattern <- "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
+//end.rcode
+- Mit anderen Zeichenkettenfunktionen wird das eine sehr lange Funktion, die miserabel zu warten ist, falls sich die Definition dessen, was als Email akzeptiert werden soll, &auml;ndert.
 - (vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind _sehr_ fehleranf&auml;llig.
-- Teste daher alle Deine regex sorgf&auml;ltig.
+- Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ein * beinhalten.
 
