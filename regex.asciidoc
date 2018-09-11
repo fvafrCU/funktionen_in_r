@@ -93,7 +93,7 @@ is_valid_password <- function(string) {
 [source,r]
 ----
 is_probably_valid_email <- function(string) {
-    pattern <- "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
+    pattern <- "^[a-zA-Z0-9_+.-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
     is_valid <- grepl(pattern, string)
     return(is_valid)
 }
@@ -101,20 +101,21 @@ is_probably_valid_email <- function(string) {
 
  
 == Werkzeuge
-. Wiederholungen
-. Gruppen
-. Anker
+. Quantifier
+. Groups
+. Anchors
 . Character Sets
 . OR
 
-== Wiederholungen 
+== Quantifier 
 
-. {m,n}
-. +
-. *
-. ?
+. +{n,m}+
+. +++
+. +*+
+. +?+
 
-== Wiederholungen I 
+== Quantifier: +{n,m}+
+Mindestens +n+ und h&ouml;chstens +m+ Wiederholungen.
 
 [source,r]
 ----
@@ -136,7 +137,8 @@ gsub(pattern = "BA{2,3}", replacement, x)
 ## [1] "B BA ## ## CA"
 ----
 
-== Wiederholungen II
+== Quantifier: +?+
+Eine oder keine Wiederholung.
 
 [source,r]
 ----
@@ -156,7 +158,8 @@ gsub(pattern = "BA?", replacement, x)
 ## [1] "## ## ##A ##AA CA"
 ----
 
-== Wiederholungen III
+== Quantifier: +++  
+Mindestens eine Wiederholung.
 
 [source,r]
 ----
@@ -176,7 +179,8 @@ gsub(pattern = "BA+", replacement, x)
 ## [1] "B ## ## ## CA"
 ----
 
-== Wiederholungen IV
+== Quantifier: +*+
+Mindestens keine Wiederholung.
 
 [source,r]
 ----
@@ -197,7 +201,7 @@ gsub(pattern = "BA*", replacement, x)
 ----
 
 
-== Gruppen
+== Groups
 
 [source,r]
 ----
@@ -219,7 +223,7 @@ gsub(pattern = "(BA){2,3}", replacement, x)
 ## [1] "ABA A## A## A##BA"
 ----
 
-== Anker
+== Anchors
 
 [source,r]
 ----
@@ -273,15 +277,15 @@ print(x)
 replacement  <- "#"
 ----
 
-== Character Sets I
+== Character Sets: Eigene Definitionen
 
 [source,r]
 ----
-gsub(pattern = "[ .]", replacement, x)
+gsub(pattern = "[A-Z]", replacement, x)
 ----
 
 ----
-## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#3#14159265358979"
+## [1] "abcdefghijklmnopqrstuvwxyz########################## 3.14159265358979"
 ----
 
 [source,r]
@@ -303,11 +307,11 @@ gsub(pattern = "[^1-3]", replacement, x) ## Negative Set
 ----
 
 
-== Character Sets II
+== Character Sets: Vorgefertigte Definitionen
 
 [source,r]
 ----
-gsub(pattern = "[[:upper:]]", replacement, x)
+gsub(pattern = "[[:upper:]]", replacement, x) ## Depends on current locale! [A-Z] does not!
 ----
 
 ----
@@ -316,24 +320,33 @@ gsub(pattern = "[[:upper:]]", replacement, x)
 
 [source,r]
 ----
-gsub(pattern = "[[:digit:]]", replacement, x)
+gsub(pattern = "[[:lower:]]", replacement, x)
 ----
 
 ----
-## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ #.##############"
+## [1] "##########################ABCDEFGHIJKLMNOPQRSTUVWXYZ 3.14159265358979"
 ----
 
 [source,r]
 ----
-gsub(pattern = "[[:digit:][:space:]]", replacement, x)
+gsub(pattern = "[[:upper:][:lower:]]", replacement, x) ## composite set
 ----
 
 ----
-## [1] "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ##.##############"
+## [1] "#################################################### 3.14159265358979"
+----
+
+[source,r]
+----
+gsub(pattern = "[[:alpha:]]", replacement, x) ## pre-defined, same as above
+----
+
+----
+## [1] "#################################################### 3.14159265358979"
 ----
 
 
-== Character Sets III
+== Character Sets: Der Punkt
 
 [source,r]
 ----
@@ -837,8 +850,8 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpZqLBF7/foo/iris.csv"   "/tmp/RtmpZqLBF7/foo/iris.txt"  
-## [3] "/tmp/RtmpZqLBF7/foo/mtcars.csv" "/tmp/RtmpZqLBF7/foo/mtcars.txt"
+## [1] "/tmp/RtmpMlfRDD/foo/iris.csv"   "/tmp/RtmpMlfRDD/foo/iris.txt"  
+## [3] "/tmp/RtmpMlfRDD/foo/mtcars.csv" "/tmp/RtmpMlfRDD/foo/mtcars.txt"
 ----
 
 
@@ -858,12 +871,12 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpZqLBF7/foo/iris_german.csv"  
-## [2] "/tmp/RtmpZqLBF7/foo/iris.csv"         
-## [3] "/tmp/RtmpZqLBF7/foo/iris.txt"         
-## [4] "/tmp/RtmpZqLBF7/foo/mtcars_german.csv"
-## [5] "/tmp/RtmpZqLBF7/foo/mtcars.csv"       
-## [6] "/tmp/RtmpZqLBF7/foo/mtcars.txt"
+## [1] "/tmp/RtmpMlfRDD/foo/iris_german.csv"  
+## [2] "/tmp/RtmpMlfRDD/foo/iris.csv"         
+## [3] "/tmp/RtmpMlfRDD/foo/iris.txt"         
+## [4] "/tmp/RtmpMlfRDD/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpMlfRDD/foo/mtcars.csv"       
+## [6] "/tmp/RtmpMlfRDD/foo/mtcars.txt"
 ----
 
 
@@ -961,7 +974,7 @@ list.files(file.path(tempdir(), "some_dir"), full.names = TRUE)
 ----
 
 ----
-## [1] "/tmp/RtmpZqLBF7/some_dir/iris.txt"
+## [1] "/tmp/RtmpMlfRDD/some_dir/iris.txt"
 ----
 
 [source,r]
@@ -1039,10 +1052,10 @@ Beispiel aus der Hilfe:
 
 [source,r]
 ----
-pattern <- "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
+pattern <- "^[a-zA-Z0-9_+.-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
 ----
 
 - Mit anderen Zeichenkettenfunktionen wird das eine sehr lange Funktion, die miserabel zu warten ist, falls sich die Definition dessen, was als Email akzeptiert werden soll, &auml;ndert.
 - (vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind _sehr_ fehleranf&auml;llig.
-- Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ein * beinhalten.
+- Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ".", "*" oder "+" beinhalten.
 

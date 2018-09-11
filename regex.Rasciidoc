@@ -26,7 +26,7 @@ Dominik Cullmann
 
 //begin.rcode, echo  = FALSE
 is_probably_valid_email <- function(string) {
-    pattern <- "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
+    pattern <- "^[a-zA-Z0-9_+.-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
     is_valid <- grepl(pattern, string)
     return(is_valid)
 }
@@ -85,57 +85,61 @@ is_valid_password <- function(string) {
 == is_probably_valid_email
 //begin.rcode, eval  = FALSE
 is_probably_valid_email <- function(string) {
-    pattern <- "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
+    pattern <- "^[a-zA-Z0-9_+.-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
     is_valid <- grepl(pattern, string)
     return(is_valid)
 }
 //end.rcode
  
 == Werkzeuge
-. Wiederholungen
-. Gruppen
-. Anker
+. Quantifier
+. Groups
+. Anchors
 . Character Sets
 . OR
 
-== Wiederholungen 
+== Quantifier 
 
-. {m,n}
-. +
-. *
-. ?
+. +{n,m}+
+. +++
+. +*+
+. +?+
 
-== Wiederholungen I 
+== Quantifier: +{n,m}+
+Mindestens +n+ und h&ouml;chstens +m+ Wiederholungen.
 //begin.rcode
 replacement  <- "##"
 x <- "B BA BAA BAAA CA"
 gsub(pattern = "BA", replacement, x)
 gsub(pattern = "BA{2,3}", replacement, x)
 //end.rcode
-== Wiederholungen II
+== Quantifier: +?+
+Eine oder keine Wiederholung.
 //begin.rcode
 gsub(pattern = "BA{0,1}", replacement, x)
 gsub(pattern = "BA?", replacement, x)
 //end.rcode
-== Wiederholungen III
+== Quantifier: +++  
+Mindestens eine Wiederholung.
 //begin.rcode
 gsub(pattern = "BA{1,}", replacement, x)
 gsub(pattern = "BA+", replacement, x)
 //end.rcode
-== Wiederholungen IV
+== Quantifier: +*+
+Mindestens keine Wiederholung.
 //begin.rcode
 gsub(pattern = "BA{0,}", replacement, x)
 gsub(pattern = "BA*", replacement, x)
 //end.rcode
 
-== Gruppen
+== Groups
 //begin.rcode
 replacement  <- "##"
 x <- "ABA ABABA ABABABA ABABABABA"
 gsub(pattern = "(BA)", replacement, x)
 gsub(pattern = "(BA){2,3}", replacement, x)
 //end.rcode
-== Anker
+== Anchors
 //begin.rcode
 replacement  <- "##"
 x <- "Ha Ha HaHa Ha"
@@ -155,21 +159,22 @@ x <-  paste(c(letters, LETTERS," ", pi), collapse = "")
 print(x)
 replacement  <- "#"
 //end.rcode
-== Character Sets I
+== Character Sets: Eigene Definitionen
 //begin.rcode
-gsub(pattern = "[ .]", replacement, x)
+gsub(pattern = "[A-Z]", replacement, x)
 gsub(pattern = "[1-3]", replacement, x)
 gsub(pattern = "[^1-3]", replacement, x) ## Negative Set
 //end.rcode
 
-== Character Sets II
+== Character Sets: Vorgefertigte Definitionen
 //begin.rcode
-gsub(pattern = "[[:upper:]]", replacement, x)
-gsub(pattern = "[[:digit:]]", replacement, x)
-gsub(pattern = "[[:digit:][:space:]]", replacement, x)
+gsub(pattern = "[[:upper:]]", replacement, x) ## Depends on current locale! [A-Z] does not!
+gsub(pattern = "[[:lower:]]", replacement, x)
+gsub(pattern = "[[:upper:][:lower:]]", replacement, x) ## composite set
+gsub(pattern = "[[:alpha:]]", replacement, x) ## pre-defined, same as above
 //end.rcode
 
-== Character Sets III
+== Character Sets: Der Punkt
 //begin.rcode
 replacement  <- "##"
 gsub(pattern = "1.", replacement, x)
@@ -416,9 +421,9 @@ Beispiel aus der Hilfe:
 
 - Regex sind m&auml;chtig: is_probably_valid_email 
 //begin.rcode
-    pattern <- "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
+    pattern <- "^[a-zA-Z0-9_+.-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
 //end.rcode
 - Mit anderen Zeichenkettenfunktionen wird das eine sehr lange Funktion, die miserabel zu warten ist, falls sich die Definition dessen, was als Email akzeptiert werden soll, &auml;ndert.
 - (vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind _sehr_ fehleranf&auml;llig.
-- Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ein * beinhalten.
+- Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ".", "*" oder "+" beinhalten.
 
