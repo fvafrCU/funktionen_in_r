@@ -5,7 +5,15 @@ Dominik Cullmann
 :data-uri:
 :duration: 60
 
-== Regul&auml;re Ausdr&uuml;cke
+== &Uuml;berblick
+. Einleitung
+. Werkzeuge
+. R-Funktionen an Beispielen
+. Fortgeschrittenes
+. Anwendungen
+. Ende
+
+== Einleitung: Regul&auml;re Ausdr&uuml;cke
 
 - Ausdruck (ugs.): etwas, das nicht buchst&auml;blich gemeint ist.
 
@@ -108,7 +116,6 @@ is_probably_valid_email <- function(string) {
 . OR
 
 == Quantifier 
-
 . +{n,m}+
 . +++
 . +*+
@@ -578,6 +585,8 @@ paste(length(string), nchar(string), sep = " ## ")
 
 [source,r]
 ----
+# match a word, possibly surrouned by punctuation, followed by some sort of
+# space and a word starting with either th or st.
 pattern <- "[[:punct:]]?\\<[[:alnum:]]*\\>[[:punct:]]?\\s\\<(th|st)[[:alnum:]]*\\>" 
 ## \\s is the space class, see ?regex
 ----
@@ -707,6 +716,8 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 
 
 == Fortgeschrittenes
+. Gefr&auml;&szlig;igkeit
+. R&uuml;ckverweise
 
 
 == Gefr&auml;&szlig;igkeit (greediness)
@@ -831,6 +842,8 @@ sub(pattern, substitution, string)
 
 
 == Anwendungen
+. Dateipfade
+. camelCase
 
 == Dateipfade I
 
@@ -850,8 +863,8 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpMlfRDD/foo/iris.csv"   "/tmp/RtmpMlfRDD/foo/iris.txt"  
-## [3] "/tmp/RtmpMlfRDD/foo/mtcars.csv" "/tmp/RtmpMlfRDD/foo/mtcars.txt"
+## [1] "/tmp/RtmpmtRQbi/foo/iris.csv"   "/tmp/RtmpmtRQbi/foo/iris.txt"  
+## [3] "/tmp/RtmpmtRQbi/foo/mtcars.csv" "/tmp/RtmpmtRQbi/foo/mtcars.txt"
 ----
 
 
@@ -871,12 +884,12 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpMlfRDD/foo/iris_german.csv"  
-## [2] "/tmp/RtmpMlfRDD/foo/iris.csv"         
-## [3] "/tmp/RtmpMlfRDD/foo/iris.txt"         
-## [4] "/tmp/RtmpMlfRDD/foo/mtcars_german.csv"
-## [5] "/tmp/RtmpMlfRDD/foo/mtcars.csv"       
-## [6] "/tmp/RtmpMlfRDD/foo/mtcars.txt"
+## [1] "/tmp/RtmpmtRQbi/foo/iris_german.csv"  
+## [2] "/tmp/RtmpmtRQbi/foo/iris.csv"         
+## [3] "/tmp/RtmpmtRQbi/foo/iris.txt"         
+## [4] "/tmp/RtmpmtRQbi/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpmtRQbi/foo/mtcars.csv"       
+## [6] "/tmp/RtmpmtRQbi/foo/mtcars.txt"
 ----
 
 
@@ -974,7 +987,7 @@ list.files(file.path(tempdir(), "some_dir"), full.names = TRUE)
 ----
 
 ----
-## [1] "/tmp/RtmpMlfRDD/some_dir/iris.txt"
+## [1] "/tmp/RtmpmtRQbi/some_dir/iris.txt"
 ----
 
 [source,r]
@@ -992,6 +1005,11 @@ head(read.table(to))
 ## 6          5.4         3.9          1.7         0.4  setosa
 ----
 
+
+== Ende 
+. Regex in R
+. regmatches
+. Tsch&uuml;ss
 
 == Regex in R
 
@@ -1046,7 +1064,7 @@ Beispiel aus der Hilfe:
 ----
 
 
-== Ende
+== Tsch&uuml;ss
 
 - Regex sind m&auml;chtig: is_probably_valid_email 
 

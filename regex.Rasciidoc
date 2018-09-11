@@ -5,7 +5,15 @@ Dominik Cullmann
 :data-uri:
 :duration: 60
 
-== Regul&auml;re Ausdr&uuml;cke
+== &Uuml;berblick
+. Einleitung
+. Werkzeuge
+. R-Funktionen an Beispielen
+. Fortgeschrittenes
+. Anwendungen
+. Ende
+
+== Einleitung: Regul&auml;re Ausdr&uuml;cke
 
 - Ausdruck (ugs.): etwas, das nicht buchst&auml;blich gemeint ist.
 
@@ -99,7 +107,6 @@ is_probably_valid_email <- function(string) {
 . OR
 
 == Quantifier 
-
 . +{n,m}+
 . +++
 . +*+
@@ -235,6 +242,8 @@ string <- c("This is a (not too) long sentence, stored in a (character) string."
 
 paste(is.vector(string), is.character(string), class(string), sep = " ## ")
 paste(length(string), nchar(string), sep = " ## ")
+# match a word, possibly surrouned by punctuation, followed by some sort of
+# space and a word starting with either th or st.
 pattern <- "[[:punct:]]?\\<[[:alnum:]]*\\>[[:punct:]]?\\s\\<(th|st)[[:alnum:]]*\\>" 
 ## \\s is the space class, see ?regex
 //end.rcode
@@ -253,6 +262,8 @@ gsub(pattern, "##", string) # replace all matches of pattern in string
 
 
 == Fortgeschrittenes
+. Gefr&auml;&szlig;igkeit
+. R&uuml;ckverweise
 
 
 == Gefr&auml;&szlig;igkeit (greediness)
@@ -298,6 +309,8 @@ sub(pattern, substitution, string)
 //end.rcode
 
 == Anwendungen
+. Dateipfade
+. camelCase
 
 == Dateipfade I
 //begin.rcode
@@ -371,6 +384,11 @@ head(read.table(to))
 
 //end.rcode
 
+== Ende 
+. Regex in R
+. regmatches
+. Tsch&uuml;ss
+
 == Regex in R
 
 Meine Lieblinge
@@ -417,7 +435,7 @@ Beispiel aus der Hilfe:
 
 //end.rcode
 
-== Ende
+== Tsch&uuml;ss
 
 - Regex sind m&auml;chtig: is_probably_valid_email 
 //begin.rcode

@@ -3839,7 +3839,44 @@ setTimeout(w3c_slidy.hide_slides, 50);
 <span id="author">Dominik Cullmann</span><br />
 </div>
 <div class="sect1 slide">
-<h1 id="_regul_auml_re_ausdr_uuml_cke">Regul&auml;re Ausdr&uuml;cke</h1>
+<h1 id="_uuml_berblick">&Uuml;berblick</h1>
+<div class="sectionbody">
+<ol class="arabic">
+<li>
+<span>
+Einleitung
+</span>
+</li>
+<li>
+<span>
+Werkzeuge
+</span>
+</li>
+<li>
+<span>
+R-Funktionen an Beispielen
+</span>
+</li>
+<li>
+<span>
+Fortgeschrittenes
+</span>
+</li>
+<li>
+<span>
+Anwendungen
+</span>
+</li>
+<li>
+<span>
+Ende
+</span>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_einleitung_regul_auml_re_ausdr_uuml_cke">Einleitung: Regul&auml;re Ausdr&uuml;cke</h1>
 <div class="sectionbody">
 <ul class="">
 <li>
@@ -4623,7 +4660,9 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>pattern &lt;- <span style="color: #FF0000">"[[:punct:]]?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;[[:alnum:]]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;[[:punct:]]?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">s</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;(th|st)[[:alnum:]]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;"</span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># match a word, possibly surrouned by punctuation, followed by some sort of</span></span>
+<span style="font-style: italic"><span style="color: #9A1900"># space and a word starting with either th or st.</span></span>
+pattern &lt;- <span style="color: #FF0000">"[[:punct:]]?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;[[:alnum:]]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;[[:punct:]]?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">s</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;(th|st)[[:alnum:]]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;"</span>
 <span style="font-style: italic"><span style="color: #9A1900">## \\s is the space class, see ?regex</span></span></tt></pre></div></div>
 </div>
 </div>
@@ -4762,6 +4801,18 @@ http://www.gnu.org/software/src-highlite -->
 <div class="sect1 slide">
 <h1 id="_fortgeschrittenes">Fortgeschrittenes</h1>
 <div class="sectionbody">
+<ol class="arabic">
+<li>
+<span>
+Gefr&auml;&szlig;igkeit
+</span>
+</li>
+<li>
+<span>
+R&uuml;ckverweise
+</span>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4900,6 +4951,18 @@ sub(pattern, substitution, string)</tt></pre></div></div>
 <div class="sect1 slide">
 <h1 id="_anwendungen">Anwendungen</h1>
 <div class="sectionbody">
+<ol class="arabic">
+<li>
+<span>
+Dateipfade
+</span>
+</li>
+<li>
+<span>
+camelCase
+</span>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect1 slide">
@@ -4923,8 +4986,8 @@ dir.create(path)
 print(list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpMlfRDD/foo/iris.csv"   "/tmp/RtmpMlfRDD/foo/iris.txt"
-## [3] "/tmp/RtmpMlfRDD/foo/mtcars.csv" "/tmp/RtmpMlfRDD/foo/mtcars.txt"</code></pre>
+<pre><code>## [1] "/tmp/RtmpmtRQbi/foo/iris.csv"   "/tmp/RtmpmtRQbi/foo/iris.txt"
+## [3] "/tmp/RtmpmtRQbi/foo/mtcars.csv" "/tmp/RtmpmtRQbi/foo/mtcars.txt"</code></pre>
 </div></div>
 </div>
 </div>
@@ -4947,12 +5010,12 @@ csv_files &lt;- list.files(path, pattern = <span style="color: #FF0000">"^.*</sp
 print(files &lt;- list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpMlfRDD/foo/iris_german.csv"
-## [2] "/tmp/RtmpMlfRDD/foo/iris.csv"
-## [3] "/tmp/RtmpMlfRDD/foo/iris.txt"
-## [4] "/tmp/RtmpMlfRDD/foo/mtcars_german.csv"
-## [5] "/tmp/RtmpMlfRDD/foo/mtcars.csv"
-## [6] "/tmp/RtmpMlfRDD/foo/mtcars.txt"</code></pre>
+<pre><code>## [1] "/tmp/RtmpmtRQbi/foo/iris_german.csv"
+## [2] "/tmp/RtmpmtRQbi/foo/iris.csv"
+## [3] "/tmp/RtmpmtRQbi/foo/iris.txt"
+## [4] "/tmp/RtmpmtRQbi/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpmtRQbi/foo/mtcars.csv"
+## [6] "/tmp/RtmpmtRQbi/foo/mtcars.txt"</code></pre>
 </div></div>
 </div>
 </div>
@@ -5065,7 +5128,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>list.files(file.path(tempdir(), <span style="color: #FF0000">"some_dir"</span>), full.names = TRUE)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpMlfRDD/some_dir/iris.txt"</code></pre>
+<pre><code>## [1] "/tmp/RtmpmtRQbi/some_dir/iris.txt"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -5083,6 +5146,28 @@ http://www.gnu.org/software/src-highlite -->
 ## 5          5.0         3.6          1.4         0.2  setosa
 ## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_ende">Ende</h1>
+<div class="sectionbody">
+<ol class="arabic">
+<li>
+<span>
+Regex in R
+</span>
+</li>
+<li>
+<span>
+regmatches
+</span>
+</li>
+<li>
+<span>
+Tsch&uuml;ss
+</span>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect1 slide">
@@ -5189,7 +5274,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_ende">Ende</h1>
+<h1 id="_tsch_uuml_ss">Tsch&uuml;ss</h1>
 <div class="sectionbody">
 <ul class="">
 <li>
