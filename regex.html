@@ -3979,7 +3979,7 @@ print(cbind(passwords, is_valid_password(passwords)))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># min. 8 Zeichen, Klein-, Grossbuchstabe, Zahl, Sonderzeichen</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># min. 8 characters, min. 1 uppercase, min. 1 lowercase, min. 1 special character</span></span>
 is_valid_password &lt;- function(string) {
     minimum_length &lt;- 8
     is_long_enough &lt;- nchar(string) &gt;= minimum_length
@@ -4303,7 +4303,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>gsub(pattern = <span style="color: #FF0000">"[^1-3]"</span>, replacement, x) <span style="font-style: italic"><span style="color: #9A1900">## Negative Set</span></span></tt></pre></div></div>
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[^1-3]"</span>, replacement, x) <span style="font-style: italic"><span style="color: #9A1900"># Negative Set</span></span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "#####################################################3#1#1##2##3#####"</code></pre>
@@ -4318,7 +4318,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>gsub(pattern = <span style="color: #FF0000">"[[:upper:]]"</span>, replacement, x) <span style="font-style: italic"><span style="color: #9A1900">## Depends on current locale! [A-Z] does not!</span></span></tt></pre></div></div>
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[[:upper:]]"</span>, replacement, x) <span style="font-style: italic"><span style="color: #9A1900"># Depends on current locale! [A-Z] does not!</span></span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "abcdefghijklmnopqrstuvwxyz########################## 3.14159265358979"</code></pre>
@@ -4338,7 +4338,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>gsub(pattern = <span style="color: #FF0000">"[[:upper:][:lower:]]"</span>, replacement, x) <span style="font-style: italic"><span style="color: #9A1900">## composite set</span></span></tt></pre></div></div>
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[[:upper:][:lower:]]"</span>, replacement, x) <span style="font-style: italic"><span style="color: #9A1900"># composite set</span></span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "#################################################### 3.14159265358979"</code></pre>
@@ -4348,7 +4348,7 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>gsub(pattern = <span style="color: #FF0000">"[[:alpha:]]"</span>, replacement, x) <span style="font-style: italic"><span style="color: #9A1900">## pre-defined, same as above</span></span></tt></pre></div></div>
+<pre><tt>gsub(pattern = <span style="color: #FF0000">"[[:alpha:]]"</span>, replacement, x) <span style="font-style: italic"><span style="color: #9A1900"># pre-defined, same as above</span></span></tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "#################################################### 3.14159265358979"</code></pre>
@@ -4506,17 +4506,7 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>string &lt;- <span style="color: #FF0000">"This is a (character) string."</span>
-paste(is.vector(string), is.character(string), class(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] "TRUE ## TRUE ## character"</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>paste(length(string), nchar(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
+paste(length(string), nchar(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "1 ## 29"</code></pre>
@@ -4530,7 +4520,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_regular_expressions_for_a_simple_string">Regular Expressions for a Simple String</h1>
+<h1 id="_a_simple_string_kernfunktionen">A Simple String: Kernfunktionen</h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4576,6 +4566,11 @@ http://www.gnu.org/software/src-highlite -->
 ## attr(,"useBytes")
 ## [1] TRUE</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_a_simple_string_anwendungsfunktionen">A Simple String: Anwendungsfunktionen</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4640,17 +4635,7 @@ http://www.gnu.org/software/src-highlite -->
             <span style="color: #FF0000">"Well, it is (actually) a vector of class character."</span>,
             <span style="color: #FF0000">"And this is not a single sentence."</span>)
 
-paste(is.vector(string), is.character(string), class(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>## [1] "TRUE ## TRUE ## character"</code></pre>
-</div></div>
-<div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>paste(length(string), nchar(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
+paste(length(string), nchar(string), sep = <span style="color: #FF0000">" ## "</span>)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>## [1] "3 ## 66" "3 ## 51" "3 ## 34"</code></pre>
@@ -4663,11 +4648,11 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900"># match a word, possibly surrouned by punctuation, followed by some sort of</span></span>
 <span style="font-style: italic"><span style="color: #9A1900"># space and a word starting with either th or st.</span></span>
 pattern &lt;- <span style="color: #FF0000">"[[:punct:]]?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;[[:alnum:]]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;[[:punct:]]?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">s</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;(th|st)[[:alnum:]]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&gt;"</span>
-<span style="font-style: italic"><span style="color: #9A1900">## \\s is the space class, see ?regex</span></span></tt></pre></div></div>
+<span style="font-style: italic"><span style="color: #9A1900"># \\s is the space class, see ?regex</span></span></tt></pre></div></div>
 </div>
 </div>
 <div class="sect1 slide">
-<h1 id="_regular_expressions_for_a_character_vector">Regular Expressions for a Character Vector</h1>
+<h1 id="_a_character_vector_kernfunktionen">A Character Vector: Kernfunktionen</h1>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -4741,6 +4726,11 @@ http://www.gnu.org/software/src-highlite -->
 ## attr(,"useBytes")
 ## [1] TRUE</code></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_a_character_vector_anwendungsfunktionen">A Character Vector: Anwendungsfunktionen</h1>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
@@ -4836,7 +4826,7 @@ by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>substitution &lt;- <span style="color: #FF0000">""</span>
-pattern &lt;- <span style="color: #FF0000">" </span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">(.*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)"</span> <span style="font-style: italic"><span style="color: #9A1900">## greedy quantifier</span></span>
+pattern &lt;- <span style="color: #FF0000">" </span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">(.*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)"</span> <span style="font-style: italic"><span style="color: #9A1900"># greedy quantifier</span></span>
 print(new_string &lt;- gsub(pattern, substitution, string))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
@@ -4849,7 +4839,7 @@ print(new_string &lt;- gsub(pattern, substitution, string))</tt></pre></div></di
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>pattern &lt;- <span style="color: #FF0000">" </span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">([^</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)"</span> <span style="font-style: italic"><span style="color: #9A1900">## non-greedy quantifier using negation</span></span>
+<pre><tt>pattern &lt;- <span style="color: #FF0000">" </span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">([^</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)]*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)"</span> <span style="font-style: italic"><span style="color: #9A1900"># non-greedy quantifier using negation</span></span>
 print(new_string &lt;- gsub(pattern, substitution, string))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
@@ -4862,7 +4852,7 @@ print(new_string &lt;- gsub(pattern, substitution, string))</tt></pre></div></di
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>pattern &lt;- <span style="color: #FF0000">" </span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">(.*?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)"</span> <span style="font-style: italic"><span style="color: #9A1900">## non-greedy quantifier -- wtf?</span></span>
+<pre><tt>pattern &lt;- <span style="color: #FF0000">" </span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">(.*?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">)"</span> <span style="font-style: italic"><span style="color: #9A1900"># non-greedy quantifier -- wtf?</span></span>
 print(new_string &lt;- gsub(pattern, substitution, string))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
@@ -4973,8 +4963,8 @@ camelCase
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># Anwendung mit Dateipfaden</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## Dateien bereitstellen</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">#% Anwendung mit Dateipfaden</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">##% Dateien bereitstellen</span></span>
 rm(list= ls())
 path &lt;- file.path(tempdir(), <span style="color: #FF0000">"foo"</span>)
 unlink(path, recursive = TRUE)
@@ -4986,8 +4976,8 @@ dir.create(path)
 print(list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpmtRQbi/foo/iris.csv"   "/tmp/RtmpmtRQbi/foo/iris.txt"
-## [3] "/tmp/RtmpmtRQbi/foo/mtcars.csv" "/tmp/RtmpmtRQbi/foo/mtcars.txt"</code></pre>
+<pre><code>## [1] "/tmp/RtmpK8ZyQA/foo/iris.csv"   "/tmp/RtmpK8ZyQA/foo/iris.txt"
+## [3] "/tmp/RtmpK8ZyQA/foo/mtcars.csv" "/tmp/RtmpK8ZyQA/foo/mtcars.txt"</code></pre>
 </div></div>
 </div>
 </div>
@@ -4999,8 +4989,8 @@ print(list.files(path, full.names = TRUE))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">##  _Nur_ CSV-Dateien lesen und wieder schreiben als deutsches CSV</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">## FIXME: Ich will eine Funktion sein!</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">##%  _Nur_ CSV-Dateien lesen und wieder schreiben als deutsches CSV</span></span>
+<span style="font-style: italic"><span style="color: #9A1900"># FIXME: Ich will eine Funktion sein!</span></span>
 csv_files &lt;- list.files(path, pattern = <span style="color: #FF0000">"^.*</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.csv$"</span>, full.names = TRUE)
 <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (file in csv_files) {
     file_name &lt;- basename(file)
@@ -5010,12 +5000,12 @@ csv_files &lt;- list.files(path, pattern = <span style="color: #FF0000">"^.*</sp
 print(files &lt;- list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpmtRQbi/foo/iris_german.csv"
-## [2] "/tmp/RtmpmtRQbi/foo/iris.csv"
-## [3] "/tmp/RtmpmtRQbi/foo/iris.txt"
-## [4] "/tmp/RtmpmtRQbi/foo/mtcars_german.csv"
-## [5] "/tmp/RtmpmtRQbi/foo/mtcars.csv"
-## [6] "/tmp/RtmpmtRQbi/foo/mtcars.txt"</code></pre>
+<pre><code>## [1] "/tmp/RtmpK8ZyQA/foo/iris_german.csv"
+## [2] "/tmp/RtmpK8ZyQA/foo/iris.csv"
+## [3] "/tmp/RtmpK8ZyQA/foo/iris.txt"
+## [4] "/tmp/RtmpK8ZyQA/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpK8ZyQA/foo/mtcars.csv"
+## [6] "/tmp/RtmpK8ZyQA/foo/mtcars.txt"</code></pre>
 </div></div>
 </div>
 </div>
@@ -5027,7 +5017,7 @@ print(files &lt;- list.files(path, full.names = TRUE))</tt></pre></div></div>
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">## i-te Zeile testweise lesen</span></span>
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># i-te Zeile testweise lesen</span></span>
 i &lt;- 4
 print(rbind(readLines(grep(<span style="color: #FF0000">"iris.csv"</span>, files, value = TRUE))[i],
             readLines(grep(<span style="color: #FF0000">"iris_german.csv"</span>, files, value = TRUE))[i]))</tt></pre></div></div>
@@ -5128,7 +5118,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>list.files(file.path(tempdir(), <span style="color: #FF0000">"some_dir"</span>), full.names = TRUE)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpmtRQbi/some_dir/iris.txt"</code></pre>
+<pre><code>## [1] "/tmp/RtmpK8ZyQA/some_dir/iris.txt"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -5200,7 +5190,7 @@ base::ls
 <ul class="">
 <li>
 <span>
-install.packages(c("stringi")) ## (ICU regex engine)
+install.packages(c("stringi")) # (ICU regex engine)
 </span>
 </li>
 <li>
@@ -5279,7 +5269,7 @@ http://www.gnu.org/software/src-highlite -->
 <ul class="">
 <li>
 <span>
-Regex sind m&auml;chtig: is_probably_valid_email
+Regex sind m&auml;chtig: <em>is_probably_valid_email</em> wird mit anderen Zeichenkettenfunktionen eine sehr lange Funktion, die miserabel zu warten ist, falls sich die Definition dessen, was als Email akzeptiert werden soll, &auml;ndert. Mit regex:
 </span>
 </li>
 </ul>
@@ -5292,17 +5282,8 @@ http://www.gnu.org/software/src-highlite -->
 <ul class="">
 <li>
 <span>
-Mit anderen Zeichenkettenfunktionen wird das eine sehr lange Funktion, die miserabel zu warten ist, falls sich die Definition dessen, was als Email akzeptiert werden soll, &auml;ndert.
-</span>
-</li>
-<li>
-<span>
-(vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind <em>sehr</em> fehleranf&auml;llig.
-</span>
-</li>
-<li>
-<span>
-Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ".", "*" oder "+" beinhalten.
+(vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind <em>sehr</em> fehleranf&auml;llig.<br />
+  <em>Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ".", "*" oder "+" beinhalten.</em>
 </span>
 </li>
 </ul>

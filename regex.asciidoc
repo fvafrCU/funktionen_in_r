@@ -82,7 +82,7 @@ print(cbind(passwords, is_valid_password(passwords)))
 
 [source,r]
 ----
-# min. 8 Zeichen, Klein-, Grossbuchstabe, Zahl, Sonderzeichen
+# min. 8 characters, min. 1 uppercase, min. 1 lowercase, min. 1 special character
 is_valid_password <- function(string) {
     minimum_length <- 8
     is_long_enough <- nchar(string) >= minimum_length
@@ -306,7 +306,7 @@ gsub(pattern = "[1-3]", replacement, x)
 
 [source,r]
 ----
-gsub(pattern = "[^1-3]", replacement, x) ## Negative Set
+gsub(pattern = "[^1-3]", replacement, x) # Negative Set
 ----
 
 ----
@@ -318,7 +318,7 @@ gsub(pattern = "[^1-3]", replacement, x) ## Negative Set
 
 [source,r]
 ----
-gsub(pattern = "[[:upper:]]", replacement, x) ## Depends on current locale! [A-Z] does not!
+gsub(pattern = "[[:upper:]]", replacement, x) # Depends on current locale! [A-Z] does not!
 ----
 
 ----
@@ -336,7 +336,7 @@ gsub(pattern = "[[:lower:]]", replacement, x)
 
 [source,r]
 ----
-gsub(pattern = "[[:upper:][:lower:]]", replacement, x) ## composite set
+gsub(pattern = "[[:upper:][:lower:]]", replacement, x) # composite set
 ----
 
 ----
@@ -345,7 +345,7 @@ gsub(pattern = "[[:upper:][:lower:]]", replacement, x) ## composite set
 
 [source,r]
 ----
-gsub(pattern = "[[:alpha:]]", replacement, x) ## pre-defined, same as above
+gsub(pattern = "[[:alpha:]]", replacement, x) # pre-defined, same as above
 ----
 
 ----
@@ -448,15 +448,6 @@ Zwei Beispielstrings, die Funktionen
 [source,r]
 ----
 string <- "This is a (character) string."
-paste(is.vector(string), is.character(string), class(string), sep = " ## ")
-----
-
-----
-## [1] "TRUE ## TRUE ## character"
-----
-
-[source,r]
-----
 paste(length(string), nchar(string), sep = " ## ")
 ----
 
@@ -470,7 +461,7 @@ pattern <- "is"
 ----
 
 
-== Regular Expressions for a Simple String
+== A Simple String: Kernfunktionen
 
 [source,r]
 ----
@@ -512,6 +503,8 @@ gregexpr(pattern, string) # a vector giving start and length of matches
 ## attr(,"useBytes")
 ## [1] TRUE
 ----
+
+== A Simple String: Anwendungsfunktionen
 
 [source,r]
 ----
@@ -567,15 +560,6 @@ string <- c("This is a (not too) long sentence, stored in a (character) string."
             "Well, it is (actually) a vector of class character.", 
             "And this is not a single sentence.")
 
-paste(is.vector(string), is.character(string), class(string), sep = " ## ")
-----
-
-----
-## [1] "TRUE ## TRUE ## character"
-----
-
-[source,r]
-----
 paste(length(string), nchar(string), sep = " ## ")
 ----
 
@@ -588,11 +572,11 @@ paste(length(string), nchar(string), sep = " ## ")
 # match a word, possibly surrouned by punctuation, followed by some sort of
 # space and a word starting with either th or st.
 pattern <- "[[:punct:]]?\\<[[:alnum:]]*\\>[[:punct:]]?\\s\\<(th|st)[[:alnum:]]*\\>" 
-## \\s is the space class, see ?regex
+# \\s is the space class, see ?regex
 ----
 
 
-== Regular Expressions for a Character Vector
+== A Character Vector: Kernfunktionen
 
 [source,r]
 ----
@@ -662,6 +646,9 @@ gregexpr(pattern, string) # a vector giving start and length of matches
 ## attr(,"useBytes")
 ## [1] TRUE
 ----
+
+
+== A Character Vector: Anwendungsfunktionen
 
 [source,r]
 ----
@@ -736,7 +723,7 @@ print(string)
 [source,r]
 ----
 substitution <- "" 
-pattern <- " \\(.*\\)" ## greedy quantifier
+pattern <- " \\(.*\\)" # greedy quantifier
 print(new_string <- gsub(pattern, substitution, string))
 ----
 
@@ -748,7 +735,7 @@ print(new_string <- gsub(pattern, substitution, string))
 
 [source,r]
 ----
-pattern <- " \\([^\\)]*\\)" ## non-greedy quantifier using negation
+pattern <- " \\([^\\)]*\\)" # non-greedy quantifier using negation
 print(new_string <- gsub(pattern, substitution, string))
 ----
 
@@ -760,7 +747,7 @@ print(new_string <- gsub(pattern, substitution, string))
 
 [source,r]
 ----
-pattern <- " \\(.*?\\)" ## non-greedy quantifier -- wtf?
+pattern <- " \\(.*?\\)" # non-greedy quantifier -- wtf?
 print(new_string <- gsub(pattern, substitution, string))
 ----
 
@@ -849,8 +836,8 @@ sub(pattern, substitution, string)
 
 [source,r]
 ----
-# Anwendung mit Dateipfaden
-## Dateien bereitstellen
+#% Anwendung mit Dateipfaden
+##% Dateien bereitstellen
 rm(list= ls())
 path <- file.path(tempdir(), "foo")
 unlink(path, recursive = TRUE)
@@ -863,8 +850,8 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpmtRQbi/foo/iris.csv"   "/tmp/RtmpmtRQbi/foo/iris.txt"  
-## [3] "/tmp/RtmpmtRQbi/foo/mtcars.csv" "/tmp/RtmpmtRQbi/foo/mtcars.txt"
+## [1] "/tmp/RtmpK8ZyQA/foo/iris.csv"   "/tmp/RtmpK8ZyQA/foo/iris.txt"  
+## [3] "/tmp/RtmpK8ZyQA/foo/mtcars.csv" "/tmp/RtmpK8ZyQA/foo/mtcars.txt"
 ----
 
 
@@ -872,8 +859,8 @@ print(list.files(path, full.names = TRUE))
 
 [source,r]
 ----
-##  _Nur_ CSV-Dateien lesen und wieder schreiben als deutsches CSV
-## FIXME: Ich will eine Funktion sein!
+##%  _Nur_ CSV-Dateien lesen und wieder schreiben als deutsches CSV
+# FIXME: Ich will eine Funktion sein!
 csv_files <- list.files(path, pattern = "^.*\\.csv$", full.names = TRUE)
 for (file in csv_files) {
     file_name <- basename(file)
@@ -884,12 +871,12 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpmtRQbi/foo/iris_german.csv"  
-## [2] "/tmp/RtmpmtRQbi/foo/iris.csv"         
-## [3] "/tmp/RtmpmtRQbi/foo/iris.txt"         
-## [4] "/tmp/RtmpmtRQbi/foo/mtcars_german.csv"
-## [5] "/tmp/RtmpmtRQbi/foo/mtcars.csv"       
-## [6] "/tmp/RtmpmtRQbi/foo/mtcars.txt"
+## [1] "/tmp/RtmpK8ZyQA/foo/iris_german.csv"  
+## [2] "/tmp/RtmpK8ZyQA/foo/iris.csv"         
+## [3] "/tmp/RtmpK8ZyQA/foo/iris.txt"         
+## [4] "/tmp/RtmpK8ZyQA/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpK8ZyQA/foo/mtcars.csv"       
+## [6] "/tmp/RtmpK8ZyQA/foo/mtcars.txt"
 ----
 
 
@@ -897,7 +884,7 @@ print(files <- list.files(path, full.names = TRUE))
 
 [source,r]
 ----
-## i-te Zeile testweise lesen
+# i-te Zeile testweise lesen
 i <- 4
 print(rbind(readLines(grep("iris.csv", files, value = TRUE))[i],
             readLines(grep("iris_german.csv", files, value = TRUE))[i]))
@@ -987,7 +974,7 @@ list.files(file.path(tempdir(), "some_dir"), full.names = TRUE)
 ----
 
 ----
-## [1] "/tmp/RtmpmtRQbi/some_dir/iris.txt"
+## [1] "/tmp/RtmpK8ZyQA/some_dir/iris.txt"
 ----
 
 [source,r]
@@ -1022,7 +1009,7 @@ Meine Lieblinge
 
 Sonst noch:
 
-- install.packages(c("stringi")) ## (ICU regex engine)
+- install.packages(c("stringi")) # (ICU regex engine)
 - utils::apropos # (find)
 - utils::browseEnv
 - utils::glob2rx
@@ -1066,14 +1053,13 @@ Beispiel aus der Hilfe:
 
 == Tsch&uuml;ss
 
-- Regex sind m&auml;chtig: is_probably_valid_email 
+- Regex sind m&auml;chtig: _is_probably_valid_email_ wird mit anderen Zeichenkettenfunktionen eine sehr lange Funktion, die miserabel zu warten ist, falls sich die Definition dessen, was als Email akzeptiert werden soll, &auml;ndert. Mit regex:
 
 [source,r]
 ----
 pattern <- "^[a-zA-Z0-9_+.-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,3}$"
 ----
 
-- Mit anderen Zeichenkettenfunktionen wird das eine sehr lange Funktion, die miserabel zu warten ist, falls sich die Definition dessen, was als Email akzeptiert werden soll, &auml;ndert.
-- (vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind _sehr_ fehleranf&auml;llig.
-- Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ".", "*" oder "+" beinhalten.
+- (vor allem f&auml;lschlicherweise gefr&auml;&szlig;ige) regex sind _sehr_ fehleranf&auml;llig. + 
+  _Teste daher alle Deine regex sorgf&auml;ltig, besonders, wenn sie ".", "*" oder "+" beinhalten._
 
