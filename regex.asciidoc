@@ -850,8 +850,8 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpK8ZyQA/foo/iris.csv"   "/tmp/RtmpK8ZyQA/foo/iris.txt"  
-## [3] "/tmp/RtmpK8ZyQA/foo/mtcars.csv" "/tmp/RtmpK8ZyQA/foo/mtcars.txt"
+## [1] "/tmp/RtmpclcYcb/foo/iris.csv"   "/tmp/RtmpclcYcb/foo/iris.txt"  
+## [3] "/tmp/RtmpclcYcb/foo/mtcars.csv" "/tmp/RtmpclcYcb/foo/mtcars.txt"
 ----
 
 
@@ -871,12 +871,12 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpK8ZyQA/foo/iris_german.csv"  
-## [2] "/tmp/RtmpK8ZyQA/foo/iris.csv"         
-## [3] "/tmp/RtmpK8ZyQA/foo/iris.txt"         
-## [4] "/tmp/RtmpK8ZyQA/foo/mtcars_german.csv"
-## [5] "/tmp/RtmpK8ZyQA/foo/mtcars.csv"       
-## [6] "/tmp/RtmpK8ZyQA/foo/mtcars.txt"
+## [1] "/tmp/RtmpclcYcb/foo/iris_german.csv"  
+## [2] "/tmp/RtmpclcYcb/foo/iris.csv"         
+## [3] "/tmp/RtmpclcYcb/foo/iris.txt"         
+## [4] "/tmp/RtmpclcYcb/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpclcYcb/foo/mtcars.csv"       
+## [6] "/tmp/RtmpclcYcb/foo/mtcars.txt"
 ----
 
 
@@ -974,7 +974,7 @@ list.files(file.path(tempdir(), "some_dir"), full.names = TRUE)
 ----
 
 ----
-## [1] "/tmp/RtmpK8ZyQA/some_dir/iris.txt"
+## [1] "/tmp/RtmpclcYcb/some_dir/iris.txt"
 ----
 
 [source,r]
@@ -1016,6 +1016,76 @@ Sonst noch:
 - utils::help.search
 - base::strsplit
 - base::regmatches
+
+== Meine Stats
+
+[source,r]
+----
+count_function_calls <- function(path) {
+    files <- grep("\\.Rcheck/", invert = TRUE, value = TRUE, 
+                  list.files(path, recursive = TRUE, pattern = ".*[rR]$", 
+                             full.names = TRUE)
+                  )
+
+    content <- NULL
+    for (input in files) {
+        if (!exists("input")) input <- files[192]
+        content <- c(content, try(readLines(input)))
+
+    }
+    loc <- grep("^\\s*#", content, invert = TRUE, value = TRUE)
+    loc <- gsub("(\\<(if|while|until|switch|ifelse|function)\\s?\\()", "#(", loc)
+    code <-  paste(loc, collapse = "")
+    split_char <- "@"
+    code <- gsub("@", "former_split_char", code)
+    calls <- gsub("((?:[[:alpha:]]+\\:{2,3})?[$A-Za-z._]+\\()", "@\\1", code)
+    calls <- unlist(strsplit(calls, split = "@", fixed = TRUE))
+    calls <- calls[-1]
+    calls <- sub("\\(.*$", "", calls)
+    total <- length(calls)
+    counts <- summary(as.factor(calls), maxsum = total)
+    ranked <- data.frame(count = counts, relative = counts / total, 
+                         rank = as.integer(length(counts) - rank(counts) + 1))
+    ranked[["relative_rank"]] <- ranked[["rank"]] / nrow(ranked)
+    ordered <- ranked[order(ranked[, "relative"], decreasing = TRUE), TRUE]
+    return(ordered)
+}
+
+counts <- count_function_calls("~/git/cs/fvafrcu")
+head(counts, n = 10)
+----
+
+----
+##           count   relative rank relative_rank
+## c          4035 0.16606989    1  0.0009199632
+## list       1513 0.06227106    2  0.0018399264
+## return      719 0.02959213    3  0.0027598896
+## names       677 0.02786352    4  0.0036798528
+## structure   630 0.02592913    5  0.0045998160
+## length      544 0.02238960    6  0.0055197792
+## file.path   517 0.02127835    7  0.0064397424
+## paste       514 0.02115488    8  0.0073597056
+## get_data    388 0.01596905    9  0.0082796688
+## print       270 0.01111248   10  0.0091996320
+----
+
+[source,r]
+----
+counts[grep("^(g?sub|grepl?|g?regexpr|regexec)$", row.names(counts)), TRUE]
+----
+
+----
+##         count     relative rank relative_rank
+## gsub      269 1.107133e-02   11    0.01011960
+## grep      133 5.473927e-03   29    0.02667893
+## sub       116 4.774252e-03   37    0.03403864
+## grepl     110 4.527308e-03   39    0.03587856
+## regexpr    17 6.996749e-04  191    0.17571297
+## regexec     1 4.115734e-05  924    0.85004600
+----
+
+
+
 
 == regmatches
 Es gibt noch base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.

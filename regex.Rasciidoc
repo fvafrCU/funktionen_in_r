@@ -413,6 +413,45 @@ Sonst noch:
 - base::strsplit
 - base::regmatches
 
+== Relevanz in meinen packages
+//begin.rcode
+count_function_calls <- function(path) {
+    files <- grep("\\.Rcheck/", invert = TRUE, value = TRUE, 
+                  list.files(path, recursive = TRUE, pattern = ".*[rR]$", 
+                             full.names = TRUE)
+                  )
+
+    content <- NULL
+    for (input in files) {
+        if (!exists("input")) input <- files[192]
+        content <- c(content, try(readLines(input)))
+
+    }
+    loc <- grep("^\\s*#", content, invert = TRUE, value = TRUE)
+    loc <- gsub("(\\<(if|while|until|switch|ifelse|function)\\s?\\()", "#(", loc)
+    code <-  paste(loc, collapse = "")
+    split_char <- "@"
+    code <- gsub("@", "former_split_char", code)
+    calls <- gsub("((?:[[:alpha:]]+\\:{2,3})?[$A-Za-z._]+\\()", "@\\1", code)
+    calls <- unlist(strsplit(calls, split = "@", fixed = TRUE))
+    calls <- calls[-1]
+    calls <- sub("\\(.*$", "", calls)
+    total <- length(calls)
+    counts <- summary(as.factor(calls), maxsum = total)
+    ranked <- data.frame(count = counts, relative = counts / total, 
+                         rank = as.integer(length(counts) - rank(counts) + 1))
+    ranked[["relative_rank"]] <- ranked[["rank"]] / nrow(ranked)
+    ordered <- ranked[order(ranked[, "relative"], decreasing = TRUE), TRUE]
+    return(ordered)
+}
+
+counts <- count_function_calls("~/git/cs/fvafrcu")
+head(counts, n = 10)
+counts[grep("^(g?sub|grepl?|g?regexpr|regexec)$", row.names(counts)), TRUE]
+//end.rcode
+
+
+
 == regmatches
 Es gibt noch base::regmatches(), aber das benutze ich nie, das ist mir zu kompliziert.
 Beispiel aus der Hilfe:

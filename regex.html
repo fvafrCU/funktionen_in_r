@@ -4976,8 +4976,8 @@ dir.create(path)
 print(list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpK8ZyQA/foo/iris.csv"   "/tmp/RtmpK8ZyQA/foo/iris.txt"
-## [3] "/tmp/RtmpK8ZyQA/foo/mtcars.csv" "/tmp/RtmpK8ZyQA/foo/mtcars.txt"</code></pre>
+<pre><code>## [1] "/tmp/RtmpclcYcb/foo/iris.csv"   "/tmp/RtmpclcYcb/foo/iris.txt"
+## [3] "/tmp/RtmpclcYcb/foo/mtcars.csv" "/tmp/RtmpclcYcb/foo/mtcars.txt"</code></pre>
 </div></div>
 </div>
 </div>
@@ -5000,12 +5000,12 @@ csv_files &lt;- list.files(path, pattern = <span style="color: #FF0000">"^.*</sp
 print(files &lt;- list.files(path, full.names = TRUE))</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpK8ZyQA/foo/iris_german.csv"
-## [2] "/tmp/RtmpK8ZyQA/foo/iris.csv"
-## [3] "/tmp/RtmpK8ZyQA/foo/iris.txt"
-## [4] "/tmp/RtmpK8ZyQA/foo/mtcars_german.csv"
-## [5] "/tmp/RtmpK8ZyQA/foo/mtcars.csv"
-## [6] "/tmp/RtmpK8ZyQA/foo/mtcars.txt"</code></pre>
+<pre><code>## [1] "/tmp/RtmpclcYcb/foo/iris_german.csv"
+## [2] "/tmp/RtmpclcYcb/foo/iris.csv"
+## [3] "/tmp/RtmpclcYcb/foo/iris.txt"
+## [4] "/tmp/RtmpclcYcb/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpclcYcb/foo/mtcars.csv"
+## [6] "/tmp/RtmpclcYcb/foo/mtcars.txt"</code></pre>
 </div></div>
 </div>
 </div>
@@ -5118,7 +5118,7 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>list.files(file.path(tempdir(), <span style="color: #FF0000">"some_dir"</span>), full.names = TRUE)</tt></pre></div></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>## [1] "/tmp/RtmpK8ZyQA/some_dir/iris.txt"</code></pre>
+<pre><code>## [1] "/tmp/RtmpclcYcb/some_dir/iris.txt"</code></pre>
 </div></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.8
@@ -5224,6 +5224,78 @@ base::regmatches
 </span>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect1 slide">
+<h1 id="_meine_stats">Meine Stats</h1>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>count_function_calls &lt;- function(path) {
+    files &lt;- grep(<span style="color: #FF0000">"</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">.Rcheck/"</span>, invert = TRUE, value = TRUE,
+                  list.files(path, recursive = TRUE, pattern = <span style="color: #FF0000">".*[rR]$"</span>,
+                             full.names = TRUE)
+                  )
+
+    content &lt;- NULL
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> (input in files) {
+        <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> (!exists(<span style="color: #FF0000">"input"</span>)) input &lt;- files[192]
+        content &lt;- c(content, try(readLines(input)))
+
+    }
+    loc &lt;- grep(<span style="color: #FF0000">"^</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">s*#"</span>, content, invert = TRUE, value = TRUE)
+    loc &lt;- gsub(<span style="color: #FF0000">"(</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">&lt;(if|while|until|switch|ifelse|function)</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">s?</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">()"</span>, <span style="color: #FF0000">"#("</span>, loc)
+    code &lt;-  paste(loc, collapse = <span style="color: #FF0000">""</span>)
+    split_char &lt;- <span style="color: #FF0000">"@"</span>
+    code &lt;- gsub(<span style="color: #FF0000">"@"</span>, <span style="color: #FF0000">"former_split_char"</span>, code)
+    calls &lt;- gsub(<span style="color: #FF0000">"((?:[[:alpha:]]+</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">:{2,3})?[$A-Za-z._]+</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">()"</span>, <span style="color: #FF0000">"@</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">1"</span>, code)
+    calls &lt;- unlist(strsplit(calls, split = <span style="color: #FF0000">"@"</span>, fixed = TRUE))
+    calls &lt;- calls[-1]
+    calls &lt;- sub(<span style="color: #FF0000">"</span><span style="color: #CC33CC">\\</span><span style="color: #FF0000">(.*$"</span>, <span style="color: #FF0000">""</span>, calls)
+    total &lt;- length(calls)
+    counts &lt;- summary(as.factor(calls), maxsum = total)
+    ranked &lt;- data.frame(count = counts, relative = counts / total,
+                         rank = as.integer(length(counts) - rank(counts) + 1))
+    ranked[[<span style="color: #FF0000">"relative_rank"</span>]] &lt;- ranked[[<span style="color: #FF0000">"rank"</span>]] / nrow(ranked)
+    ordered &lt;- ranked[order(ranked[, <span style="color: #FF0000">"relative"</span>], decreasing = TRUE), TRUE]
+    return(ordered)
+}
+
+counts &lt;- count_function_calls(<span style="color: #FF0000">"~/git/cs/fvafrcu"</span>)
+head(counts, n = 10)</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##           count   relative rank relative_rank
+## c          4035 0.16606989    1  0.0009199632
+## list       1513 0.06227106    2  0.0018399264
+## return      719 0.02959213    3  0.0027598896
+## names       677 0.02786352    4  0.0036798528
+## structure   630 0.02592913    5  0.0045998160
+## length      544 0.02238960    6  0.0055197792
+## file.path   517 0.02127835    7  0.0064397424
+## paste       514 0.02115488    8  0.0073597056
+## get_data    388 0.01596905    9  0.0082796688
+## print       270 0.01111248   10  0.0091996320</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>counts[grep(<span style="color: #FF0000">"^(g?sub|grepl?|g?regexpr|regexec)$"</span>, row.names(counts)), TRUE]</tt></pre></div></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>##         count     relative rank relative_rank
+## gsub      269 1.107133e-02   11    0.01011960
+## grep      133 5.473927e-03   29    0.02667893
+## sub       116 4.774252e-03   37    0.03403864
+## grepl     110 4.527308e-03   39    0.03587856
+## regexpr    17 6.996749e-04  191    0.17571297
+## regexec     1 4.115734e-05  924    0.85004600</code></pre>
+</div></div>
 </div>
 </div>
 <div class="sect1 slide">
