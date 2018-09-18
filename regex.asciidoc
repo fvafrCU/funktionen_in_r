@@ -850,8 +850,8 @@ print(list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpclcYcb/foo/iris.csv"   "/tmp/RtmpclcYcb/foo/iris.txt"  
-## [3] "/tmp/RtmpclcYcb/foo/mtcars.csv" "/tmp/RtmpclcYcb/foo/mtcars.txt"
+## [1] "/tmp/RtmpZLaqp0/foo/iris.csv"   "/tmp/RtmpZLaqp0/foo/iris.txt"  
+## [3] "/tmp/RtmpZLaqp0/foo/mtcars.csv" "/tmp/RtmpZLaqp0/foo/mtcars.txt"
 ----
 
 
@@ -871,12 +871,12 @@ print(files <- list.files(path, full.names = TRUE))
 ----
 
 ----
-## [1] "/tmp/RtmpclcYcb/foo/iris_german.csv"  
-## [2] "/tmp/RtmpclcYcb/foo/iris.csv"         
-## [3] "/tmp/RtmpclcYcb/foo/iris.txt"         
-## [4] "/tmp/RtmpclcYcb/foo/mtcars_german.csv"
-## [5] "/tmp/RtmpclcYcb/foo/mtcars.csv"       
-## [6] "/tmp/RtmpclcYcb/foo/mtcars.txt"
+## [1] "/tmp/RtmpZLaqp0/foo/iris_german.csv"  
+## [2] "/tmp/RtmpZLaqp0/foo/iris.csv"         
+## [3] "/tmp/RtmpZLaqp0/foo/iris.txt"         
+## [4] "/tmp/RtmpZLaqp0/foo/mtcars_german.csv"
+## [5] "/tmp/RtmpZLaqp0/foo/mtcars.csv"       
+## [6] "/tmp/RtmpZLaqp0/foo/mtcars.txt"
 ----
 
 
@@ -974,7 +974,7 @@ list.files(file.path(tempdir(), "some_dir"), full.names = TRUE)
 ----
 
 ----
-## [1] "/tmp/RtmpclcYcb/some_dir/iris.txt"
+## [1] "/tmp/RtmpZLaqp0/some_dir/iris.txt"
 ----
 
 [source,r]
@@ -1017,7 +1017,7 @@ Sonst noch:
 - base::strsplit
 - base::regmatches
 
-== Meine Stats
+== Relevanz in meinen packages
 
 [source,r]
 ----
