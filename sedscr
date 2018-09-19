@@ -1,7 +1,0 @@
-s/&szlig;/ß/g
-s/&uuml;/ü/g
-s/&auml;/ä/g
-s/&ouml;/ö/g
-s/&Uuml;/Ü/g
-s/&Auml;/Ä/g
-s/&Ouml;/O/g

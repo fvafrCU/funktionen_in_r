@@ -1,7 +1,0 @@
-.*.swp
-*.png
-wipe_clean*
-foo*
-*golden_ratio*
-src/*golden_ratio.R
-src/*golden_rectangle.R
